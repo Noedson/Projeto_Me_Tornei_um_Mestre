@@ -1,0 +1,2 @@
+Código/event_up[[:space:]]1.csv filter=lfs diff=lfs merge=lfs -text
+* !text !filter !merge !diff
