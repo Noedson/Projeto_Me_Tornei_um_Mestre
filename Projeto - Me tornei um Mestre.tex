@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usetikzlibrary{positioning, shapes.geometric, arrows.meta}
+\usepackage{amssymb}
 
 \usepackage[
 alf,
@@ -85,7 +86,7 @@ monitoramento convencionais carecem de capacidades preditivas e
 mecanismos de resposta automatizada em tempo real. Esta lacuna é
 particularmente crítica em contextos acadêmicos, onde a sazonalidade
 das atividades e a diversidade de espaços (salas de aula, laboratórios,
-bibliotecas) demandam adaptabilidade dinâmica. \cite{reddy2023} reforçam
+bibliotecas) demandam adaptabilidade dinâmica \cite{reddy2023} reforçam
 a necessidade de sistemas de tempo real para garantia de respostas
 oportunas em aplicações críticas de monitoramento ambiental.
 
@@ -102,15 +103,14 @@ capacidades do IQArMobi, incorporando mecanismos de aprendizado de
 máquina avançado para predição, sistemas de tempo real para resposta
 garantida e arquitetura IoT escalável, criando assim uma solução
 integrada para monitoramento proativo da qualidade do ar em
-\textit{smart campuses}, com validação em ambiente real de campus
+\textit{smart campus}, com validação em ambiente real de campus
 universitário na região amazônica.
 \section*{2. OBJETIVOS}
 
 \subsection*{Objetivo Geral:}
 
-Aprimorar e validar o IQArMobi, transformando-o em um agente inteligente
-completo para monitoramento da qualidade do ar, com capacidades de
-predição temporal e resposta automatizada em tempo real, integrado a
+Desenvolver um agente inteligente aplicado ao IQArMobi para monitoramento da qualidade do ar,
+ com capacidades de predição temporal e resposta automatizada em tempo real, integrado a
 uma arquitetura IoT escalável com sistemas de tempo real e algoritmos
 de inteligência artificial avançada, adaptado ao contexto da região
 amazônica.
@@ -179,15 +179,114 @@ e resposta automatizada, diferencial da proposta para o IQArMobi.
 
 \section*{4. TRABALHOS RELACIONADOS}
 
-Trabalhos relevantes incluem: \cite{mokrani2019} apresenta panorama de
-IoT para monitoramento; \cite{kumar2023} propõe solução urbana
-inteligente; \cite{cunha2024} demonstra arquitetura LoRaWAN/FIWARE;
-\cite{benammar2018} desenvolve plataforma modular; \cite{septian2022}
-implementa sistema FreeRTOS.
+Pesquisas recentes abordam diferentes aspectos do monitoramento inteligente da qualidade do ar. \citeonline{mokrani2019} realizam um levantamento abrangente sobre IoT para monitoramento ambiental, identificando a carência de capacidades analíticas avançadas nas soluções existentes. \citeonline{kumar2023} propõem o AIRO, uma solução para áreas urbanas que combina IoT com algoritmos de deep learning, porém com foco limitado a ambientes externos.
 
-\textbf{Lacuna identificada:} Poucos trabalhos integram capacidades
-preditivas de IA com resposta automatizada em tempo real, especialmente
-adaptados para a região amazônica.
+Para o contexto acadêmico, \citeonline{cunha2024} desenvolvem uma arquitetura específica para campus universitário utilizando LoRaWAN e FIWARE, demonstrando viabilidade técnica em larga escala. Complementarmente, \citeonline{benammar2018} focam em ambientes internos com uma plataforma IoT modular, enquanto \citeonline{septian2022} implementam um sistema baseado em FreeRTOS, validando a importância de sistemas de tempo real para respostas confiáveis.
+
+A Tabela 1 apresenta uma análise comparativa dos trabalhos relacionados, evidenciando as lacunas que a proposta do IQArMobi aprimorado busca preencher:
+
+\begin{table}[h]
+\centering
+\caption{Comparativo dos trabalhos relacionados}
+\label{tab:comparativo}
+\small
+\begin{tabular}{|p{3.5cm}|p{1.5cm}|p{2cm}|p{2cm}|p{1.2cm}|}
+\hline
+\textbf{Trabalho} & \textbf{Predição} & \textbf{Resposta Auto.} & \textbf{Contexto Acad.} & \textbf{RTOS} \\
+\hline
+Mokrani et al. (2019) & x & x & x & x \\
+\hline
+Kumar e Doss (2023) & \checkmark & x & x & x \\
+\hline
+Cunha et al. (2024) & x & x & \checkmark & x \\
+\hline
+Benammar et al. (2018) & x & x & x & x \\
+\hline
+Septian et al. (2022) & x & x & x & \checkmark \\
+\hline
+\textbf{IQArMobi Aprimorado} & \textbf{\checkmark} & \textbf{\checkmark} & \textbf{\checkmark} & \textbf{\checkmark} \\
+\hline
+\end{tabular}
+\end{table}
+
+A análise revela que nenhuma solução existente integra simultaneamente todas as dimensões críticas. O IQArMobi aprimorado diferencia-se por unificar IoT, inteligência artificial, adaptação ao contexto acadêmico, processamento em tempo real e resposta automatizada em uma solução abrangente.
+
+% Pesquisas recentes têm abordado o monitoramento inteligente da qualidade do ar, 
+% com diferentes focos e contribuições:
+
+% \textbf{Panorama de Soluções IoT para Monitoramento Ambiental:} \cite{mokrani2019}
+%  realizam um levantamento abrangente sobre o uso de Internet das Coisas para 
+%  monitoramento da qualidade do ar, mapeando arquiteturas, 
+%  protocolos de comunicação e desafios técnicos. O estudo identifica que, 
+%  embora as soluções baseadas em IoT sejam viáveis, a maioria carece de capacidades 
+%  analíticas avançadas e integração com sistemas de inteligência artificial para análise 
+%  preditiva, apontando esta como uma lacuna importante no estado da arte.
+
+% \textbf{Soluções Inteligentes para Contextos Urbanos:} \cite{kumar2023} desenvolvem o AIRO, 
+% uma solução integrada de monitoramento da qualidade do ar para áreas urbanas que combina 
+% dispositivos IoT com algoritmos de aprendizado de máquina. A abordagem utiliza redes neurais 
+% convolucionais e arquiteturas LSTM bidirecionais para análise temporal de dados de poluentes. 
+% Contudo, o foco exclusivo em ambientes urbanos externos limita sua aplicabilidade em contextos 
+% institucionais como campus universitários, que possuem dinâmicas próprias de ocupação 
+% e fontes de poluição.
+
+% \textbf{Arquiteturas Escaláveis para Ambientes Acadêmicos:} \cite{cunha2024}
+% propõem uma arquitetura específica para monitoramento da qualidade do ar em campus universitário,
+% utilizando LoRaWAN para comunicação de longo alcance e FIWARE como middleware para orquestração de 
+% dados. A solução demonstra a viabilidade técnica da implantação em larga escala em ambientes 
+% acadêmicos, porém se limita a funcionalidades de monitoramento básico sem incorporar 
+% capacidades preditivas ou mecanismos de resposta automatizada.\\
+% \textbf{Plataformas Modulares para Ambientes Internos:} \cite{benammar2018} 
+% desenvolvem uma plataforma IoT modular focada especificamente no monitoramento da 
+% qualidade do ar em ambientes internos. A solução destaca-se pela flexibilidade na 
+% integração de diferentes sensores e pela capacidade de adaptação a diversos cenários
+% internos. No entanto, a abordagem não considera a integração com sistemas de tempo real
+% nem a aplicação de algoritmos avançados de predição, focando principalmente na coleta e
+% visualização de dados.
+
+% \textbf{Sistemas Baseados em Tempo Real para Monitoramento:} \cite{septian2022} 
+% implementam um sistema de monitoramento da qualidade do ar utilizando FreeRTOS, garantindo 
+% respostas em tempo real através de um sistema operacional de tempo real. A pesquisa valida a 
+% importância de RTOS em aplicações críticas de monitoramento ambiental, demonstrando ganhos
+%  significativos em termos de confiabilidade e tempo de resposta. A limitação principal 
+%  reside na ausência de capacidades preditivas e na dependência de processamento centralizado.
+
+% \textbf{Análise Comparativa e Lacuna Identificada:}
+% A Tabela 1 apresenta uma análise comparativa dos trabalhos relacionados com a proposta atual:
+
+% Trabalhos relevantes incluem: \cite{mokrani2019} apresenta panorama de
+% IoT para monitoramento; \cite{kumar2023} propõe solução urbana
+% inteligente; \cite{cunha2024} demonstra arquitetura LoRaWAN/FIWARE;
+% \cite{benammar2018} desenvolve plataforma modular; \cite{septian2022}
+% implementa sistema FreeRTOS.
+
+% \textbf{Lacuna identificada:} Poucos trabalhos integram capacidades
+% preditivas de IA com resposta automatizada em tempo real, especialmente
+% adaptados para a região amazônica
+% .
+
+% \begin{table}[h]
+% \centering
+% \caption{Análise comparativa dos trabalhos relacionados}
+% \label{tab:comparativo}
+% \begin{tabular}{|p{4cm}|c|c|c|c|}
+% \hline
+% \textbf{Trabalho} & \textbf{Predição} & \textbf{Resposta Automatizada} & \textbf{Contexto Acadêmico} & \textbf{RTOS} \\
+% \hline
+% Mokrani et al. (2019) & x & x & x & x \\
+% \hline
+% Kumar e Doss (2023) & v & x & x & x \\
+% \hline
+% Cunha et al. (2024) & x & x & v & x \\
+% \hline
+% Benammar et al. (2018) & x & x & x & x \\
+% \hline
+% Septian et al. (2022) & x & x & x & v \\
+% \hline
+% \textbf{IQArMobi Aprimorado} & \textbf{v} & \textbf{v} & \textbf{v} & \textbf{v} \\
+% \hline
+% \end{tabular}
+% \end{table}
 
 \section*{5. METODOLOGIA}
 
@@ -353,7 +452,8 @@ notificação e mitigação, quando comparada à versão original do sistema.
 
 \section*{7. REFERÊNCIAS BIBLIOGRÁFICAS}
 
-\bibliography{./referencias}
+\renewcommand{\refname}{} % Remove o título automático gerado pelo abntex2cite
+\bibliography{referencias}
 \bibliographystyle{abntex2-alf} % Define o estilo ABNT para
                               % formatar a lista
 
