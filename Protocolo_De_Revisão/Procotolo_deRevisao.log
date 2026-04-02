@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.2)  2 APR 2026 11:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.2)  2 APR 2026 12:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -113,26 +113,33 @@ Package: enumitem 2025/02/06 v3.11 Customized lists
 \enit@inbox=\box60
 \enit@count@id=\count296
 \enitdp@description=\count297
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count298
+\float@exts=\toks24
+\float@box=\box61
+\@float@everytoks=\toks25
+\@floatcapt=\box62
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count298
+\l__color_backend_stack_int=\count299
 ) (Procotolo_deRevisao.aux)
 \openout1 = `Procotolo_deRevisao.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
+LaTeX Font Info:    ... okay on input line 67.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -168,50 +175,121 @@ LaTeX Font Info:    ... okay on input line 66.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 119.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 119.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 119.
+[1
 
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
+{C:/Users/Noedson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 121.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 121.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 121.
+
+Underfull \hbox (badness 10000) in paragraph at lines 123--123
 []|\T1/cmr/bx/n/12 Palavra-chave em
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 121--121
-[]|\T1/cmr/bx/n/12 Palavra-chave em
- []
-
-
-Underfull \hbox (badness 1205) in paragraph at lines 121--122
-[]|\T1/cmr/bx/n/12 Sinônimos em In-
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 123--123
-[]|\T1/cmr/m/n/12 Desenvolvimento de
+[]|\T1/cmr/bx/n/12 Palavra-chave em
  []
 
 
-Underfull \hbox (badness 2600) in paragraph at lines 123--123
-[]|\T1/cmr/m/n/12 Construção de Soft-
+Underfull \hbox (badness 1205) in paragraph at lines 123--124
+[]|\T1/cmr/bx/n/12 Sinonimos em In-
  []
 
 
-Overfull \hbox (49.99994pt too wide) in paragraph at lines 119--134
+Underfull \hbox (badness 1852) in paragraph at lines 125--126
+[]|\T1/cmr/m/n/12 Ambient air qual-ity,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--127
+[]|\T1/cmr/m/n/12 Campus in-teligente,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
+[]|\T1/cmr/m/n/12 Intelligent cam-pus,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
+\T1/cmr/m/n/12 Con-nected cam-pus,
+ []
+
+
+Underfull \hbox (badness 2735) in paragraph at lines 129--129
+[]|\T1/cmr/m/n/12 Internet das Coisas,
+ []
+
+
+Underfull \hbox (badness 2556) in paragraph at lines 129--129
+\T1/cmr/m/n/12 Dis-pos-i-tivos conec-ta-
+ []
+
+
+Underfull \hbox (badness 7925) in paragraph at lines 129--130
+[]|\T1/cmr/m/n/12 Internet of Things,
+ []
+
+
+Underfull \hbox (badness 1655) in paragraph at lines 129--130
+\T1/cmr/m/n/12 IoT Sys-tems, Smart
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--131
+[]|\T1/cmr/m/n/12 Rede LP-WAN de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--131
+\T1/cmr/m/n/12 longo al-cance, In-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--131
+\T1/cmr/m/n/12 fraestru-tura Lo-
+ []
+
+
+Underfull \hbox (badness 5533) in paragraph at lines 131--132
+[]|\T1/cmr/m/n/12 LoRaWAN Net-work,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 133--134
+[]|\T1/cmr/m/n/12 FIWARE Plat-form,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 135--135
+[]|\T1/cmr/m/n/12 Predição de curto
+ []
+
+
+Underfull \hbox (badness 4144) in paragraph at lines 135--135
+[]|\T1/cmr/m/n/12 Short-term pol-lu-tant
+ []
+
+
+Overfull \hbox (49.99994pt too wide) in paragraph at lines 121--138
  [][] 
  []
 
 
-Overfull \hbox (63.32925pt too wide) in paragraph at lines 141--141
-[]\T1/cmtt/m/n/12 - ("Desenvolvimento de Software" OR "Construção de Software" OR "Ciclo de Vida") AND[] 
+Overfull \hbox (13.94131pt too wide) in paragraph at lines 160--160
+[]\T1/cmtt/m/n/12 - (("qualidade do ar" OR "poluição do ar" OR "qualidade do ar interior") AND[] 
  []
 
-[1
 
-{C:/Users/Noedson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2]
+Overfull \hbox (13.94131pt too wide) in paragraph at lines 160--160
+[]   \T1/cmtt/m/n/12 ("campus inteligente" OR "campus universitário" OR "ensino superior") AND[] 
+ []
+
+[2]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
@@ -222,17 +300,17 @@ L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2031 strings out of 467866
- 33649 string characters out of 5417346
- 453752 words of memory out of 5000000
- 30934 multiletter control sequences out of 15000+600000
+ 2103 strings out of 467866
+ 34779 string characters out of 5417346
+ 455113 words of memory out of 5000000
+ 31002 multiletter control sequences out of 15000+600000
  636076 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,10n,65p,321b,330s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,10n,65p,322b,271s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcbx1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on Procotolo_deRevisao.pdf (6 pages, 109680 bytes).
+Output written on Procotolo_deRevisao.pdf (6 pages, 114071 bytes).
 PDF statistics:
- 283 PDF objects out of 1000 (max. 8388607)
+ 293 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
