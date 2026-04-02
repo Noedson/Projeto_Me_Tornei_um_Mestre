@@ -8,6 +8,7 @@
 \usepackage{multirow}
 \usepackage{longtable}
 \usepackage{enumitem}
+\usepackage{float}
 
 \geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
 \setstretch{1.15}
@@ -102,43 +103,63 @@ em nós sensores IoT para garantir respostas determinísticas;
 \end{itemize}
 
 \vspace{0.5cm}
-\noindent \textbf{Fonte(s):}
+\noindent \textbf{Fonte(s):} IEEE Xplore, e Google Scholar, Periódico CAPES, Scopus, Web of Science
 
 \vspace{0.5cm}
-\noindent \textbf{Data/período da Busca:}
+\noindent \textbf{Data/período da Busca:} 2021 - 2026
 
 \vspace{0.5cm}
-\noindent \textbf{Intervalo de tempo da busca:} 10 anos / 5 anos / 3 anos
+\noindent \textbf{Intervalo de tempo da busca:} 5 anos
 
+\newpage
 \vspace{0.5cm}
 \noindent \textbf{Palavras-chave:}
 \vspace{0.3cm}
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
-\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
+\begin{tabular}{|p{4 cm}|p{4 cm}|p{4 cm}|p{4 cm}|}
 \hline
-\textbf{Palavra-chave em Português} & \textbf{Sinônimos em Português} & \textbf{Palavra-chave em Inglês} & \textbf{Sinônimos em Inglês} \\
+\textbf{Palavra-chave em Português} & \textbf{Sinônimos em Português} & \textbf{Palavra-chave em Inglês}& \textbf{Sinonimos em Inglês}\\
 \hline
-Desenvolvimento de Software & Construção de Software, Ciclo de Vida & Software Development & \\
+Qualidade do ar & Condição do ar ambiente, Nível de poluição do ar & Air quality & Ambient air quality, Air Pollution, Atmospheric quality\\
 \hline
-Jogos & Gamificação & & \\
+Smart campus & Campus inteligente, campus conectado & Smart campus & Intelligent campus, Connected campus, Digital campus\\
 \hline
-Ensino & Educação & & \\
+IoT & Internet das Coisas, Dispositivos conectados, redes de sensores & IoT & Internet of Things, IoT Systems, Smart Devices\\
 \hline
-& & & \\
+LoRaWAN & Rede LPWAN de longo alcance, Infraestrutura LoRaWAN para IoT & LoRaWAN & LoRaWAN Network, LoRaWAN Infrastructure\\
 \hline
-& & & \\
+FIWARE & Plataforma de gerenciamento de contexto FIWARE, middleware FIWARE para IoT & FIWARE & FIWARE Platform, IoT Middleware\\
+\hline
+Predição de poluentes & Predição de curto prazo de poluentes & Short-term pollutant prediction & Short-term Air Quality Prediction\\
 \hline
 \end{tabular}
 \end{table}
 
 \vspace{0.5cm}
-\noindent \textbf{String(s) de busca utilizada(s):}
+\noindent \textbf{String de busca (inglês):}
 \begin{verbatim}
-- ("Desenvolvimento de Software" OR "Construção de Software" OR "Ciclo de Vida") AND 
-  (Jogos OR Gamificação) AND (Ensino OR Educação)
+- (("air quality" OR "air pollution" OR "indoor air quality") AND 
+   ("smart campus" OR "university campus" OR "higher education") AND 
+   ("IoT" OR "LoRaWAN" OR "FIWARE" OR "ChirpStack") AND 
+   ("predictive" OR "forecast" OR "anomaly detection") AND 
+   ("real-time" OR "RTOS" OR "FreeRTOS" OR "deterministic")) 
+  NOT ("wearable" OR "smart home" NOT campus)
 \end{verbatim}
+
+\vspace{0.3cm}
+\noindent \textbf{String de busca (português):}
+\begin{verbatim}
+- (("qualidade do ar" OR "poluição do ar" OR "qualidade do ar interior") AND 
+   ("campus inteligente" OR "campus universitário" OR "ensino superior") AND 
+   ("IoT" OR "LoRaWAN" OR "FIWARE" OR "ChirpStack") AND 
+   ("preditivo" OR "previsão" OR "detecção de anomalias") AND 
+   ("tempo real" OR "RTOS" OR "FreeRTOS" OR "determinístico")) 
+  NOT ("vestível" OR "casa inteligente" NOT campus)
+\end{verbatim}
+
+
 
 \newpage
 \section*{Critérios de Inclusão e Exclusão}
