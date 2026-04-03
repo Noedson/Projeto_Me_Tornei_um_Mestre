@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.2)  2 APR 2026 12:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.2)  3 APR 2026 08:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -120,26 +120,61 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box61
 \@float@everytoks=\toks25
 \@floatcapt=\box62
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/abntex2\abntex2cite.sty
+Package: abntex2cite 2018/11/24 v-1.9.7 abnTeX2
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
+Package: calc 2025/03/01 v4.3b Infix arithmetic (KKT,FJ)
+\calc@Acount=\count299
+\calc@Bcount=\count300
+\calc@Adimen=\dimen175
+\calc@Bdimen=\dimen176
+\calc@Askip=\skip60
+\calc@Bskip=\skip61
+LaTeX Info: Redefining \setlength on input line 86.
+LaTeX Info: Redefining \addtolength on input line 87.
+\calc@Ccount=\count301
+\calc@Cskip=\skip62
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/abntex2\abntex2abrev.sty) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+\minimumbiblabelwidth=\skip63
+\ABCIauxlen=\skip64
+\c@ABCIaux=\count302
+\c@ABCImax=\count303
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifxetex.sty
+Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/relsize\relsize.sty
+Package: relsize 2013/03/29 ver 4.1
+)
+\biblabelsep=\skip65
+LaTeX Info: Redefining \newblock on input line 591.
+LaTeX Info: Redefining \cite on input line 618.
+\ABCItoken=\toks26
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count299
+\l__color_backend_stack_int=\count304
 ) (Procotolo_deRevisao.aux)
 \openout1 = `Procotolo_deRevisao.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -179,113 +214,113 @@ LaTeX Font Info:    ... okay on input line 67.
 
 {C:/Users/Noedson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 121.
+(Font)              <12> on input line 122.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 121.
+(Font)              <8> on input line 122.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 121.
+(Font)              <6> on input line 122.
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--123
+Underfull \hbox (badness 10000) in paragraph at lines 124--124
 []|\T1/cmr/bx/n/12 Palavra-chave em
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 123--123
+Underfull \hbox (badness 10000) in paragraph at lines 124--124
 []|\T1/cmr/bx/n/12 Palavra-chave em
  []
 
 
-Underfull \hbox (badness 1205) in paragraph at lines 123--124
+Underfull \hbox (badness 1205) in paragraph at lines 124--125
 []|\T1/cmr/bx/n/12 Sinonimos em In-
  []
 
 
-Underfull \hbox (badness 1852) in paragraph at lines 125--126
+Underfull \hbox (badness 1852) in paragraph at lines 126--127
 []|\T1/cmr/m/n/12 Ambient air qual-ity,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 127--127
+Underfull \hbox (badness 10000) in paragraph at lines 128--128
 []|\T1/cmr/m/n/12 Campus in-teligente,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 127--128
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
 []|\T1/cmr/m/n/12 Intelligent cam-pus,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 127--128
+Underfull \hbox (badness 10000) in paragraph at lines 128--129
 \T1/cmr/m/n/12 Con-nected cam-pus,
  []
 
 
-Underfull \hbox (badness 2735) in paragraph at lines 129--129
+Underfull \hbox (badness 2735) in paragraph at lines 130--130
 []|\T1/cmr/m/n/12 Internet das Coisas,
  []
 
 
-Underfull \hbox (badness 2556) in paragraph at lines 129--129
+Underfull \hbox (badness 2556) in paragraph at lines 130--130
 \T1/cmr/m/n/12 Dis-pos-i-tivos conec-ta-
  []
 
 
-Underfull \hbox (badness 7925) in paragraph at lines 129--130
+Underfull \hbox (badness 7925) in paragraph at lines 130--131
 []|\T1/cmr/m/n/12 Internet of Things,
  []
 
 
-Underfull \hbox (badness 1655) in paragraph at lines 129--130
+Underfull \hbox (badness 1655) in paragraph at lines 130--131
 \T1/cmr/m/n/12 IoT Sys-tems, Smart
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 131--131
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
 []|\T1/cmr/m/n/12 Rede LP-WAN de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 131--131
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
 \T1/cmr/m/n/12 longo al-cance, In-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 131--131
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
 \T1/cmr/m/n/12 fraestru-tura Lo-
  []
 
 
-Underfull \hbox (badness 5533) in paragraph at lines 131--132
+Underfull \hbox (badness 5533) in paragraph at lines 132--133
 []|\T1/cmr/m/n/12 LoRaWAN Net-work,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 133--134
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
 []|\T1/cmr/m/n/12 FIWARE Plat-form,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--135
+Underfull \hbox (badness 10000) in paragraph at lines 136--136
 []|\T1/cmr/m/n/12 Predição de curto
  []
 
 
-Underfull \hbox (badness 4144) in paragraph at lines 135--135
+Underfull \hbox (badness 4144) in paragraph at lines 136--136
 []|\T1/cmr/m/n/12 Short-term pol-lu-tant
  []
 
 
-Overfull \hbox (49.99994pt too wide) in paragraph at lines 121--138
+Overfull \hbox (49.99994pt too wide) in paragraph at lines 122--139
  [][] 
  []
 
 
-Overfull \hbox (13.94131pt too wide) in paragraph at lines 160--160
+Overfull \hbox (13.94131pt too wide) in paragraph at lines 161--161
 []\T1/cmtt/m/n/12 - (("qualidade do ar" OR "poluição do ar" OR "qualidade do ar interior") AND[] 
  []
 
 
-Overfull \hbox (13.94131pt too wide) in paragraph at lines 160--160
+Overfull \hbox (13.94131pt too wide) in paragraph at lines 161--161
 []   \T1/cmtt/m/n/12 ("campus inteligente" OR "campus universitário" OR "ensino superior") AND[] 
  []
 
@@ -293,17 +328,19 @@ Overfull \hbox (13.94131pt too wide) in paragraph at lines 160--160
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[3] [4] [5] [6] (Procotolo_deRevisao.aux)
+[3] [4] [5]
+No file Procotolo_deRevisao.bbl.
+[6] (Procotolo_deRevisao.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2103 strings out of 467866
- 34779 string characters out of 5417346
- 455113 words of memory out of 5000000
- 31002 multiletter control sequences out of 15000+600000
+ 2746 strings out of 467866
+ 45283 string characters out of 5417346
+ 463432 words of memory out of 5000000
+ 31620 multiletter control sequences out of 15000+600000
  636076 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,10n,65p,322b,271s stack positions out of 10000i,1000n,20000p,200000b,200000s
