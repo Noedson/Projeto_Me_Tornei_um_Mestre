@@ -1,0 +1,86 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Alves et al. 2025]{alves2025freertos}
+\abntrefinfo{Alves et al.}{ALVES et al.}{2025}
+{ALVES, E. et al. Freertos application in a real-time air quality monitoring
+  architecture for smart campus.
+\emph{IEEE Latin America Transactions}, IEEE, v.~23, n.~4, p. 266--273, 2025.}
+
+\bibitem[Aserkar et al. 2024]{Aserkar2024}
+\abntrefinfo{Aserkar et al.}{ASERKAR et al.}{2024}
+{ASERKAR, A.~A. et al. Real-time air quality monitoring in smart cities using
+  iot-enabled advanced optical sensors.
+\emph{International Journal of Advanced Computer Science and Applications}, The
+  Science and Information Organization, v.~15, n.~4, 2024.
+Dispon{\'\i}vel em: \url{http://dx.doi.org/10.14569/IJACSA.2024.0150487}.}
+
+\bibitem[CUNHA 2024]{cunha2024}
+\abntrefinfo{CUNHA}{CUNHA}{2024}
+{CUNHA, N. e.~a. Arquitetura de monitoramento de qualidade de ar baseada no
+  lorawan e fiware em um campus universitário. In:  \emph{Anais do XV Workshop
+  de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}.
+  Brasília/DF: [s.n.], 2024. p. 169--178.}
+
+\bibitem[Francisco et al.]{franciscomonitoramento}
+\abntrefinfo{Francisco et al.}{FRANCISCO et al.}{}
+{FRANCISCO, A. C.~C. et al. Monitoramento inteligente de aspectos ambientais em
+  campus universit{\'a}rio.
+\emph{Universidades \& Sustentabilidade}, p.~126.}
+
+\bibitem[Ladeira 2024]{ladeira2024mliot}
+\abntrefinfo{Ladeira}{LADEIRA}{2024}
+{LADEIRA, E. F.~L.
+\emph{A Machine Learning-based Decision Support System for IoT Monitoring
+  Solutions}.
+Disserta\c{c}\~{a}o (Master Thesis) --- Universidade da Beira Interior,
+  Covilh\~a, 2024.
+Dispon{\'\i}vel em: \url{http://hdl.handle.net/10400.6/19045}.}
+
+\bibitem[Rodrigues 2020]{rodrigues2020aplicativo}
+\abntrefinfo{Rodrigues}{RODRIGUES}{2020}
+{RODRIGUES, P.~L. Um aplicativo para gerar recomenda{\c{c}}{\~o}es e alertas
+  sobre a qualidade do ar em um smart campus.
+Universidade de Passo Fundo, 2020.}
+
+\bibitem[RODRIGUES 2024]{rodrigues2024tinyml}
+\abntrefinfo{RODRIGUES}{RODRIGUES}{2024}
+{RODRIGUES, T. M.~S.
+\emph{Aplicação de TinyML em sensores virtuais para monitoramento da
+  qualidade do ar em ambientes industriais}.
+51 f.~p. Monografia (Trabalho de Conclusão de Curso (Bacharelado em Engenharia
+  de Computação)) --- Instituto de Computação, Universidade Federal de
+  Alagoas, Maceió, 2024.}
+
+\bibitem[Silva, Junior e Bulcão-Neto 2025]{silva2025airpure}
+\abntrefinfo{Silva, Junior e Bulcão-Neto}{SILVA; JUNIOR; BULCãO-NETO}{2025}
+{SILVA, B. M.~O.; JUNIOR, I. G.~S.; BULCãO-NETO, R.~F. Air-pure monitor: Uma
+  solucão iot de baixo custo para ambientes internos saudáveis. In:
+  \emph{Anais (SBCUP)}. [S.l.: s.n.], 2025.}
+
+\bibitem[Thaylor et al. 2025]{wcama}
+\abntrefinfo{Thaylor et al.}{THAYLOR et al.}{2025}
+{THAYLOR, E. et al. Iqarmobi: Classificação inteligente da qualidade do ar e
+  ciente de localização em ambientes externos e internos. In:  \emph{Anais do
+  XVI Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos
+  Naturais}. Porto Alegre, RS, Brasil: SBC, 2025. p. 216--225.
+ISSN 2595-6124. Dispon{\'\i}vel em:
+  \url{https://sol.sbc.org.br/index.php/wcama/article/view/36099}.}
+
+\bibitem[Villarim 2020]{villarim2020sensor}
+\abntrefinfo{Villarim}{VILLARIM}{2020}
+{VILLARIM, M.~R.
+\emph{Estudo e desenvolvimento de um sensor sem fio inteligente para
+  monitoramento distribu{\'i}do de poluentes atmosf{\'e}ricos no contexto de
+  cidades inteligentes}.
+Disserta\c{c}\~{a}o (Disserta{\c c}{\~a}o (Mestrado em Engenharia
+  El{\'e}trica)) --- Universidade Federal da Para{\'i}ba, Jo{\~a}o Pessoa,
+  2020.
+Dispon{\'\i}vel em:
+  \url{https://repositorio.ufpb.br/jspui/handle/123456789/20464}.}
+
+\end{thebibliography}

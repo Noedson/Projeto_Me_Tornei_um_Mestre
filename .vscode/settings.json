@@ -1,24 +1,62 @@
 {
+  "latex-workshop.linting.chktex.enabled": false,
+  "latex-workshop.linting.lacheck.enabled": false,
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.message.error.show": false,
+  "latex-workshop.message.warning.show": false,
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "pdflatex + bibtex + pdflatex*2",
+      "tools": [
+        "pdflatex",
+        "bibtex",
+        "pdflatex",
+        "pdflatex"
+      ]
+    }
+  ],
   "latex-workshop.latex.tools": [
     {
       "name": "pdflatex",
       "command": "pdflatex",
       "args": [
+        "-synctex=1",
         "-interaction=nonstopmode",
-        "-halt-on-error",
         "-file-line-error",
-        "%DOC%"
+        "%DOCFILE%"
       ]
-    }
-  ],
-  "latex-workshop.latex.recipes": [
+    },
     {
-      "name": "pdflatex",
-      "tools": [
-        "pdflatex"
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": [
+        "%DOCFILE_EXT%"
       ]
     }
   ],
-  "latex-workshop.latex.autoBuild.run": "onFileChange",
-  "latex-workshop.view.pdf.viewer": "tab"
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.wordcount.enabled": false,
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux",
+    "*.bbl",
+    "*.blg",
+    "*.idx",
+    "*.ind",
+    "*.lof",
+    "*.lot",
+    "*.out",
+    "*.toc",
+    "*.acn",
+    "*.acr",
+    "*.alg",
+    "*.glg",
+    "*.glo",
+    "*.gls",
+    "*.fls",
+    "*.log",
+    "*.fdb_latexmk",
+    "*.snm",
+    "*.nav",
+    "*.synctex.gz"
+  ]
 }
