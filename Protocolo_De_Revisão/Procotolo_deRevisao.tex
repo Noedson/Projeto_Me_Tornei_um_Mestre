@@ -4,12 +4,18 @@
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{array}
+\usepackage{graphicx}
+\usepackage{tabularx}
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{longtable}
 \usepackage{enumitem}
 \usepackage{float}
-\usepackage[alf]{abntex2cite}
+\usepackage{placeins}
+\usepackage[alf,abnt-show-options=no]{abntex2cite}
+\usepackage{hyperref}
+\providecommand{\abntnextkey}{}
+\renewcommand{\refname}{Referencias}
 
 \geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
 \setstretch{1.15}
@@ -50,11 +56,50 @@
   \fi
 }
 
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\newcounter{artigoIncluido}
+\newcommand{\artigoIncluido}[4]{%
+  \stepcounter{artigoIncluido}\theartigoIncluido & #1 & #2 & #3 & #4 \\
+  \hline
+}
+
+\newcounter{artigoExcluido}
+\newcommand{\artigoExcluido}[4]{%
+  \stepcounter{artigoExcluido}\theartigoExcluido & #1 & #2 & #3 & #4 \\
+  \hline
+}
+
+\newcounter{artigoAvaliado}
+\newcommand{\classificacaoAvaliacao}[1]{%
+  \ifnum#1>8 Excelente%
+  \else\ifnum#1>6 Muito Boa%
+  \else\ifnum#1>4 Boa%
+  \else\ifnum#1>2 Média%
+  \else Baixa%
+  \fi\fi\fi\fi
+}
+
+% Macro para exibir artigo já calculado
+\newcommand{\artigoAvaliado}[6]{%
+  \stepcounter{artigoAvaliado}%
+  \theartigoAvaliado & #1 & #2 & #3 & #4 & #5 & #6 & \number\numexpr#2+#3+#4+#5+#6\relax & \number\numexpr(#2+#3+#4+#5+#6)*10\relax\% & \classificacaoAvaliacao{\number\numexpr#2+#3+#4+#5+#6\relax} \\
+  \hline
+}
+
+% Exibe no formato Autor (ano) a partir da chave BibTeX.
+\newcommand{\autorAnoCitado}[1]{\citeonline{#1}}
+
+% Mantém o texto exatamente como digitado e ainda vincula a chave no .bib.
+\newcommand{\artigoComChave}[2]{#1\nocite{#2}}
+
 % Comando para gerar um formulário de extração de dados já preenchido
 % ATENÇÃO: o LaTeX só permite até 9 parâmetros por comando.
 % Uso: \formularioExtracaoDadosPreenchido{n}{Título}{Autores}{Data}{Veículo}{Fonte}{Abstract}{Resumo}{Estudo}
 \newcommand{\formularioExtracaoDadosPreenchido}[9]{%
-  \subsection*{#1º)}%
+  \subsection*{#1º}%
   \campoForm{Título do Artigo:}{#2}%
   \campoForm{Autores:}{#3}%
   \campoForm{Data da Publicação:}{#4}%
@@ -107,7 +152,7 @@ em nós sensores IoT para garantir respostas determinísticas;
 \noindent \textbf{Fonte(s):} IEEE Xplore, e Google Scholar, Periódico CAPES, Scopus, Web of Science
 
 \vspace{0.5cm}
-\noindent \textbf{Data/período da Busca:} 2021 - 2026
+\noindent \textbf{Data/período da Busca:} 2020 -- 2026
 
 \vspace{0.5cm}
 \noindent \textbf{Intervalo de tempo da busca:} 5 anos
@@ -171,22 +216,42 @@ Predição de poluentes & Predição de curto prazo de poluentes & Short-term po
 \hline
 \textbf{Critérios} & \textbf{Tipo} \\
 \hline
- & \\
+  Artigos disponiveis na Internet 
+  & Incluso\\
 \hline
- & \\
+  Texto completo emportuguês ou inglês 
+  & Incluso\\
 \hline
- & \\
+  Publicação posteriores as 2021 
+  & Incluso\\
 \hline
- & \\
+  Utilizem Aprendizagem de maquina para predição ou detecção de anomalias 
+  & Incluso\\
 \hline
- & \\
+  Que mencionem tempo real ou RTOS 
+  & Incluso\\
 \hline
- & \\
+  Estudos de caso em campus universitário ou ambiente similar 
+  & Incluso\\
 \hline
+  Apenas medição passiva sem modelo preditivo; apenas simulação sem hardware real; revisões sem dados primários 
+  & Excluído\\
+\hline
+  Reprodutibilidade são inexistentes ou não avaliadas
+  & Excluído\\
+\hline
+
 \end{tabular}
 \end{table}
 
-\noindent \textbf{Justificativa:}
+\noindent \textbf{Justificativa:} 
+
+Os critérios foram definidos para selecionar estudos diretamente 
+relacionados ao aprimoramento do IQArMobi, priorizando arquiteturas 
+IoT modulares (LoRaWAN/FIWARE), atributos de qualidade 
+(tempo real, escalabilidade) e avaliação de sistemas preditivos 
+com IA. Excluem-se trabalhos sem predição, sem RTOS ou fora do 
+contexto de smart campuses, garantindo o foco na evolução do agente inteligente com resposta automatizada para a região amazônica.
 
 \vspace{0.5cm}
 \section*{Critérios de Qualidade}
@@ -195,92 +260,167 @@ Predição de poluentes & Predição de curto prazo de poluentes & Short-term po
 \centering
 \begin{tabular}{|p{10cm}|p{4cm}|}
 \hline
-\textbf{Critérios} & \textbf{Nota (De 0 a 2)} \\
+\textbf{Critérios} & \textbf{Nota} \\
 \hline
-1. & \\
+1. O artigo descreve claramente a arquitetura do sistema& (0 a 2) \\
 \hline
-2. & \\
+2. Os sensores e atuadores utilizados são especificados & (0 a 2) \\
 \hline
-3. & \\
+3. A solução foi validada em ambiente real (campus, campo) e não apenas em simulação? & (0 a 2) \\
 \hline
-4. & \\
+4. O estudo apresenta métricas quantitativas de desempenho (acurácia, RMSE, latência, consumo)? & (0 a 2) \\
 \hline
-5. & \\
+5. Há preocupação explícita com requisitos de tempo real (latência máxima, deadline, jitter)? & (0 a 2) \\
+\hline
+6. O estudo é recente (últimos 5-6 anos, alinhado com o estado da arte)? & (0 a 2) \\
+\hline
 \hline
 \end{tabular}
 \end{table}
 
 \noindent \textbf{CLASSIFICAÇÃO = Somatória das notas dos critérios (N)} \\
 \textbf{OBS:} \\
-N $\ge$ 85\% (Excelente) \\
-65\% $\le$ N $\le$ 85\% (Muito Boa) \\
-45\% $\le$ N $\le$ 65\% (Boa) \\
-25\% $\le$ N $\le$ 45\% (Média) \\
-N $<$ 25\% (Baixa)
+N $\geq$ 80\% (Excelente) \\
+60\% $\le$ N $<$ 80\% (Muito Boa) \\
+40\% $\le$ N $<$ 60\% (Boa) \\
+20\% $\le$ N $<$ 40\% (Média) \\
+N $<$ 20\% (Baixa)
 
 \section*{Lista dos artigos encontrados}
 \subsection*{Lista dos artigos incluídos}
 
-\begin{table}[ht]
+\begin{table}[H]
 \centering
-\begin{tabular}{|c|p{6cm}|c|c|c|}
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{0.96\textwidth}{|P{0.7cm}|Y|P{3.4cm}|P{1.4cm}|P{2.4cm}|}
 \hline
 \textbf{Nº} & \textbf{Título do artigo} & \textbf{Autores} & \textbf{Publicação} & \textbf{Veículo} \\
 \hline
-1 & \# & \#\# & & \\
-\hline
-2 & & \#\# & & \\
-\hline
-3 & \# & & & \\
-\hline
-4 & & & & \\
-\hline
-5 & & \#\# & & \\
-\hline
-6 & & & & \\
-\hline
-7 & & & & \\
-\hline
-8 & & & & \\
-\hline
-9 & & & & \\
-\hline
-10 & & & & \\
-\hline
-11 & & & & \\
-\hline
-12 & & & & \\
-\hline
-13 & & & & \\
-\hline
-14 & & & & \\
-\hline
-15 & & & & \\
-\hline
-16 & & & & \\
-\hline
-\end{tabular}
+\setcounter{artigoIncluido}{0}
+\artigoIncluido{Aplicação de TinyML em Sensores Virtuais para Monitoramento da Qualidade do Ar em Ambientes Industriais}
+               {Tayco Murilo Santos Rodrigues}
+               {2024}
+               {Repositório Institucional da Ufal -- RIUFAL}
+\artigoIncluido{A Machine Learning-based Decision Support System for IoT Monitoring Solutions}
+               {Edgar Filipe Loureiro Ladeira}
+               {2024}
+               {Repositório Digital da Universidade Beira Rio - uBibliorun}
+\artigoIncluido{Estudo e desenvolvimento de um sensor sem fio inteligente para monitoramento distribuído de poluentes atmosféricos no contexto de cidades inteligentes}
+               {Mariana Rodrigues Villarim}
+               {2020}
+               {Repositório Digital da Universidade Federal da Paraíba - REPO-UFPB}
+\artigoIncluido{FreeRTOS Application in a Real-Time Air Quality Monitoring Architecture for Smart Campus}
+               {Elton Alves and Noedson Romario Vieira da Silva and Warley Júnior and Alife Moraes and Nandson Silva and Andson Balieiro}
+               {2025}
+               {IEEE Latin America Transactions}
+\artigoIncluido{Arquitetura de Monitoramento de Qualidade de Ar baseada no LoRaWAN e FIWARE em um Campus Universitário}
+               {Cunha et al.}
+               {2024}
+               {Anais do XV Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}
+\artigoIncluido{IQArMobi: Classificação Inteligente da Qualidade do Ar e Ciente de Localização em Ambientes Externos e Internos}
+               {Eusébio Thaylor and Nandson Cunha and Alife Moraes and Warley Junior and Elton Alves}
+               {2025}
+               {Anais do XVI Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}
+
+\end{tabularx}
+\endgroup
 \end{table}
+
+% \FloatBarrier
 
 \subsection*{Lista de artigos excluídos}
 
-\begin{table}[h]
+
+
+\begin{table}[H]
 \centering
-\begin{tabular}{|c|p{6cm}|c|c|c|}
+\small
+\begin{tabularx}{\textwidth}{|p{0.7cm}|Y|p{3.6cm}|p{1.6cm}|p{2.8cm}|}
 \hline
 \textbf{Nº} & \textbf{Título do artigo} & \textbf{Autores} & \textbf{Publicação} & \textbf{Veículo} \\
 \hline
-1 & & & & \\
+\setcounter{artigoExcluido}{0}
+\artigoExcluido{Air-Pure Monitor: Uma Solucão IoT de Baixo Custo para Ambientes Internos Saudáveis}
+               {Bruna M. O. Silva, Iwens G. S. Junior, Renato F. Bulcão-Neto}
+               {2025}
+               {Anais (SBCUP)}
+\artigoExcluido{Real-time Air Quality Monitoring in Smart Cities using IoT-enabled Advanced Optical Sensors}
+               {Anushree A. Aserkar and Sanjiv Rao Godla and Yousef A.Baker El-Ebiary and Krishnamoorthy and Janjhyam Venkata Naga Ramesh}
+               {2024}
+               {International Journal of Advanced Computer Science and Applications}
+\artigoExcluido{Um aplicativo para gerar recomendações e alertas sobre a qualidade do ar em um smart campus}
+               {Pablo Leon Rodrigues}
+               {2020}
+               {Repositório Digital da Universidade de Passo Fundo - REPO-UPF}
+\artigoExcluido{Monitoramento da qualidade do ar em ambientes internos utilizando sensores de baixo custo e aprendizado de máquina}
+               {Ana Carolina Camargo Francisco and Felipe Hashimoto Fengler and Gustavo Faria and Iara Negreiros and Luciana Gomes Pereira Pinto and Maurício Tolotto and Raquel Barbosa Rogoschewski and Regiane Relva Romano and Roberto Silva Netto}
+               {2023}
+               {Universidades \& Sustentabilidade}
+\end{tabularx}
+\end{table}
+\textbf{Avaliação dos Estudos com Base nos Critérios de Qualidade}\\
+\newline
+A qualidade dos estudos primários foi avaliada com base em cinco critérios (C1 a C5), 
+pontuados de 0 a 2, totalizando até 10 pontos. Os critérios contemplam aderência 
+a arquiteturas IoT modulares (C1), atributos de qualidade como tempo real (C2), 
+descrição de métodos de desenvolvimento (C3), avaliação empírica em ambiente real 
+(C4) e uso de IA ou aderência ao tema de monitoramento da qualidade do ar em smart campuses (C5).
+A pontuação foi convertida em percentual, classificando os estudos como Excelente 
+($\geq$ 80\%), Muito Boa (60-80\%), Boa (40-60\%), Média (20-40\%) ou Baixa (<20\%).
+
+\vspace{0.4cm}
+\subsection*{Tabela de avaliação dos artigos}
+
+\begin{table}[H]
+\centering
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{0.94\textwidth}{|C{0.6cm}|P{4.5cm}|C{0.75cm}|C{0.75cm}|C{0.75cm}|C{0.75cm}|C{0.75cm}|C{1.1cm}|C{0.8cm}|Y|}
 \hline
-2 & & \#\# & & \\
+\textbf{Nº} & \textbf{Artigo (Autor/Ano)} & \textbf{C1} & \textbf{C2} & \textbf{C3} & \textbf{C4} & \textbf{C5} & \textbf{Total (N)} & \textbf{(\%)} & \textbf{Classificação} \\
 \hline
-3 & & & & \\
-\hline
-4 & & & & \\
-\hline
-5 & \# & & & \\
-\hline
-\end{tabular}
+\setcounter{artigoAvaliado}{0}
+\artigoAvaliado{\artigoComChave{Alves (2025)}{alves2025freertos}}
+               {2}
+               {2}
+               {2}
+               {2}
+               {2}%
+\artigoAvaliado{\artigoComChave{Edgar (2024)}{edgar2024}}
+               {2}
+               {2}
+               {2}
+               {2}
+               {1}%
+\artigoAvaliado{\artigoComChave{Rodrigues (2024)}{rodrigues2024tinyml}}
+               {2}
+               {2}
+               {2}
+               {1}
+               {1}%
+\artigoAvaliado{\artigoComChave{Eusebio (2024)}{eusebio2024}}
+               {2}
+               {2}
+               {2}
+               {1}
+               {1}%
+\artigoAvaliado{\artigoComChave{Villarim (2020)}{villarim2020sensor}}
+               {2}
+               {2}
+               {1}
+               {1}
+               {1}%
+\artigoAvaliado{\artigoComChave{Cunha (2024)}{cunha2024}}
+               {2}
+               {2}
+               {1}
+               {1}
+               {1}%
+
+
+\end{tabularx}
 \end{table}
 
 \newpage
@@ -330,8 +470,18 @@ N $<$ 25\% (Baixa)
 \noindent - \textbf{Lacunas existentes}
 
 \newpage
-\section*{REFERÊNCIAS}
+\FloatBarrier
 
+\nocite{silva2025airpure,
+        rodrigues2024tinyml,
+        ladeira2024mliot, 
+        Aserkar2024,
+        villarim2020sensor,
+        rodrigues2020aplicativo,
+        franciscomonitoramento,
+        cunha2024,
+        alves2025freertos,
+        wcama}
 \bibliographystyle{abntex2-alf}
 \bibliography{Referencias/referencias}
 
