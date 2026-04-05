@@ -12,10 +12,11 @@
 \usepackage{enumitem}
 \usepackage{float}
 \usepackage{placeins}
-\usepackage[alf,abnt-show-options=no]{abntex2cite}
+\usepackage[backend=biber,style=abnt]{biblatex}
 \usepackage{hyperref}
 \providecommand{\abntnextkey}{}
 \renewcommand{\refname}{Referencias}
+\addbibresource{Referencias/referencias.bib}
 
 \geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
 \setstretch{1.15}
@@ -50,10 +51,9 @@
 
 % Macro auxiliar: só imprime o campo se o valor não estiver vazio
 \newcommand{\campoForm}[2]{%
-  \ifx\empty#2\empty
-  \else
-    \noindent \textbf{#1} #2\\%
-  \fi
+  \ifstrempty{#2}
+  {}
+  {\noindent \textbf{#1} #2\par}%
 }
 
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
@@ -85,12 +85,17 @@
 % Macro para exibir artigo já calculado
 \newcommand{\artigoAvaliado}[6]{%
   \stepcounter{artigoAvaliado}%
-  \theartigoAvaliado & #1 & #2 & #3 & #4 & #5 & #6 & \number\numexpr#2+#3+#4+#5+#6\relax & \number\numexpr(#2+#3+#4+#5+#6)*10\relax\% & \classificacaoAvaliacao{\number\numexpr#2+#3+#4+#5+#6\relax} \\
+  \theartigoAvaliado & #1 & #2 & #3 & #4 & #5 & #6 &
+  \number\numexpr#2+#3+#4+#5+#6
+  \relax &
+  \number\numexpr(#2+#3+#4+#5+#6)*10
+  \relax\% &
+  \classificacaoAvaliacao{\number\numexpr#2+#3+#4+#5+#6\relax} \\
   \hline
 }
 
 % Exibe no formato Autor (ano) a partir da chave BibTeX.
-\newcommand{\autorAnoCitado}[1]{\citeonline{#1}}
+\newcommand{\autorAnoCitado}[1]{\textcite{#1}}
 
 % Mantém o texto exatamente como digitado e ainda vincula a chave no .bib.
 \newcommand{\artigoComChave}[2]{#1\nocite{#2}}
@@ -110,10 +115,134 @@
   \campoForm{Estudo:}{#9}%
 }
 
+% Variante: extrai automaticamente autores e ano a partir da chave BibTeX.
+% Uso: \formularioExtracaoDadosComBibtex{n}{Título}{chaveBib}{Veículo}{Fonte}{Abstract}{Resumo}{Estudo}
+\newcommand{\formularioExtracaoDadosComBibtex}[8]{%
+  \subsection*{#1º}%
+  \campoForm{Título do Artigo:}{#2}%
+  \campoForm{Autores:}{\citeauthor{#3}}%
+  \campoForm{Data da Publicação:}{\citeyear{#3}}%
+  \campoForm{Veículo de Publicação:}{#4}%
+  \campoForm{Fonte:}{#5}%
+  \campoForm{Abstract:}{#6}%
+  \campoForm{Resumo:}{#7}%
+  \campoForm{Estudo:}{#8}%
+  \nocite{#3}%
+}
+
+% Helpers para extrair metadados de uma chave BibTeX.
+\newcommand{\veiculoBib}[1]{%
+  \citefield{#1}{journaltitle}%
+  \citefield{#1}{journal}%
+  \citefield{#1}{booktitle}%
+  \citefield{#1}{school}%
+  \citefield{#1}{organization}%
+  \citefield{#1}{publisher}%
+}
+
+\newcommand{\fonteBib}[1]{%
+  \citefield{#1}{url}%
+  \citefield{#1}{doi}%
+  \citefield{#1}{publisher}%
+  \citefield{#1}{school}%
+}
+
+% Variante: usa a chave BibTeX para preencher título, autores, ano.
+% Veículo, fonte e demais campos são informados manualmente.
+% Uso: \formularioExtracaoDadosSomenteBibtex{n}{chaveBib}{Veículo}{Fonte}{Abstract}{Resumo}{Estudo}
+\newcommand{\formularioExtracaoDadosSomenteBibtex}[7]{%
+  \subsection*{#1º}%
+  \campoForm{Título do Artigo:}{\citetitle{#2}}%
+  \campoForm{Autores:}{\citeauthor{#2}}%
+  \campoForm{Data da Publicação:}{\citeyear{#2}}%
+  \campoForm{Veículo de Publicação:}{#3}%
+  \campoForm{Fonte:}{#4}%
+  \campoForm{Abstract:}{#5}%
+  \campoForm{Resumo:}{#6}%
+  \campoForm{Estudo:}{#7}%
+  \nocite{#2}%
+}
+
+% Atalho para fullcite: \fc{chave} retorna \fullcite{chave}
+\newcommand{\fc}[1]{\fullcite{#1}}
+
+% Campos extras em formato chave=valor (estilo dicionario do Python).
+% Exemplo de uso:
+% \camposExtrasFormulario{hipoteses_avaliadas={...}, referencias_relevantes={alves2025freertos,wcama}}
+\ExplSyntaxOn
+\tl_new:N \l__form_hipoteses_tl
+\tl_new:N \l__form_var_ind_tl
+\tl_new:N \l__form_var_dep_tl
+\tl_new:N \l__form_participantes_tl
+\tl_new:N \l__form_material_tl
+\tl_new:N \l__form_planejamento_tl
+\tl_new:N \l__form_ameacas_tl
+\tl_new:N \l__form_resultados_tl
+\tl_new:N \l__form_comentarios_tl
+\tl_new:N \l__form_referencias_tl
+\tl_new:N \l__form_justificativa_tl
+\clist_new:N \l__form_referencias_clist
+\keys_define:nn { formulario/extras }
+{
+  hipoteses_avaliadas .tl_set:N = \l__form_hipoteses_tl,
+  variaveis_independentes .tl_set:N = \l__form_var_ind_tl,
+  variaveis_dependentes .tl_set:N = \l__form_var_dep_tl,
+  participantes .tl_set:N = \l__form_participantes_tl,
+  material .tl_set:N = \l__form_material_tl,
+  planejamento_estudo .tl_set:N = \l__form_planejamento_tl,
+  ameacas_validade .tl_set:N = \l__form_ameacas_tl,
+  resultados .tl_set:N = \l__form_resultados_tl,
+  comentarios_adicionais .tl_set:N = \l__form_comentarios_tl,
+  referencias_relevantes .tl_set:N = \l__form_referencias_tl,
+  justificativa .tl_set:N = \l__form_justificativa_tl
+}
+
+\cs_new_protected:Npn \form_referencias_formatadas:n #1
+{
+  \tl_set:Nn \l_tmpa_tl { #1 }
+  \regex_replace_all:nnN { \s*;\s* } { , } \l_tmpa_tl
+  \regex_replace_all:nnN { \s+} { } \l_tmpa_tl
+  \clist_set:Nx \l__form_referencias_clist { \tl_use:N \l_tmpa_tl }
+  \clist_map_inline:Nn \l__form_referencias_clist
+  {
+    \par\noindent \fullcite{##1}\par
+  }
+}
+
+\cs_new_protected:Npn \campos_extras_formulario:n #1
+{
+  \tl_clear:N \l__form_hipoteses_tl
+  \tl_clear:N \l__form_var_ind_tl
+  \tl_clear:N \l__form_var_dep_tl
+  \tl_clear:N \l__form_participantes_tl
+  \tl_clear:N \l__form_material_tl
+  \tl_clear:N \l__form_planejamento_tl
+  \tl_clear:N \l__form_ameacas_tl
+  \tl_clear:N \l__form_resultados_tl
+  \tl_clear:N \l__form_comentarios_tl
+  \tl_clear:N \l__form_referencias_tl
+  \tl_clear:N \l__form_justificativa_tl
+  \keys_set:nn { formulario/extras } { #1 }
+  \campoForm{Hipóteses~avaliadas:}{\l__form_hipoteses_tl}
+  \campoForm{Variáveis~independentes:}{\l__form_var_ind_tl}
+  \campoForm{Variáveis~dependentes:}{\l__form_var_dep_tl}
+  \campoForm{Participantes:}{\l__form_participantes_tl}
+  \campoForm{Material:}{\l__form_material_tl}
+  \campoForm{Planejamento~do~estudo:}{\l__form_planejamento_tl}
+  \campoForm{Ameaças~à~validade:}{\l__form_ameacas_tl}
+  \campoForm{Resultados:}{\l__form_resultados_tl}
+  \campoForm{Comentários~adicionais:}{\l__form_comentarios_tl}
+  \campoForm{Referências~relevantes:}{\form_referencias_formatadas:n {\l__form_referencias_tl}}
+}
+
+\NewDocumentCommand{\camposExtrasFormulario}{m}
+{\campos_extras_formulario:n {#1}}
+\ExplSyntaxOff
+
 \begin{document}
 
 \begin{center}
-    {\Large \textbf{PROTOCOLO DE REVISÃO}}
+{\Large \textbf{PROTOCOLO DE REVISÃO}}
 \end{center}
 \vspace{1cm}
 
@@ -125,27 +254,30 @@
 \vspace{0.5cm}
 \noindent \textbf{Objetivos:} Identificar estudos que propóem arquiteturas
 IoT (LoRaWan, FIWARE, Chirpstack, Node-Red) para monitoramento da qualidade
-do ar em ambientes de Smart Campus, com foco em agentes inteligentes para 
+do ar em ambientes de Smart Campus, com foco em agentes inteligentes para
 análise e previsão da qualidade do ar;
 
 
-Identificar os principais desafios e soluções propostas para a implementação 
-dessa arquitetura, incluindo aspectos de coleta de dados, processamento em 
+Identificar os principais desafios e soluções propostas para a implementação
+dessa arquitetura, incluindo aspectos de coleta de dados, processamento em
 tempo real e integração com sistemas de alerta;
 
-Identificar sistemas que integram sistemas operacionais de tempo real (RTOS) 
+Identificar sistemas que integram sistemas operacionais de tempo real (RTOS)
 em nós sensores IoT para garantir respostas determinísticas;
+
+\vspace{0.3cm}
+\noindent Este protocolo toma como base trabalhos sobre smart campus e monitoramento ambiental com IoT e IA, incluindo \textcite{minallah2020}, \textcite{cunha2024}, \textcite{kumar2023} e \textcite{wcama}, além de estudos sobre requisitos de tempo real em sistemas embarcados, como \textcite{reddy2023} e \textcite{septian2022}.
 
 \vspace{0.5cm}
 \noindent \textbf{Formulação da(s) pergunta(s) da revisão:}
 \begin{itemize}[label={\textbullet}, nosep]
-    \item Quais arquiteturas IoT (sensores, gateways LoRaWAN, middleware, nuvem) 
-          têm sido usadas para monitorar qualidade do ar em smart campuses?
-    \item Quais algoritmos de IA/ML são aplicados para predição de curto prazo 
-          (próximas horas) de poluentes em ambientes internos/externos?
-    \item Existem soluções que integram RTOS em nós sensores para garantir respostas 
-          determinísticas em monitoramento de qualidade do ar?
-    \item Quais mecanismos de resposta automatizadas são descritos na literatura?
+\item Quais arquiteturas IoT (sensores, gateways LoRaWAN, middleware, nuvem)
+têm sido usadas para monitorar qualidade do ar em smart campuses (ex.: \textcite{cunha2024})?
+\item Quais algoritmos de IA/ML são aplicados para predição de curto prazo
+(próximas horas) de poluentes em ambientes internos/externos (ex.: \textcite{kumar2023}, \textcite{wcama})?
+\item Existem soluções que integram RTOS em nós sensores para garantir respostas
+determinísticas em monitoramento de qualidade do ar (ex.: \textcite{septian2022}, \textcite{alves2025freertos})?
+\item Quais mecanismos de resposta automatizadas são descritos na literatura?
 \end{itemize}
 
 \vspace{0.5cm}
@@ -155,7 +287,7 @@ em nós sensores IoT para garantir respostas determinísticas;
 \noindent \textbf{Data/período da Busca:} 2020 -- 2026
 
 \vspace{0.5cm}
-\noindent \textbf{Intervalo de tempo da busca:} 5 anos
+\noindent \textbf{Intervalo de tempo da busca:} 6 anos
 
 \newpage
 \vspace{0.5cm}
@@ -166,19 +298,40 @@ em nós sensores IoT para garantir respostas determinísticas;
 \centering
 \begin{tabular}{|p{4 cm}|p{4 cm}|p{4 cm}|p{4 cm}|}
 \hline
-\textbf{Palavra-chave em Português} & \textbf{Sinônimos em Português} & \textbf{Palavra-chave em Inglês}& \textbf{Sinonimos em Inglês}\\
+\textbf{Palavra-chave em Português}
+& \textbf{Sinônimos em Português}
+& \textbf{Palavra-chave em Inglês}
+& \textbf{Sinonimos em Inglês}\\
 \hline
-Qualidade do ar & Condição do ar ambiente, Nível de poluição do ar & Air quality & Ambient air quality, Air Pollution, Atmospheric quality\\
+Qualidade do ar
+& Condição do ar ambiente, Nível de poluição do ar
+& Air quality
+& Ambient air quality, Air Pollution, Atmospheric quality\\
 \hline
-Smart campus & Campus inteligente, campus conectado & Smart campus & Intelligent campus, Connected campus, Digital campus\\
+Smart campus
+& Campus inteligente, campus conectado
+& Smart campus
+& Intelligent campus, Connected campus, Digital campus\\
 \hline
-IoT & Internet das Coisas, Dispositivos conectados, redes de sensores & IoT & Internet of Things, IoT Systems, Smart Devices\\
+IoT
+& Internet das Coisas, Dispositivos conectados, redes de sensores
+& IoT
+& Internet of Things, IoT Systems, Smart Devices\\
 \hline
-LoRaWAN & Rede LPWAN de longo alcance, Infraestrutura LoRaWAN para IoT & LoRaWAN & LoRaWAN Network, LoRaWAN Infrastructure\\
+LoRaWAN
+& Rede LPWAN de longo alcance, Infraestrutura LoRaWAN para IoT
+& LoRaWAN
+& LoRaWAN Network, LoRaWAN Infrastructure\\
 \hline
-FIWARE & Plataforma de gerenciamento de contexto FIWARE, middleware FIWARE para IoT & FIWARE & FIWARE Platform, IoT Middleware\\
+FIWARE
+& Plataforma de gerenciamento de contexto FIWARE, middleware FIWARE para IoT
+& FIWARE
+& FIWARE Platform, IoT Middleware\\
 \hline
-Predição de poluentes & Predição de curto prazo de poluentes & Short-term pollutant prediction & Short-term Air Quality Prediction\\
+Predição de poluentes
+& Predição de curto prazo de poluentes
+& Short-term pollutant prediction
+& Short-term Air Quality Prediction\\
 \hline
 \end{tabular}
 \end{table}
@@ -186,23 +339,23 @@ Predição de poluentes & Predição de curto prazo de poluentes & Short-term po
 \vspace{0.5cm}
 \noindent \textbf{String de busca (inglês):}
 \begin{verbatim}
-- (("air quality" OR "air pollution" OR "indoor air quality") AND 
-   ("smart campus" OR "university campus" OR "higher education") AND 
-   ("IoT" OR "LoRaWAN" OR "FIWARE" OR "ChirpStack") AND 
-   ("predictive" OR "forecast" OR "anomaly detection") AND 
-   ("real-time" OR "RTOS" OR "FreeRTOS" OR "deterministic")) 
-  NOT ("wearable" OR "smart home" NOT campus)
+- (("air quality" OR "air pollution" OR "indoor air quality") AND
+("smart campus" OR "university campus" OR "higher education") AND
+("IoT" OR "LoRaWAN" OR "FIWARE" OR "ChirpStack") AND
+("predictive" OR "forecast" OR "anomaly detection") AND
+("real-time" OR "RTOS" OR "FreeRTOS" OR "deterministic"))
+NOT ("wearable" OR "smart home" NOT campus)
 \end{verbatim}
 
 \vspace{0.3cm}
 \noindent \textbf{String de busca (português):}
 \begin{verbatim}
-- (("qualidade do ar" OR "poluição do ar" OR "qualidade do ar interior") AND 
-   ("campus inteligente" OR "campus universitário" OR "ensino superior") AND 
-   ("IoT" OR "LoRaWAN" OR "FIWARE" OR "ChirpStack") AND 
-   ("preditivo" OR "previsão" OR "detecção de anomalias") AND 
-   ("tempo real" OR "RTOS" OR "FreeRTOS" OR "determinístico")) 
-  NOT ("vestível" OR "casa inteligente" NOT campus)
+- (("qualidade do ar" OR "poluição do ar" OR "qualidade do ar interior") AND
+("campus inteligente" OR "campus universitário" OR "ensino superior") AND
+("IoT" OR "LoRaWAN" OR "FIWARE" OR "ChirpStack") AND
+("preditivo" OR "previsão" OR "detecção de anomalias") AND
+("tempo real" OR "RTOS" OR "FreeRTOS" OR "determinístico"))
+NOT ("vestível" OR "casa inteligente" NOT campus)
 \end{verbatim}
 
 
@@ -216,42 +369,43 @@ Predição de poluentes & Predição de curto prazo de poluentes & Short-term po
 \hline
 \textbf{Critérios} & \textbf{Tipo} \\
 \hline
-  Artigos disponiveis na Internet 
-  & Incluso\\
+Artigos disponíveis na Internet
+& Incluso\\
 \hline
-  Texto completo emportuguês ou inglês 
-  & Incluso\\
+Texto completo em português ou inglês
+& Incluso\\
 \hline
-  Publicação posteriores as 2021 
-  & Incluso\\
+Publicação posteriores a 2021
+& Incluso\\
 \hline
-  Utilizem Aprendizagem de maquina para predição ou detecção de anomalias 
-  & Incluso\\
+Utilizem Aprendizagem de máquina para predição ou detecção de anomalias
+& Incluso\\
 \hline
-  Que mencionem tempo real ou RTOS 
-  & Incluso\\
+Que mencionem tempo real ou RTOS
+& Incluso\\
 \hline
-  Estudos de caso em campus universitário ou ambiente similar 
-  & Incluso\\
+Estudos de caso em campus universitário ou ambiente similar
+& Incluso\\
 \hline
-  Apenas medição passiva sem modelo preditivo; apenas simulação sem hardware real; revisões sem dados primários 
-  & Excluído\\
+Apenas medição passiva sem modelo preditivo; apenas simulação sem hardware real; revisões sem dados primários
+& Excluído\\
 \hline
-  Reprodutibilidade são inexistentes ou não avaliadas
-  & Excluído\\
+Reprodutibilidade são inexistentes ou não avaliadas
+& Excluído\\
 \hline
 
 \end{tabular}
 \end{table}
 
-\noindent \textbf{Justificativa:} 
+\noindent \textbf{Justificativa:}
 
-Os critérios foram definidos para selecionar estudos diretamente 
-relacionados ao aprimoramento do IQArMobi, priorizando arquiteturas 
-IoT modulares (LoRaWAN/FIWARE), atributos de qualidade 
-(tempo real, escalabilidade) e avaliação de sistemas preditivos 
-com IA. Excluem-se trabalhos sem predição, sem RTOS ou fora do 
-contexto de smart campuses, garantindo o foco na evolução do agente inteligente com resposta automatizada para a região amazônica.
+Os critérios foram definidos para selecionar estudos diretamente
+relacionados ao aprimoramento do IQArMobi, priorizando arquiteturas
+IoT modulares (LoRaWAN/FIWARE), atributos de qualidade
+(tempo real, escalabilidade) e avaliação de sistemas preditivos
+com IA. Excluem-se trabalhos sem predição, sem RTOS ou fora do
+contexto de smart campuses, garantindo o foco na evolução do agente inteligente com resposta automatizada para a 
+região amazônica, em linha com lacunas identificadas por \textcite{mokrani2019}, \textcite{wang2023} e \textcite{benammar2018}.
 
 \vspace{0.5cm}
 \section*{Critérios de Qualidade}
@@ -296,33 +450,33 @@ N $<$ 20\% (Baixa)
 \setlength{\tabcolsep}{3pt}
 \begin{tabularx}{0.96\textwidth}{|P{0.7cm}|Y|P{3.4cm}|P{1.4cm}|P{2.4cm}|}
 \hline
-\textbf{Nº} & \textbf{Título do artigo} & \textbf{Autores} & \textbf{Publicação} & \textbf{Veículo} \\
+\textbf{Nº} & \textbf{Título do artigo} & \textbf{Autores} & \textbf{Ano} & \textbf{Veículo} \\
 \hline
 \setcounter{artigoIncluido}{0}
 \artigoIncluido{Aplicação de TinyML em Sensores Virtuais para Monitoramento da Qualidade do Ar em Ambientes Industriais}
-               {Tayco Murilo Santos Rodrigues}
-               {2024}
-               {Repositório Institucional da Ufal -- RIUFAL}
+{Tayco Murilo Santos Rodrigues}
+{2024}
+{Repositório Institucional da Ufal -- RIUFAL}
 \artigoIncluido{A Machine Learning-based Decision Support System for IoT Monitoring Solutions}
-               {Edgar Filipe Loureiro Ladeira}
-               {2024}
-               {Repositório Digital da Universidade Beira Rio - uBibliorun}
+{Edgar Filipe Loureiro Ladeira}
+{2024}
+{Repositório Digital da Universidade Beira Rio - uBibliorun}
 \artigoIncluido{Estudo e desenvolvimento de um sensor sem fio inteligente para monitoramento distribuído de poluentes atmosféricos no contexto de cidades inteligentes}
-               {Mariana Rodrigues Villarim}
-               {2020}
-               {Repositório Digital da Universidade Federal da Paraíba - REPO-UFPB}
+{Mariana Rodrigues Villarim}
+{2020}
+{Repositório Digital da Universidade Federal da Paraíba - REPO-UFPB}
 \artigoIncluido{FreeRTOS Application in a Real-Time Air Quality Monitoring Architecture for Smart Campus}
-               {Elton Alves and Noedson Romario Vieira da Silva and Warley Júnior and Alife Moraes and Nandson Silva and Andson Balieiro}
-               {2025}
-               {IEEE Latin America Transactions}
+{Elton Alves and Noedson Romario Vieira da Silva and Warley Júnior and Alife Moraes and Nandson Silva and Andson Balieiro}
+{2025}
+{IEEE Latin America Transactions}
 \artigoIncluido{Arquitetura de Monitoramento de Qualidade de Ar baseada no LoRaWAN e FIWARE em um Campus Universitário}
-               {Cunha et al.}
-               {2024}
-               {Anais do XV Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}
+{Cunha et al.}
+{2024}
+{Anais do XV Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}
 \artigoIncluido{IQArMobi: Classificação Inteligente da Qualidade do Ar e Ciente de Localização em Ambientes Externos e Internos}
-               {Eusébio Thaylor and Nandson Cunha and Alife Moraes and Warley Junior and Elton Alves}
-               {2025}
-               {Anais do XVI Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}
+{Eusébio Thaylor and Nandson Cunha and Alife Moraes and Warley Junior and Elton Alves}
+{2025}
+{Anais do XVI Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}
 
 \end{tabularx}
 \endgroup
@@ -339,35 +493,38 @@ N $<$ 20\% (Baixa)
 \small
 \begin{tabularx}{\textwidth}{|p{0.7cm}|Y|p{3.6cm}|p{1.6cm}|p{2.8cm}|}
 \hline
-\textbf{Nº} & \textbf{Título do artigo} & \textbf{Autores} & \textbf{Publicação} & \textbf{Veículo} \\
+\textbf{Nº} & \textbf{Título do artigo} & \textbf{Autores} & \textbf{Ano} & \textbf{Veículo} \\
 \hline
 \setcounter{artigoExcluido}{0}
-\artigoExcluido{Air-Pure Monitor: Uma Solucão IoT de Baixo Custo para Ambientes Internos Saudáveis}
-               {Bruna M. O. Silva, Iwens G. S. Junior, Renato F. Bulcão-Neto}
-               {2025}
-               {Anais (SBCUP)}
+\artigoExcluido{Air-Pure Monitor: Uma Solução IoT de Baixo Custo para Ambientes Internos Saudáveis}
+{Bruna M. O. Silva, Iwens G. S. Junior, Renato F. Bulcão-Neto}
+{2025}
+{Anais (SBCUP)}
 \artigoExcluido{Real-time Air Quality Monitoring in Smart Cities using IoT-enabled Advanced Optical Sensors}
-               {Anushree A. Aserkar and Sanjiv Rao Godla and Yousef A.Baker El-Ebiary and Krishnamoorthy and Janjhyam Venkata Naga Ramesh}
-               {2024}
-               {International Journal of Advanced Computer Science and Applications}
+{Anushree A. Aserkar and Sanjiv Rao Godla and Yousef A.Baker El-Ebiary and Krishnamoorthy and Janjhyam Venkata Naga Ramesh}
+{2024}
+{International Journal of Advanced Computer Science and Applications}
 \artigoExcluido{Um aplicativo para gerar recomendações e alertas sobre a qualidade do ar em um smart campus}
-               {Pablo Leon Rodrigues}
-               {2020}
-               {Repositório Digital da Universidade de Passo Fundo - REPO-UPF}
+{Pablo Leon Rodrigues}
+{2020}
+{Repositório Digital da Universidade de Passo Fundo - REPO-UPF}
 \artigoExcluido{Monitoramento da qualidade do ar em ambientes internos utilizando sensores de baixo custo e aprendizado de máquina}
-               {Ana Carolina Camargo Francisco and Felipe Hashimoto Fengler and Gustavo Faria and Iara Negreiros and Luciana Gomes Pereira Pinto and Maurício Tolotto and Raquel Barbosa Rogoschewski and Regiane Relva Romano and Roberto Silva Netto}
-               {2023}
-               {Universidades \& Sustentabilidade}
+{Ana Carolina Camargo Francisco and Felipe Hashimoto
+  Fengler and Gustavo Faria and Iara Negreiros and Luciana Gomes
+  Pereira Pinto and Maurício Tolotto and Raquel Barbosa Rogoschewski
+  and Regiane Relva Romano and Roberto Silva Netto}
+{2023}
+{Universidades \& Sustentabilidade}
 \end{tabularx}
 \end{table}
 \textbf{Avaliação dos Estudos com Base nos Critérios de Qualidade}\\
 \newline
-A qualidade dos estudos primários foi avaliada com base em cinco critérios (C1 a C5), 
-pontuados de 0 a 2, totalizando até 10 pontos. Os critérios contemplam aderência 
-a arquiteturas IoT modulares (C1), atributos de qualidade como tempo real (C2), 
-descrição de métodos de desenvolvimento (C3), avaliação empírica em ambiente real 
+A qualidade dos estudos primários foi avaliada com base em cinco critérios (C1 a C5),
+pontuados de 0 a 2, totalizando até 10 pontos. Os critérios contemplam aderência
+a arquiteturas IoT modulares (C1), atributos de qualidade como tempo real (C2),
+descrição de métodos de desenvolvimento (C3), avaliação empírica em ambiente real
 (C4) e uso de IA ou aderência ao tema de monitoramento da qualidade do ar em smart campuses (C5).
-A pontuação foi convertida em percentual, classificando os estudos como Excelente 
+A pontuação foi convertida em percentual, classificando os estudos como Excelente
 ($\geq$ 80\%), Muito Boa (60-80\%), Boa (40-60\%), Média (20-40\%) ou Baixa (<20\%).
 
 \vspace{0.4cm}
@@ -377,47 +534,62 @@ A pontuação foi convertida em percentual, classificando os estudos como Excele
 \centering
 \setlength{\tabcolsep}{2pt}
 \renewcommand{\arraystretch}{1.1}
-\begin{tabularx}{0.94\textwidth}{|C{0.6cm}|P{4.5cm}|C{0.75cm}|C{0.75cm}|C{0.75cm}|C{0.75cm}|C{0.75cm}|C{1.1cm}|C{0.8cm}|Y|}
+\begin{tabularx}{0.94\textwidth}
+{|C{0.6cm}
+  |P{4.5cm}
+  |C{0.75cm}
+  |C{0.75cm}
+  |C{0.75cm}
+  |C{0.75cm}
+  |C{0.75cm}
+  |C{1.1cm}
+  |C{0.8cm}
+  |Y|}
 \hline
-\textbf{Nº} & \textbf{Artigo (Autor/Ano)} & \textbf{C1} & \textbf{C2} & \textbf{C3} & \textbf{C4} & \textbf{C5} & \textbf{Total (N)} & \textbf{(\%)} & \textbf{Classificação} \\
+\textbf{Nº}
+& \textbf{Artigo (Autor/Ano)}
+& \textbf{C1}   & \textbf{C2}
+& \textbf{C3}   & \textbf{C4}
+& \textbf{C5}   & \textbf{Total (N)}
+& \textbf{(\%)} & \textbf{Classificação} \\
 \hline
 \setcounter{artigoAvaliado}{0}
 \artigoAvaliado{\artigoComChave{Alves (2025)}{alves2025freertos}}
-               {2}
-               {2}
-               {2}
-               {2}
-               {2}%
-\artigoAvaliado{\artigoComChave{Edgar (2024)}{edgar2024}}
-               {2}
-               {2}
-               {2}
-               {2}
-               {1}%
+{2}
+{2}
+{2}
+{2}
+{2}%
+\artigoAvaliado{\artigoComChave{Edgar (2024)}{ladeira2024mliot}}
+{2}
+{2}
+{2}
+{2}
+{1}%
 \artigoAvaliado{\artigoComChave{Rodrigues (2024)}{rodrigues2024tinyml}}
-               {2}
-               {2}
-               {2}
-               {1}
-               {1}%
-\artigoAvaliado{\artigoComChave{Eusebio (2024)}{eusebio2024}}
-               {2}
-               {2}
-               {2}
-               {1}
-               {1}%
+{2}
+{2}
+{2}
+{1}
+{1}%
+\artigoAvaliado{\artigoComChave{Eusebio (2025)}{wcama}}
+{2}
+{2}
+{2}
+{1}
+{1}%
 \artigoAvaliado{\artigoComChave{Villarim (2020)}{villarim2020sensor}}
-               {2}
-               {2}
-               {1}
-               {1}
-               {1}%
+{2}
+{2}
+{1}
+{1}
+{1}%
 \artigoAvaliado{\artigoComChave{Cunha (2024)}{cunha2024}}
-               {2}
-               {2}
-               {1}
-               {1}
-               {1}%
+{2}
+{2}
+{1}
+{1}
+{1}%
 
 
 \end{tabularx}
@@ -430,59 +602,514 @@ A pontuação foi convertida em percentual, classificando os estudos como Excele
 % Substitua os textos entre chaves pelos dados do seu artigo
 % \formularioExtracaoDadosPreenchido{1}{Título}{Autores}{Data}{Veículo}{Fonte}{Abstract}{Resumo}{Estudo}
 
-% Exemplo real preenchido (campos extras podem ser deixados vazios com {})
-% \formularioExtracaoDadosPreenchido
-%   {1}% número do formulário
-%   {Título do artigo}% título
-%   {Noedson Romario de Oliveira, Gustavo Pinto, Marco Tulio Valente}% autores
-%   {2020}% data da publicação
-%   {IEEE Transactions on Software Engineering}% veículo
-%   {IEEE Xplore}% fonte
-%   {Abstract do artigo...}% abstract
-%   {Resumo do artigo...}% resumo
-%   {Tipo do estudo...}% estudo
+% Exemplo real preenchido usando apenas chave BibTeX para metadados do artigo
+\formularioExtracaoDadosSomenteBibtex
+{1}% número do formulário
+{alves2025freertos}% chave BibTeX
+{IEEE Latin America Transactions}% veículo (manual)
+{IEEE Xplore}% fonte (manual)
+{Monitoring air quality in smart campuses is essential for safeguarding the health of the
+  academic community, as air pollution in university environments can lead to respiratory and cardiac
+  issues. While the Internet of Things (IoT) offers a suitable solution for monitoring and
+  notifying about air quality in smart campuses, it is of paramount importance that these
+  notifications occur in real-time to ensure information reaches users with minimal latency.
+  This paper presents an architecture for collecting, storing, and notifying about atmospheric
+  pollutants in a smart campus and analyzes the use of Real-Time Operating Systems (RTOS)
+  for managing the system. The evaluation focuses on IoT technologies, represented by the end node,
+  gateway, and cloud server. The experimental results show that using RTOS reduces the average
+  transmission interval by 37.5\% and achieves higher transmission and reception
+  throughput compared to non-real-time operating systems. For instance, in a monitored
+  location, the transmission and reception throughput reached approximately
+  178.23 and 164.18 with RTOS, compared to 110.97 and 99.41 without RTOS, respectively.}% abstract
+{O monitoramento da qualidade do ar em campuses inteligentes é essencial para proteger a saúde da comunidade
+  acadêmica, pois a poluição do ar em ambientes universitários pode causar problemas respiratórios e cardíacos.
+  Embora a Internet das Coisas (IoT) ofereça uma solução adequada para monitorar e notificar sobre a
+  qualidade do ar, é fundamental que essas notificações ocorram em tempo real para que as informações cheguem
+  aos usuários com baixa latência. Este artigo apresenta uma arquitetura para coleta, armazenamento e notificação
+  de poluentes atmosféricos em um campus inteligente e analisa o uso de Sistemas Operacionais de Tempo Real (RTOS)
+  para gerenciar o sistema. Os resultados experimentais mostram que o uso do FreeRTOS reduz o intervalo médio de
+  transmissão em 37,5\% e alcança maior vazão de transmissão e recepção em comparação com sistemas operacionais não
+  real-time. Por exemplo, em um dos locais monitorados, a vazão de transmissão e recepção com RTOS foi de aproximadamente
+  178,23 e 164,18, contra 110,97 e 99,41 sem RTOS, respectivamente}% resumo
+{Avaliar o impacto do uso do FreeRTOS (um RTOS) em um sistema de monitoramento de
+  qualidade do ar baseado em IoT e LoRaWAN, comparando-o com uma versão sem RTOS.
+  A arquitetura utilizada no projeto consistem em  EndNodes com ESP32-LoRa + sensores
+  MQ131 e MQ135, gateway Dragino DLOS8N, e nuvem IBM Cloud.}% estudo
 
-% Formulário em branco (para preencher à mão ou no PDF)
+% Exemplo no estilo chave=valor (similar a dict do Python).
+\camposExtrasFormulario{hipoteses_avaliadas={H0 (hipótese nula): O uso do FreeRTOS no ESP32-LoRa não melhora significativamente o desempenho do sistema de monitoramento de qualidade do ar em termos de throughput, intervalos de transmissão/recepção ou taxas de sucesso, em comparação com a versão sem RTOS. H1: O uso do FreeRTOS reduz os intervalos médios de transmissão (TX) entre o EndNode e o gateway, em comparação com o sistema sem RTOS H2: O uso do FreeRTOS aumenta o throughput de transmissão e recepção de dados no sistema de monitoramento de qualidade do ar. H3: O uso do FreeRTOS aumenta a taxa de sucesso (e reduz a taxa de perda) nas transmissões e recepções de dados H4 (implícita): O uso do FreeRTOS permite que o sistema atenda ao critério de tempo real de 5 segundos entre coletas e transmissões, o que não ocorre no sistema sem RTOS}, variaveis_independentes={Throughput de transmissão (TX) e recepção (RX) Intervalos de transmissão (TX) e recepção (RX) Taxa de sucesso e perda de pacotes}, variaveis_dependentes={Intervalo de transmissão; throughput de recepção.}, resultados={Redução de 37,5\% no intervalo médio e aumento de throughput.}, planejamento_estudo={Desenvolvimento de um sistema de monitoramento de qualidade do ar usando ESP32-LoRa, com e sem FreeRTOS. Coleta de dados em ambiente real (campus) e análise comparativa.}, ameacas_validade={Ameaças à validade interna: variações ambientais, interferências de sinal, falhas de hardware. Ameaças à validade externa: generalização dos resultados para outros ambientes ou configurações.}, comentarios_adicionais={O estudo destaca a importância de RTOS para garantir requisitos de tempo real em sistemas IoT de monitoramento ambiental, especialmente em contextos críticos como a qualidade do ar em smart campuses.}, referencias_relevantes={mokrani2019,abdelsamea2016,septian2022}, justificativa={}}
+
+\formularioExtracaoDadosSomenteBibtex{2}
+                                     {ladeira2024mliot}
+                                     {Sustainable Cities and Society}
+                                     {Google Scholar}
+                                     {Globally, environmental incidents occur daily due to the emission of pollutant gases, many of which are the main 
+                                      causes of environmental disasters and premature deaths. The significant impact of these gases on public health 
+                                      is a major concern, especially in rural regions. Inhalation of these compounds often affects the daily lives 
+                                      and health of people living in these areas, often without their awareness of the risks involved.
+                                      The goal of this project is to develop a decision support system powered by Artificial Intelligence (AI) and a 
+                                      robust platform for visualizing statistics on pollutant gases. Using an Internet of Things (IoT) ecosystem, the system aims to notify residents about environmental conditions and prevent any risks, including exposure to hazardous gases. Data is collected by digital sensors, aggregated by a microprocessor, and transmitted to a centralized database. This database feeds into the digital platform, which provides comprehensive and easy-to-navigate graphs, helping users to clearly understand pollution levels. These visualizations assist authorities and users in making informed decisions about environmental safety.
+                                      This work aims to find the best Machine Learning (ML) model for this type of data (time series), 
+                                      in order to generate accurate predictions, focusing on the exploration of various ML techniques. 
+                                      The AI-based decision support system uses ML techniques to analyze the collected data and 
+                                      provide assessments of hazardous gas levels, as well as future forecasts of these levels, 
+                                      using unidirectional LSTM layers overlaid on bidirectional LSTM layers, an architecture 
+                                      that has shown the best results. In areas where pollutant gases such as radon are common, 
+                                      these forecasts enable the generation of timely alerts and recommendations to reduce health risks.}
+                                      {A nível global, os incidentes ambientais ocorrem diariamente devido à emissão de gases poluentes, 
+                                      sendo que muitos deles são as principais causas de desastres ambientais e mortes prematuras. 
+                                      O impacto significativo desses gases na saúde pública é uma grande preocupação, especialmente em 
+                                      regiões do interior. A inalação desses compostos frequentemente afeta a vida cotidiana e a saúde das 
+                                      pessoas que vivem nessas áreas, muitas vezes sem que tenham consciência dos riscos envolvidos. O objetivo 
+                                      deste projeto é desenvolver um sistema de apoio à decisão, impulsionado por Inteligência Artificial (IA), 
+                                      e uma plataforma robusta para a visualização de estatísticas sobre gases poluentes. Utilizando um ecossistema 
+                                      de Internet das Coisas (IdC), o sistema tem o objetivo de notificar os moradores relativamente às 
+                                      condições ambientais e evitar quaisquer riscos, incluindo a exposição a gases perigosos. Os dados são 
+                                      recolhidos por sensores digitais, agregados por um microprocessador e transmitidos para uma base de dados 
+                                      centralizada. Essa base de dados alimenta a plataforma digital que disponibiliza gráficos abrangentes 
+                                      e de fácil navegação, ajudando os utilizadores a compreender claramente os níveis de poluição. Essas 
+                                      visualizações auxiliam autoridades e utilizadores a tomarem decisões informadas sobre a segurança ambiental.
+                                      Este trabalho visa encontrar o melhor modelo de ML para este tipo de dados (séries temporais), 
+                                      a fim de gerar previsões precisas, focando na investigação de diversas técnicas de ML. 
+                                      O sistema de apoio à decisão baseado em IA utiliza técnicas de machine learning (ML) para analisar 
+                                      os dados recolhidos e fornecer avaliações dos níveis de gases perigosos, bem como previsões futuras 
+                                      destes, utilizando camadas LSTM unidirecionais sobrepostas a camadas LSTM bidirecionais, 
+                                      uma arquitetura que apresentou os melhores resultados.}
+                                      {Objetivo principal: Desenvolver um sistema de apoio à decisão baseado em IA e uma plataforma digital para monitorização de gases poluentes 
+                                      (radão, CO, CO\textsubscript{2}) e variáveis ambientais (temperatura, humidade) em áreas rurais e remotas.
+                                       Arquitetura: Sensores IoT → microprocessador → comunicação (Wi-Fi, LoRaWAN, celular) → API (FastAPI) → banco de dados MySQL → plataforma digital (Flutter para Android/iOS/Web).
+                                       Dados: Dataset externo (Airthings Wave Air) com 3 meses de coletas (17.236 registros), tratado com interpolação linear e remoção de valores nulos.
+                                       Modelos testados: ARIMA, SARIMA, LSTM, Bidirectional LSTM, GRU, Random Forest, Gradient Boosting e abordagens híbridas (ARIMA + redes neurais / árvores).
+                                       Modelo final escolhido: Bi-LSTM(100) + Dropout(0.2) + LSTM(50) + Dropout(0.2) + Dense.
+                                       Método de previsão iterativo: Usa as últimas 100 observações para prever o próximo passo, atualizando a janela deslizante.
+                                       Sistema de alertas: Gatilhos (triggers) no MySQL detectam valores anormais ou falhas de sensores (-1) e enviam notificações push via FCM}
+
+\camposExtrasFormulario{
+                        hipoteses_avaliadas={H0 (hipótese nula): O uso de modelos baseados em LSTM (unidirecionais ou bidirecionais)
+                                             não produz previsões significativamente melhores do que modelos estatísticos (ARIMA/SARIMA) ou 
+                                             baseados em árvores (Random Forest, Gradient Boosting) para a previsão de gases poluentes e 
+                                             variáveis ambientais em séries temporais.
+                                             H1: Modelos com camadas Bidirectional LSTM apresentam menor erro (MAE, MSE, RMSE) e maior coeficiente de determinação 
+                                            (R²) do que modelos LSTM unidirecionais e modelos estatísticos na previsão de séries temporais ambientais.
+                                            H2: A abordagem híbrida (ARIMA + Random Forest ou ARIMA + LSTM) não supera o modelo puramente baseado em Bi-LSTM + 
+                                            LSTM em termos de acurácia preditiva para este tipo de dado.
+                                            H3: O modelo Bi-LSTM(100) + Dropout(0.2) + LSTM(50) + Dropout(0.2) + Dense consegue manter boa performance preditiva mesmo com 
+                                            janela deslizante fixa (100 observações) e previsões iterativas para múltiplos passos à frente.
+                                            H4: O sistema de alertas baseado em triggers SQL e notificações push (FCM) é capaz de detectar e notificar valores anormais e falhas de sensores em tempo real (dentro de 30 segundos)
+                                            },
+                        variaveis_independentes={Nível de poluentes (radão, CO, CO\textsubscript{2}) Variáveis ambientais (temperatura, humidade) Tipo de modelo preditivo (ARIMA, SARIMA, LSTM, Bi-LSTM, GRU, Random Forest, Gradient Boosting, híbridos) Configurações do modelo (número de camadas, unidades, dropout) Método de previsão (iterativo com janela deslizante) Sistema de alertas (gatilhos SQL + notificações push)},
+                        participantes={Não hove participantes humanos, o estudo é baseado em dados coletados por sensores ambientais. O dataset utilizado é o Airthings Wave Air, com 17.236 registros de 3 meses de coletas.},
+                        material={Sensores digitais para coleta de dados ambientais, microprocessador para agregação, comunicação via Wi-Fi/LoRaWAN/celular, API FastAPI, banco de dados MySQL, plataforma digital Flutter.},
+                        variaveis_dependentes={Erro de previsão (MAE, RMSE) Precisão dos alertas (sensibilidade, especificidade) Tempo de resposta do sistema de alertas},
+                        resultados={O modelo Bi-LSTM + LSTM apresentou um MAE de 0.},
+                        planejamento_estudo={Desenvolvimento de um sistema de apoio à decisão baseado em IA para monitoramento de gases poluentes em áreas rurais. Coleta e tratamento de dados, teste de diversos modelos de previsão, implementação de um sistema de alertas e avaliação do desempenho.},
+                        ameacas_validade={Ameaças à validade interna: qualidade e representatividade do dataset, overfitting do modelo, falhas no sistema de alertas. Ameaças à validade externa: generalização dos resultados para outras regiões ou tipos de poluentes.},
+                        comentarios_adicionais={O estudo destaca a importância de modelos avançados de ML para previsão de poluentes e a necessidade de sistemas de apoio à decisão para mitigar riscos à saúde em áreas rurais.},
+                        referencias_relevantes={box2015time, hochreiter1997long, hyndman2018forecasting, cui2020stacked}
+                        }
+
+\formularioExtracaoDadosSomenteBibtex{3}
+                                     {villarim2020sensor}
+                                     {Repositório Institucional da UFPB}
+                                     {Google Scholar}
+                                     {Air pollution is directly related to the cause and aggravation of various diseases, 
+                                      in addition to causing ecological damage to the environment. According to the World Health Organization 
+                                      (WHO), it is estimated that 4.2 million deaths are attributed to air pollution each year and 91\% 
+                                      of the world's population lives in places that exceed indicated air quality limits. In this work, 
+                                      an intelligent wireless sensor for atmospheric pollutants, specifically Particulate Matter (PM) 
+                                      and gases, such as Methane (CH4) and Carbon Monoxide (CO), was developed in order to alert the 
+                                      population and enable the control of pollutants emissions. The developed sensor will be part 
+                                      of a Wireless Sensor Network (WSN) distributed by the main avenues of the city of João Pessoa-PB, 
+                                      where it will be possible to identify routes, times and days of weeks with the highest pollution 
+                                      rates. The wireless communication technology adopted was LoRa, which was evaluated in urban and forest 
+                                      environments. In this work, the PPD42NS sensor was used, which uses the light scattering method to 
+                                      detect particles, and the MQ family sensors, which present cross sensitivity and form an Electronic Nose, 
+                                      capable of detecting various gases with the support of a pattern recognition algorithm. The PPD42NS 
+                                      sensor was subjected to a calibration process using the reference equipment, HiVol 3000, to correct its 
+                                      measured values. Furthermore, considering that one of the main factors in the development of WSN is the 
+                                      limited supply of energy to power the sensor nodes, this work proposes a reduction in the energy 
+                                      consumption of the sensor by replacing some of its electronic components with digital processing, 
+                                      calibrating the analog output from the digital output. The linear correlation values obtained in the 
+                                      two experiments were greater than 0.9, indicating a strong association between the variables. 
+                                      Experiments were performed with the gas sensors from the MQ family for calibration in clean 
+                                      air and then they were exposed to odorous substances. Each sensor reacts specifically to the 
+                                      detection of odors, making it possible to identify the gases through pattern recognition. The data 
+                                      obtained were trained, tested and validated via Artificial Neural Network (ANN), where it was possible 
+                                      to identify the different patterns, differentiating alcohol, water and air, with an accuracy above 98\% 
+                                      at the output.}
+                                     {A poluição atmosférica está diretamente relacionada à causa e ao agravamento de diversas 
+                                      doenças, além de causar danos ecológicos ao meio ambiente. 
+                                      De acordo com a Organização Mundial da Saúde (OMS), estima-se que, a cada ano, 4,2 milhões de 
+                                      mortes são atribuídas à poluição atmosférica e 91\% da população mundial reside em locais que excedem os 
+                                      limites indicados de qualidade do ar. Neste trabalho foi desenvolvido um sensor sem fio inteligente de 
+                                      poluentes atmosféricos, especificamente de Material Particulado (MP) e de gases, como o Metano (CH4) e 
+                                      Monóxido de Carbono (CO), a fim de alertar a população e possibilitar o controle de emissões de poluentes. 
+                                      O sensor desenvolvido fará parte de uma Rede de Sensores Sem Fio (RSSF) distribuída pelas principais 
+                                      avenidas da cidade de João Pessoa-PB, onde será possível identificar rotas, horários e dias de semanas com 
+                                      os maiores índices de poluição. A tecnologia de comunicação sem fio adotada foi a LoRa, a qual foi avaliada 
+                                      em ambientes urbano e florestal. Neste trabalho, foi utilizado o sensor PPD42NS, que usa o método de 
+                                      espalhamento de luz para detecção de partículas, e os sensores da família MQ, que apresentam sensibilidade 
+                                      cruzada e formam um Nariz Eletrônico, capaz de detectar diversos gases com o auxílio de um algoritmo de 
+                                      reconhecimento de padrões. O sensor PPD42NS foi submetido a um processo de calibração a partir do 
+                                      equipamento de referência, HiVol 3000, para correção dos seus valores de medição. Além disso, 
+                                      considerando que um dos principais fatores no desenvolvimento de RSSF é o fornecimento limitado 
+                                      de energia para alimentar os nós sensores, este trabalho propõe uma redução no consumo de energia do 
+                                      sensor a partir da substituição de alguns dos seus componentes eletrônicos pelo processamento digital, 
+                                      calibrando a saída analógica a partir da saída digital. Os valores de correlação linear obtidos nos dois 
+                                      experimentos foram superiores a 0,9, indicando uma forte associação entre as variáveis. Com os sensores 
+                                      de gás da família MQ foram realizados experimentos para calibração em ar limpo e, em seguida, foram 
+                                      expostos a substâncias odorantes. Cada sensor reage de forma específica ao detectar odores, tornando 
+                                      possível a etapa de identificação dos gases através de reconhecimento de padrões. Os dados obtidos foram 
+                                      treinados, testados e validados via Rede Neural Artificial (RNA), em que foi possível identificar os 
+                                      diferentes padrões, diferenciando álcool, água e ar, com precisão acima de 98\% na saída da rede.}
+                                     {Objetivo geral: Desenvolver um sensor sem fio inteligente e de baixo custo para monitoramento distribuído de 
+                                     material particulado (M\textsubscript{2,5}) e gases poluentes (CH\textsubscript{4}, CO) no contexto de cidades inteligentes
+                                     Arquitetura: Nó sensor com microcontrolador Feather M0 RFM95 (rádio LoRa), sensor PPD42NS 
+                                     (M\textsubscript{2,5} por espalhamento de luz), sensores MQ-2, MQ-4, MQ-6, MQ-7, MQ-136, MQ-138 (gases),
+                                     sensor BME680 (temperatura, umidade, pressão). Alimentação híbrida (bateria + painel solar).
+                                     omunicação: LoRa (frequência 915 MHz, SF=12, BW=250 kHz, CR=4/5). Testes de alcance e PDR em ambiente urbano 
+                                     (até 4 km) e florestal (influência da vegetação).
+                                     Redução de consumo: Substituição da eletrônica analógica do PPD42NS (filtros e comparadores) 
+                                     por processamento digital (filtros IIR) no microcontrolador. Correlação linear > 0,9.
+                                     }
+
+\camposExtrasFormulario{
+                        hipoteses_avaliadas={H0 (nula): Não há correlação linear significativa entre as medições do sensor de baixo custo PPD42NS e o equipamento de referência HiVol 3000.
+                        H1: Existe correlação linear forte (coeficiente > 0,9) entre as medições do PPD42NS e do HiVol 3000 após calibração.
+                        H2: A substituição dos componentes eletrônicos analógicos do PPD42NS por processamento digital (filtros IIR) não degrada significativamente a acurácia das medições (correlação > 0,9).
+                        H3: Um conjunto de sensores MQ (sensibilidade cruzada) combinado com uma Rede Neural Artificial é capaz de classificar diferentes substâncias odorantes (álcool, água, ar) com acurácia superior a 95%.
+                        H4: O ambiente florestal (vegetação densa) reduz significativamente a taxa de entrega de pacotes (PDR) da comunicação LoRa em comparação com ambiente urbano, mesmo em curtas distâncias.},
+                        variaveis_independentes={Concentração de material particulado (M\textsubscript{2,5}) Concentração de gases poluentes (CH\textsubscript{4}, CO) Tipo de ambiente (urbano, florestal) Configurações do rádio LoRa (frequência, SF, BW, CR) Método de processamento dos dados do sensor (analógico vs digital)},
+                        participantes={Não houve participantes humanos, o estudo é baseado em dados coletados por sensores ambientais.},
+                        material={Sensor sem fio inteligente com microcontrolador Feather M0 RFM95, sensor PPD42NS para M\textsubscript{2,5}, sensores MQ para gases, sensor BME680 para temperatura/umidade/pressão, bateria e painel solar para alimentação.},
+                        variaveis_dependentes={Correlação linear entre o sensor desenvolvido e equipamentos de referência Precisão na diferenciação de padrões de gases Consumo de energia do sensor},
+                        resultados={Correlação linear > 0,9 para M\textsubscript{2,5} e gases. Precisão > 98\% na diferenciação de padrões. Redução significativa no consumo com processamento digital.},
+                        planejamento_estudo={Desenvolvimento do sensor sem fio inteligente → Calibração do PPD42NS com equipamento de referência → Testes em ambientes urbano e florestal → Implementação do processamento digital → Treinamento e validação da RNA para diferenciação de gases → Análise dos resultados.},
+                        ameacas_validade={A calibração do PPD42NS utilizou apenas 4 dias de medição (p. 54). Isso reduz o poder estatístico para detectar a verdadeira relação linear e aumenta o risco de overfitting da curva de calibração.},
+                        comentarios_adicionais={O estudo apresenta uma abordagem inovadora para o desenvolvimento de sensores ambientais de baixo custo, combinando técnicas de calibração, processamento digital e aprendizado de máquina. 
+                        A forte correlação com equipamentos de referência e a alta precisão na classificação de gases indicam o potencial do sensor para aplicações em monitoramento ambiental urbano. No entanto, a limitação na calibração do PPD42NS destaca a necessidade de estudos adicionais para validar a robustez da solução em diferentes condições ambientais.},
+                        referencias_relevantes={shinyei2010ppd42ns, epa1999filter, noble2001federal, austin2015laboratory, canu2018understanding, augustin2016study},
+                        }
+
+\formularioExtracaoDadosSomenteBibtex{4}{cunha2024}
+  {Anais do Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais (WCAMA)}
+  {Google Scholar}
+  {Air pollution harms human health and damages natural ecosystems, contributing to respiratory 
+    and cardiovascular diseases, as well as being a significant cause of climate change. 
+    In environments with high human traffic, such as university campuses, an architectural 
+    solution utilizing low-cost Internet of Things (IoT) devices can be helpful in 
+    identifying and classifying pollutants. This work presents an architecture for monitoring,
+    air pollutants and managing IoT devices and communication gateways. The FIWARE middleware was 
+    integrated into the proposed architecture through the development of an integration proxy to handle 
+    data processing and persistent storage. Furthermore, proof-of-concept tests were conducted, and the results 
+    are promising, indicating that the solution can capture a large volume of data even in closed environments.}%
+  {A poluição do ar prejudica a saúde humana e danifica os ecossistemas naturais, contribuindo para doenças respiratórias e 
+   cardiovasculares, além de ser uma causa importante das mudanças climáticas. Em ambientes com grande fluxo de pessoas, 
+   como os campus universitários, uma solução arquitetural que faz uso de dispositivos de Internet das Coisas (IoT) de baixo 
+   custo pode ser útil na identificação e classificação de poluentes. Neste trabalho, é apresentada uma arquitetura para 
+   monitoramento de poluentes atmosféricos e gerenciamento de dispositivos de IoT e gateways de comunicação. O middleware 
+   FIWARE foi integrado à arquitetura proposta por meio do desenvolvimento de um proxy de integração para lidar com o tratamento 
+   dos dados coletados e armazenamento persistente. Ademais, testes foram realizados como prova de conceito, e os resultados são promissores 
+   indicando que a solução consegue captar grande volume de dados mesmo em ambientes fechados.}%
+  {Arquitetura de três camadas: (1) sensores - ESP32 com LoRa, sensores MQ9 
+    (CO, CH\textsubscript{4}, C\textsubscript{4}H\textsubscript{8}), 
+    MQ131 (O\textsubscript{3}), MQ135 (CO, NH\textsubscript{3}, C\textsubscript{6}H\textsubscript{6}, fumaça, acetona, álcool) 
+    e DHT11 (temp./umidade); (2) gateway - Dragino DLOS8N com ChirpStack; (3) 
+    nuvem - proxy de integração + FIWARE (Orion, IoT-Agent, Cygnus, MongoDB) + 
+    IBM Cloud. Testes de prova de conceito em 5 locais do campus (2 laboratórios, 1 galpão, 2 corredores), 
+    2 dias por local, das 9h às 17h, envio a cada 2 minutos. Poluentes monitorados: CO, CO\textsubscript{2}, O\textsubscript{3}, 
+    CH\textsubscript{4}, acetona, além de temperatura, umidade e IQAr. 
+    Resultados mostram maiores emissões de CO/CO\textsubscript{2} no Laboratório 2 e Galpão, 
+    CH\textsubscript{4} >80 ppm nos laboratórios, acetona até 
+    60 ppm em corredor externo. O sistema captou grande volume de dados com sucesso.}
+
+\camposExtrasFormulario{
+  hipoteses_avaliadas={O artigo não apresenta hipóteses formais, sendo um estudo de prova de conceito. Inferencialmente:
+    H0: A arquitetura proposta com sensores de baixo custo, LoRaWAN e FIWARE não é capaz de capturar e armazenar dados de qualidade do ar de forma confiável em ambientes internos e externos de um campus universitário.
+    H1: A arquitetura proposta consegue coletar e transmitir dados de múltiplos poluentes atmosféricos em diferentes ambientes (internos e externos) com taxa de sucesso adequada para monitoramento ambiental.
+    H2: O uso do middleware FIWARE, integrado via proxy de integração, permite o gerenciamento eficiente e o armazenamento persistente dos dados provenientes dos sensores LoRaWAN.
+    H3: Existem diferenças significativas nos níveis de poluentes (CO, CO\textsubscript{2}, CH\textsubscript{4}, acetona) entre ambientes internos (laboratórios, galpão) e externos (corredores) no campus.},
+  variaveis_independentes={Local de medição (Laboratório 1, Laboratório 2, Galpão, Corredor 1, Corredor 2); Dia de coleta (Dia 1, Dia 2); Tipo de ambiente (interno vs. externo); Sensores utilizados (MQ9, MQ131, MQ135, DHT11); Tecnologia de comunicação (LoRaWAN); Middleware (FIWARE com proxy próprio).},
+  participantes={Não houve participantes humanos. O estudo envolveu apenas dispositivos IoT (sensores, microcontrolador ESP32, gateway Dragino DLOS8N) e infraestrutura de nuvem.},
+  material={Sensores: MQ9 (CO, CH\textsubscript{4}, C\textsubscript{3}H\textsubscript{8}), MQ131 (O\textsubscript{3}), MQ135 (CO, NH\textsubscript{3}, C\textsubscript{6}H\textsubscript{6}, fumaça, acetona, álcool), DHT11 (temperatura, umidade); Microcontrolador: ESP32-D0WDQ6 (4MB Flash, LoRa 863-928 MHz); Gateway: Dragino DLOS8N (400MHz ar9331, 64MB RAM, 16MB Flash); Software: ChirpStack, NodeRed, FIWARE (Orion, IoT-Agent, Cygnus, MongoDB), proxy de integração próprio; Nuvem: IBM Cloud (VM Debian 20.04, 4GB RAM, 500GB disco); Fonte: Powerbank 10500 mAh.},
+  variaveis_dependentes={Concentrações de poluentes (CO, CO\textsubscript{2}, O\textsubscript{3}, CH\textsubscript{4}, acetona); Temperatura; Umidade; Índice de Qualidade do Ar (IQAr).},
+  resultados={Maiores concentrações de CO e CO\textsubscript{2} no Laboratório 2 e Galpão; O\textsubscript{3} com baixas emissões (máximo 10 $\mu$g/m\textsuperscript{3}); CH\textsubscript{4} ultrapassou 80 ppm nos laboratórios; acetona atingiu 60 ppm no Corredor 2 (área externa). O sistema capturou grande volume de dados com sucesso, demonstrando viabilidade da arquitetura. Observaram-se outliers no galpão (CO\textsubscript{2} até 220 ppm).},
+  planejamento_estudo={Estudo de prova de conceito. Coleta realizada em 5 locais do campus da UNIFESSPA (2 laboratórios internos, 1 galpão interno, 2 corredores externos). Cada local monitorado por 2 dias, no horário das 9h às 17h, com envio de dados a cada 2 minutos. Poluentes monitorados: CO, CO\textsubscript{2}, O\textsubscript{3}, CH\textsubscript{4}, acetona, temperatura, umidade. Dados armazenados via proxy → FIWARE → MongoDB. Análise descritiva com gráficos boxplot.},
+  ameacas_validade={Validade interna: curta duração (2 dias/local), ausência de calibração dos sensores de baixo custo contra equipamentos de referência, possíveis outliers sem investigação, falta de controle de atividades nos laboratórios. Validade externa: testes restritos a um único campus (UNIFESSPA), configuração específica de hardware/software, não generalizável sem revalidação. Validade de constructo: sensores MQ com sensibilidade cruzada (ex.: MQ135 detecta múltiplos gases), IQAr calculado sem detalhamento da fórmula. Validade estatística: amostra pequena (8h/dia por 2 dias), ausência de testes de significância (ANOVA, teste t), apenas gráficos descritivos.},
+  comentarios_adicionais={A principal contribuição é a integração inédita de FIWARE com LoRaWAN para monitoramento de qualidade do ar em campus brasileiro. O proxy de integração desenvolvido permite o tratamento dos dados e armazenamento persistente. A arquitetura é promissora, mas necessita de calibração dos sensores, validação estatística mais robusta e avaliação de escalabilidade/consumo energético. A coleta de apenas 2 dias por local é uma limitação importante. Trabalhos futuros sugerem adicionar inteligência artificial para classificação de padrões e previsão de cenários.},
+  referencias_relevantes={cirillo2019fiware, jabbar2022lorawan, kortoci2022air, naik2023iot, jouhari2023survey}
+}
+
+\formularioExtracaoDadosSomenteBibtex{5}
+                                     {wcama}
+                                     {Anais do Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais (WCAMA)}
+                                     {Google Scholar}
+                                     {Air pollution, driven by urban, industrial, and agricultural growth, has negatively 
+                                      impacted human health, biodiversity, and the environment, demanding effective monitoring solutions.   
+                                      Faced with this challenge, this work proposes an intelligent solution, 
+                                      called IQArMobi, which combines machine learning algorithms and distance 
+                                      calculation to classify the Air Quality Index (AQI) based on IoT sensor data, 
+                                      providing accurate and personalized information to users. As the main result, 
+                                      the Logistic Regression algorithm stood out as the best classifier, with 99\% 
+                                      accuracy, followed by Random Forest (96\%), validating the effectiveness of this 
+                                      solution in real-time decision-making.}%
+                                     {A poluição atmosférica, impulsionada pelo crescimento urbano, industrial e agrícola, 
+                                      tem impactado negativamente a saúde humana, a biodiversidade e o meio ambiente, 
+                                      exigindo soluções eficazes de monitoramento. Diante desse desafio, este trabalho 
+                                      propõe uma solução inteligente, denominada IQArMobi, que combina algoritmos de aprendizado de 
+                                      máquina e cálculo de distância para classificar o Índice de Qualidade do Ar (IQAr) com base em 
+                                      dados de sensores IoT, fornecendo informações precisas e personalizadas aos usuários. 
+                                      Como principal resultado, o algoritmo Logistic Regression destacou-se como o melhor classificador, 
+                                      com 99\% de acurácia, seguido pelo Random Forest (96\%), validando a eficácia desta solução 
+                                      na tomada de decisões em tempo real.}
+                                     {Arquitetura baseada em IoT (ESP32 com 
+                                      LoRa, sensores de O\textsubscript{3}, CO, CH\textsubscript{4}, C\textsubscript{3}H\textsubscript{8}, NH\textsubscript{3}, CO\textsubscript{2}, C\textsubscript{6}H\textsubscript{6}, 
+                                      NO, fumaça, álcool, temperatura, umidade), gateway 
+                                      Dragino DLOS8N, middleware FIWARE. Banco de dados com 
+                                      8.549 amostras (6.151 bom, 2.398 péssimo). 
+                                      Pré-processamento: remoção de atributos, 
+                                      imputação de missing values (média), 
+                                      oversampling para balanceamento (12.302 amostras). 
+                                      Avaliação de quatro algoritmos 
+                                      (Random Forest, Gradient Boosting, SVM, Logistic Regression) 
+                                      com 70/30 split, 30 repetições de 5-fold cross-validation. 
+                                      Melhor resultado: Logistic Regression com 99\% de acurácia. 
+                                      Testes de mobilidade (1,2 m/s) em dois cenários (entrada/saída de galpão/laboratório/corredor) 
+                                      com algoritmo haversine para selecionar sensor mais próximo.}
+
+\camposExtrasFormulario{
+  hipoteses_avaliadas={O artigo não apresenta hipóteses formais. Inferencialmente:
+    H0: Os algoritmos de classificação de aprendizado de máquina (Random Forest, Gradient Boosting, SVM, Logistic Regression) não são capazes de classificar o IQAr com acurácia superior a 90\% a partir dos dados de sensores IoT.
+    H1: O algoritmo Logistic Regression atinge acurácia superior a 98\% na classificação do IQAr (bom vs. péssimo) com dados balanceados.
+    H2: A inclusão do cálculo de distância (haversine) permite ao sistema selecionar o sensor mais próximo do usuário, fornecendo informações personalizadas e relevantes em tempo real.
+    H3: O sistema IQArMobi é capaz de operar eficazmente tanto em ambientes internos quanto externos, com transição suave entre sensores durante a mobilidade do usuário.},
+  variaveis_independentes={Local de medição (galpão, laboratório de engenharia química, corredor do bloco 2); Tipo de ambiente (interno vs. externo); Algoritmo de classificação (Random Forest, Gradient Boosting, SVM, Logistic Regression); Condição de balanceamento dos dados (desbalanceado vs. balanceado por oversampling); Poluente monitorado (CO, LGP, CH\textsubscript{4}); Cenário de mobilidade (entrando no galpão/laboratório vs. saindo para o corredor).},
+  participantes={Não houve participantes humanos como sujeitos de pesquisa. Apenas um operador para os testes de mobilidade (caminhada a 1,2 m/s), sem coleta de dados sobre o usuário.},
+  material={Microcontrolador ESP32 com LoRa; Sensores: O\textsubscript{3}, CO, CH\textsubscript{4}, C\textsubscript{3}H\textsubscript{8}, NH\textsubscript{3}, CO\textsubscript{2}, C\textsubscript{6}H\textsubscript{6}, NO, fumaça, álcool, temperatura e umidade; Gateway Dragino DLOS8N; Software: ChirpStack, FIWARE (Orion, IoT-Agent, Cygnus, MongoDB); Banco de dados NoSQL com 8.549 amostras; Dispositivo móvel para execução do IQArMobi.},
+  variaveis_dependentes={Acurácia, precisão, recall e F1-score dos classificadores; Distância calculada (em metros) entre dispositivo móvel e sensores; Níveis de captação dos gases (ppm) em função do tempo e da distância.},
+  resultados={Sem balanceamento: Logistic Regression e Random Forest com 99\% de acurácia. Com balanceamento (oversampling): Logistic Regression manteve 99\% de acurácia, F1-score 0,9903 e recall 0,9976; Gradient Boosting atingiu 95,97\% de acurácia. Testes de mobilidade: algoritmo de distância (haversine) selecionou corretamente o sensor mais próximo (galpão, laboratório, corredor), exibindo níveis de CO, LGP e CH\textsubscript{4} em ppm.},
+  planejamento_estudo={Coleta de dados de poluentes → Armazenamento no banco NoSQL com rotulagem do IQAr → Pré-processamento (remoção de atributos, imputação de missing values, oversampling) → Divisão 70/30 → Validação cruzada 5-fold repetida 30 vezes → Treinamento e avaliação de quatro algoritmos (RF, GBC, SVM, LR) → Testes de mobilidade em dois cenários com cálculo de distância haversine.},
+  ameacas_validade={Interna: banco de dados original desbalanceado (classe "bom" muito maior); oversampling pode introduzir viés; sensores não calibrados; IQAr reduzido a apenas duas classes (bom/péssimo). Externa: testes restritos a um único campus (UNIFESSPA); configuração específica de hardware/software. De constructo: IQAr simplificado, cálculo não detalhado. Estatística: amostra relativamente pequena (8.549 registros), métricas muito altas (99\%) podem indicar overfitting ou dados muito separáveis.},
+  comentarios_adicionais={O IQArMobi integra classificação por machine learning com consciência de localização (distância haversine) em um sistema IoT/FIWARE. A acurácia de 99\% da Regressão Logística é excelente, mas deve ser interpretada com cautela devido ao desbalanceamento original e à simplificação do IQAr. A abordagem de mobilidade é inovadora e relevante para cidades inteligentes. Trabalhos futuros sugerem inclusão de dados de saúde humana e deep learning para personalização.},
+  referencias_relevantes={imam2024air,kumar2017 serdaroglu2023location, mottahedin2024air, schurholz2020artificial, rastogi2022context}
+}
+
+\formularioExtracaoDadosSomenteBibtex{6}
+                                     {rodrigues2024tinyml}
+                                     {Instituto de Computação, Universidade Federal de Alagoas}
+                                     {Google Scholar}{Continuous air quality monitoring, especially in the mining sector, is essential to ensure that pollutant levels remain within regulatory standards. Traditional solutions for this monitoring face technical and economic limitations. In this context, Machine Learning (ML) techniques applied to embedded systems (TinyML) offer a promising alternative for forecasting and analyzing atmospheric pollutants. This work aims to develop a low-cost system with limited computational resources for continuous air quality monitoring that uses artificial intelligence (AI) techniques to predict chlorine concentration in the air based on easily accessible input variables: potassium and sodium. The AI model was trained, optimized, and embedded in an ESP32-S3 microcontroller. Model quantization reduced the model size without compromising accuracy, ensuring processing feasibility on resource-limited devices, with an average inference process time of approximately 49.01 $\mu$s. Regarding chlorine prediction accuracy, the model presented a mean squared error of 3.96, a mean absolute error of 1.14, and a determination coefficient of 0.95, demonstrating high efficiency and confirming the viability of the proposed system.}%
+  {O monitoramento contínuo da qualidade do ar, especialmente no setor de mineração, é essencial para garantir que os níveis de poluentes permaneçam dentro dos padrões regulatórios. Soluções tradicionais para esse monitoramento enfrentam limitações técnicas e econômicas. Nesse contexto, técnicas de Aprendizado de Máquina aplicadas a sistemas embarcados (TinyML) oferecem uma alternativa promissora para previsão e análise de poluentes atmosféricos. Este trabalho visa desenvolver um sistema de baixo custo com recursos computacionais limitados para monitoramento contínuo da qualidade do ar que utiliza técnicas de inteligência artificial para prever a concentração de cloro no ar com base em variáveis de entrada facilmente acessíveis: potássio e sódio. O modelo de IA foi treinado, otimizado e embarcado em um microcontrolador ESP32-S3. A quantização do modelo reduziu seu tamanho sem comprometer a acurácia, garantindo viabilidade de processamento em dispositivos com recursos limitados, com tempo médio de inferência de aproximadamente 49,01 $\mu$s. Em relação à precisão da predição de cloro, o modelo apresentou erro quadrático médio de 3,96, erro absoluto médio de 1,14 e coeficiente de determinação de 0,95, demonstrando alta eficiência e confirmando a viabilidade do sistema proposto.}%
+  {Desenvolvimento de sensor virtual usando TinyML para prever concentração de cloro (Cl) a partir de medições de sódio (Na) e potássio (K). Base de dados com 198 registros. Modelo MLP (Multi-Layer Perceptron) com uma camada oculta de 7 neurônios, função ReLU na oculta e linear na saída. Treinamento com 70\% dos dados (20\% validação), 30\% teste, 100 épocas, batch size 10, otimizador Adam. Pré-processamento: transformação logarítmica + padronização (StandardScaler). Quantização pós-treinamento (float32, float16, faixa dinâmica, inteiro completo, apenas pesos). Modelo convertido para TensorFlow Lite e embarcado no ESP32-S3. Avaliação: MSE, RMSE, MAE, R², MedAE, MAPE, consumo de corrente, tempo de inferência. Modelo final no microcontrolador: MSE=3,96, MAE=1,14, R²=0,95, tempo de inferência médio 49,01 $\mu$s.}
+
+\camposExtrasFormulario{
+  hipoteses_avaliadas={O TCC não apresenta hipóteses formais. Inferencialmente:
+    H0: Não é possível prever a concentração de cloro (Cl) a partir das concentrações de sódio (Na) e potássio (K) com erro aceitável usando um modelo MLP.
+    H1: É possível prever a concentração de cloro com alta acurácia (R² > 0,9) a partir de Na e K.
+    H2: A quantização pós-treinamento reduz o tamanho do modelo em pelo menos 90\% sem perda significativa de precisão (R² permanece > 0,95).
+    H3: O modelo quantizado embarcado no ESP32-S3 tem tempo de inferência suficientemente baixo (microssegundos) para permitir monitoramento contínuo em tempo real.},
+  variaveis_independentes={Concentração de sódio (Na) medida (entrada do modelo); Concentração de potássio (K) medida (entrada do modelo); Técnica de quantização aplicada (float32, float16, faixa dinâmica, inteiro completo, apenas pesos); Ambiente de execução (Python em PC vs. microcontrolador ESP32-S3); Hiperparâmetros do modelo (número de neurônios na camada oculta, batch size, épocas).},
+  participantes={Não houve participantes humanos. Os dados utilizados são provenientes de uma base proprietária de medições laboratoriais (198 registros), sem coleta direta de sensores em campo.},
+  material={Microcontrolador ESP32-S3 (Xtensa Dual-Core 32-bit LX7, 16MB Flash, 8MB PSRAM, 512KB SRAM, 240MHz); Fonte de alimentação 3,0–3,6V; Notebook Acer (16GB RAM, Intel Core i5-1135G7); Software: Python 3.10.12, TensorFlow 2.9.1, scikit-learn 1.0.2, TensorFlow Lite Micro, Visual Studio Code, Espressif IDF v5.3, GCC/G++ 11.4.0; Base de dados proprietária com 198 amostras (sódio, potássio, cloro).},
+  variaveis_dependentes={Tamanho do modelo após quantização (em kB); Métricas de erro: MSE, RMSE, MAE, MedAE, MAPE; Coeficiente de determinação (R\textsuperscript{2}); Tempo de inferência (µs); Consumo de corrente (mA) e energia (Joules) no microcontrolador.},
+  resultados={Redução de tamanho do modelo original (26,50 kB) para ~1,67 kB nos modelos otimizados (redução de 93,69\%). Modelos float32, float16, faixa dinâmica e apenas pesos mantiveram precisão equivalente ao original (R² $\approx$ 0,9678). Modelo "inteiro completo" falhou (R² negativo). No microcontrolador: MSE=3,96, RMSE=1,99, MAE=1,14, R²=0,9549, MAPE=6,98\%, MedAE=0,685. Tempo médio de inferência: 49,01 µs. Consumo médio de corrente: 43,77 mA; autonomia estimada com bateria 1000mAh: ~22,9 horas.},
+  planejamento_estudo={Coleta de dados da base proprietária → Pré-processamento (transformação logarítmica + padronização) → Divisão treino/validação/teste (70/20/30) → Construção do modelo MLP (camada oculta com 7 neurônios, ReLU, saída linear) → Treinamento (100 épocas, batch=10, Adam) → Quantização pós-treinamento (5 técnicas) → Conversão para TensorFlow Lite → Geração de código C++ com TensorFlow Lite Micro → Compilação e upload para ESP32-S3 → Testes de inferência com dados de teste → Medição de métricas de erro, tempo de inferência e consumo de corrente → Comparação entre metodologia usual e proposta.},
+  ameacas_validade={Validade interna: base de dados pequena (198 registros), ausência de validação cruzada sistemática, dados não coletados em tempo real (base estática), possível overfitting do modelo (métricas muito altas). Validade externa: testes realizados apenas com dados de laboratório, não em ambiente industrial real; hardware específico (ESP32-S3) pode não ser representativo de outros microcontroladores; sensores físicos não foram implementados. Validade de constructo: a correlação entre Na/K e Cl observada na base pode não se sustentar em condições ambientais variadas (umidade, temperatura, outros interferentes). Validade estatística: amostra pequena (198 registros) limita o poder estatístico; métricas muito elevadas (R²=0,99) podem indicar dados muito triviais ou superajuste.},
+  comentarios_adicionais={O TCC apresenta uma abordagem inovadora e bem-sucedida de TinyML para monitoramento da qualidade do ar, com redução drástica do tamanho do modelo (93,7\%) mantendo alta precisão (R² > 0,95). O tempo de inferência extremamente baixo (49 µs) demonstra viabilidade para aplicações em tempo real. A comparação sistemática entre cinco técnicas de quantização é um diferencial. Principais limitações: uso de base de dados simulada (não coletada por sensores reais), ausência de validação em campo, e não implementação dos sensores físicos de sódio e potássio. O trabalho também não avaliou o impacto de variações ambientais (temperatura, umidade) nas medições. As referências são atualizadas e relevantes (incluindo Warden, Situnayake, David et al., Banbury et al.). O estudo fornece uma base sólida para futura integração com sensores reais e desenvolvimento de dashboard de monitoramento.},
+  referencias_relevantes={abadi2015tensorflow, banbury2021mlperf, benvenuto2022materials, bishop1994neural, carvalho2007redes, cholet2015keras, david2021tensorflow, iodice2022tinyml, kotz2018chemistry, mcculloch1943logical, raschka2015python, sarker2021machine, warden2020tinyml, yang2019quantization, zannetti1990air}
+}
+
+  \newpage
+
 \newpage
 \section*{ANÁLISE DOS RESULTADOS}
 
 \noindent Agrupamento, comparação e discussão crítica dos trabalhos relacionados
 
-\vspace{0.3cm}
-\noindent - Tabulação de resultados (Dados quantitativos)
+A seguir, é apresentada uma análise integrada dos seis trabalhos técnico-científicos analisados, todos voltados ao monitoramento da qualidade do ar usando IoT, aprendizado de máquina e sistemas embarcados. Os estudos foram agrupados por abordagem e escopo para facilitar a comparação crítica.
 
-\vspace{0.3cm}
-\noindent \hspace{1cm} - \textbf{O que já foi publicado?}
+\subsection*{1. Tabulação de resultados (Dados quantitativos)}
 
-\vspace{0.3cm}
-\noindent \hspace{1cm} - \textbf{Quais as teorias utilizadas por estudo?}
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabularx}{\textwidth}{|p{2.2cm}|p{2.2cm}|p{1.8cm}|p{2.5cm}|X|}
+\hline
+\textbf{Trabalho} & \textbf{Tecnologias} & \textbf{Poluentes} & \textbf{Métricas} & \textbf{Resultados quantitativos} \\
+\hline
+FreeRTOS em Smart Campus (Silva et al., 2024) & ESP32-LoRa, FreeRTOS, MQ131/MQ135, LoRaWAN & CO, CO\textsubscript{2}, O\textsubscript{3}, NH\textsubscript{3}, CH\textsubscript{4} & Throughput TX/RX, intervalo de transmissão, taxa de sucesso & Com RTOS: TX=178,23; RX=164,18; intervalo=5,03s; sucesso=88,7\%. Sem RTOS: TX=110,97; RX=99,41; intervalo~8s; sucesso=83,3\%. Ganho de 37,5\% no intervalo. \\
+\hline
+RuraLTHINGS (Ladeira, 2025) & ESP32-LoRa, FIWARE, LSTM/Bi-LSTM, ARIMA, FCM & Radão, CO, CO\textsubscript{2}, temperatura, humidade & MSE, MAE, RMSE, R\textsuperscript{2}, sMAPE, tempo de inferência & Melhor modelo (Bi-LSTM+LSTM): R\textsuperscript{2}=0,95; MAE=1,14; MSE=3,96. Inferência média=49µs (no ESP32). \\
+\hline
+Sensor PPD42NS (Villarim, 2020) & ESP32 LoRa, PPD42NS, MQ, RNA, LoRa & MP\textsubscript{2,5}, CO, CH\textsubscript{4}, GLP, H\textsubscript{2}S, VOC & Correlação linear, PDR, RSSI, acurácia & Calibração PPD42NS: R\textsuperscript{2}=0,967. RNA para gases: acurácia=100\% (álcool/água/ar). LoRa em urbano: PDR>95\% a 4km; em floresta: perda total. \\
+\hline
+FIWARE no Campus (Cunha et al., 2024) & ESP32-LoRa, FIWARE, MQ9/MQ131/MQ135/DHT11 & CO, CO\textsubscript{2}, O\textsubscript{3}, CH\textsubscript{4}, acetona & Concentrações (ppm), IQAr & CO: até 25 ppm (galpão). CO\textsubscript{2}: até 220 ppm. CH\textsubscript{4}: >80 ppm (laboratórios). Acetona: até 60 ppm. O\textsubscript{3}: baixo (10 µg/m\textsuperscript{3}). \\
+\hline
+IQArMobi (Thaylor et al., 2025) & ESP32-LoRa, FIWARE, ML (LR, RF, SVM, GBC), haversine & CO, CO\textsubscript{2}, CH\textsubscript{4}, O\textsubscript{3}, NH\textsubscript{3}, etc. & Acurácia, precisão, recall, F1 & Logistic Regression: acurácia=99\%, F1=0,99. Random Forest: 96\%. SVM e GBC inferiores. \\
+\hline
+TinyML para cloro (Rodrigues, 2024) & ESP32-S3, TensorFlow Lite, MLP & Na, K (entrada), Cl (saída) & MSE, RMSE, MAE, R\textsuperscript{2}, tempo inferência, tamanho modelo & Modelo final: MSE=3,96; MAE=1,14; R\textsuperscript{2}=0,95; inferência=49µs; redução de tamanho=93,7\% (26,5kB → 1,67kB). \\
+\hline
+\end{tabularx}
+\end{table}
 
-\vspace{0.3cm}
-\noindent \hspace{1cm} - \textbf{O que é conhecido até recentemente sobre o tema?}
+\subsection*{2. O que já foi publicado?}
 
-\vspace{0.3cm}
-\noindent - \textbf{Indicadores/Métricas/Critérios e seus valores}
+Os trabalhos abrangem desde 2020 até 2025, com foco crescente em:
 
-\vspace{0.3cm}
-\noindent - \textbf{Comparações críticas}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Comunicação de longo alcance e baixo consumo (LoRa/LoRaWAN):} presente em 5 dos 6 estudos.
+  \item \textbf{Middleware para interoperabilidade (FIWARE):} destaque nos trabalhos do grupo da UNIFESSPA (Cunha et al., Thaylor et al.).
+  \item \textbf{Aprendizado de máquina embarcado (TinyML):} apenas Rodrigues (2024) explora a predição em microcontrolador com quantização.
+  \item \textbf{Sistemas operacionais de tempo real (RTOS):} Silva et al. (2024) é o único a avaliar FreeRTOS no nó sensor.
+  \item \textbf{Nariz eletrônico e sensores de baixo custo:} Villarim (2020) e Ladeira (2025) utilizam sensores MQ e PPD42NS.
+\end{itemize}
 
-\vspace{0.3cm}
-\noindent - \textbf{Lacunas existentes}
+\subsection*{3. Quais as teorias utilizadas por estudo?}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|p{3.5cm}|X|}
+\hline
+\textbf{Trabalho} & \textbf{Teorias / Abordagens} \\
+\hline
+Silva et al.\ 2024 & Sistemas de tempo real (RTOS) – escalonamento preemptivo, tarefas concorrentes, redução de latência. \\
+\hline
+Ladeira 2025 & Previsão de séries temporais (ARIMA, LSTM, Bi-LSTM); Redes neurais recorrentes; Sistemas de apoio à decisão. \\
+\hline
+Villarim 2020 & Espalhamento de luz (Teoria de Mie) para MP; Sensibilidade cruzada e nariz eletrônico; Redes neurais artificiais para classificação. \\
+\hline
+Cunha et al.\ 2024 & Arquitetura IoT em camadas; Middleware FIWARE (Orion, Cygnus); LoRaWAN (ChirpStack). \\
+\hline
+Thaylor et al.\ 2025 & Aprendizado de máquina supervisionado (classificação); Algoritmo haversine para cálculo de distância; Consciência de localização. \\
+\hline
+Rodrigues 2024 & TinyML (modelos leves para embarcados); Quantização pós-treinamento; MLP para regressão. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection*{4. O que é conhecido até recentemente sobre o tema?}
+
+\begin{itemize}[leftmargin=*]
+  \item Monitoramento de qualidade do ar em ambientes urbanos e industriais é viável com sensores de baixo custo (PPD42NS, MQ), desde que calibrados contra equipamentos de referência (ex.: HiVol 3000).
+  \item LoRa/LoRaWAN permite comunicação de longo alcance (4–15 km) com baixo consumo, mas sofre forte interferência de vegetação densa (perda de pacotes mesmo a curtas distâncias).
+  \item Sistemas de tempo real (RTOS) melhoram significativamente a eficiência de transmissão e reduzem latência em nós sensores IoT.
+  \item Aprendizado de máquina é eficaz para classificar a qualidade do ar (99\% de acurácia com regressão logística) e para prever concentrações de poluentes (R\textsuperscript{2} > 0,95 com LSTM).
+  \item TinyML permite inferência em microcontroladores com consumo de energia muito baixo (dezenas de µs, mA) e redução drástica de modelo (até 94\%), viabilizando monitoramento em tempo real sem nuvem.
+\end{itemize}
+
+\subsection*{5. Indicadores / Métricas / Critérios e seus valores}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|p{3.5cm}|p{4cm}|X|}
+\hline
+\textbf{Indicador} & \textbf{Trabalhos que utilizam} & \textbf{Valores observados} \\
+\hline
+Throughput (TX/RX) & Silva et al.\ 2024 & TX: 110–178; RX: 99–164 \\
+\hline
+Intervalo de transmissão & Silva et al.\ 2024 & 5s (com RTOS) vs 8s (sem) \\
+\hline
+Taxa de sucesso (PDR) & Silva et al.\ 2024, Villarim 2020 & 83–89\% (urbano); >95\% a 4km; perda total em floresta \\
+\hline
+Acurácia de classificação & Villarim 2020, Thaylor et al.\ 2025 & 99–100\% \\
+\hline
+Erro médio (MAE/MSE) & Ladeira 2025, Rodrigues 2024 & MAE=1,14; MSE=3,96 \\
+\hline
+Coeficiente de determinação (R\textsuperscript{2}) & Ladeira 2025, Rodrigues 2024 & 0,95–0,97 \\
+\hline
+Tempo de inferência & Ladeira 2025, Rodrigues 2024 & 49 µs (ESP32) \\
+\hline
+Redução de tamanho de modelo & Rodrigues 2024 & 93,7\% \\
+\hline
+Correlação linear & Villarim 2020 & R\textsuperscript{2}=0,967 (PPD42NS vs HiVol) \\
+\hline
+Consumo de corrente & Rodrigues 2024 & Média 43,8 mA; pico 49,8 mA \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection*{6. Comparações críticas}
+
+\subsubsection*{6.1. Abordagens de comunicação}
+
+LoRa/LoRaWAN é unânime, mas os testes de Villarim (2020) mostram limitação severa em ambiente florestal (perda total), enquanto Silva et al.\ (2024) e Thaylor et al.\ (2025) operam em campus com obstáculos urbanos e obtêm sucesso.
+
+Nenhum trabalho comparou LoRa com outras LPWAN (NB-IoT, Sigfox) no mesmo cenário.
+
+\subsubsection*{6.2. Modelagem e inteligência artificial}
+
+Classificação vs.\ regressão: Thaylor et al.\ (2025) usam classificação binária (bom/péssimo) com alta acurácia (99\%), mas perdem granularidade. Ladeira (2025) e Rodrigues (2024) fazem regressão contínua, mais útil para monitoramento quantitativo.
+
+Modelos estatísticos vs.\ redes neurais: Ladeira (2025) mostra que ARIMA tem desempenho inferior a LSTM. Rodrigues (2024) confirma MLP simples com quantização já atinge R\textsuperscript{2}=0,95.
+
+TinyML: Apenas Rodrigues (2024) implementa inferência no microcontrolador, demonstrando viabilidade real. Os demais modelos são executados na nuvem ou em PC, limitando aplicações offline.
+
+\subsubsection*{6.3. Middleware e arquitetura}
+
+FIWARE é utilizado por Cunha et al.\ (2024) e Thaylor et al.\ (2025) para gerenciamento de contexto e persistência. É uma solução madura, mas complexa para pequenos projetos.
+
+Sem middleware: Silva et al.\ (2024) e Villarim (2020) usam comunicação direta com gateway e nuvem proprietária, mais simples porém menos padronizada.
+
+\subsubsection*{6.4. Calibração e validação metrológica}
+
+Apenas Villarim (2020) e Rodrigues (2024) realizam calibração com equipamento de referência (HiVol 3000) ou validação cruzada sistemática. Os demais trabalhos não apresentam comparação com padrões oficiais, fragilizando a confiabilidade dos dados.
+
+\subsubsection*{6.5. Consumo energético}
+
+Rodrigues (2024) é o único a medir corrente e estimar autonomia (~22h com bateria 1000mAh). Silva et al.\ (2024) mencionam redução de consumo via RTOS mas não quantificam. Essa lacuna é crítica para aplicações de campo.
+
+\subsection*{7. Lacunas existentes}
+
+Com base na análise crítica, as principais lacunas ainda não supridas pela literatura (incluindo os trabalhos analisados) são:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{|p{3.5cm}|X|}
+\hline
+\textbf{Lacuna} & \textbf{Descrição} \\
+\hline
+Integração completa & Nenhum trabalho une coleta por sensores físicos de baixo custo + comunicação LoRa + TinyML + middleware + dashboard em um único sistema validado em campo. \\
+\hline
+Calibração de sensores MQ em campo & Os sensores MQ (sensibilidade cruzada) raramente são calibrados com misturas gasosas reais; a maioria usa apenas ar limpo ou substâncias simples (álcool, água). \\
+\hline
+Validação em ambientes industriais reais & Apenas Rodrigues (2024) menciona mineração, mas não testa in loco. Os demais focam campus universitário ou laboratório. \\
+\hline
+Escalabilidade da rede LoRa & Testes usam poucos nós (1-5). Não há avaliação de colisões, perdas em rede densa ou mecanismos de retransmissão. \\
+\hline
+Consumo energético detalhado & Ausência de medição de corrente por modo (sleep, sensor ativo, transmissão, inferência). Impacto da quantização no consumo não foi medido. \\
+\hline
+Explicabilidade dos modelos & Nenhum trabalho analisa a importância das features ou fornece interpretabilidade (SHAP, LIME). \\
+\hline
+Comparação entre técnicas de quantização & Rodrigues (2024) compara cinco técnicas, mas não mede o impacto no consumo de energia, apenas tamanho e precisão. \\
+\hline
+Monitoramento de múltiplos poluentes em tempo real com TinyML & Os modelos atuais preveem apenas um poluente (cloro, radão) ou classificam AQI binário. Falta um modelo multitarefa embarcado. \\
+\hline
+Uso de RTOS com TinyML & Silva et al.\ (2024) mostram ganhos do FreeRTOS para transmissão, mas não para inferência. Nenhum trabalho combina RTOS e TinyML no mesmo nó. \\
+\hline
+Disponibilidade de datasets públicos & A maioria usa dados próprios não compartilhados, dificultando reprodutibilidade e comparação. \\
+\hline
+\end{tabularx}
+\end{table}
+
+\subsection*{8. Conclusão da análise}
+
+Os trabalhos analisados demonstram avanços significativos no monitoramento da qualidade do ar usando IoT e IA, mas ainda são fragmentados. Há uma clara evolução desde sensores isolados (Villarim, 2020) até arquiteturas completas com middleware (Cunha et al., 2024) e classificação inteligente (Thaylor et al., 2025). O TinyML (Rodrigues, 2024) abre caminho para processamento local com baixíssimo consumo, porém ainda não foi integrado com os demais componentes (RTOS, LoRaWAN, FIWARE) em um sistema unificado. As lacunas apontadas indicam oportunidades para pesquisas futuras, especialmente na validação em campo, calibração metrológica e eficiência energética.
 
 \newpage
-\FloatBarrier
 
 \nocite{silva2025airpure,
-        rodrigues2024tinyml,
-        ladeira2024mliot, 
-        Aserkar2024,
-        villarim2020sensor,
-        rodrigues2020aplicativo,
-        franciscomonitoramento,
-        cunha2024,
-        alves2025freertos,
-        wcama}
-\bibliographystyle{abntex2-alf}
-\bibliography{Referencias/referencias}
+  rodrigues2024tinyml,
+  ladeira2024mliot,
+  Aserkar2024,
+  villarim2020sensor,
+  rodrigues2020aplicativo,
+  franciscomonitoramento,
+  cunha2024,
+  alves2025freertos,
+  wcama}
+\printbibliography
 
 \end{document}
