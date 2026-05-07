@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.2)  3 APR 2026 08:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.2)  21 APR 2026 09:06
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -328,26 +328,68 @@ Overfull \hbox (13.94131pt too wide) in paragraph at lines 161--161
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[3] [4] [5]
-No file Procotolo_deRevisao.bbl.
-[6] (Procotolo_deRevisao.aux)
- ***********
-LaTeX2e <2025-11-01>
-L3 programming layer <2026-01-19>
- ***********
- ) 
-Here is how much of TeX's memory you used:
- 2746 strings out of 467866
- 45283 string characters out of 5417346
- 463432 words of memory out of 5000000
- 31620 multiletter control sequences out of 15000+600000
- 636076 words of font info for 58 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 57i,10n,65p,322b,271s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcbx1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on Procotolo_deRevisao.pdf (6 pages, 114071 bytes).
-PDF statistics:
- 293 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+[3] [4] [5] (Procotolo_deRevisao.bbl
+Underfull \hbox (badness 1888) in paragraph at lines 10--13
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
 
+
+Underfull \hbox (badness 1888) in paragraph at lines 45--48
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
+
+
+Underfull \hbox (badness 1888) in paragraph at lines 54--57
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
+
+
+Underfull \hbox (badness 1888) in paragraph at lines 63--66
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
+
+
+Underfull \hbox (badness 1888) in paragraph at lines 72--75
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
+
+
+Underfull \hbox (badness 1888) in paragraph at lines 81--84
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
+
+[6]
+Underfull \hbox (badness 1888) in paragraph at lines 90--93
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
+
+
+Underfull \hbox (badness 1888) in paragraph at lines 99--102
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
+
+
+Underfull \hbox (badness 1888) in paragraph at lines 108--111
+[]\T1/cmr/m/n/12 Mudança de es-tilo após este ponto com o co-mando 
+ []
+
+[7]
+Procotolo_deRevisao.bbl:160: Undefined control sequence.
+l.160   \htmladdnormallink
+                          {$<$https:\-/\-/freertos\-.org\-/Documentation\-/0...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+ 
+Here is how much of TeX's memory you used:
+ 2777 strings out of 467866
+ 45779 string characters out of 5417346
+ 463570 words of memory out of 5000000
+ 31646 multiletter control sequences out of 15000+600000
+ 638213 words of font info for 62 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 57i,10n,65p,322b,400s stack positions out of 10000i,1000n,20000p,200000b,200000s
+Procotolo_deRevisao.bbl:160:  ==> Fatal error occurred, no output PDF file produced!

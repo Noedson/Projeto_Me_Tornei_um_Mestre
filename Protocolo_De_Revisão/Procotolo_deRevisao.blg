@@ -1,0 +1,155 @@
+This is BibTeX, Version 0.99e
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Procotolo_deRevisao.aux
+Reallocating 'name_of_file' (item size: 1) to 12 items.
+The style file: abntex2-alf.bst
+Reallocating 'name_of_file' (item size: 1) to 16 items.
+Reallocating 'name_of_file' (item size: 1) to 24 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 6000 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'wiz_functions' (item size: 4) to 9000 items.
+Database file #1: abntex2-options.bib
+Repeated entry---line 11 of file abntex2-options.bib
+ : @abnt-options{abnt-cite-style=AuthorYEAR
+ :                                         ,
+I'm skipping whatever remains of this entry
+Database file #2: Referencias/referencias.bib
+Reallocating 'field_info' (item size: 4) to 10037 items.
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Reallocating 'glb_str_end' (item size: 4) to 20 items.
+Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
+Reallocating 'global_strs' (item size: 1) to 4000000 items.
+128 isn't valid ASCII for entry abnt-full-initials=yes
+while executing---line 2117 of file abntex2-alf.bst
+129 isn't valid ASCII for entry abnt-last-names=abnt
+while executing---line 2117 of file abntex2-alf.bst
+130 isn't valid ASCII for entry abnt-last-names=bibtex
+while executing---line 2117 of file abntex2-alf.bst
+131 isn't valid ASCII for entry abnt-ldots-type=normal
+while executing---line 2117 of file abntex2-alf.bst
+132 isn't valid ASCII for entry abnt-ldots-type=none
+while executing---line 2117 of file abntex2-alf.bst
+133 isn't valid ASCII for entry abnt-ldots-type=math
+while executing---line 2117 of file abntex2-alf.bst
+134 isn't valid ASCII for entry abnt-ldots-type=text
+while executing---line 2117 of file abntex2-alf.bst
+135 isn't valid ASCII for entry abnt-missing-year=void
+while executing---line 2117 of file abntex2-alf.bst
+136 isn't valid ASCII for entry abnt-missing-year=sd
+while executing---line 2117 of file abntex2-alf.bst
+137 isn't valid ASCII for entry abnt-nbr6023=2002
+while executing---line 2117 of file abntex2-alf.bst
+138 isn't valid ASCII for entry abnt-nbr6023=2000
+while executing---line 2117 of file abntex2-alf.bst
+139 isn't valid ASCII for entry abnt-nbr10520=2002
+while executing---line 2117 of file abntex2-alf.bst
+140 isn't valid ASCII for entry abnt-nbr10520=2001
+while executing---line 2117 of file abntex2-alf.bst
+141 isn't valid ASCII for entry abnt-nbr10520=1988
+while executing---line 2117 of file abntex2-alf.bst
+142 isn't valid ASCII for entry abnt-no-etal-label=yes
+while executing---line 2117 of file abntex2-alf.bst
+143 isn't valid ASCII for entry abnt-no-etal-label=no
+while executing---line 2117 of file abntex2-alf.bst
+144 isn't valid ASCII for entry abnt-refinfo=yes
+while executing---line 2117 of file abntex2-alf.bst
+145 isn't valid ASCII for entry abnt-refinfo=no
+while executing---line 2117 of file abntex2-alf.bst
+146 isn't valid ASCII for entry abnt-repeated-author-omit=no
+while executing---line 2117 of file abntex2-alf.bst
+147 isn't valid ASCII for entry abnt-repeated-author-omit=yes
+while executing---line 2117 of file abntex2-alf.bst
+148 isn't valid ASCII for entry abnt-repeated-title-omit=no
+while executing---line 2117 of file abntex2-alf.bst
+149 isn't valid ASCII for entry abnt-repeated-title-omit=yes
+while executing---line 2117 of file abntex2-alf.bst
+150 isn't valid ASCII for entry abnt-show-options=no
+while executing---line 2117 of file abntex2-alf.bst
+151 isn't valid ASCII for entry abnt-show-options=warn
+while executing---line 2117 of file abntex2-alf.bst
+152 isn't valid ASCII for entry abnt-show-options=list
+while executing---line 2117 of file abntex2-alf.bst
+153 isn't valid ASCII for entry abnt-substyle=none
+while executing---line 2117 of file abntex2-alf.bst
+154 isn't valid ASCII for entry abnt-substyle=UFLA
+while executing---line 2117 of file abntex2-alf.bst
+155 isn't valid ASCII for entry abnt-substyle=COPPE
+while executing---line 2117 of file abntex2-alf.bst
+156 isn't valid ASCII for entry abnt-thesis-year=final
+while executing---line 2117 of file abntex2-alf.bst
+157 isn't valid ASCII for entry abnt-thesis-year=title
+while executing---line 2117 of file abntex2-alf.bst
+158 isn't valid ASCII for entry abnt-thesis-year=both
+while executing---line 2117 of file abntex2-alf.bst
+159 isn't valid ASCII for entry abnt-title-command=no
+while executing---line 2117 of file abntex2-alf.bst
+160 isn't valid ASCII for entry abnt-title-command=yes
+while executing---line 2117 of file abntex2-alf.bst
+161 isn't valid ASCII for entry abnt-url-package=none
+while executing---line 2117 of file abntex2-alf.bst
+162 isn't valid ASCII for entry abnt-url-package=hyperref
+while executing---line 2117 of file abntex2-alf.bst
+163 isn't valid ASCII for entry abnt-verbatim-entry=no
+while executing---line 2117 of file abntex2-alf.bst
+164 isn't valid ASCII for entry iso-690-1987
+while executing---line 2117 of file abntex2-alf.bst
+Warning--opção abnt-show-options passou para warn
+You can't pop an empty literal stack for entry iso-690-1987
+while executing---line 2146 of file abntex2-alf.bst
+ptr=1, stack=
+Op\c c\~ao selecionada {\tt iso-date-place=}\verb+ISO+
+---the literal stack isn't empty for entry iso-690-1987
+while executing---line 2146 of file abntex2-alf.bst
++---------------------------------------------------------+
+| Estilo bibliográfico abntex2-alf.bst versão v-1.9.7           |
+| Em caso de dúvidas ou problemas com este estilo procure |
+| http://www.abntex.net.br/                               |
++---------------------------------------------------------+
+You've used 90 entries,
+            6714 wiz_defined-function locations,
+            1401 strings with 15346 characters,
+and the built_in function-call counts, 51056 in all, are:
+= -- 4395
+> -- 775
+< -- 348
++ -- 679
+- -- 239
+* -- 2502
+:= -- 4859
+add.period$ -- 134
+call.type$ -- 119
+change.case$ -- 424
+chr.to.int$ -- 143
+cite$ -- 59
+duplicate$ -- 3765
+empty$ -- 4977
+format.name$ -- 791
+if$ -- 13108
+int.to.chr$ -- 67
+int.to.str$ -- 24
+missing$ -- 1746
+newline$ -- 166
+num.names$ -- 110
+pop$ -- 2056
+preamble$ -- 1
+purify$ -- 294
+quote$ -- 0
+skip$ -- 6298
+stack$ -- 1
+substring$ -- 1285
+swap$ -- 915
+text.length$ -- 56
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 45
+warning$ -- 1
+while$ -- 157
+width$ -- 0
+write$ -- 517
+(There were 40 error messages)

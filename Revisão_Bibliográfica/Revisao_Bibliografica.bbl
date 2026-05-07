@@ -1,0 +1,84 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[al. 2019]{mokrani2019}
+\abntrefinfo{al.}{AL.}{2019}
+{AL., H.~M. et. Air quality monitoring using iot: A survey. In:  \emph{IEEE
+  International Conference on Smart Internet of Things (SmartIoT)}. [S.l.]:
+  IEEE, 2019. p. 127--134.}
+
+\bibitem[BENAMMAR 2018]{benammar2018}
+\abntrefinfo{BENAMMAR}{BENAMMAR}{2018}
+{BENAMMAR, M. e.~a. A modular iot platform for real-time indoor air quality
+  monitoring.
+\emph{Sensors}, v.~18, n.~2, p.~581, 2018.}
+
+\bibitem[CUNHA 2024]{cunha2024}
+\abntrefinfo{CUNHA}{CUNHA}{2024}
+{CUNHA, N. e.~a. Arquitetura de monitoramento de qualidade de ar baseada no
+  lorawan e fiware em um campus universitário. In:  \emph{Anais do XV Workshop
+  de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}.
+  Brasília/DF: [s.n.], 2024. p. 169--178.}
+
+\bibitem[Gomes, Lima e Brisil 2024]{gomes2024}
+\abntrefinfo{Gomes, Lima e Brisil}{GOMES; LIMA; BRISIL}{2024}
+{GOMES, R. dos A.; LIMA, R.~B. de; BRISIL, T. do V. Impact of the fires in the
+  amazon with the incidence of cases of respiratory problems in the population.
+\emph{Revista Foco}, v.~17, n.~12, p. 1--19, 2024.}
+
+\bibitem[Kumar e Jasuja 2017]{kumar2017}
+\abntrefinfo{Kumar e Jasuja}{KUMAR; JASUJA}{2017}
+{KUMAR, S.; JASUJA, A. Air quality monitoring system based on iot using
+  raspberry pi. In:  \emph{International conference on computing, communication
+  and automation (ICCCA)}. [S.l.]: IEEE, 2017. p. 1341--1346.}
+
+\bibitem[Kumar e Doss 2023]{kumar2023}
+\abntrefinfo{Kumar e Doss}{KUMAR; DOSS}{2023}
+{KUMAR, T.; DOSS, A. Airo: Development of an intelligent iot-based air quality
+  monitoring solution for urban areas.
+\emph{Procedia Computer Science}, v.~218, p. 262--273, 2023.}
+
+\bibitem[Min-Allah e Alrashed 2020]{minallah2020}
+\abntrefinfo{Min-Allah e Alrashed}{MIN-ALLAH; ALRASHED}{2020}
+{MIN-ALLAH, N.; ALRASHED, S. Smart campus---a sketch.
+\emph{Sustainable Cities and Society}, v.~59, p. 102231, 2020.}
+
+\bibitem[REDDY 2023]{reddy2023}
+\abntrefinfo{REDDY}{REDDY}{2023}
+{REDDY, B. S. N. e.~a. A comprehensive review on functional analysis of
+  real-time operating systems. In:  \emph{3rd International Conference on
+  Innovative Mechanisms for Industry Applications (ICIMIA)}. [S.l.]: IEEE,
+  2023. p. 1098--1102.}
+
+\bibitem[SEPTIAN, MISBAHUDDIN e ARKAN 2022]{septian2022}
+\abntrefinfo{SEPTIAN, MISBAHUDDIN e ARKAN}{SEPTIAN; MISBAHUDDIN; ARKAN}{2022}
+{SEPTIAN, B.; MISBAHUDDIN, M.; ARKAN, F. Freertos based air quality monitoring
+  system using secure internet of things.
+\emph{Jurnal Teknik Informatika (JUTIF)}, v.~3, n.~1, p. 147--153, 2022.}
+
+\bibitem[Thaylor et al. 2024]{thaylor2024}
+\abntrefinfo{Thaylor et al.}{THAYLOR et al.}{2024}
+{THAYLOR, E. et al. Iqarmobi: Classifica{\c c}{\~a}o inteligente da qualidade
+  do ar e ciente de localiza{\c c}{\~a}o em ambientes externos e internos. In:
+  \emph{Anais do XV Workshop de Computa{\c c}{\~a}o Aplicada {\`a} Gest{\~a}o
+  do Meio Ambiente e Recursos Naturais}. SBC, 2024. Dispon{\'\i}vel em:
+  \url{https://sol.sbc.org.br/index.php/wcama/article/view/36099/35886}.}
+
+\bibitem[UGARTE et al. 2019]{ugarte2019}
+\abntrefinfo{UGARTE et al.}{UGARTE et al.}{2019}
+{UGARTE, L.~F. et al. Lora communication as a solution for real-time monitoring
+  of iot devices at unicamp. In:  \emph{International Conference on Smart
+  Energy Systems and Technologies (SEST)}. [S.l.]: IEEE, 2019. p.~1--6.}
+
+\bibitem[WANG et al. 2023]{wang2023}
+\abntrefinfo{WANG et al.}{WANG et al.}{2023}
+{WANG, H. et al. Research on real-time monitoring system of multiscenario
+  health data based on internet of things. In:  \emph{3rd International
+  Conference on Digital Society and Intelligent Systems (DSInS)}. [S.l.]: IEEE,
+  2023. p. 332--336.}
+
+\end{thebibliography}
