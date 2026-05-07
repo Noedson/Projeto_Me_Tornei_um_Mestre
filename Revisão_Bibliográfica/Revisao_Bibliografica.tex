@@ -1,0 +1,148 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage[
+alf,
+abnt-url-package=url,
+abnt-show-options=no
+]{abntex2cite}
+
+\geometry{left=3cm,right=2cm,top=3cm,bottom=2cm}
+\setstretch{1.15}
+
+\title{Agente Inteligente para Monitoramento da Qualidade do Ar em Smart Campus}
+\author{Noedson Romario Vieira da Silva}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Resumo}
+\textbf{Palavras-chave: vou por depois}
+\section{Abstract}
+\textbf{Keywords: to be added later}
+
+\section{Introdução}
+
+A qualidade do ar é um fator crítico para a saúde e bem estar das pessoas, especialmente em ambientes internos e de alta ocupação como os campis 
+universitários. Segunds os estudos mais recentes, a exposição prolongada a poluentes atmosféricos como, monixodo de carbono (CO), e Ozonio (O\textsubscript{3})
+causa impactos significativos na saúde respiratória e cardiovascular da população academica. \cite{gomes2024} docunetam a correlação entre eventos 
+de quiemadas na Amazõnia e o aumento de casos de problemas respiratórios, demonstrado a relevancia desistemas de monitoramento continuo e confiavel.
+
+Nesse contexto, os campis universitáops emergem como ambiente estratégicos para a implantação de soluções inteligentes. O conceito de Smart Campus, 
+coomo definido por \cite{minallah2020}, envolve a integração de tecnologias de internet das coisas (IoT) para oferecer suporte á tomada de decisão, segurança e 
+bem-estar da coumidade academica. O monitoramento ambienta em tempo real possibilita a detecção de anomalias, acionamento de sistemas de resposta automatizada e fornecimento
+de dados a analise preditiva.
+
+As arquiteturas tradicionaos de monitoramento, embora funcionais, apresentam limitações em termos de escalabilidade, latencia e resposta deterministicas.
+Soluções genéricas de baseadas em IoT \cite{mokrani2019,kumar2017} normalmente não consideram: (i) a necessidade de predição de qualidade do ar em horizonte futuro, 
+(ii) mecanismos de resposta automatizada integrada, (iii) garantias de tempo real através de Sistemas Operacionais de Tempo Real (RTOS), e 
+(iv) adequação específica ao contexto acadêmico
+
+\subsection{Escopo e delimitacao}
+Esta revisão bibliográfica delimita-se ao estudo de soluções voltadas ao monitoramento da qualidade do ar em ambientes de campus universitário, com ênfase em arquiteturas inteligentes capazes de apoiar a coleta, o processamento, a análise e a resposta a dados ambientais em tempo quase real. O foco recai sobre abordagens que combinam Internet das Coisas (IoT), comunicação de longo alcance, plataformas de integração e técnicas de inteligência artificial aplicadas a dados ambientais.
+
+O escopo contempla trabalhos publicados entre 2019 e 2026, incluindo artigos científicos, anais de eventos, revisões e estudos aplicados que tratem de monitoramento da qualidade do ar, sensores ambientais, sistemas embarcados, middleware, comunicação LPWAN, análise preditiva e mecanismos de automação. Também são considerados estudos que abordem a aplicação de sistemas operacionais de tempo real (RTOS) em nós de sensoriamento ou em componentes críticos da arquitetura.
+
+Como delimitação, esta pesquisa não tem como objetivo aprofundar a fabricação ou calibração física dos sensores, nem comparar em detalhe todos os poluentes atmosféricos possíveis. O recorte é direcionado aos poluentes e variáveis mais recorrentes na literatura para ambientes internos e externos, especialmente aqueles associados a impactos respiratórios e ao conforto ambiental. Da mesma forma, soluções sem aderência ao contexto acadêmico ou sem relação direta com monitoramento ambiental são tratadas apenas de forma periférica, quando contribuem para a fundamentação teórica.
+
+\section{Fundamentos Teoricos}
+\subsection{Qualidade do ar e impactos}
+Descrever os principais poluentes monitorados (CO, NOx, O3, PM2.5, PM10), efeitos sobre saúde e relevância para ambientes acadêmicos \cite{gomes2024}.
+
+\subsection{Smart campus}
+Apresentar o conceito de campus inteligente e os requisitos de monitoramento ambiental para apoio a bem-estar, seguranca e tomada de decisao \cite{minallah2020}.
+
+\subsection{IoT para monitoramento ambiental}
+Discutir sensores, nós de borda, gateways, comunicação LPWAN e middleware de contexto em arquiteturas distribuídas \cite{mokrani2019,cunha2024}.
+
+\subsection{Sistemas de tempo real (RTOS)}
+Caracterizar RTOS e sua importância para latência previsível e resposta determinística em monitoramento crítico \cite{reddy2023,septian2022}.
+
+\section{Arquiteturas de Monitoramento da Qualidade do Ar}
+\subsection{Solucoes IoT gerais}
+Comparar propostas em ambientes urbanos e internos, destacando coleta, transmissão e armazenamento de dados \cite{kumar2023,benammar2018}.
+
+\subsection{Solucoes para contexto academico}
+Analisar trabalhos em campus universitario e aderencia a necessidades institucionais \cite{cunha2024,ugarte2019}.
+
+\subsection{Comparacao tecnologica}
+\begin{itemize}
+  \item Comunicação: LoRaWAN, Wi-Fi, BLE, celular.
+  \item Middleware: FIWARE, Node-RED, ChirpStack.
+  \item Persistencia e visualizacao: bancos de dados e dashboards.
+\end{itemize}
+
+\section{Inteligencia Artificial Aplicada a Qualidade do Ar}
+\subsection{Tarefas e tecnicas}
+Classificacao, predicao de series temporais e deteccao de anomalias em dados ambientais \cite{thaylor2024,kumar2023}.
+
+\subsection{Entradas, saidas e horizonte de previsao}
+Descrever variaveis de entrada, pre-processamento, janela temporal e horizonte de previsao adotado nos estudos.
+
+\subsection{Metricas de avaliacao}
+Reportar MAE, RMSE, acuracia, precisao, revocacao e F1 quando aplicavel.
+
+\section{Resposta Automatizada e Tempo Real}
+\subsection{Mecanismos de resposta}
+Alertas, notificacoes contextuais e acionamento automatico de mitigacao ambiental.
+
+\subsection{Garantias de tempo real}
+Discutir prazos de resposta, jitter, confiabilidade e impacto do RTOS em nós sensores \cite{septian2022,wang2023}.
+
+\section{Analise Comparativa dos Trabalhos}
+\subsection{Matriz comparativa}
+\begingroup
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{longtable}{|p{3.0cm}|p{2.0cm}|p{2cm}|p{2cm}|p{1.5cm}|p{3.0cm}|}
+\hline
+\textbf{Trabalho} & \textbf{Predicao} & \textbf{Resposta Auto.} & \textbf{Contexto Campus} & \textbf{RTOS} & \textbf{Escalabilidade} \\
+\hline
+Mokrani et al. (2019) & Nao & Nao & Nao & Nao & Media \\
+\hline
+Kumar e Doss (2023) & Sim & Parcial & Nao & Nao & Alta \\
+\hline
+Cunha et al. (2024) & Nao & Nao & Sim & Nao & Alta \\
+\hline
+Septian et al. (2022) & Nao & Nao & Nao & Sim & Media \\
+\hline
+\textbf{Proposta deste trabalho} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Sim} & \textbf{Alta} \\
+\hline
+\end{longtable}
+\endgroup
+
+\section{Lacunas de Pesquisa}
+A partir da comparacao, explicitar lacunas como:
+\begin{itemize}
+  \item ausencia de integracao simultanea entre predicao, resposta automatizada e RTOS;
+  \item baixo foco em ambiente de smart campus;
+  \item carencia de validacao em cenario real com dados locais.
+\end{itemize}
+
+\section{Sintese da Revisao}
+Sintetizar o estado da arte e indicar como a proposta do IQArMobi aprimorado supera as lacunas identificadas, servindo de base para a metodologia e para os experimentos.
+
+\section{Perguntas guia para leitura critica dos artigos}
+Para cada artigo selecionado, responder:
+\begin{enumerate}
+  \item Qual problema o estudo resolve?
+  \item Qual arquitetura foi adotada?
+  \item Quais tecnicas de IA e/ou RTOS foram utilizadas?
+  \item Quais resultados foram obtidos?
+  \item Quais limitacoes e oportunidades futuras foram apontadas?
+\end{enumerate}
+
+% \nocite{mokrani2019,gomes2024,kumar2017,abdelsamea2016,minallah2020,liu2018,kumar2023,fatemi2018,cunha2024,reddy2023,hambarde2014,septian2022,gunawan2019,turci2017,wang2023,janeera2021,ugarte2019,benammar2018,santos2020,techtargetRTOS,freertosManual,thaylor2024}
+\bibliographystyle{abntex2-alf}
+\bibliography{../Protocolo_De_Revisão/Referencias/referencias}
+
+\end{document}
