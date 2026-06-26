@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.2)  6 MAY 2026 16:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.4.2)  7 MAY 2026 15:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**Revisao_Bibliografica.tex
+**./Revisão_Bibliográfica/Revisao_Bibliografica.tex
 (Revisão_Bibliográfica/Revisao_Bibliografica.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -211,8 +211,10 @@ LaTeX Info: Redefining \cite on input line 618.
 dftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count303
+) (Revisao_Bibliografica.aux
+Package babel Info: 'brazilian' activates 'portuges' shorthands.
+(babel)             Reported on input line 12.
 )
-No file Revisao_Bibliografica.aux.
 \openout1 = `Revisao_Bibliografica.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
@@ -229,8 +231,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
 LaTeX Font Info:    ... okay on input line 25.
-Package babel Info: 'brazilian' activates 'portuges' shorthands.
-(babel)             Reported on input line 25.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -291,81 +292,84 @@ LaTeX Warning: Citation `kumar2017' on page 1 undefined on input line 46.
 
 {C:/Users/Noedson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
 
-LaTeX Warning: Citation `gomes2024' on page 2 undefined on input line 58.
+LaTeX Warning: Citation `gomes2024' on page 2 undefined on input line 61.
 
 
-LaTeX Warning: Citation `minallah2020' on page 2 undefined on input line 61.
-
-
-LaTeX Warning: Citation `mokrani2019' on page 2 undefined on input line 64.
-
-
-LaTeX Warning: Citation `cunha2024' on page 2 undefined on input line 64.
-
-
-LaTeX Warning: Citation `reddy2023' on page 2 undefined on input line 67.
-
-
-LaTeX Warning: Citation `septian2022' on page 2 undefined on input line 67.
-
-
-LaTeX Warning: Citation `kumar2023' on page 2 undefined on input line 71.
-
-
-LaTeX Warning: Citation `benammar2018' on page 2 undefined on input line 71.
+LaTeX Warning: Citation `minallah2020' on page 2 undefined on input line 64.
 
 [2]
 
-LaTeX Warning: Citation `cunha2024' on page 3 undefined on input line 74.
+LaTeX Warning: Citation `mokrani2019' on page 3 undefined on input line 71.
 
 
-LaTeX Warning: Citation `ugarte2019' on page 3 undefined on input line 74.
+LaTeX Warning: Citation `cunha2024' on page 3 undefined on input line 71.
 
 
-LaTeX Warning: Citation `thaylor2024' on page 3 undefined on input line 85.
+LaTeX Warning: Citation `reddy2023' on page 3 undefined on input line 74.
 
 
-LaTeX Warning: Citation `kumar2023' on page 3 undefined on input line 85.
-
-
-LaTeX Warning: Citation `septian2022' on page 3 undefined on input line 98.
-
-
-LaTeX Warning: Citation `wang2023' on page 3 undefined on input line 98.
+LaTeX Warning: Citation `septian2022' on page 3 undefined on input line 76.
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 107--107
+
+LaTeX Warning: Citation `benammar2018' on page 4 undefined on input line 80.
+
+
+LaTeX Warning: Citation `kumar2023' on page 4 undefined on input line 80.
+
+
+LaTeX Warning: Citation `cunha2024' on page 4 undefined on input line 85.
+
+
+LaTeX Warning: Citation `ugarte2019' on page 4 undefined on input line 85.
+
+[4]
+
+LaTeX Warning: Citation `thaylor2024' on page 5 undefined on input line 98.
+
+
+LaTeX Warning: Citation `kumar2023' on page 5 undefined on input line 98.
+
+[5]
+
+LaTeX Warning: Citation `septian2022' on page 6 undefined on input line 121.
+
+
+LaTeX Warning: Citation `wang2023' on page 6 undefined on input line 121.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--130
 []|\T1/cmr/bx/n/10.95 Resposta
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 107--107
+Underfull \hbox (badness 10000) in paragraph at lines 130--130
 []|\T1/cmr/bx/n/10.95 Contexto
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 109--109
+Underfull \hbox (badness 10000) in paragraph at lines 132--132
 []|\T1/cmr/m/n/10.95 Mokrani et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 111--111
+Underfull \hbox (badness 10000) in paragraph at lines 134--134
 []|\T1/cmr/m/n/10.95 Kumar e Doss
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 113--113
+Underfull \hbox (badness 10000) in paragraph at lines 136--136
 []|\T1/cmr/m/n/10.95 Cunha et al.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 115--115
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
 []|\T1/cmr/m/n/10.95 Septian et al.
  []
 
-[4]
+[6]
 No file Revisao_Bibliografica.bbl.
-[5] (Revisao_Bibliografica.aux)
+[7] (Revisao_Bibliografica.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -376,13 +380,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 3510 strings out of 467866
- 59997 string characters out of 5417346
- 485959 words of memory out of 5000000
- 32369 multiletter control sequences out of 15000+600000
+ 3513 strings out of 467866
+ 60168 string characters out of 5417346
+ 487045 words of memory out of 5000000
+ 32370 multiletter control sequences out of 15000+600000
  639423 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,6n,65p,650b,232s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,835b,256s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ec
 rm1095.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/d
 pi600\ecbx1095.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
@@ -395,9 +399,9 @@ pData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\No
 edson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\
 Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm2074.
 pk>
-Output written on Revisao_Bibliografica.pdf (5 pages, 113990 bytes).
+Output written on Revisao_Bibliografica.pdf (7 pages, 126954 bytes).
 PDF statistics:
- 334 PDF objects out of 1000 (max. 8388607)
+ 351 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
