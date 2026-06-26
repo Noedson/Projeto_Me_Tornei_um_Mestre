@@ -3,255 +3,84 @@
 \setlength{\labelsep}{0pt}\begin{thebibliography}{}
 \providecommand{\abntrefinfo}[3]{}
 \providecommand{\abntbstabout}[1]{}
-\providecommand{\bibtextitlecommand}[2]{#2}
 \abntbstabout{v-1.9.7 }
 
-\bibitem[]{abnt-show-options=list}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-show-options=list}! . Op\c c\~ao selecionada {\tt
-  abnt-show-options=}\verb+list+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-show-options=list,
-key={aaaa},
-abnt-show-options={list}}
-\end{verbatim}}
-\bibitem[]{abnt-substyle=none}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-substyle=none}! .}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-substyle=none,
-key={aaaa}}
-\end{verbatim}}
-\bibitem[]{abnt-substyle=UFLA}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-substyle=UFLA}! . Op\c c\~ao selecionada {\tt
-  abnt-and-type=}\verb+&+. Op\c c\~ao selecionada {\tt
-  abnt-etal-cite=}\verb+2+. Op\c c\~ao selecionada {\tt
-  abnt-etal-list=}\verb+0+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-substyle=UFLA,
-key={aaaa}}
-\end{verbatim}}
-\bibitem[]{abnt-substyle=COPPE}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-substyle=COPPE}! . Op\c c\~ao selecionada {\tt
-  abnt-title-command=}\verb+yes+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-substyle=COPPE,
-key={aaaa},
-abnt-title-command={yes}}
-\end{verbatim}}
-\bibitem[]{abnt-thesis-year=final}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-thesis-year=final}! . Op\c c\~ao selecionada {\tt
-  abnt-thesis-year=}\verb+final+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-thesis-year=final,
-key={aaaa},
-abnt-thesis-year={final}}
-\end{verbatim}}
-\bibitem[]{abnt-thesis-year=title}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-thesis-year=title}! . Op\c c\~ao selecionada {\tt
-  abnt-thesis-year=}\verb+title+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-thesis-year=title,
-key={aaaa},
-abnt-thesis-year={title}}
-\end{verbatim}}
-\bibitem[]{abnt-thesis-year=both}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-thesis-year=both}! . Op\c c\~ao selecionada {\tt
-  abnt-thesis-year=}\verb+both+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-thesis-year=both,
-key={aaaa},
-abnt-thesis-year={both}}
-\end{verbatim}}
-\bibitem[]{abnt-title-command=no}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-title-command=no}! . Op\c c\~ao selecionada {\tt
-  abnt-title-command=}\verb+no+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-title-command=no,
-key={aaaa},
-abnt-title-command={no}}
-\end{verbatim}}
-\bibitem[]{abnt-title-command=yes}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-title-command=yes}! . Op\c c\~ao selecionada {\tt
-  abnt-title-command=}\verb+yes+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-title-command=yes,
-key={aaaa},
-abnt-title-command={yes}}
-\end{verbatim}}
-\bibitem[]{abnt-url-package=none}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-url-package=none}! . Op\c c\~ao selecionada {\tt
-  abnt-url-package=}\verb+none+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-url-package=none,
-key={aaaa},
-abnt-url-package={none}}
-\end{verbatim}}
-\bibitem[]{abnt-url-package=hyperref}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-url-package=hyperref}! . Op\c c\~ao selecionada {\tt
-  abnt-url-package=}\verb+hyperref+.}
-{\footnotesize\begin{verbatim}
-@abnt-options{abnt-url-package=hyperref,
-key={aaaa},
-abnt-url-package={hyperref}}
-\end{verbatim}}
-\bibitem[]{abnt-verbatim-entry=no}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{abnt-verbatim-entry=no}! . Op\c c\~ao selecionada {\tt
-  abnt-verbatim-entry=}\verb+no+.}
+\bibitem[Alves et al. 2025]{alves2025freertos}
+\abntrefinfo{Alves et al.}{ALVES et al.}{2025}
+{ALVES, E. et al. Freertos application in a real-time air quality monitoring
+  architecture for smart campus.
+\emph{IEEE Latin America Transactions}, IEEE, v.~23, n.~4, p. 266--273, 2025.}
 
-\bibitem[]{iso-690-1987}
-{Mudan\c ca de estilo ap\'os este ponto com o comando
-  \verb!\citeoption{iso-690-1987}! . Op\c c\~ao selecionada {\tt
-  abnt-cite-style=}\verb+(Author, YEAR)+.}
- Op\c c\~ao selecionada {\tt iso-abbreviation=}\verb+standard+. Op\c c\~ao
-  selecionada {\tt iso-author-punctuation=}\verb+void+.
-\bibitem[Abdelsamea 2016]{abdelsamea2016}
-{ABDELSAMEA, M. H.~A.; ZORKANY, M.; ABDELKADER, N. 2016.
-  \bibtextitlecommand{inproceedings}{Real time operating systems for the
-  internet of things, vision, architecture and research directions}. In
-  \emph{World Symposium on Computer Applications \& Research (WSCAR)}. [S.l.]:
-  IEEE, p. 72--77.}
-
-\bibitem[al. 2019]{mokrani2019}
-{AL., H.~Mokrani et. 2019. \bibtextitlecommand{inproceedings}{Air quality
-  monitoring using iot: A survey}. In \emph{IEEE International Conference on
-  Smart Internet of Things (SmartIoT)}. [S.l.]: IEEE, p. 127--134.}
-
-\bibitem[BENAMMAR 2018]{benammar2018}
-{BENAMMAR, M. et~al. 2018. \bibtextitlecommand{article}{A modular iot platform
-  for real-time indoor air quality monitoring}.
-\emph{Sensors}, 2018, vol.~18, no.~2, p.~581.}
+\bibitem[Aserkar et al. 2024]{Aserkar2024}
+\abntrefinfo{Aserkar et al.}{ASERKAR et al.}{2024}
+{ASERKAR, A.~A. et al. Real-time air quality monitoring in smart cities using
+  iot-enabled advanced optical sensors.
+\emph{International Journal of Advanced Computer Science and Applications}, The
+  Science and Information Organization, v.~15, n.~4, 2024.
+Dispon{\'\i}vel em: \url{http://dx.doi.org/10.14569/IJACSA.2024.0150487}.}
 
 \bibitem[CUNHA 2024]{cunha2024}
-{CUNHA, N. et~al. 2024. \bibtextitlecommand{inproceedings}{Arquitetura de
-  monitoramento de qualidade de ar baseada no lorawan e fiware em um campus
-  universitário}. In \emph{Anais do XV Workshop de Computação Aplicada à
-  Gestão do Meio Ambiente e Recursos Naturais}. Brasília/DF: [s.n.], p.
-  169--178.}
+\abntrefinfo{CUNHA}{CUNHA}{2024}
+{CUNHA, N. e.~a. Arquitetura de monitoramento de qualidade de ar baseada no
+  lorawan e fiware em um campus universitário. In:  \emph{Anais do XV Workshop
+  de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}.
+  Brasília/DF: [s.n.], 2024. p. 169--178.}
 
-\bibitem[FATEMI 2018]{fatemi2018}
-{FATEMI, F.; DEHDASHTI, A.; JANNATI, M. 2018.
-  \bibtextitlecommand{article}{Implementation of chemical health, safety, and
-  environmental risk assessment in laboratories: A case-series study}.
-\emph{Journal of Occupational Hygiene Engineering}, 2018, vol.~5, no.~2, p.
-  20--27.}
+\bibitem[Francisco et al.]{franciscomonitoramento}
+\abntrefinfo{Francisco et al.}{FRANCISCO et al.}{}
+{FRANCISCO, A. C.~C. et al. Monitoramento inteligente de aspectos ambientais em
+  campus universit{\'a}rio.
+\emph{Universidades \& Sustentabilidade}, p.~126.}
 
-\bibitem[Santos~Filho 2020]{santos2020}
-{SANTOS~FILHO, Francisco Helder~C.; DESTER, Pl{\'i}nio~S.; STANCANELLI, Elvis
-  M.~G.; CARDIERI, Paulo; NARDELLI, Pedro H.~J.; CARRILLO, Dicka; ALVES,
-  Hirley. 2020. \bibtextitlecommand{article}{Performance of lorawan for
-  handling telemetry and alarm messages in industrial applications}.
-\emph{Sensors}, 2020, MDPI, vol.~20, no.~11, p.~3061.}
+\bibitem[Ladeira 2024]{ladeira2024mliot}
+\abntrefinfo{Ladeira}{LADEIRA}{2024}
+{LADEIRA, E. F.~L.
+\emph{A Machine Learning-based Decision Support System for IoT Monitoring
+  Solutions}.
+Disserta\c{c}\~{a}o (Master Thesis) --- Universidade da Beira Interior,
+  Covilh\~a, 2024.
+Dispon{\'\i}vel em: \url{http://hdl.handle.net/10400.6/19045}.}
 
-\bibitem[{FreeRTOS} 2023]{freertosManual}
-{{FreeRTOS}. 2023. \bibtextitlecommand{manual}{\emph{Mastering the
-  FreeRTOS\texttrademark{} Real Time Kernel}}.
-[S.l.]. Accessed: 2023-11-15. Available from Internet:
-  \htmladdnormallink{$<$https:\-/\-/freertos\-.org\-/Documentation\-/02-Kernel\-/07-Books-and-manual\-/01-RTOS\underline{\
-  }book$>$}{https://freertos.org/Documentation/02-Kernel/07-Books-and-manual/01-RTOS\_book}.}
+\bibitem[Rodrigues 2020]{rodrigues2020aplicativo}
+\abntrefinfo{Rodrigues}{RODRIGUES}{2020}
+{RODRIGUES, P.~L. Um aplicativo para gerar recomenda{\c{c}}{\~o}es e alertas
+  sobre a qualidade do ar em um smart campus.
+Universidade de Passo Fundo, 2020.}
 
-\bibitem[Anjos~Gomes 2024]{gomes2024}
-{ANJOS~GOMES, R. dos; LIMA, R.~B. de; VALE~BRISIL, T. do. 2024.
-  \bibtextitlecommand{article}{Impact of the fires in the amazon with the
-  incidence of cases of respiratory problems in the population}.
-\emph{Revista Foco}, 2024, vol.~17, no.~12, p. 1--19.}
+\bibitem[RODRIGUES 2024]{rodrigues2024tinyml}
+\abntrefinfo{RODRIGUES}{RODRIGUES}{2024}
+{RODRIGUES, T. M.~S.
+\emph{Aplicação de TinyML em sensores virtuais para monitoramento da
+  qualidade do ar em ambientes industriais}.
+51 f.~p. Monografia (Trabalho de Conclusão de Curso (Bacharelado em Engenharia
+  de Computação)) --- Instituto de Computação, Universidade Federal de
+  Alagoas, Maceió, 2024.}
 
-\bibitem[GUNAWAN 2019]{gunawan2019}
-{GUNAWAN, T.~S.; SABAR, M.~F.; NASIR, H.; KARTIWI, M.; MOTAKABBER, S. M.~A.
-  2019. \bibtextitlecommand{inproceedings}{Development of smart chicken poultry
-  farm using rtos on arduino}. In \emph{IEEE International Conference on Smart
-  Instrumentation, Measurement and Application (ICSIMA)}. [S.l.]: IEEE,
-  p.~1--5.}
+\bibitem[Silva, Junior e Bulcão-Neto 2025]{silva2025airpure}
+\abntrefinfo{Silva, Junior e Bulcão-Neto}{SILVA; JUNIOR; BULCãO-NETO}{2025}
+{SILVA, B. M.~O.; JUNIOR, I. G.~S.; BULCãO-NETO, R.~F. Air-pure monitor: Uma
+  solucão iot de baixo custo para ambientes internos saudáveis. In:
+  \emph{Anais (SBCUP)}. [S.l.: s.n.], 2025.}
 
-\bibitem[HAMBARDE 2014]{hambarde2014}
-{HAMBARDE, P.; VARMA, R.; JHA, S. 2014. \bibtextitlecommand{inproceedings}{The
-  survey of real time operating system: Rtos}. In \emph{International
-  Conference on Electronic Systems, Signal Processing and Computing
-  Technologies}. [S.l.]: IEEE, p. 34--39.}
+\bibitem[Thaylor et al. 2025]{wcama}
+\abntrefinfo{Thaylor et al.}{THAYLOR et al.}{2025}
+{THAYLOR, E. et al. Iqarmobi: Classificação inteligente da qualidade do ar e
+  ciente de localização em ambientes externos e internos. In:  \emph{Anais do
+  XVI Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos
+  Naturais}. Porto Alegre, RS, Brasil: SBC, 2025. p. 216--225.
+ISSN 2595-6124. Dispon{\'\i}vel em:
+  \url{https://sol.sbc.org.br/index.php/wcama/article/view/36099}.}
 
-\bibitem[JANEERA 2021]{janeera2021}
-{JANEERA, D. A. et~al. 2021. \bibtextitlecommand{inproceedings}{Smart embedded
-  framework using arduino and iot for real-time noise and air pollution
-  monitoring and alert system}. In \emph{2021 International conference on
-  artificial intelligence and smart systems (ICAIS)}. [S.l.]: IEEE.}
-
-\bibitem[Kumar \& Jasuja 2017]{kumar2017}
-{KUMAR, S.; JASUJA, A. 2017. \bibtextitlecommand{inproceedings}{Air quality
-  monitoring system based on iot using raspberry pi}. In \emph{International
-  conference on computing, communication and automation (ICCCA)}. [S.l.]: IEEE,
-  p. 1341--1346.}
-
-\bibitem[Kumar \& Doss 2023]{kumar2023}
-{KUMAR, T.; DOSS, A. 2023. \bibtextitlecommand{article}{Airo: Development of an
-  intelligent iot-based air quality monitoring solution for urban areas}.
-\emph{Procedia Computer Science}, 2023, vol.~218, p. 262--273.}
-
-\bibitem[Liu \& Li 2018]{liu2018}
-{LIU, M.; LI, L. 2018. \bibtextitlecommand{inproceedings}{The construction of
-  smart campus in universities and the practical innovation of student work}.
-  In \emph{Proceedings of the 1st International Conference on Information
-  Management and Management Science}. [S.l.]: ACM, p. 154--157.}
-
-\bibitem[Min-Allah \& Alrashed 2020]{minallah2020}
-{MIN-ALLAH, N.; ALRASHED, S. 2020. \bibtextitlecommand{article}{Smart
-  campus---a sketch}.
-\emph{Sustainable Cities and Society}, 2020, vol.~59, p. 102231.}
-
-\bibitem[REDDY 2023]{reddy2023}
-{REDDY, B. S. N. et~al. 2023. \bibtextitlecommand{inproceedings}{A
-  comprehensive review on functional analysis of real-time operating systems}.
-  In \emph{3rd International Conference on Innovative Mechanisms for Industry
-  Applications (ICIMIA)}. [S.l.]: IEEE, p. 1098--1102.}
-
-\bibitem[SEPTIAN 2022]{septian2022}
-{SEPTIAN, B.; MISBAHUDDIN, M.; ARKAN, F. 2022.
-  \bibtextitlecommand{article}{Freertos based air quality monitoring system
-  using secure internet of things}.
-\emph{Jurnal Teknik Informatika (JUTIF)}, 2022, vol.~3, no.~1, p. 147--153.}
-
-\bibitem[{TechTarget} 2023]{techtargetRTOS}
-{{TechTarget}. 2023. \bibtextitlecommand{misc}{\emph{What is a Real-Time
-  Operating System (RTOS)?}}
-  \url{https://www.techtarget.com/searchdatacenter/definition/real-time-operating-system}.
-Accessed: 2023-11-15.}
-
-\bibitem[Thaylor 2024]{thaylor2024}
-{THAYLOR, Eus{\'e}bio; CUNHA, Nandson; MORAES, Alife; JUNIOR, Warley; ALVES,
-  Elton. 2024. \bibtextitlecommand{inproceedings}{Iqarmobi: Classifica{\c
-  c}{\~a}o inteligente da qualidade do ar e ciente de localiza{\c c}{\~a}o em
-  ambientes externos e internos}. In \emph{Anais do XV Workshop de Computa{\c
-  c}{\~a}o Aplicada {\`a} Gest{\~a}o do Meio Ambiente e Recursos Naturais}.
-  SBC. Available from Internet:
-  \htmladdnormallink{$<$https:\-/\-/sol\-.sbc\-.org\-.br\-/index\-.php\-/wcama\-/article\-/view\-/36099\-/35886$>$}{https://sol.sbc.org.br/index.php/wcama/article/view/36099/35886}.}
-
-\bibitem[TURCI 2017]{turci2017}
-{TURCI, L. D.~O. 2017. \bibtextitlecommand{article}{Real-time operating system
-  freertos application for fire alarm project in reduced scale}.
-\emph{International Journal of Computing and Digital Systems}, 2017, vol.~6,
-  no.~4, p. 198--204.}
-
-\bibitem[UGARTE 2019]{ugarte2019}
-{UGARTE, L.~F.; GARCIA, M.~C.; ROCHET, E.~O.; LIMA~JR, E. 2019.
-  \bibtextitlecommand{inproceedings}{Lora communication as a solution for
-  real-time monitoring of iot devices at unicamp}. In \emph{International
-  Conference on Smart Energy Systems and Technologies (SEST)}. [S.l.]: IEEE,
-  p.~1--6.}
-
-\bibitem[WANG 2023]{wang2023}
-{WANG, H.; HUO, J.; HU, J.; WANG, T. 2023.
-  \bibtextitlecommand{inproceedings}{Research on real-time monitoring system of
-  multiscenario health data based on internet of things}. In \emph{3rd
-  International Conference on Digital Society and Intelligent Systems (DSInS)}.
-  [S.l.]: IEEE, p. 332--336.}
+\bibitem[Villarim 2020]{villarim2020sensor}
+\abntrefinfo{Villarim}{VILLARIM}{2020}
+{VILLARIM, M.~R.
+\emph{Estudo e desenvolvimento de um sensor sem fio inteligente para
+  monitoramento distribu{\'i}do de poluentes atmosf{\'e}ricos no contexto de
+  cidades inteligentes}.
+Disserta\c{c}\~{a}o (Disserta{\c c}{\~a}o (Mestrado em Engenharia
+  El{\'e}trica)) --- Universidade Federal da Para{\'i}ba, Jo{\~a}o Pessoa,
+  2020.
+Dispon{\'\i}vel em:
+  \url{https://repositorio.ufpb.br/jspui/handle/123456789/20464}.}
 
 \end{thebibliography}
