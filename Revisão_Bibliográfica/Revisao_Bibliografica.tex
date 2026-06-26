@@ -48,55 +48,159 @@ Soluções genéricas de baseadas em IoT \cite{mokrani2019,kumar2017} normalment
 (iv) adequação específica ao contexto acadêmico
 
 \subsection{Escopo e delimitacao}
-Esta revisão bibliográfica delimita-se ao estudo de soluções voltadas ao monitoramento da qualidade do ar em ambientes de campus universitário, com ênfase em arquiteturas inteligentes capazes de apoiar a coleta, o processamento, a análise e a resposta a dados ambientais em tempo quase real. O foco recai sobre abordagens que combinam Internet das Coisas (IoT), comunicação de longo alcance, plataformas de integração e técnicas de inteligência artificial aplicadas a dados ambientais.
+Esta revisão bibliográfica delimita-se ao estudo de soluções voltadas ao monitoramento da qualidade do ar em ambientes de campus universitário, 
+com ênfase em arquiteturas inteligentes capazes de apoiar a coleta, o processamento, a análise e a resposta a dados ambientais em tempo quase real. 
+O foco recai sobre abordagens que combinam Internet das Coisas (IoT), comunicação de longo alcance, plataformas de integração e técnicas de 
+inteligência artificial aplicadas a dados ambientais.
 
-O escopo contempla trabalhos publicados entre 2019 e 2026, incluindo artigos científicos, anais de eventos, revisões e estudos aplicados que tratem de monitoramento da qualidade do ar, sensores ambientais, sistemas embarcados, middleware, comunicação LPWAN, análise preditiva e mecanismos de automação. Também são considerados estudos que abordem a aplicação de sistemas operacionais de tempo real (RTOS) em nós de sensoriamento ou em componentes críticos da arquitetura.
+O escopo contempla trabalhos publicados entre 2019 e 2026, incluindo artigos científicos, anais de eventos, revisões e estudos aplicados que tratem 
+de monitoramento da qualidade do ar, sensores ambientais, sistemas embarcados, middleware, comunicação LPWAN, análise preditiva e mecanismos de automação.
+ Também são considerados estudos que abordem a aplicação de sistemas operacionais de tempo real (RTOS) em nós de sensoriamento ou em componentes 
+ críticos da arquitetura.
 
-Como delimitação, esta pesquisa não tem como objetivo aprofundar a fabricação ou calibração física dos sensores, nem comparar em detalhe todos os poluentes atmosféricos possíveis. O recorte é direcionado aos poluentes e variáveis mais recorrentes na literatura para ambientes internos e externos, especialmente aqueles associados a impactos respiratórios e ao conforto ambiental. Da mesma forma, soluções sem aderência ao contexto acadêmico ou sem relação direta com monitoramento ambiental são tratadas apenas de forma periférica, quando contribuem para a fundamentação teórica.
+Como delimitação, esta pesquisa não tem como objetivo aprofundar a fabricação ou calibração física dos sensores, nem comparar em detalhe todos os 
+poluentes atmosféricos possíveis. O recorte é direcionado aos poluentes e variáveis mais recorrentes na literatura para ambientes internos e externos, 
+especialmente aqueles associados a impactos respiratórios e ao conforto ambiental. Da mesma forma, soluções sem aderência ao contexto acadêmico ou
+ sem relação direta com monitoramento ambiental são tratadas apenas de forma periférica, quando contribuem para a fundamentação teórica.
 
 \section{Fundamentos Teoricos}
 \subsection{Qualidade do ar e impactos}
-Descrever os principais poluentes monitorados (CO, NOx, O3, PM2.5, PM10), efeitos sobre saúde e relevância para ambientes acadêmicos \cite{gomes2024}.
+A qualidade do ar é um dos principais indicadores de salubridade ambiental, pois influencia diretamente a saúde respiratória, o
+desempenho cognitivo e o bem estar de indivíduos expostos por longos períodos. Em ambientes universitários, essa questão ganha relevância adicional 
+porque salas de aula, laboratórios, corredores e áreas comuns concentram grande circulação de pessoas e podem apresentar variações expressivas 
+na concentração de poluentes ao longo do dia. Entre os parâmetros mais monitorados na literatura estão monóxido de carbono (CO), 
+óxidos de nitrogênio (NOx), ozônio (O3), material particulado fino (PM2.5) e material particulado grosso (PM10), além de temperatura, 
+umidade e dióxido de carbono como variáveis auxiliares.
+
+Estudos recentes reforçam que episódios de degradação da qualidade do ar estão associados ao aumento de problemas respiratórios e à intensificação de 
+sintomas em populações mais vulneráveis. \cite{gomes2024} mostram a relação entre queimadas na Amazônia e a incidência de doenças 
+respiratórias, o que evidencia a necessidade de sistemas de monitoramento capazes de registrar alterações ambientais com maior frequência e 
+confiabilidade. Nesse cenário, o monitoramento contínuo deixa de ser apenas uma atividade de observação e passa a ser um mecanismo de apoio à prevenção, 
+à emissão de alertas e ao planejamento de respostas institucionais.
 
 \subsection{Smart campus}
-Apresentar o conceito de campus inteligente e os requisitos de monitoramento ambiental para apoio a bem-estar, seguranca e tomada de decisao \cite{minallah2020}.
+O conceito de smart campus amplia a ideia de digitalização da universidade ao integrar infraestrutura física, 
+serviços computacionais, sensores e plataformas de análise em uma mesma lógica de operação. Nessa perspectiva, o 
+campus deixa de ser apenas um espaço acadêmico e passa a ser um ambiente conectado, capaz de coletar dados sobre mobilidade, 
+consumo de energia, segurança, ocupação e condições ambientais para apoiar decisões mais rápidas e baseadas em evidências \cite{minallah2020}.
+
+Dentro desse ecossistema, o monitoramento da qualidade do ar ocupa posição estratégica porque impacta diretamente a saúde da 
+comunidade acadêmica e a experiência de uso dos espaços. Soluções voltadas ao smart campus precisam considerar não apenas a medição dos 
+poluentes, mas também a capacidade de transformar esses dados em informação útil para gestores, professores, estudantes e equipes de manutenção. 
+Assim, a contribuição das arquiteturas inteligentes está em conectar sensoriamento, comunicação e automação em um fluxo contínuo de coleta e resposta.
 
 \subsection{IoT para monitoramento ambiental}
-Discutir sensores, nós de borda, gateways, comunicação LPWAN e middleware de contexto em arquiteturas distribuídas \cite{mokrani2019,cunha2024}.
+A Internet das Coisas (IoT) constitui a base técnica de grande parte das soluções de monitoramento ambiental, pois permite conectar sensores 
+distribuídos a plataformas de processamento e visualização. Em uma arquitetura típica, os nós de sensoriamento capturam variáveis físicas do 
+ambiente, um gateway ou nó de borda agrega e encaminha os dados, e uma camada de middleware organiza o fluxo de informações para armazenamento, 
+consulta e integração com aplicações de análise.
+
+No contexto da qualidade do ar, a literatura destaca o uso de arquiteturas distribuídas para ampliar cobertura, reduzir custos e viabilizar 
+monitoramento em tempo mais próximo do real \cite{mokrani2019,cunha2024}. Tecnologias de comunicação de longo alcance, como LoRaWAN, são especialmente 
+úteis quando o objetivo é cobrir áreas extensas com baixo consumo de energia e baixa complexidade de instalação. Já plataformas de integração e 
+orquestração, como FIWARE, Node-RED ou módulos equivalentes, contribuem para a interoperabilidade entre sensores, bancos de dados, dashboards e 
+serviços de notificação.
 
 \subsection{Sistemas de tempo real (RTOS)}
-Caracterizar RTOS e sua importância para latência previsível e resposta determinística em monitoramento crítico \cite{reddy2023,septian2022}.
+Sistemas operacionais de tempo real, ou RTOS, são empregados quando a principal exigência do sistema não é apenas executar tarefas, 
+mas executá-las dentro de restrições temporais previsíveis. Em monitoramento ambiental, essa característica é importante porque atrasos 
+no processamento ou no envio de alertas podem comprometer a utilidade da informação, especialmente quando há necessidade de resposta imediata a 
+variações bruscas na qualidade do ar \cite{reddy2023}.
+
+A adoção de RTOS em nós sensores permite tratar concorrência, priorização de tarefas, interrupções e comunicação com maior previsibilidade, 
+reduzindo jitter e aumentando a confiabilidade do fluxo de dados. Em trabalhos aplicados, a combinação entre RTOS e IoT aparece como uma 
+estratégia para reforçar a robustez de sistemas embarcados, como observado em soluções de monitoramento ambiental baseadas em 
+FreeRTOS \cite{septian2022,silva2025smartcampusrtos}. Dessa forma, o RTOS deixa de ser apenas um componente de infraestrutura e passa a ser um elemento central 
+para garantir responsividade em arquiteturas de monitoramento crítico.
 
 \section{Arquiteturas de Monitoramento da Qualidade do Ar}
 \subsection{Solucoes IoT gerais}
-Comparar propostas em ambientes urbanos e internos, destacando coleta, transmissão e armazenamento de dados \cite{kumar2023,benammar2018}.
+As soluções IoT para monitoramento da qualidade do ar variam de propostas simples, com coleta local e 
+visualização básica, até arquiteturas mais completas, com predição, alertas e integração com plataformas em nuvem. 
+Trabalhos como os de Benammar et al. \cite{benammar2018} e Kumar e Doss \cite{kumar2023} mostram que a modularidade é um fator 
+recorrente, pois facilita a expansão da rede de sensores, a adaptação a diferentes ambientes e a incorporação de novos serviços analíticos.
+
+Em ambientes internos, as propostas costumam priorizar conforto e segurança ocupacional, enquanto em ambientes externos o foco tende a 
+incluir variabilidade climática, dispersão de poluentes e cobertura territorial. Em ambos os casos, a arquitetura normalmente envolve três 
+camadas principais: percepção, transporte e aplicação. A camada de percepção concentra sensores e microcontroladores; a de transporte realiza a 
+comunicação entre os dispositivos e a infraestrutura central; e a camada de aplicação transforma os dados em indicadores, gráficos, previsões e ações automatizadas.
 
 \subsection{Solucoes para contexto academico}
-Analisar trabalhos em campus universitario e aderencia a necessidades institucionais \cite{cunha2024,ugarte2019}.
+No contexto acadêmico, a literatura aponta que as soluções precisam atender a requisitos que vão além da simples medição de poluentes. 
+É necessário considerar a dispersão dos edifícios, a ocupação variável dos espaços, a necessidade de baixo custo de manutenção e a integração 
+com rotinas institucionais já existentes. Estudos como os de Cunha et al. \cite{cunha2024} e Ugarte et al. \cite{ugarte2019} indicam que o uso de 
+tecnologias de conectividade de longo alcance pode ser uma resposta adequada para campi com áreas amplas ou com infraestrutura distribuída. O artigo de 
+Silva et al. \cite{silva2025smartcampusrtos} reforça essa direção ao demonstrar uma arquitetura de monitoramento da qualidade do ar em smart campus 
+com foco em tempo real e uso de FreeRTOS para melhorar a transmissão e a recepção dos dados.
+
+Além disso, o contexto universitário favorece o uso de dados para fins pedagógicos e de pesquisa, o que amplia o valor da solução para além da 
+operação predial. Quando o monitoramento é incorporado ao smart campus, a informação pode subsidiar ações de prevenção, apoiar decisões sobre 
+ocupação de ambientes e alimentar painéis de gestão ambiental. Esse alinhamento com as necessidades institucionais é o que torna o cenário 
+acadêmico particularmente relevante para o desenvolvimento da proposta deste trabalho.
 
 \subsection{Comparacao tecnologica}
 \begin{itemize}
-  \item Comunicação: LoRaWAN, Wi-Fi, BLE, celular.
+  \item Comunicação: LoRaWAN, Wi-Fi, BLE, LTE.
   \item Middleware: FIWARE, Node-RED, ChirpStack.
   \item Persistencia e visualizacao: bancos de dados e dashboards.
 \end{itemize}
 
 \section{Inteligencia Artificial Aplicada a Qualidade do Ar}
 \subsection{Tarefas e tecnicas}
-Classificacao, predicao de series temporais e deteccao de anomalias em dados ambientais \cite{thaylor2024,kumar2023}.
+A inteligência artificial vem sendo incorporada a sistemas de monitoramento ambiental para extrair padrões a partir de dados históricos e 
+apoiar decisões de forma automatizada. No contexto da qualidade do ar, as tarefas mais comuns incluem classificação de situações de risco, 
+previsão de séries temporais, regressão de variáveis ambientais e detecção de anomalias. Essas tarefas permitem que o sistema não apenas registre o estado atual do ambiente, mas também antecipe tendências e identifique comportamentos fora do padrão \cite{thaylor2024,kumar2023}.
+
+Em geral, a aplicação de IA depende da qualidade do conjunto de dados, da seleção das variáveis de entrada e da capacidade do modelo de 
+generalizar para condições distintas das observadas durante o treinamento. Em soluções voltadas para o monitoramento da qualidade do ar, 
+isso significa considerar não só os poluentes medidos diretamente, mas também fatores contextuais que influenciam a dispersão e a dinâmica das 
+medições. A literatura recente mostra que modelos inteligentes ganham importância quando são combinados com sensores distribuídos e fluxos 
+contínuos de dados.
 
 \subsection{Entradas, saidas e horizonte de previsao}
-Descrever variaveis de entrada, pre-processamento, janela temporal e horizonte de previsao adotado nos estudos.
+Os modelos aplicados ao monitoramento da qualidade do ar costumam usar como entradas séries temporais de poluentes, variáveis meteorológicas, 
+horários de coleta e, em alguns casos, características do ambiente monitorado. Antes do treinamento, é comum realizar limpeza de dados, normalização, 
+tratamento de valores ausentes e segmentação em janelas temporais. Esse pré-processamento é necessário para reduzir ruídos e tornar as séries mais 
+adequadas à modelagem.
+
+Quanto às saídas, os estudos podem prever valores contínuos de poluentes, classificar níveis de qualidade do ar em faixas de risco ou estimar a 
+ocorrência de eventos críticos em um horizonte de curto e médio prazo. A escolha do horizonte de previsão depende do objetivo do sistema: 
+horizontes curtos favorecem respostas operacionais imediatas, enquanto horizontes maiores ajudam no planejamento preventivo e no uso estratégico dos 
+espaços. Em ambos os casos, a definição adequada da janela temporal influencia diretamente o desempenho do modelo.
 
 \subsection{Metricas de avaliacao}
-Reportar MAE, RMSE, acuracia, precisao, revocacao e F1 quando aplicavel.
+A avaliação dos modelos de IA em qualidade do ar normalmente combina métricas de erro e de desempenho classificatório. Quando o problema é de 
+regressão ou previsão numérica, métricas como MAE e RMSE são úteis para medir o desvio entre valores previstos e observados. Quando o foco está em 
+classificação de estados ou níveis de risco, métricas como acurácia, precisão, revocação e F1 tornam-se mais apropriadas.
+
+A escolha da métrica deve refletir a finalidade prática da solução. Em aplicações voltadas à prevenção de risco, por exemplo, a revocação 
+pode ser mais importante do que a acurácia geral, porque perder um evento crítico pode ser mais grave do que gerar um alerta adicional. 
+Por isso, a literatura deve ser lida considerando não apenas os números reportados, mas também o contexto de uso do modelo e o custo associado a 
+cada tipo de erro.
 
 \section{Resposta Automatizada e Tempo Real}
 \subsection{Mecanismos de resposta}
-Alertas, notificacoes contextuais e acionamento automatico de mitigacao ambiental.
+Os mecanismos de resposta automatizada transformam o monitoramento em uma ação concreta sobre o ambiente. Em vez de apenas registrar a 
+degradação da qualidade do ar, o sistema pode emitir alertas, enviar notificações contextuais para usuários e gestores, acionar ventilação, 
+recomendar evacuação parcial ou registrar eventos para posterior análise. Essa camada de resposta é importante porque aproxima a arquitetura 
+de um sistema de apoio à decisão e não apenas de um sistema de sensoriamento.
+
+Em ambientes universitários, essa resposta pode ser combinada com regras de negócio simples ou com modelos mais sofisticados de 
+inferência, permitindo adaptar a ação ao nível de risco observado. Quanto mais integrado estiver o fluxo entre detecção, análise e 
+atuação, menor tende a ser o tempo entre a identificação do problema e a resposta operacional.
+
+O estudo de Silva et al. \cite{silva2025smartcampusrtos} é particularmente relevante porque mostra que o uso de RTOS em uma arquitetura de 
+qualidade do ar para smart campus não é apenas uma escolha de implementação, mas um fator que impacta diretamente o desempenho de comunicação e 
+de notificação em tempo real.
 
 \subsection{Garantias de tempo real}
-Discutir prazos de resposta, jitter, confiabilidade e impacto do RTOS em nós sensores \cite{septian2022,wang2023}.
+Garantias de tempo real envolvem a capacidade de respeitar prazos de execução, manter latência previsível e reduzir variações de resposta 
+em cenários de operação contínua. Em sistemas de monitoramento ambiental, isso é relevante porque o valor da informação está diretamente 
+ligado à sua tempestividade. Atrasos excessivos podem fazer com que o alerta chegue depois do pico de exposição, reduzindo o impacto da solução.
+
+Nesse sentido, o RTOS contribui para organizar tarefas concorrentes, priorizar rotinas críticas e estabilizar o comportamento do nó sensor ou do 
+controlador local \cite{septian2022,wang2023}. Em conjunto com a comunicação eficiente e com políticas claras de emissão de alertas, essas garantias 
+ajudam a construir uma arquitetura mais confiável para o monitoramento da qualidade do ar em tempo quase real.
 
 \section{Analise Comparativa dos Trabalhos}
 \subsection{Matriz comparativa}
@@ -112,6 +216,8 @@ Mokrani et al. (2019) & Nao & Nao & Nao & Nao & Media \\
 Kumar e Doss (2023) & Sim & Parcial & Nao & Nao & Alta \\
 \hline
 Cunha et al. (2024) & Nao & Nao & Sim & Nao & Alta \\
+\hline
+Silva et al. (2025) & Nao & Sim & Sim & Sim & Alta \\
 \hline
 Septian et al. (2022) & Nao & Nao & Nao & Sim & Media \\
 \hline
@@ -129,7 +235,8 @@ A partir da comparacao, explicitar lacunas como:
 \end{itemize}
 
 \section{Sintese da Revisao}
-Sintetizar o estado da arte e indicar como a proposta do IQArMobi aprimorado supera as lacunas identificadas, servindo de base para a metodologia e para os experimentos.
+Sintetizar o estado da arte e indicar como a proposta do IQArMobi aprimorado supera as lacunas identificadas, 
+servindo de base para a metodologia e para os experimentos.
 
 \section{Perguntas guia para leitura critica dos artigos}
 Para cada artigo selecionado, responder:
