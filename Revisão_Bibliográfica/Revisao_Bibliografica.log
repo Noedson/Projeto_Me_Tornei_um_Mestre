@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.6.26)  26 JUN 2026 11:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.7.30)  21 AUG 2026 10:51
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -6,7 +6,7 @@ entering extended mode
 **./Revisao_Bibliografica.tex
 (Revisao_Bibliografica.tex
 LaTeX2e <2026-06-01>
-L3 programming layer <2026-05-26>
+L3 programming layer <2026-06-18>
 (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
 Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
 (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\size12.clo
@@ -30,7 +30,7 @@ Package: inputenc 2024/02/08 v1.3d Input encoding file
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
-Package: babel 2026/05/20 v26.8 The multilingual framework for LuaLaTeX, pdfLaTeX and XeLaTeX
+Package: babel 2026/06/14 v26.9 The multilingual framework for LuaLaTeX, pdfLaTeX and XeLaTeX
 \babel@savecnt=\count284
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input line 2084.
 LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input line 2086.
@@ -46,7 +46,7 @@ LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) o
 \bbl@dirlevel=\count285
 Package babel Info: Configuration files are deprecated, as
 (babel)             they can break document portability.
-(babel)             Reported on input line 4228.
+(babel)             Reported on input line 4252.
 
 *************************************
 * Local config file bblopts.cfg used
@@ -54,8 +54,8 @@ Package babel Info: Configuration files are deprecated, as
 (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg
 File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of babel
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/pt\babel-brazilian.tex)
-Package babel Info: Importing font and identification data for brazilian
-(babel)             from babel-pt-BR.ini. Reported on input line 4356.
+Package babel Info: Importing font and identification data for 'brazilian'
+(babel)             from babel-pt-BR.ini. Reported on input line 4380.
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/babel-portuges\brazilian.ldf
 Language: portuges 2026/01/24 v1.2u Portuguese support from the babel system
 Package babel Info: Hyphen rules for 'brazilian' set to \l@portuguese
@@ -96,108 +96,417 @@ Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
 \extratabsurround=\skip51
 \backup@length=\skip52
 \ar@cellbox=\box54
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2026-05-17 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2026-05-17 v1.4h Standard LaTeX Graphics (DPC,SPQR)
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen162
+\Gin@req@width=\dimen163
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
+\TX@col@width=\dimen164
+\TX@old@table=\dimen165
+\TX@old@col=\dimen166
+\TX@target=\dimen167
+\TX@delta=\dimen168
+\TX@cols=\count289
+\TX@ftn=\toks22
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen162
-\lightrulewidth=\dimen163
-\cmidrulewidth=\dimen164
-\belowrulesep=\dimen165
-\belowbottomsep=\dimen166
-\aboverulesep=\dimen167
-\abovetopsep=\dimen168
-\cmidrulesep=\dimen169
-\cmidrulekern=\dimen170
-\defaultaddspace=\dimen171
-\@cmidla=\count289
-\@cmidlb=\count290
-\@aboverulesep=\dimen172
-\@belowrulesep=\dimen173
-\@thisruleclass=\count291
-\@lastruleclass=\count292
-\@thisrulewidth=\dimen174
+\heavyrulewidth=\dimen169
+\lightrulewidth=\dimen170
+\cmidrulewidth=\dimen171
+\belowrulesep=\dimen172
+\belowbottomsep=\dimen173
+\aboverulesep=\dimen174
+\abovetopsep=\dimen175
+\cmidrulesep=\dimen176
+\cmidrulekern=\dimen177
+\defaultaddspace=\dimen178
+\@cmidla=\count290
+\@cmidlb=\count291
+\@aboverulesep=\dimen179
+\@belowrulesep=\dimen180
+\@thisruleclass=\count292
+\@lastruleclass=\count293
+\@thisrulewidth=\dimen181
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/multirow\multirow.sty
+Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
+\multirow@colwidth=\skip53
+\multirow@cntb=\count294
+\multirow@dima=\skip54
+\bigstrutjot=\dimen182
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
 Package: longtable 2026-01-28 v4.27 Multi-page Table package (DPC)
-\LTleft=\skip53
-\LTright=\skip54
-\LTpre=\skip55
-\LTpost=\skip56
-\LTchunksize=\count293
-\LTcapwidth=\dimen175
+\LTleft=\skip55
+\LTright=\skip56
+\LTpre=\skip57
+\LTpost=\skip58
+\LTchunksize=\count295
+\LTcapwidth=\dimen183
 \LT@head=\box55
 \LT@firsthead=\box56
 \LT@foot=\box57
 \LT@lastfoot=\box58
 \LT@gbox=\box59
-\LT@cols=\count294
-\LT@rows=\count295
-\c@LT@tables=\count296
-\c@LT@chunks=\count297
-\LT@p@ftn=\toks22
+\LT@cols=\count296
+\LT@rows=\count297
+\c@LT@tables=\count298
+\c@LT@chunks=\count299
+\LT@p@ftn=\toks23
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count298
-\float@exts=\toks23
+\c@float@type=\count300
+\float@exts=\toks24
 \float@box=\box60
-\@float@everytoks=\toks24
+\@float@everytoks=\toks25
 \@floatcapt=\box61
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/abntex2\abntex2cite.sty
-Package: abntex2cite 2018/11/24 v-1.9.7 abnTeX2
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/placeins\placeins.sty
+Package: placeins 2005/04/18  v 2.2
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
+Package: enumitem 2025/02/06 v3.11 Customized lists
+\labelindent=\skip59
+\enit@outerparindent=\dimen184
+\enit@toks=\toks26
+\enit@inbox=\box62
+\enit@count@id=\count301
+\enitdp@description=\count302
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.sty
+Package: csquotes 2026-05-19 v5.2p context-sensitive quotations (JAW)
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count303
+)
+\csq@reset=\count304
+\csq@gtype=\count305
+\csq@glevel=\count306
+\csq@qlevel=\count307
+\csq@maxlvl=\count308
+\csq@tshold=\count309
+\csq@ltx@everypar=\toks27
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.def
+File: csquotes.def 2026-05-19 v5.2p csquotes generic definitions (JAW)
+)
+Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
+Package csquotes Info: ... configuration file loaded successfully.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/csquotes\csquotes.cfg
+File: csquotes.cfg 
+)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen185
+\captionmargin=\dimen186
+\caption@leftmargin=\dimen187
+\caption@rightmargin=\dimen188
+\caption@width=\dimen189
+\caption@indent=\dimen190
+\caption@parindent=\dimen191
+\caption@hangindent=\dimen192
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count310
+\c@continuedfloat=\count311
+Package caption Info: float package is loaded.
+Package caption Info: longtable package is loaded.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/caption\ltcaption.sty
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
+)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.sty
+Package: biblatex 2025/07/10 v3.21 programmable bibliographies (PK/MW)
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count312
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/logreq\logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
-Package: calc 2025/03/01 v4.3b Infix arithmetic (KKT,FJ)
-\calc@Acount=\count299
-\calc@Bcount=\count300
-\calc@Adimen=\dimen176
-\calc@Bdimen=\dimen177
-\calc@Askip=\skip57
-\calc@Bskip=\skip58
-LaTeX Info: Redefining \setlength on input line 86.
-LaTeX Info: Redefining \addtolength on input line 87.
-\calc@Ccount=\count301
-\calc@Cskip=\skip59
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/abntex2\abntex2abrev.sty) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-\minimumbiblabelwidth=\skip60
-\ABCIauxlen=\skip61
-\c@ABCIaux=\count302
-\c@ABCImax=\count303
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifpdf.sty
-Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifxetex.sty
-Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/relsize\relsize.sty
-Package: relsize 2013/03/29 ver 4.1
-)
+\c@tabx@nest=\count313
+\c@listtotal=\count314
+\c@listcount=\count315
+\c@liststart=\count316
+\c@liststop=\count317
+\c@citecount=\count318
+\c@citetotal=\count319
+\c@multicitecount=\count320
+\c@multicitetotal=\count321
+\c@instcount=\count322
+\c@maxnames=\count323
+\c@minnames=\count324
+\c@maxitems=\count325
+\c@minitems=\count326
+\c@citecounter=\count327
+\c@maxcitecounter=\count328
+\c@savedcitecounter=\count329
+\c@uniquelist=\count330
+\c@uniquename=\count331
+\c@refsection=\count332
+\c@refsegment=\count333
+\c@maxextratitle=\count334
+\c@maxextratitleyear=\count335
+\c@maxextraname=\count336
+\c@maxextradate=\count337
+\c@maxextraalpha=\count338
+\c@abbrvpenalty=\count339
+\c@highnamepenalty=\count340
+\c@lownamepenalty=\count341
+\c@maxparens=\count342
+\c@parenlevel=\count343
+\blx@tempcnta=\count344
+\blx@tempcntb=\count345
+\blx@tempcntc=\count346
+\c@blx@maxsection=\count347
+\blx@maxsegment@0=\count348
+\blx@notetype=\count349
+\blx@parenlevel@text=\count350
+\blx@parenlevel@foot=\count351
+\blx@sectionciteorder@0=\count352
+\blx@sectionciteorderinternal@0=\count353
+\blx@entrysetcounter=\count354
+\blx@biblioinstance=\count355
+\labelnumberwidth=\skip60
+\labelalphawidth=\skip61
 \biblabelsep=\skip62
-LaTeX Info: Redefining \newblock on input line 591.
-LaTeX Info: Redefining \cite on input line 618.
-\ABCItoken=\toks25
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+\bibitemsep=\skip63
+\bibnamesep=\skip64
+\bibinitsep=\skip65
+\bibparsep=\skip66
+\bibhang=\skip67
+\blx@bcfin=\read3
+\blx@bcfout=\write3
+\blx@langwohyphens=\language80
+\c@mincomprange=\count356
+\c@maxcomprange=\count357
+\c@mincompwidth=\count358
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-dm.def
+File: blx-dm.def 2025/07/10 v3.21 biblatex datamodel (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'abnt.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count359
+\c@savedafterword=\count360
+\c@annotator=\count361
+\c@savedannotator=\count362
+\c@author=\count363
+\c@savedauthor=\count364
+\c@bookauthor=\count365
+\c@savedbookauthor=\count366
+\c@commentator=\count367
+\c@savedcommentator=\count368
+\c@editor=\count369
+\c@savededitor=\count370
+\c@editora=\count371
+\c@savededitora=\count372
+\c@editorb=\count373
+\c@savededitorb=\count374
+\c@editorc=\count375
+\c@savededitorc=\count376
+\c@foreword=\count377
+\c@savedforeword=\count378
+\c@holder=\count379
+\c@savedholder=\count380
+\c@introduction=\count381
+\c@savedintroduction=\count382
+\c@namea=\count383
+\c@savednamea=\count384
+\c@nameb=\count385
+\c@savednameb=\count386
+\c@namec=\count387
+\c@savednamec=\count388
+\c@translator=\count389
+\c@savedtranslator=\count390
+\c@shortauthor=\count391
+\c@savedshortauthor=\count392
+\c@shorteditor=\count393
+\c@savedshorteditor=\count394
+\c@labelname=\count395
+\c@savedlabelname=\count396
+\c@institution=\count397
+\c@savedinstitution=\count398
+\c@lista=\count399
+\c@savedlista=\count400
+\c@listb=\count401
+\c@savedlistb=\count402
+\c@listc=\count403
+\c@savedlistc=\count404
+\c@listd=\count405
+\c@savedlistd=\count406
+\c@liste=\count407
+\c@savedliste=\count408
+\c@listf=\count409
+\c@savedlistf=\count410
+\c@location=\count411
+\c@savedlocation=\count412
+\c@organization=\count413
+\c@savedorganization=\count414
+\c@origlocation=\count415
+\c@savedoriglocation=\count416
+\c@origpublisher=\count417
+\c@savedorigpublisher=\count418
+\c@publisher=\count419
+\c@savedpublisher=\count420
+\c@language=\count421
+\c@savedlanguage=\count422
+\c@origlanguage=\count423
+\c@savedoriglanguage=\count424
+\c@pageref=\count425
+\c@savedpageref=\count426
+\shorthandwidth=\skip68
+\shortjournalwidth=\skip69
+\shortserieswidth=\skip70
+\shorttitlewidth=\skip71
+\shortauthorwidth=\skip72
+\shorteditorwidth=\skip73
+\locallabelnumberwidth=\skip74
+\locallabelalphawidth=\skip75
+\localshorthandwidth=\skip76
+\localshortjournalwidth=\skip77
+\localshortserieswidth=\skip78
+\localshorttitlewidth=\skip79
+\localshortauthorwidth=\skip80
+\localshorteditorwidth=\skip81
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-compat.def
+File: blx-compat.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.def
+File: biblatex.def 2025/07/10 v3.21 biblatex compatibility (PK/MW)
+\c@textcitecount=\count427
+\c@textcitetotal=\count428
+\c@textcitemaxnames=\count429
+\c@biburlbigbreakpenalty=\count430
+\c@biburlbreakpenalty=\count431
+\c@biburlnumpenalty=\count432
+\c@biburlucpenalty=\count433
+\c@biburllcpenalty=\count434
+\biburlbigskip=\muskip18
+\biburlnumskip=\muskip19
+\biburlucskip=\muskip20
+\biburllcskip=\muskip21
+\c@smartand=\count435
+)
+Package biblatex Info: Trying to load bibliography style 'abnt'...
+Package biblatex Info: ... file 'abnt.bbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-abnt/bbx\abnt.bbx
+File: abnt.bbx 2018-11-17 v3.4 ABNT BibLaTeX citation style
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xparse.sty (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2026-06-18 L3 programming layer (loader) 
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count304
-) (Revisao_Bibliografica.aux
+\l__color_backend_stack_int=\count436
+))
+Package: xparse 2025-10-09 L3 Experimental document command parser
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/xpatch\xpatch.sty
+Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
+)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/bbx\standard.bbx
+File: standard.bbx 2025/07/10 v3.21 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count437
+\c@bbx:relatedtotal=\count438
+))
+Package biblatex Info: Trying to load citation style 'abnt'...
+Package biblatex Info: ... file 'abnt.cbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-abnt/cbx\abnt.cbx
+File: abnt.cbx 2018-11-17 v3.4 ABNT BibLaTeX citation style
+Package biblatex Info: Trying to load citation style 'authoryear-comp'...
+Package biblatex Info: ... file 'authoryear-comp.cbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/cbx\authoryear-comp.cbx
+File: authoryear-comp.cbx 2025/07/10 v3.21 biblatex citation style (PK/MW)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\footcites'.
+Package biblatex Info: Redefining '\footcitetexts'.
+Package biblatex Info: Redefining '\smartcites'.
+)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcites'.
+Package biblatex Info: Redefining '\citetitle'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\citeauthor'.
+Package biblatex Info: Redefining '\citeyear'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.cfg
+File: biblatex.cfg 
+)
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Document encoding is UTF8 ....
+Package biblatex Info: ... and expl3
+(biblatex)             2026-06-18 L3 programming layer (loader) 
+(biblatex)             is new enough (at least 2020/04/06),
+(biblatex)             setting 'casechanger=expl3'.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-case-expl3.sty
+Package: blx-case-expl3 2025/07/10 v3.21 expl3 case changing code for biblatex
+))
+Package csquotes Info: Checking for multilingual support...
+Package csquotes Info: ... found 'babel' package.
+Package csquotes Info: Adjusting default style.
+Package csquotes Info: Redefining alias 'default' -> 'brazilian'.
+ (Revisao_Bibliografica.aux
 Package babel Info: 'brazilian' activates 'portuges' shorthands.
-(babel)             Reported on input line 8.
+(babel)             Reported on input line 6.
 )
 \openout1 = `Revisao_Bibliografica.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -233,13 +542,81 @@ LaTeX Font Info:    ... okay on input line 25.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count439
+\scratchdimen=\dimen193
+\scratchbox=\box63
+\nofMPsegments=\count440
+\nofMParguments=\count441
+\everyMPshowfont=\toks28
+\MPscratchCnt=\count442
+\MPscratchDim=\dimen194
+\MPnumerator=\count443
+\makeMPintoPDFobject=\count444
+\everyMPtoPDFconversion=\toks29
+) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+Package biblatex Info: Trying to load language 'brazilian' -> 'brazilian-abnt'...
+Package biblatex Info: ... file 'brazilian-abnt.lbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-abnt/lbx\brazilian-abnt.lbx
+File: brazilian-abnt.lbx 2018-11-17 v3.4 ABNT BibLaTeX citation style
+Package biblatex Info: Trying to load language 'brazilian'...
+Package biblatex Info: ... file 'brazilian.lbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\brazilian.lbx
+File: brazilian.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load language 'brazilian'...
+Package biblatex Info: ... file 'brazilian.lbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\brazilian.lbx
+File: brazilian.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load language 'brazil' -> 'brazil-abnt'...
+Package biblatex Info: ... file 'brazil-abnt.lbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-abnt/lbx\brazil-abnt.lbx
+File: brazil-abnt.lbx 2018-11-17 v3.4 ABNT BibLaTeX citation style
+Package biblatex Info: Trying to load language 'brazilian-abnt'...
+Package biblatex Info: ... file 'brazilian-abnt.lbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex-abnt/lbx\brazilian-abnt.lbx
+File: brazilian-abnt.lbx 2018-11-17 v3.4 ABNT BibLaTeX citation style
+Package biblatex Info: Trying to load language 'brazilian'...
+Package biblatex Info: ... file 'brazilian.lbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\brazilian.lbx
+File: brazilian.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
+)
+Package biblatex Info: Trying to load language 'brazil'...
+Package biblatex Info: ... file 'brazil.lbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\brazil.lbx
+File: brazil.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
+Package biblatex Info: Trying to load language 'brazilian'...
+Package biblatex Info: ... file 'brazilian.lbx' found.
+ (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\brazilian.lbx
+File: brazilian.lbx 2025/07/10 v3.21 biblatex localization (PK/MW)
+)))))
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Automatic encoding selection.
+(biblatex)             Assuming data encoding 'utf8'.
+\openout3 = `Revisao_Bibliografica.bcf'.
 
-Underfull \hbox (badness 10000) in paragraph at lines 34--39
+Package biblatex Info: Trying to load bibliographic data...
+Package biblatex Info: ... file 'Revisao_Bibliografica.bbl' found.
+ (Revisao_Bibliografica.bbl)
+Package biblatex Info: Reference section=0 on input line 35.
+Package biblatex Info: Reference segment=0 on input line 35.
+Package babel Info: Main language set to 'brazilian'.
+
+Underfull \hbox (badness 10000) in paragraph at lines 44--49
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 48--53
+Underfull \hbox (badness 10000) in paragraph at lines 58--63
 
  []
 
@@ -247,59 +624,731 @@ Underfull \hbox (badness 10000) in paragraph at lines 48--53
 
 {C:/Users/Noedson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 59.
+(Font)              <12> on input line 69.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 59.
+(Font)              <8> on input line 69.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 59.
- [2] [3] [4] [5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 235--235
-[]|\T1/cmr/bx/n/10.95 Resposta
+(Font)              <6> on input line 69.
+ [2] [3] [4] [5] [6] (Procotolo_deRevisao_import.tex
+\c@artigoIncluido=\count445
+\c@artigoExcluido=\count446
+\c@artigoAvaliado=\count447
+ [7] [8]
+Underfull \hbox (badness 10000) in paragraph at lines 296--297
+[]|\T1/cmr/bx/n/12 Palavra-chave em
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 235--235
-[]|\T1/cmr/bx/n/10.95 Contexto
+Underfull \hbox (badness 10000) in paragraph at lines 298--299
+[]|\T1/cmr/bx/n/12 Palavra-chave em
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 237--237
-[]|\T1/cmr/m/n/10.95 Mokrani et al.
+Underfull \hbox (badness 1205) in paragraph at lines 299--300
+[]|\T1/cmr/bx/n/12 Sinonimos em In-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 239--239
-[]|\T1/cmr/m/n/10.95 Kumar e Doss
+Underfull \hbox (badness 1852) in paragraph at lines 304--305
+[]|\T1/cmr/m/n/12 Ambient air qua-lity,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--241
-[]|\T1/cmr/m/n/10.95 Cunha et al.
+Underfull \hbox (badness 10000) in paragraph at lines 304--305
+\T1/cmr/m/n/12 Air Pol-lu-tion, At-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 245--245
-[]|\T1/cmr/m/n/10.95 Septian et al.
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
+[]|\T1/cmr/m/n/12 Campus in-te-li-gente,
  []
 
-[7] (Revisao_Bibliografica.bbl [8]) [9] (Revisao_Bibliografica.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 309--310
+[]|\T1/cmr/m/n/12 Intelligent cam-pus,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 309--310
+\T1/cmr/m/n/12 Con-nec-ted cam-pus,
+ []
+
+
+Underfull \hbox (badness 2735) in paragraph at lines 312--313
+[]|\T1/cmr/m/n/12 Internet das Coi-sas,
+ []
+
+
+Underfull \hbox (badness 2556) in paragraph at lines 312--313
+\T1/cmr/m/n/12 Dis-po-si-ti-vos co-nec-ta-
+ []
+
+
+Underfull \hbox (badness 7925) in paragraph at lines 314--315
+[]|\T1/cmr/m/n/12 Internet of Things,
+ []
+
+
+Underfull \hbox (badness 1655) in paragraph at lines 314--315
+\T1/cmr/m/n/12 IoT Sys-tems, Smart
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 317--318
+[]|\T1/cmr/m/n/12 Rede LPWAN de
+ []
+
+
+Underfull \hbox (badness 4060) in paragraph at lines 317--318
+\T1/cmr/m/n/12 es-tru-tura Lo-RaWAN
+ []
+
+
+Underfull \hbox (badness 5533) in paragraph at lines 319--320
+[]|\T1/cmr/m/n/12 LoRaWAN Network,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 324--325
+[]|\T1/cmr/m/n/12 FIWARE Plat-form,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 327--328
+[]|\T1/cmr/m/n/12 Predição de curto
+ []
+
+
+Underfull \hbox (badness 4144) in paragraph at lines 328--329
+[]|\T1/cmr/m/n/12 Short-term pol-lu-tant
+ []
+
+
+Overfull \hbox (49.99994pt too wide) in paragraph at lines 294--332
+ [][] 
+ []
+
+
+Overfull \hbox (13.94131pt too wide) in paragraph at lines 354--354
+[]\T1/cmtt/m/n/12 - (("qualidade do ar" OR "poluição do ar" OR "qualidade do ar interior") AND[] 
+ []
+
+[9]
+Overfull \hbox (4.04782pt too wide) in paragraph at lines 397--404
+\T1/cmr/m/n/12 mo-ra-mento do IQAr-Mobi, pri-o-ri-zando ar-qui-te-tu-ras IoT mo-du-la-res (Lo-RaWAN/FIWARE),
+ []
+
+[10] [11] [12]
+Underfull \hbox (badness 1028) in paragraph at lines 513--513
+[]|\T1/cmr/m/n/10.95 Bruna M. O. Silva,
+ []
+
+
+Underfull \hbox (badness 6893) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 Re-nato F. Bulcão-
+ []
+
+
+Underfull \hbox (badness 6526) in paragraph at lines 513--513
+[]|\T1/cmr/m/n/10.95 Anushree A. Aser-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 Go-dla and You-sef
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 A.Baker El-Ebiary
+ []
+
+
+Underfull \hbox (badness 1931) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 and Janjhyam Ven-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+[]|\T1/cmr/m/n/10.95 International
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 Jour-nal of
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 pu-ter Sci-ence
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 and Ap-pli-ca-ti-
+ []
+
+
+Underfull \hbox (badness 6078) in paragraph at lines 513--513
+[]|\T1/cmr/m/n/10.95 Pablo Leon Ro-dri-
+ []
+
+
+Underfull \hbox (badness 5064) in paragraph at lines 513--513
+[]|\T1/cmr/m/n/10.95 Repositório Di-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+[]|\T1/cmr/m/n/10.95 Ana Ca-ro-lina Ca-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 Fe-lipe Hashi-moto
+ []
+
+
+Underfull \hbox (badness 1688) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 Fa-ria and Iara Ne-
+ []
+
+
+Underfull \hbox (badness 1264) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 grei-ros and Lu-ci-ana
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 Ro-gos-chewski and
+ []
+
+
+Underfull \hbox (badness 5696) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 Re-gi-ane Relva Ro-
+ []
+
+
+Underfull \hbox (badness 4660) in paragraph at lines 513--513
+\T1/cmr/m/n/10.95 mano and Ro-berto
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 515--524
+
+ []
+
+
+Overfull \hbox (4.64769pt too wide) in paragraph at lines 590--590
+ []|\T1/cmr/m/n/12 100%| 
+ []
+
+[13] [14]
+Overfull \hbox (1.50095pt too wide) in paragraph at lines 947--947
+[]|\T1/cmr/bx/n/10.95 Poluentes| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 FreeRTOS
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 em Smart
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 Cam-pus
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 ESP32-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 LoRa,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 Fre-eR-TOS,
+ []
+
+
+Overfull \hbox (15.41902pt too wide) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 MQ131/MQ135,
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 CO, CO[] ,
+ []
+
+
+Underfull \hbox (badness 3260) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 O[] , NH[] ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Throughput
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 TX/RX, in-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 ter-valo de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 trans-mis-são,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 taxa de su-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Com RTOS: TX=178,23;
+ []
+
+
+Underfull \hbox (badness 2073) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 RX=164,18; in-ter-valo=5,03s;
+ []
+
+
+Underfull \hbox (badness 2142) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 TX=110,97; RX=99,41; in-
+ []
+
+
+Underfull \hbox (badness 7273) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 ter-valo 8s; su-cesso=83,3%.
+ []
+
+
+Overfull \hbox (9.74165pt too wide) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 RuraLTHINGS
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 (La-deira,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 ESP32-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 LoRa,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 FIWARE,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 LSTM/Bi-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 LSTM,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 ARIMA,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Radão,
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 CO, CO[] ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 tem-pe-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 ra-tura,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 MSE, MAE,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 RMSE, R[] ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 sMAPE,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Melhor mo-delo (Bi-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 LSTM+LSTM): R[] =0,95;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 fe-rên-cia mé-dia=49\TS1/cmr/m/n/10.95 µ\T1/cmr/m/n/10.95 s (no
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Sensor
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 PPD42NS
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 (Vil-la-rim,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 ESP32
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 LoRa,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 PPD42NS,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 MQ, RNA,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 MP[] ,
+ []
+
+
+Underfull \hbox (badness 1454) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 CO, CH[] ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Correlação
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 li-near, PDR,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Calibração PPD42NS:
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 R[] =0,967. RNA para
+ []
+
+
+Underfull \hbox (badness 4940) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 ga-ses: acu-rá-cia=100% (ál-
+ []
+
+
+Underfull \hbox (badness 5711) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 cool/água/ar). LoRa em
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 FIWARE
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 no Cam-pus
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 (Cu-nha et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 ESP32-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 LoRa,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 FIWARE,
+ []
+
+
+Overfull \hbox (82.38976pt too wide) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 MQ9/MQ131/MQ135/DHT11| 
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 CO, CO[] ,
+ []
+
+
+Underfull \hbox (badness 3679) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 O[] , CH[] ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Concentrações
+ []
+
+
+Underfull \hbox (badness 2980) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 CO: até 25 ppm (gal-pão).
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 IQArMobi
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 (Thay-lor et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 ESP32-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 LoRa,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 FIWARE,
+ []
+
+
+Underfull \hbox (badness 1173) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 CO, CO[] ,
+ []
+
+
+Underfull \hbox (badness 3679) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 CH[] , O[] ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 ci-são, re-call,
+ []
+
+
+Underfull \hbox (badness 2828) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Logistic Re-gres-sion: acu-rá-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 TinyML
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 para cloro
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 (Ro-dri-gues,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 ESP32-S3,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 Ten-sor-Flow
+ []
+
+
+Underfull \hbox (badness 4765) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 MSE, RMSE,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 MAE, R[] ,
+ []
+
+
+Underfull \hbox (badness 7186) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 cia, ta-ma-nho
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+[]|\T1/cmr/m/n/10.95 Modelo fi-nal: MSE=3,96;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 MAE=1,14; R[] =0,95; in-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 fe-rên-cia=49\TS1/cmr/m/n/10.95 µ\T1/cmr/m/n/10.95 s; re-du-ção de
+ []
+
+
+Underfull \hbox (badness 3168) in paragraph at lines 947--947
+\T1/cmr/m/n/10.95 ta-ma-nho=93,7% (26,5kB \TS1/cmr/m/n/10.95 ^^Y
+ []
+
+[15]
+Overfull \hbox (1.77191pt too wide) in paragraph at lines 956--957
+[]\T1/cmr/bx/n/12 Middleware para in-te-ro-pe-ra-bi-li-dade (FIWARE): \T1/cmr/m/n/12 des-ta-que nos tra-ba-lhos do grupo
+ []
+
+
+Underfull \hbox (badness 4467) in paragraph at lines 983--983
+[]|\T1/cmr/m/n/10.95 TinyML (mo-de-los le-ves para em-bar-ca-dos); Quan-ti-za-ção pós-
+ []
+
+[16]
+Underfull \hbox (badness 10000) in paragraph at lines 1026--1026
+[]|\T1/cmr/m/n/10.95 Throughput
+ []
+
+
+Underfull \hbox (badness 3189) in paragraph at lines 1026--1026
+[]|\T1/cmr/m/n/10.95 Intervalo de trans-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1026--1026
+[]|\T1/cmr/m/n/10.95 Taxa de su-cesso
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1026--1026
+[]|\T1/cmr/m/n/10.95 Erro mé-dio
+ []
+
+[17]
+Underfull \hbox (badness 10000) in paragraph at lines 1104--1104
+[]|\T1/cmr/m/n/10.95 Escalabilidade da
+ []
+
+
+Underfull \hbox (badness 1033) in paragraph at lines 1104--1104
+[]|\T1/cmr/m/n/10.95 Consumo ener-gé-tico
+ []
+
+
+Underfull \hbox (badness 6047) in paragraph at lines 1104--1104
+[]|\T1/cmr/m/n/10.95 Explicabilidade dos
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1104--1104
+[]|\T1/cmr/m/n/10.95 Comparação en-tre
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1104--1104
+[]|\T1/cmr/m/n/10.95 Monitoramento de
+ []
+
+
+Underfull \hbox (badness 6284) in paragraph at lines 1104--1104
+\T1/cmr/m/n/10.95 múl-ti-plos po-lu-en-tes
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1104--1104
+[]|\T1/cmr/m/n/10.95 Disponibilidade de
+ []
+
+[18] [19]) [20] [21] [22] (Revisao_Bibliografica.aux)
  ***********
 LaTeX2e <2026-06-01>
-L3 programming layer <2026-05-26>
+L3 programming layer <2020/03/25>
  ***********
+Package logreq Info: Writing requests to 'Revisao_Bibliografica.run.xml'.
+\openout1 = `Revisao_Bibliografica.run.xml'.
+
  ) 
 Here is how much of TeX's memory you used:
- 3559 strings out of 467508
- 61084 string characters out of 5407787
- 497246 words of memory out of 5000000
- 32769 multiletter control sequences out of 15000+600000
- 639194 words of font info for 61 fonts, out of 8000000 for 9000
+ 15028 strings out of 467509
+ 287622 string characters out of 5407801
+ 1208395 words of memory out of 5000000
+ 44088 multiletter control sequences out of 15000+600000
+ 641450 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,6n,65p,338b,368s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm2074.pk>
-Output written on Revisao_Bibliografica.pdf (9 pages, 152762 bytes).
+ 78i,11n,79p,1990b,3959s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcbx1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcbx1095.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\Noedson\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm2074.pk><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on Revisao_Bibliografica.pdf (22 pages, 260835 bytes).
 PDF statistics:
- 413 PDF objects out of 1000 (max. 8388607)
+ 650 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

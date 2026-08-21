@@ -1,6 +1,7 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{array}
@@ -15,8 +16,11 @@
 \usepackage[backend=biber,style=abnt]{biblatex}
 \usepackage{hyperref}
 \providecommand{\abntnextkey}{}
-\renewcommand{\refname}{Referencias}
-\addbibresource{Referencias/referencias.bib}
+\DefineBibliographyStrings{brazil}{%
+  references = {Referências}
+}
+
+\addbibresource{../Revisão_Bibliográfica/referencias.bib}
 
 \geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
 \setstretch{1.15}
@@ -891,7 +895,7 @@ A pontuação foi convertida em percentual, classificando os estudos como Excele
   planejamento_estudo={Coleta de dados de poluentes → Armazenamento no banco NoSQL com rotulagem do IQAr → Pré-processamento (remoção de atributos, imputação de missing values, oversampling) → Divisão 70/30 → Validação cruzada 5-fold repetida 30 vezes → Treinamento e avaliação de quatro algoritmos (RF, GBC, SVM, LR) → Testes de mobilidade em dois cenários com cálculo de distância haversine.},
   ameacas_validade={Interna: banco de dados original desbalanceado (classe "bom" muito maior); oversampling pode introduzir viés; sensores não calibrados; IQAr reduzido a apenas duas classes (bom/péssimo). Externa: testes restritos a um único campus (UNIFESSPA); configuração específica de hardware/software. De constructo: IQAr simplificado, cálculo não detalhado. Estatística: amostra relativamente pequena (8.549 registros), métricas muito altas (99\%) podem indicar overfitting ou dados muito separáveis.},
   comentarios_adicionais={O IQArMobi integra classificação por machine learning com consciência de localização (distância haversine) em um sistema IoT/FIWARE. A acurácia de 99\% da Regressão Logística é excelente, mas deve ser interpretada com cautela devido ao desbalanceamento original e à simplificação do IQAr. A abordagem de mobilidade é inovadora e relevante para cidades inteligentes. Trabalhos futuros sugerem inclusão de dados de saúde humana e deep learning para personalização.},
-  referencias_relevantes={imam2024air,kumar2017 serdaroglu2023location, mottahedin2024air, schurholz2020artificial, rastogi2022context}
+  referencias_relevantes={imam2024air,kumar2017,serdaroglu2023location,mottahedin2024air, schurholz2020artificial, rastogi2022context}
 }
 
 \formularioExtracaoDadosSomenteBibtex{6}
