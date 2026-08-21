@@ -1,86 +1,2267 @@
-\providecommand{\abntreprintinfo}[1]{%
- \citeonline{#1}}
-\setlength{\labelsep}{0pt}\begin{thebibliography}{}
-\providecommand{\abntrefinfo}[3]{}
-\providecommand{\abntbstabout}[1]{}
-\abntbstabout{v-1.9.7 }
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
 
-\bibitem[Alves et al. 2025]{alves2025freertos}
-\abntrefinfo{Alves et al.}{ALVES et al.}{2025}
-{ALVES, E. et al. Freertos application in a real-time air quality monitoring
-  architecture for smart campus.
-\emph{IEEE Latin America Transactions}, IEEE, v.~23, n.~4, p. 266--273, 2025.}
 
-\bibitem[Aserkar et al. 2024]{Aserkar2024}
-\abntrefinfo{Aserkar et al.}{ASERKAR et al.}{2024}
-{ASERKAR, A.~A. et al. Real-time air quality monitoring in smart cities using
-  iot-enabled advanced optical sensors.
-\emph{International Journal of Advanced Computer Science and Applications}, The
-  Science and Information Organization, v.~15, n.~4, 2024.
-Dispon{\'\i}vel em: \url{http://dx.doi.org/10.14569/IJACSA.2024.0150487}.}
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{abadi2015tensorflow}{misc}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=9a04ae935da573a7aa9c83afdf2fd845}{%
+           family={Abadi},
+           familyi={A\bibinitperiod},
+           given={Martín},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{24b1e0a436b566c814359b41f12b3ce3}
+      \strng{fullhash}{24b1e0a436b566c814359b41f12b3ce3}
+      \strng{fullhashraw}{24b1e0a436b566c814359b41f12b3ce3}
+      \strng{bibnamehash}{24b1e0a436b566c814359b41f12b3ce3}
+      \strng{authorbibnamehash}{24b1e0a436b566c814359b41f12b3ce3}
+      \strng{authornamehash}{24b1e0a436b566c814359b41f12b3ce3}
+      \strng{authorfullhash}{24b1e0a436b566c814359b41f12b3ce3}
+      \strng{authorfullhashraw}{24b1e0a436b566c814359b41f12b3ce3}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Software available from tensorflow.org}
+      \field{title}{TensorFlow: Large-Scale Machine Learning on Heterogeneous Systems}
+      \field{year}{2015}
+    \endentry
+    \entry{abdelsamea2016}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=5a32c5fe91e2a14f80e1d99087aff1c1}{%
+           family={Abdelsamea},
+           familyi={A\bibinitperiod},
+           given={M.\bibnamedelimi H.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1cca615554fa1972df19f2704cf3bb00}{%
+           family={Zorkany},
+           familyi={Z\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8eb7ba051716f433f22d2a272f3d4927}{%
+           family={Abdelkader},
+           familyi={A\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{ee9cbbf17225d121583cd4889db038c3}
+      \strng{fullhash}{ee9cbbf17225d121583cd4889db038c3}
+      \strng{fullhashraw}{ee9cbbf17225d121583cd4889db038c3}
+      \strng{bibnamehash}{ee9cbbf17225d121583cd4889db038c3}
+      \strng{authorbibnamehash}{ee9cbbf17225d121583cd4889db038c3}
+      \strng{authornamehash}{ee9cbbf17225d121583cd4889db038c3}
+      \strng{authorfullhash}{ee9cbbf17225d121583cd4889db038c3}
+      \strng{authorfullhashraw}{ee9cbbf17225d121583cd4889db038c3}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{World Symposium on Computer Applications \& Research (WSCAR)}
+      \field{title}{Real Time Operating Systems for the Internet of Things, Vision, Architecture and Research Directions}
+      \field{year}{2016}
+      \field{pages}{72\bibrangedash 77}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/WSCAR.2016.21
+      \endverb
+    \endentry
+    \entry{mokrani2019}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f49266826cb39a36f1ab8e31c5b65236}{%
+           family={al.},
+           familyi={a\bibinitperiod},
+           given={H.\bibnamedelimi Mokrani},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0,
+           prefix={et},
+           prefixi={e\bibinitperiod},
+           prefixun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{f49266826cb39a36f1ab8e31c5b65236}
+      \strng{fullhash}{f49266826cb39a36f1ab8e31c5b65236}
+      \strng{fullhashraw}{f49266826cb39a36f1ab8e31c5b65236}
+      \strng{bibnamehash}{f49266826cb39a36f1ab8e31c5b65236}
+      \strng{authorbibnamehash}{f49266826cb39a36f1ab8e31c5b65236}
+      \strng{authornamehash}{f49266826cb39a36f1ab8e31c5b65236}
+      \strng{authorfullhash}{f49266826cb39a36f1ab8e31c5b65236}
+      \strng{authorfullhashraw}{f49266826cb39a36f1ab8e31c5b65236}
+      \field{sortinit}{a}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IEEE International Conference on Smart Internet of Things (SmartIoT)}
+      \field{title}{Air quality monitoring using iot: A survey}
+      \field{year}{2019}
+      \field{pages}{127\bibrangedash 134}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1109/SmartIoT.2019.00028
+      \endverb
+    \endentry
+    \entry{alves2025freertos}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=0ac9aa75cb91563aff79d668caf250bd}{%
+           family={Alves},
+           familyi={A\bibinitperiod},
+           given={Elton},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=54b282511f4dad6ca082066408c0e922}{%
+           family={Silva},
+           familyi={S\bibinitperiod},
+           given={Noedson},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=004eb6e68444f9801d7d4f10e963e7a5}{%
+           family={Júnior},
+           familyi={J\bibinitperiod},
+           given={Warley},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba7dbb24af2578e1ec933fa0ce2de9fa}{%
+           family={Moraes},
+           familyi={M\bibinitperiod},
+           given={Alife},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c4dcc81481ca51365e2db3a92f477f6e}{%
+           family={Silva},
+           familyi={S\bibinitperiod},
+           given={Nandson},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0508b86f36a2a2ebb5eca5d66a55a3c7}{%
+           family={Balieiro},
+           familyi={B\bibinitperiod},
+           given={Andson},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{25a8f26a89ed26cf16f42ea3b9a0c1a1}
+      \strng{fullhash}{54bff026a975769531ccd50bab0e20e3}
+      \strng{fullhashraw}{54bff026a975769531ccd50bab0e20e3}
+      \strng{bibnamehash}{25a8f26a89ed26cf16f42ea3b9a0c1a1}
+      \strng{authorbibnamehash}{25a8f26a89ed26cf16f42ea3b9a0c1a1}
+      \strng{authornamehash}{25a8f26a89ed26cf16f42ea3b9a0c1a1}
+      \strng{authorfullhash}{54bff026a975769531ccd50bab0e20e3}
+      \strng{authorfullhashraw}{54bff026a975769531ccd50bab0e20e3}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Latin America Transactions}
+      \field{number}{4}
+      \field{title}{FreeRTOS Application in a Real-Time Air Quality Monitoring Architecture for Smart Campus}
+      \field{volume}{23}
+      \field{year}{2025}
+      \field{pages}{266\bibrangedash 273}
+      \range{pages}{8}
+    \endentry
+    \entry{Aserkar2024}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=f8cc88597c898ac5a4d521ea49272193}{%
+           family={Aserkar},
+           familyi={A\bibinitperiod},
+           given={Anushree\bibnamedelima A.},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e1ea1f5292f6ac8e6ede555092604bc2}{%
+           family={Godla},
+           familyi={G\bibinitperiod},
+           given={Sanjiv\bibnamedelima Rao},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=76c7aac3d87b03d626b2626c8f272edc}{%
+           family={El-Ebiary},
+           familyi={E\bibinithyphendelim E\bibinitperiod},
+           given={Yousef\bibnamedelima A.Baker},
+           giveni={Y\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=22c96ed146bcd47f01726085156c0c53}{%
+           family={Krishnamoorthy},
+           familyi={K\bibinitperiod}}}%
+        {{un=0,uniquepart=base,hash=b53e2ec6a5b82f30ea2274208bebdd31}{%
+           family={Ramesh},
+           familyi={R\bibinitperiod},
+           given={Janjhyam\bibnamedelimb Venkata\bibnamedelima Naga},
+           giveni={J\bibinitperiod\bibinitdelim V\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{2}{%
+        {The Science}%
+        {Information Organization}%
+      }
+      \strng{namehash}{12f29b104c016cf8b2028bc1107327c7}
+      \strng{fullhash}{8be0df43e53f9e153205115967de0b24}
+      \strng{fullhashraw}{8be0df43e53f9e153205115967de0b24}
+      \strng{bibnamehash}{12f29b104c016cf8b2028bc1107327c7}
+      \strng{authorbibnamehash}{12f29b104c016cf8b2028bc1107327c7}
+      \strng{authornamehash}{12f29b104c016cf8b2028bc1107327c7}
+      \strng{authorfullhash}{8be0df43e53f9e153205115967de0b24}
+      \strng{authorfullhashraw}{8be0df43e53f9e153205115967de0b24}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Advanced Computer Science and Applications}
+      \field{number}{4}
+      \field{title}{Real-time Air Quality Monitoring in Smart Cities using IoT-enabled Advanced Optical Sensors}
+      \field{volume}{15}
+      \field{year}{2024}
+      \true{nocite}
+      \verb{doi}
+      \verb 10.14569/IJACSA.2024.0150487
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.14569/IJACSA.2024.0150487
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.14569/IJACSA.2024.0150487
+      \endverb
+    \endentry
+    \entry{augustin2016study}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=aad1919002706d8f5d97558fc5718fc6}{%
+           family={Augustin},
+           familyi={A\bibinitperiod},
+           given={Aloys},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {MDPI}%
+      }
+      \strng{namehash}{b8aa52339367244a743df609feadb8d1}
+      \strng{fullhash}{b8aa52339367244a743df609feadb8d1}
+      \strng{fullhashraw}{b8aa52339367244a743df609feadb8d1}
+      \strng{bibnamehash}{b8aa52339367244a743df609feadb8d1}
+      \strng{authorbibnamehash}{b8aa52339367244a743df609feadb8d1}
+      \strng{authornamehash}{b8aa52339367244a743df609feadb8d1}
+      \strng{authorfullhash}{b8aa52339367244a743df609feadb8d1}
+      \strng{authorfullhashraw}{b8aa52339367244a743df609feadb8d1}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors}
+      \field{number}{9}
+      \field{title}{A study of LoRa: Long range \& low power networks for the internet of things}
+      \field{volume}{16}
+      \field{year}{2016}
+      \field{pages}{1466}
+      \range{pages}{1}
+    \endentry
+    \entry{austin2015laboratory}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c81659cb2cecc3a5ef9a7fbef5a1d30e}{%
+           family={Austin},
+           familyi={A\bibinitperiod},
+           given={Elena},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Public Library of Science}%
+      }
+      \strng{namehash}{bc16afd861d5a2672fcca786d8e205f1}
+      \strng{fullhash}{bc16afd861d5a2672fcca786d8e205f1}
+      \strng{fullhashraw}{bc16afd861d5a2672fcca786d8e205f1}
+      \strng{bibnamehash}{bc16afd861d5a2672fcca786d8e205f1}
+      \strng{authorbibnamehash}{bc16afd861d5a2672fcca786d8e205f1}
+      \strng{authornamehash}{bc16afd861d5a2672fcca786d8e205f1}
+      \strng{authorfullhash}{bc16afd861d5a2672fcca786d8e205f1}
+      \strng{authorfullhashraw}{bc16afd861d5a2672fcca786d8e205f1}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{PloS one}
+      \field{number}{9}
+      \field{title}{Laboratory evaluation of the Shinyei PPD42NS low-cost particulate matter sensor}
+      \field{volume}{10}
+      \field{year}{2015}
+    \endentry
+    \entry{banbury2021mlperf}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=1eb8e11a448071737de359c69e43d882}{%
+           family={Banbury},
+           familyi={B\bibinitperiod},
+           given={Colby\bibnamedelima R.},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{247557beec9575a2c357ebdaf5539241}
+      \strng{fullhash}{247557beec9575a2c357ebdaf5539241}
+      \strng{fullhashraw}{247557beec9575a2c357ebdaf5539241}
+      \strng{bibnamehash}{247557beec9575a2c357ebdaf5539241}
+      \strng{authorbibnamehash}{247557beec9575a2c357ebdaf5539241}
+      \strng{authornamehash}{247557beec9575a2c357ebdaf5539241}
+      \strng{authorfullhash}{247557beec9575a2c357ebdaf5539241}
+      \strng{authorfullhashraw}{247557beec9575a2c357ebdaf5539241}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ArXiv}
+      \field{title}{Mlperf tiny benchmark}
+      \field{volume}{abs/2106.07597}
+      \field{year}{2021}
+    \endentry
+    \entry{benammar2018}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ba96be5cd4a21bddbc6bdc12d3aeb3bb}{%
+           family={BENAMMAR},
+           familyi={B\bibinitperiod},
+           given={M.\bibnamedelimi et\bibnamedelima al.},
+           giveni={M\bibinitperiod\bibinitdelim e\bibinitperiod\bibinitdelim a\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ba96be5cd4a21bddbc6bdc12d3aeb3bb}
+      \strng{fullhash}{ba96be5cd4a21bddbc6bdc12d3aeb3bb}
+      \strng{fullhashraw}{ba96be5cd4a21bddbc6bdc12d3aeb3bb}
+      \strng{bibnamehash}{ba96be5cd4a21bddbc6bdc12d3aeb3bb}
+      \strng{authorbibnamehash}{ba96be5cd4a21bddbc6bdc12d3aeb3bb}
+      \strng{authornamehash}{ba96be5cd4a21bddbc6bdc12d3aeb3bb}
+      \strng{authorfullhash}{ba96be5cd4a21bddbc6bdc12d3aeb3bb}
+      \strng{authorfullhashraw}{ba96be5cd4a21bddbc6bdc12d3aeb3bb}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sensors}
+      \field{number}{2}
+      \field{title}{A modular IoT platform for real-time indoor air quality monitoring}
+      \field{volume}{18}
+      \field{year}{2018}
+      \field{pages}{581}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.3390/s18020581
+      \endverb
+    \endentry
+    \entry{benvenuto2022materials}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f49533491da7abeaedca48e662ec98e8}{%
+           family={Benvenuto},
+           familyi={B\bibinitperiod},
+           given={Mark\bibnamedelima Anthony},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Berlin, Boston}%
+      }
+      \list{publisher}{1}{%
+        {De Gruyter}%
+      }
+      \strng{namehash}{f49533491da7abeaedca48e662ec98e8}
+      \strng{fullhash}{f49533491da7abeaedca48e662ec98e8}
+      \strng{fullhashraw}{f49533491da7abeaedca48e662ec98e8}
+      \strng{bibnamehash}{f49533491da7abeaedca48e662ec98e8}
+      \strng{authorbibnamehash}{f49533491da7abeaedca48e662ec98e8}
+      \strng{authornamehash}{f49533491da7abeaedca48e662ec98e8}
+      \strng{authorfullhash}{f49533491da7abeaedca48e662ec98e8}
+      \strng{authorfullhashraw}{f49533491da7abeaedca48e662ec98e8}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9783110656770}
+      \field{title}{Materials Chemistry}
+      \field{year}{2022}
+    \endentry
+    \entry{bishop1994neural}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=9dfd0135a5e80aa6d81cea2c10fb7f73}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={Christopher\bibnamedelima M.},
+           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{9dfd0135a5e80aa6d81cea2c10fb7f73}
+      \strng{fullhash}{9dfd0135a5e80aa6d81cea2c10fb7f73}
+      \strng{fullhashraw}{9dfd0135a5e80aa6d81cea2c10fb7f73}
+      \strng{bibnamehash}{9dfd0135a5e80aa6d81cea2c10fb7f73}
+      \strng{authorbibnamehash}{9dfd0135a5e80aa6d81cea2c10fb7f73}
+      \strng{authornamehash}{9dfd0135a5e80aa6d81cea2c10fb7f73}
+      \strng{authorfullhash}{9dfd0135a5e80aa6d81cea2c10fb7f73}
+      \strng{authorfullhashraw}{9dfd0135a5e80aa6d81cea2c10fb7f73}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0034-6748}
+      \field{journaltitle}{Review of Scientific Instruments}
+      \field{number}{6}
+      \field{title}{Neural networks and their applications}
+      \field{volume}{65}
+      \field{year}{1994}
+      \field{pages}{1803\bibrangedash 1832}
+      \range{pages}{30}
+    \endentry
+    \entry{box2015time}{book}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=d30289ba50f0f7219fb405bc35b8b71c}{%
+           family={Box},
+           familyi={B\bibinitperiod},
+           given={George\bibnamedelimb E.\bibnamedelimi P.},
+           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=47888ee6b97a184c6a17093aeb509b29}{%
+           family={Jenkins},
+           familyi={J\bibinitperiod},
+           given={Gwilym\bibnamedelima M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=64798b045379893d750ad3f089861bad}{%
+           family={Reinsel},
+           familyi={R\bibinitperiod},
+           given={Gregory\bibnamedelima C.},
+           giveni={G\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=916fd57423e9b7ed0d3ba70c92287892}{%
+           family={Ljung},
+           familyi={L\bibinitperiod},
+           given={Greta\bibnamedelima M.},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley \& Sons}%
+      }
+      \strng{namehash}{a889686a50c7749def33de6826e92748}
+      \strng{fullhash}{73d0cc2792e602f1e990aa353e1752fd}
+      \strng{fullhashraw}{73d0cc2792e602f1e990aa353e1752fd}
+      \strng{bibnamehash}{a889686a50c7749def33de6826e92748}
+      \strng{authorbibnamehash}{a889686a50c7749def33de6826e92748}
+      \strng{authornamehash}{a889686a50c7749def33de6826e92748}
+      \strng{authorfullhash}{73d0cc2792e602f1e990aa353e1752fd}
+      \strng{authorfullhashraw}{73d0cc2792e602f1e990aa353e1752fd}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{5th}
+      \field{title}{Time Series Analysis: Forecasting and Control}
+      \field{year}{2015}
+      \verb{doi}
+      \verb 10.1002/9781118619193
+      \endverb
+    \endentry
+    \entry{canu2018understanding}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=c9a551007e832dee19161d525460e358}{%
+           family={Canu},
+           familyi={C\bibinitperiod},
+           given={Matteo},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{organization}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{2b9e14dabfcdef61197bf447471391e1}
+      \strng{fullhash}{2b9e14dabfcdef61197bf447471391e1}
+      \strng{fullhashraw}{2b9e14dabfcdef61197bf447471391e1}
+      \strng{bibnamehash}{2b9e14dabfcdef61197bf447471391e1}
+      \strng{authorbibnamehash}{2b9e14dabfcdef61197bf447471391e1}
+      \strng{authornamehash}{2b9e14dabfcdef61197bf447471391e1}
+      \strng{authorfullhash}{2b9e14dabfcdef61197bf447471391e1}
+      \strng{authorfullhashraw}{2b9e14dabfcdef61197bf447471391e1}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 IEEE International Conference on Environmental Engineering (EE)}
+      \field{title}{Understanding the Shinyei PPD42NS low-cost dust sensor}
+      \field{year}{2018}
+      \field{pages}{1\bibrangedash 10}
+      \range{pages}{10}
+    \endentry
+    \entry{carvalho2007redes}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=34d0e1daa4e9c8f8dbf4e97760b744ab}{%
+           family={Carvalho},
+           familyi={C\bibinitperiod},
+           given={Frede\bibnamedelimb de\bibnamedelima Oliveira},
+           giveni={F\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Maceió, Brazil}%
+      }
+      \strng{namehash}{b24cb6b4e77a38f598fe78ed9f22a701}
+      \strng{fullhash}{b24cb6b4e77a38f598fe78ed9f22a701}
+      \strng{fullhashraw}{b24cb6b4e77a38f598fe78ed9f22a701}
+      \strng{bibnamehash}{b24cb6b4e77a38f598fe78ed9f22a701}
+      \strng{authorbibnamehash}{b24cb6b4e77a38f598fe78ed9f22a701}
+      \strng{authornamehash}{b24cb6b4e77a38f598fe78ed9f22a701}
+      \strng{authorfullhash}{b24cb6b4e77a38f598fe78ed9f22a701}
+      \strng{authorfullhashraw}{b24cb6b4e77a38f598fe78ed9f22a701}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Universidade Federal de Alagoas (UFAL)}
+      \field{title}{Redes neurais artificiais e estatística multivariada no projeto de sensores virtuais para monitoramento da qualidade do ar}
+      \field{year}{2007}
+    \endentry
+    \entry{cholet2015keras}{misc}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=14134a39113404b1f80969c9ccc1f71e}{%
+           family={Chollet},
+           familyi={C\bibinitperiod},
+           given={François},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2f3cf4de7406c8a08275677188d056f8}
+      \strng{fullhash}{2f3cf4de7406c8a08275677188d056f8}
+      \strng{fullhashraw}{2f3cf4de7406c8a08275677188d056f8}
+      \strng{bibnamehash}{2f3cf4de7406c8a08275677188d056f8}
+      \strng{authorbibnamehash}{2f3cf4de7406c8a08275677188d056f8}
+      \strng{authornamehash}{2f3cf4de7406c8a08275677188d056f8}
+      \strng{authorfullhash}{2f3cf4de7406c8a08275677188d056f8}
+      \strng{authorfullhashraw}{2f3cf4de7406c8a08275677188d056f8}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{GitHub}
+      \field{title}{Keras}
+      \field{year}{2015}
+    \endentry
+    \entry{cirillo2019fiware}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=6190c9cd15f759d821a81600af986105}{%
+           family={Cirillo},
+           familyi={C\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=43a193b9438f711e52eef3acd072d7ec}{%
+           family={Solmaz},
+           familyi={S\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=251084e943228a6213055faf5130f301}{%
+           family={Berz},
+           familyi={B\bibinitperiod},
+           given={E.\bibnamedelimi L.},
+           giveni={E\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3c792760ff67ec4540f42d31f9918c3a}{%
+           family={Bauer},
+           familyi={B\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b692d039e259283dae05f366b8395ab3}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c68e7971d40d65a4b52d5358b1b4fa78}{%
+           family={Kovacs},
+           familyi={K\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{43637ac7274fc3c02413f8b45a021964}
+      \strng{fullhash}{e5e69d41d03a00c5153ae59009d1ac3f}
+      \strng{fullhashraw}{e5e69d41d03a00c5153ae59009d1ac3f}
+      \strng{bibnamehash}{43637ac7274fc3c02413f8b45a021964}
+      \strng{authorbibnamehash}{43637ac7274fc3c02413f8b45a021964}
+      \strng{authornamehash}{43637ac7274fc3c02413f8b45a021964}
+      \strng{authorfullhash}{e5e69d41d03a00c5153ae59009d1ac3f}
+      \strng{authorfullhashraw}{e5e69d41d03a00c5153ae59009d1ac3f}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Internet of Things Magazine}
+      \field{number}{3}
+      \field{title}{A Standard-Based Open Source IoT Platform: FIWARE}
+      \field{volume}{2}
+      \field{year}{2019}
+      \field{pages}{12\bibrangedash 18}
+      \range{pages}{7}
+    \endentry
+    \entry{cui2020stacked}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=ea851e5d6f11ddf2449855ba95f2bdbb}{%
+           family={Cui},
+           familyi={C\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f07a22eaef6a031c03ed8a802763bbec}{%
+           family={Ke},
+           familyi={K\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c914edd10ee8a78a92e0795342c18c51}{%
+           family={Pu},
+           familyi={P\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61ad10c626e1d641e0b1d7b5f48d3233}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{deb4330d1a93ba4b8e944a97f0deaf7b}
+      \strng{fullhash}{c3b082f1d5bb9e6b99bde3cdda9b606f}
+      \strng{fullhashraw}{c3b082f1d5bb9e6b99bde3cdda9b606f}
+      \strng{bibnamehash}{deb4330d1a93ba4b8e944a97f0deaf7b}
+      \strng{authorbibnamehash}{deb4330d1a93ba4b8e944a97f0deaf7b}
+      \strng{authornamehash}{deb4330d1a93ba4b8e944a97f0deaf7b}
+      \strng{authorfullhash}{c3b082f1d5bb9e6b99bde3cdda9b606f}
+      \strng{authorfullhashraw}{c3b082f1d5bb9e6b99bde3cdda9b606f}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transportation Research Part C: Emerging Technologies}
+      \field{title}{Stacked bidirectional and unidirectional LSTM recurrent neural network for forecasting network-wide traffic state with missing values}
+      \field{volume}{118}
+      \field{year}{2020}
+      \field{pages}{102674}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.trc.2020.102674
+      \endverb
+    \endentry
+    \entry{cunha2024}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e93d6611b4a1818781903b46bdcd6ce4}{%
+           family={CUNHA},
+           familyi={C\bibinitperiod},
+           given={N.\bibnamedelimi et\bibnamedelima al.},
+           giveni={N\bibinitperiod\bibinitdelim e\bibinitperiod\bibinitdelim a\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Brasília/DF}%
+      }
+      \strng{namehash}{e93d6611b4a1818781903b46bdcd6ce4}
+      \strng{fullhash}{e93d6611b4a1818781903b46bdcd6ce4}
+      \strng{fullhashraw}{e93d6611b4a1818781903b46bdcd6ce4}
+      \strng{bibnamehash}{e93d6611b4a1818781903b46bdcd6ce4}
+      \strng{authorbibnamehash}{e93d6611b4a1818781903b46bdcd6ce4}
+      \strng{authornamehash}{e93d6611b4a1818781903b46bdcd6ce4}
+      \strng{authorfullhash}{e93d6611b4a1818781903b46bdcd6ce4}
+      \strng{authorfullhashraw}{e93d6611b4a1818781903b46bdcd6ce4}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Anais do XV Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}
+      \field{title}{Arquitetura de Monitoramento de Qualidade de Ar baseada no LoRaWAN e FIWARE em um Campus Universitário}
+      \field{year}{2024}
+      \field{pages}{169\bibrangedash 178}
+      \range{pages}{10}
+      \verb{doi}
+      \verb https://doi.org/10.5753/wcama.2024.3038
+      \endverb
+    \endentry
+    \entry{david2021tensorflow}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=4e3c0ccb0a13534de2377bdf014159a2}{%
+           family={David},
+           familyi={D\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=91178b5a39aeefc0f81691e4a515f2e2}{%
+           family={Smola},
+           familyi={S\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6be36550e3199a1b3c8976f87967f071}{%
+           family={Dimakis},
+           familyi={D\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6c0e25b703ac672324ac72dba3eb4446}{%
+           family={Stoica},
+           familyi={S\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{23b8303039ff6be5aed7171829cebc32}
+      \strng{fullhash}{23b8303039ff6be5aed7171829cebc32}
+      \strng{fullhashraw}{23b8303039ff6be5aed7171829cebc32}
+      \strng{bibnamehash}{23b8303039ff6be5aed7171829cebc32}
+      \strng{authorbibnamehash}{23b8303039ff6be5aed7171829cebc32}
+      \strng{authornamehash}{23b8303039ff6be5aed7171829cebc32}
+      \strng{authorfullhash}{23b8303039ff6be5aed7171829cebc32}
+      \strng{authorfullhashraw}{23b8303039ff6be5aed7171829cebc32}
+      \strng{editorbibnamehash}{64ba1c0562825b42ed9bdf1394b4c525}
+      \strng{editornamehash}{64ba1c0562825b42ed9bdf1394b4c525}
+      \strng{editorfullhash}{64ba1c0562825b42ed9bdf1394b4c525}
+      \strng{editorfullhashraw}{64ba1c0562825b42ed9bdf1394b4c525}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of Machine Learning and Systems}
+      \field{title}{Tensorflow lite micro: Embedded machine learning for tinyml systems}
+      \field{volume}{3}
+      \field{year}{2021}
+      \field{pages}{800\bibrangedash 811}
+      \range{pages}{12}
+    \endentry
+    \entry{franciscomonitoramento}{article}{}{}
+      \name{author}{9}{}{%
+        {{un=0,uniquepart=base,hash=a8f31b66858aa158241c9e28a8678661}{%
+           family={Francisco},
+           familyi={F\bibinitperiod},
+           given={Ana\bibnamedelimb Carolina\bibnamedelima Camargo},
+           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4cac3f3f1b60755cc20026e0eb387f75}{%
+           family={Fengler},
+           familyi={F\bibinitperiod},
+           given={Felipe\bibnamedelima Hashimoto},
+           giveni={F\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=992012660cf198d2c4ef58719ee9a5bf}{%
+           family={Faria},
+           familyi={F\bibinitperiod},
+           given={Gustavo},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e7d15b95aac1028484ba273c8cf84178}{%
+           family={Negreiros},
+           familyi={N\bibinitperiod},
+           given={Iara},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8e375c33904c26d4aee4c1cce2e696b8}{%
+           family={Pinto},
+           familyi={P\bibinitperiod},
+           given={Luciana\bibnamedelimb Gomes\bibnamedelima Pereira},
+           giveni={L\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=34db53967cbddc0320a5bdc12400b52e}{%
+           family={Tolotto},
+           familyi={T\bibinitperiod},
+           given={Maurício},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=072f4fcaf7b7278afeeb823506693b23}{%
+           family={Rogoschewski},
+           familyi={R\bibinitperiod},
+           given={Raquel\bibnamedelima Barbosa},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=eeb1926a0e8aa349b362e94e8e65df49}{%
+           family={Romano},
+           familyi={R\bibinitperiod},
+           given={Regiane\bibnamedelima Relva},
+           giveni={R\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b7d31256f97927a27deb0c875ada879f}{%
+           family={Netto},
+           familyi={N\bibinitperiod},
+           given={Roberto\bibnamedelima Silva},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{9e2c47e4df5a1b9c14aafe696c92b549}
+      \strng{fullhash}{a6edbefff1f928b9afc4c2858270cf29}
+      \strng{fullhashraw}{a6edbefff1f928b9afc4c2858270cf29}
+      \strng{bibnamehash}{9e2c47e4df5a1b9c14aafe696c92b549}
+      \strng{authorbibnamehash}{9e2c47e4df5a1b9c14aafe696c92b549}
+      \strng{authornamehash}{9e2c47e4df5a1b9c14aafe696c92b549}
+      \strng{authorfullhash}{a6edbefff1f928b9afc4c2858270cf29}
+      \strng{authorfullhashraw}{a6edbefff1f928b9afc4c2858270cf29}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labeldatesource}{nodate}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Universidades \& Sustentabilidade}
+      \field{title}{Monitoramento Inteligente de aspectos ambientais em campus universitário}
+      \true{nocite}
+      \field{pages}{126}
+      \range{pages}{1}
+    \endentry
+    \entry{hochreiter1997long}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=41b31e29fb2bdbf9f5c9c1b0d5b3e815}{%
+           family={Hochreiter},
+           familyi={H\bibinitperiod},
+           given={Sepp},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=288bdbcfe1b91ad7484d7a24f74f99ed}{%
+           family={Schmidhuber},
+           familyi={S\bibinitperiod},
+           given={Jürgen},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4c2e1e2e1ac91e1df9d4f7b85ebe39b4}
+      \strng{fullhash}{4c2e1e2e1ac91e1df9d4f7b85ebe39b4}
+      \strng{fullhashraw}{4c2e1e2e1ac91e1df9d4f7b85ebe39b4}
+      \strng{bibnamehash}{4c2e1e2e1ac91e1df9d4f7b85ebe39b4}
+      \strng{authorbibnamehash}{4c2e1e2e1ac91e1df9d4f7b85ebe39b4}
+      \strng{authornamehash}{4c2e1e2e1ac91e1df9d4f7b85ebe39b4}
+      \strng{authorfullhash}{4c2e1e2e1ac91e1df9d4f7b85ebe39b4}
+      \strng{authorfullhashraw}{4c2e1e2e1ac91e1df9d4f7b85ebe39b4}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Neural Computation}
+      \field{number}{8}
+      \field{title}{Long Short-Term Memory}
+      \field{volume}{9}
+      \field{year}{1997}
+      \field{pages}{1735\bibrangedash 1780}
+      \range{pages}{46}
+      \verb{doi}
+      \verb 10.1162/neco.1997.9.8.1735
+      \endverb
+    \endentry
+    \entry{hyndman2018forecasting}{book}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=2f709db8a046ae1d056e75c1f3aad31c}{%
+           family={Hyndman},
+           familyi={H\bibinitperiod},
+           given={Rob\bibnamedelima J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95cfbf5a8396e08b434cc6f7f5b18dc8}{%
+           family={Athanasopoulos},
+           familyi={A\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {OTexts}%
+      }
+      \strng{namehash}{f5d192acd9066e5facaab32c8173f6d0}
+      \strng{fullhash}{f5d192acd9066e5facaab32c8173f6d0}
+      \strng{fullhashraw}{f5d192acd9066e5facaab32c8173f6d0}
+      \strng{bibnamehash}{f5d192acd9066e5facaab32c8173f6d0}
+      \strng{authorbibnamehash}{f5d192acd9066e5facaab32c8173f6d0}
+      \strng{authornamehash}{f5d192acd9066e5facaab32c8173f6d0}
+      \strng{authorfullhash}{f5d192acd9066e5facaab32c8173f6d0}
+      \strng{authorfullhashraw}{f5d192acd9066e5facaab32c8173f6d0}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2nd}
+      \field{title}{Forecasting: Principles and Practice}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb https://otexts.com/fpp2/
+      \endverb
+      \verb{url}
+      \verb https://otexts.com/fpp2/
+      \endverb
+    \endentry
+    \entry{imam2024air}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=74d7cffc4c330c94f4b82bbdcfc4e513}{%
+           family={Imam},
+           familyi={I\bibinitperiod},
+           given={Mohsin},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=611d5a0a87a7bd2f07eafc3e197d13d3}{%
+           family={Adam},
+           familyi={A\bibinitperiod},
+           given={Sufiyan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=25e6d5bcd50f0f202b21df0871de0a7a}{%
+           family={Dev},
+           familyi={D\bibinitperiod},
+           given={Soumyabrata},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=67aa06f014a62da96ee5f2bacd023b32}{%
+           family={Nesa},
+           familyi={N\bibinitperiod},
+           given={Nashreen},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c850c82f7b5aac42b13053e163373d0e}
+      \strng{fullhash}{7014124f288243ad8a4e144bba2d9590}
+      \strng{fullhashraw}{7014124f288243ad8a4e144bba2d9590}
+      \strng{bibnamehash}{c850c82f7b5aac42b13053e163373d0e}
+      \strng{authorbibnamehash}{c850c82f7b5aac42b13053e163373d0e}
+      \strng{authornamehash}{c850c82f7b5aac42b13053e163373d0e}
+      \strng{authorfullhash}{7014124f288243ad8a4e144bba2d9590}
+      \strng{authorfullhashraw}{7014124f288243ad8a4e144bba2d9590}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Intelligent Systems with Applications}
+      \field{title}{Air quality monitoring using statistical learning models for sustainable environment}
+      \field{volume}{200333}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1016/j.iswa.2024.200333
+      \endverb
+    \endentry
+    \entry{iodice2022tinyml}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f028bc9d3b0810e7d7178afc5f399bc5}{%
+           family={Iodice},
+           familyi={I\bibinitperiod},
+           given={Gian\bibnamedelima Marco},
+           giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Packt}%
+      }
+      \strng{namehash}{f028bc9d3b0810e7d7178afc5f399bc5}
+      \strng{fullhash}{f028bc9d3b0810e7d7178afc5f399bc5}
+      \strng{fullhashraw}{f028bc9d3b0810e7d7178afc5f399bc5}
+      \strng{bibnamehash}{f028bc9d3b0810e7d7178afc5f399bc5}
+      \strng{authorbibnamehash}{f028bc9d3b0810e7d7178afc5f399bc5}
+      \strng{authornamehash}{f028bc9d3b0810e7d7178afc5f399bc5}
+      \strng{authorfullhash}{f028bc9d3b0810e7d7178afc5f399bc5}
+      \strng{authorfullhashraw}{f028bc9d3b0810e7d7178afc5f399bc5}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9781801814973}
+      \field{title}{TinyML Cookbook: Combine artificial intelligence and ultra-low-power embedded devices to make the world smarter}
+      \field{year}{2022}
+    \endentry
+    \entry{jabbar2022lorawan}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=66abb83e6b3dba8bf4fac52759813be8}{%
+           family={Jabbar},
+           familyi={J\bibinitperiod},
+           given={W.\bibnamedelimi A.},
+           giveni={W\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e7b0a964f0dda4c2da33a2fb5f5acd14}{%
+           family={Subramaniam},
+           familyi={S\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9e689354a483a97e78db58dad79e6e78}{%
+           family={Ong},
+           familyi={O\bibinitperiod},
+           given={A.\bibnamedelimi E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7af3a45b6ba02b7a74a16222d442a9bf}{%
+           family={Shu'ib},
+           familyi={S\bibinitperiod},
+           given={M.\bibnamedelimi I.},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6b1da9f8985789afeb993c58dfa1c05b}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=80c4d2b114a6d95799b65121664bfc8b}{%
+           family={Oliveira},
+           familyi={O\bibinitperiod},
+           given={M.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0,
+           prefix={de},
+           prefixi={d\bibinitperiod},
+           prefixun=0}}%
+      }
+      \strng{namehash}{dd452cc7bbb58c4cc9f231370d71448a}
+      \strng{fullhash}{2324710018e3c2325c0ea74af046625e}
+      \strng{fullhashraw}{2324710018e3c2325c0ea74af046625e}
+      \strng{bibnamehash}{dd452cc7bbb58c4cc9f231370d71448a}
+      \strng{authorbibnamehash}{dd452cc7bbb58c4cc9f231370d71448a}
+      \strng{authornamehash}{dd452cc7bbb58c4cc9f231370d71448a}
+      \strng{authorfullhash}{2324710018e3c2325c0ea74af046625e}
+      \strng{authorfullhashraw}{2324710018e3c2325c0ea74af046625e}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Internet of Things (Netherlands)}
+      \field{title}{LoRaWAN-Based IoT System Implementation for Long-Range Outdoor Air Quality Monitoring}
+      \field{volume}{19}
+      \field{year}{2022}
+    \endentry
+    \entry{jouhari2023survey}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=40cd8409b787f573f1c7e72bcbb5e901}{%
+           family={Jouhari},
+           familyi={J\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dcb5cf83644bfd671bf5ad2badeee36d}{%
+           family={Saeed},
+           familyi={S\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f65bea170e30551cb7c0d1be653a10a3}{%
+           family={Alouini},
+           familyi={A\bibinitperiod},
+           given={M.-S.},
+           giveni={M\bibinithyphendelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1feedb51478ef850aee9dd2f96c9b562}{%
+           family={Amhoud},
+           familyi={A\bibinitperiod},
+           given={E.\bibnamedelimi M.},
+           giveni={E\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{7a703b6193cc7ba38d05c519ab54e6f9}
+      \strng{fullhash}{f893b828fc4b2e1e65a4c2b41cda5bcc}
+      \strng{fullhashraw}{f893b828fc4b2e1e65a4c2b41cda5bcc}
+      \strng{bibnamehash}{7a703b6193cc7ba38d05c519ab54e6f9}
+      \strng{authorbibnamehash}{7a703b6193cc7ba38d05c519ab54e6f9}
+      \strng{authornamehash}{7a703b6193cc7ba38d05c519ab54e6f9}
+      \strng{authorfullhash}{f893b828fc4b2e1e65a4c2b41cda5bcc}
+      \strng{authorfullhashraw}{f893b828fc4b2e1e65a4c2b41cda5bcc}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Communications Surveys \& Tutorials}
+      \field{number}{3}
+      \field{title}{A Survey on Scalable LoRaWAN for Massive IoT: Recent Advances, Potentials, and Challenges}
+      \field{volume}{25}
+      \field{year}{2023}
+      \field{pages}{1841\bibrangedash 1876}
+      \range{pages}{36}
+    \endentry
+    \entry{kortoci2022air}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=f63c8382a5238e6c4e5c1886d657afd9}{%
+           family={Kortoçi},
+           familyi={K\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=877eb38463ef015c3fcdf80d8bc3bcfa}{%
+           family={Motlagh},
+           familyi={M\bibinitperiod},
+           given={N.\bibnamedelimi H.},
+           giveni={N\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=57519f3ae5e5f18d62c2f34a992bdb35}{%
+           family={Zaidan},
+           familyi={Z\bibinitperiod},
+           given={M.\bibnamedelimi A.},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{88beabe73ad63392c40c9e246cf06a32}
+      \strng{fullhash}{88beabe73ad63392c40c9e246cf06a32}
+      \strng{fullhashraw}{88beabe73ad63392c40c9e246cf06a32}
+      \strng{bibnamehash}{88beabe73ad63392c40c9e246cf06a32}
+      \strng{authorbibnamehash}{88beabe73ad63392c40c9e246cf06a32}
+      \strng{authornamehash}{88beabe73ad63392c40c9e246cf06a32}
+      \strng{authorfullhash}{88beabe73ad63392c40c9e246cf06a32}
+      \strng{authorfullhashraw}{88beabe73ad63392c40c9e246cf06a32}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Smart Health}
+      \field{title}{Air pollution exposure monitoring using portable low-cost air quality sensors}
+      \field{volume}{23}
+      \field{year}{2022}
+    \endentry
+    \entry{kotz2018chemistry}{book}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0a8f7bcca9fa93c51e8b9785ddae3ce8}{%
+           family={Kotz},
+           familyi={K\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Cengage Learning}%
+      }
+      \strng{namehash}{41d693d75818d89d5ab94d3079acf1ff}
+      \strng{fullhash}{41d693d75818d89d5ab94d3079acf1ff}
+      \strng{fullhashraw}{41d693d75818d89d5ab94d3079acf1ff}
+      \strng{bibnamehash}{41d693d75818d89d5ab94d3079acf1ff}
+      \strng{authorbibnamehash}{41d693d75818d89d5ab94d3079acf1ff}
+      \strng{authornamehash}{41d693d75818d89d5ab94d3079acf1ff}
+      \strng{authorfullhash}{41d693d75818d89d5ab94d3079acf1ff}
+      \strng{authorfullhashraw}{41d693d75818d89d5ab94d3079acf1ff}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9781337399074}
+      \field{title}{Chemistry \& Chemical Reactivity}
+      \field{year}{2018}
+    \endentry
+    \entry{kumar2017}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=a545bd13ef1e9c1672bfb284155fc1ad}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2d66ef7cd9cb2964afbfed57b9a568a6}{%
+           family={Jasuja},
+           familyi={J\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{7671043871da972330f78c00cc8f9feb}
+      \strng{fullhash}{7671043871da972330f78c00cc8f9feb}
+      \strng{fullhashraw}{7671043871da972330f78c00cc8f9feb}
+      \strng{bibnamehash}{7671043871da972330f78c00cc8f9feb}
+      \strng{authorbibnamehash}{7671043871da972330f78c00cc8f9feb}
+      \strng{authornamehash}{7671043871da972330f78c00cc8f9feb}
+      \strng{authorfullhash}{7671043871da972330f78c00cc8f9feb}
+      \strng{authorfullhashraw}{7671043871da972330f78c00cc8f9feb}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on computing, communication and automation (ICCCA)}
+      \field{title}{Air quality monitoring system based on IoT using Raspberry Pi}
+      \field{year}{2017}
+      \field{pages}{1341\bibrangedash 1346}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/CCAA.2017.8230005
+      \endverb
+    \endentry
+    \entry{kumar2023}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=24c5ad1fd87405708bd68c7dc1b0088b}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=df74f79377d210dfe3c30bcc7dfea06e}{%
+           family={Doss},
+           familyi={D\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{f5c2e11940dc5025f38890b1b0f85f3c}
+      \strng{fullhash}{f5c2e11940dc5025f38890b1b0f85f3c}
+      \strng{fullhashraw}{f5c2e11940dc5025f38890b1b0f85f3c}
+      \strng{bibnamehash}{f5c2e11940dc5025f38890b1b0f85f3c}
+      \strng{authorbibnamehash}{f5c2e11940dc5025f38890b1b0f85f3c}
+      \strng{authornamehash}{f5c2e11940dc5025f38890b1b0f85f3c}
+      \strng{authorfullhash}{f5c2e11940dc5025f38890b1b0f85f3c}
+      \strng{authorfullhashraw}{f5c2e11940dc5025f38890b1b0f85f3c}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Procedia Computer Science}
+      \field{title}{AIRO: Development of an Intelligent IoT-based Air Quality Monitoring Solution for Urban Areas}
+      \field{volume}{218}
+      \field{year}{2023}
+      \field{pages}{262\bibrangedash 273}
+      \range{pages}{12}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.procs.2023.01.008
+      \endverb
+    \endentry
+    \entry{ladeira2024mliot}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0c622489c48520c087d56aa7bbfda29a}{%
+           family={Ladeira},
+           familyi={L\bibinitperiod},
+           given={Edgar\bibnamedelimb Filipe\bibnamedelima Loureiro},
+           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Universidade da Beira Interior}%
+      }
+      \list{location}{1}{%
+        {Covilhã}%
+      }
+      \strng{namehash}{0c622489c48520c087d56aa7bbfda29a}
+      \strng{fullhash}{0c622489c48520c087d56aa7bbfda29a}
+      \strng{fullhashraw}{0c622489c48520c087d56aa7bbfda29a}
+      \strng{bibnamehash}{0c622489c48520c087d56aa7bbfda29a}
+      \strng{authorbibnamehash}{0c622489c48520c087d56aa7bbfda29a}
+      \strng{authornamehash}{0c622489c48520c087d56aa7bbfda29a}
+      \strng{authorfullhash}{0c622489c48520c087d56aa7bbfda29a}
+      \strng{authorfullhashraw}{0c622489c48520c087d56aa7bbfda29a}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{bookpagination}{sheet}
+      \field{title}{A Machine Learning-based Decision Support System for IoT Monitoring Solutions}
+      \field{type}{Master Thesis}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb http://hdl.handle.net/10400.6/19045
+      \endverb
+      \verb{url}
+      \verb http://hdl.handle.net/10400.6/19045
+      \endverb
+    \endentry
+    \entry{mcculloch1943logical}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=1ccb147b2b2165266e6ce5900193e687}{%
+           family={McCulloch},
+           familyi={M\bibinitperiod},
+           given={Warren\bibnamedelima S.},
+           giveni={W\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c5a56e799cdf785e814246c091d36e73}{%
+           family={Pitts},
+           familyi={P\bibinitperiod},
+           given={Walter},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{816477c5724040789c6fe02e3968dc62}
+      \strng{fullhash}{816477c5724040789c6fe02e3968dc62}
+      \strng{fullhashraw}{816477c5724040789c6fe02e3968dc62}
+      \strng{bibnamehash}{816477c5724040789c6fe02e3968dc62}
+      \strng{authorbibnamehash}{816477c5724040789c6fe02e3968dc62}
+      \strng{authornamehash}{816477c5724040789c6fe02e3968dc62}
+      \strng{authorfullhash}{816477c5724040789c6fe02e3968dc62}
+      \strng{authorfullhashraw}{816477c5724040789c6fe02e3968dc62}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1522-9602}
+      \field{journaltitle}{The Bulletin of Mathematical Biophysics}
+      \field{number}{4}
+      \field{title}{A logical calculus of the ideas immanent in nervous activity}
+      \field{volume}{5}
+      \field{year}{1943}
+      \field{pages}{115\bibrangedash 133}
+      \range{pages}{19}
+    \endentry
+    \entry{minallah2020}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=344297bc0a76f549fcb6ec672534c64f}{%
+           family={Min-Allah},
+           familyi={M\bibinithyphendelim A\bibinitperiod},
+           given={N.},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9b004996e129a32c2d3fbc50bcb5ea73}{%
+           family={Alrashed},
+           familyi={A\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{156be9d8841b5274ae1481f82a280bfd}
+      \strng{fullhash}{156be9d8841b5274ae1481f82a280bfd}
+      \strng{fullhashraw}{156be9d8841b5274ae1481f82a280bfd}
+      \strng{bibnamehash}{156be9d8841b5274ae1481f82a280bfd}
+      \strng{authorbibnamehash}{156be9d8841b5274ae1481f82a280bfd}
+      \strng{authornamehash}{156be9d8841b5274ae1481f82a280bfd}
+      \strng{authorfullhash}{156be9d8841b5274ae1481f82a280bfd}
+      \strng{authorfullhashraw}{156be9d8841b5274ae1481f82a280bfd}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Sustainable Cities and Society}
+      \field{title}{Smart campus---A sketch}
+      \field{volume}{59}
+      \field{year}{2020}
+      \field{pages}{102231}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.scs.2020.102231
+      \endverb
+    \endentry
+    \entry{mottahedin2024air}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=bc68817863192c39aaa63ec01dd4cb8e}{%
+           family={Mottahedin},
+           familyi={M\bibinitperiod},
+           given={Pouya},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f4517ca4d30366600365967bb586efba}{%
+           family={Chahkandi},
+           familyi={C\bibinitperiod},
+           given={Benyamin},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=db8408e70a6b0f0e6d9051995479162c}{%
+           family={Moezzi},
+           familyi={M\bibinitperiod},
+           given={Reza},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=802cc2e082e63300cfa6c48d096a4f11}{%
+           family={Fathollahi-Fard},
+           familyi={F\bibinithyphendelim F\bibinitperiod},
+           given={Amir\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1e861b4cf558ba30b328c7f3d1963a94}{%
+           family={Ghandali},
+           familyi={G\bibinitperiod},
+           given={Mojtaba},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2853d2c0cf4c5c6ed956b964ab542ab9}{%
+           family={Gheibi},
+           familyi={G\bibinitperiod},
+           given={Mohammad},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e8479677d955e6e77de565346146dd1f}
+      \strng{fullhash}{ba85fa8a78ec4bb03a92e059953cf062}
+      \strng{fullhashraw}{ba85fa8a78ec4bb03a92e059953cf062}
+      \strng{bibnamehash}{e8479677d955e6e77de565346146dd1f}
+      \strng{authorbibnamehash}{e8479677d955e6e77de565346146dd1f}
+      \strng{authornamehash}{e8479677d955e6e77de565346146dd1f}
+      \strng{authorfullhash}{ba85fa8a78ec4bb03a92e059953cf062}
+      \strng{authorfullhashraw}{ba85fa8a78ec4bb03a92e059953cf062}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Heliyon}
+      \field{number}{21}
+      \field{title}{Air quality prediction and control systems using machine learning and adaptive neuro-fuzzy inference system}
+      \field{volume}{10}
+      \field{year}{2024}
+      \field{pages}{e39783}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1016/j.heliyon.2024.e39783
+      \endverb
+    \endentry
+    \entry{naik2023iot}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=f01393bb3107197dc8bceac2c1477b1c}{%
+           family={Naik},
+           familyi={N\bibinitperiod},
+           given={U.\bibnamedelimi U.},
+           giveni={U\bibinitperiod\bibinitdelim U\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=30d247bee72382bd5d0cfc5ea5e343e8}{%
+           family={Salgaokar},
+           familyi={S\bibinitperiod},
+           given={S.\bibnamedelimi R.},
+           giveni={S\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3b360abcdf6b046b8060eefbb49751dd}{%
+           family={Jambhale},
+           familyi={J\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{086cf832910660d83e14ecd255ab4f0e}
+      \strng{fullhash}{086cf832910660d83e14ecd255ab4f0e}
+      \strng{fullhashraw}{086cf832910660d83e14ecd255ab4f0e}
+      \strng{bibnamehash}{086cf832910660d83e14ecd255ab4f0e}
+      \strng{authorbibnamehash}{086cf832910660d83e14ecd255ab4f0e}
+      \strng{authornamehash}{086cf832910660d83e14ecd255ab4f0e}
+      \strng{authorfullhash}{086cf832910660d83e14ecd255ab4f0e}
+      \strng{authorfullhashraw}{086cf832910660d83e14ecd255ab4f0e}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Scientific Research \& Engineering Trends}
+      \field{title}{IoT Based Air Pollution Monitoring System}
+      \field{volume}{9}
+      \field{year}{2023}
+      \field{pages}{2395\bibrangedash 566}
+      \range{pages}{172}
+    \endentry
+    \entry{noble2001federal}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2e6f9344d9ed1fe4d6e20ac9171e6e3b}{%
+           family={Noble},
+           familyi={N\bibinitperiod},
+           given={Christopher\bibnamedelima A.},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis}%
+      }
+      \strng{namehash}{2b452f124fad76fd428fc365c72ebf71}
+      \strng{fullhash}{2b452f124fad76fd428fc365c72ebf71}
+      \strng{fullhashraw}{2b452f124fad76fd428fc365c72ebf71}
+      \strng{bibnamehash}{2b452f124fad76fd428fc365c72ebf71}
+      \strng{authorbibnamehash}{2b452f124fad76fd428fc365c72ebf71}
+      \strng{authornamehash}{2b452f124fad76fd428fc365c72ebf71}
+      \strng{authorfullhash}{2b452f124fad76fd428fc365c72ebf71}
+      \strng{authorfullhashraw}{2b452f124fad76fd428fc365c72ebf71}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Aerosol Science \& Technology}
+      \field{number}{5}
+      \field{title}{Federal reference and equivalent methods for measuring fine particulate matter}
+      \field{volume}{34}
+      \field{year}{2001}
+      \field{pages}{457\bibrangedash 464}
+      \range{pages}{8}
+    \endentry
+    \entry{raschka2015python}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=bb679961e3f3f4bba79fc1cf3aa7df1c}{%
+           family={Raschka},
+           familyi={R\bibinitperiod},
+           given={Sebastian},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Packt Publishing}%
+      }
+      \strng{namehash}{bb679961e3f3f4bba79fc1cf3aa7df1c}
+      \strng{fullhash}{bb679961e3f3f4bba79fc1cf3aa7df1c}
+      \strng{fullhashraw}{bb679961e3f3f4bba79fc1cf3aa7df1c}
+      \strng{bibnamehash}{bb679961e3f3f4bba79fc1cf3aa7df1c}
+      \strng{authorbibnamehash}{bb679961e3f3f4bba79fc1cf3aa7df1c}
+      \strng{authornamehash}{bb679961e3f3f4bba79fc1cf3aa7df1c}
+      \strng{authorfullhash}{bb679961e3f3f4bba79fc1cf3aa7df1c}
+      \strng{authorfullhashraw}{bb679961e3f3f4bba79fc1cf3aa7df1c}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Python Machine Learning}
+      \field{year}{2015}
+    \endentry
+    \entry{rastogi2022context}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=e425d555f6bd7f7118a0e75c0cdfc655}{%
+           family={Rastogi},
+           familyi={R\bibinitperiod},
+           given={Krati},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=40d7a5951cf3a0dc598cc61307ac0f1f}{%
+           family={Lohani},
+           familyi={L\bibinitperiod},
+           given={Divya},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ead39703572d506e9dfe7a1b3c3b4d9a}
+      \strng{fullhash}{ead39703572d506e9dfe7a1b3c3b4d9a}
+      \strng{fullhashraw}{ead39703572d506e9dfe7a1b3c3b4d9a}
+      \strng{bibnamehash}{ead39703572d506e9dfe7a1b3c3b4d9a}
+      \strng{authorbibnamehash}{ead39703572d506e9dfe7a1b3c3b4d9a}
+      \strng{authornamehash}{ead39703572d506e9dfe7a1b3c3b4d9a}
+      \strng{authorfullhash}{ead39703572d506e9dfe7a1b3c3b4d9a}
+      \strng{authorfullhashraw}{ead39703572d506e9dfe7a1b3c3b4d9a}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Intelligent Systems with Applications}
+      \field{title}{Context-aware IoT-enabled framework to analyse and predict indoor air quality}
+      \field{volume}{16}
+      \field{year}{2022}
+      \field{pages}{200132}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.iswa.2022.200132
+      \endverb
+    \endentry
+    \entry{reddy2023}{inproceedings}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=bbf5cf579a65f1ecf6f425694c878f16}{%
+           family={REDDY},
+           familyi={R\bibinitperiod},
+           given={B.\bibnamedelimi S.\bibnamedelimi N.\bibnamedelimi et\bibnamedelima al.},
+           giveni={B\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim N\bibinitperiod\bibinitdelim e\bibinitperiod\bibinitdelim a\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{bbf5cf579a65f1ecf6f425694c878f16}
+      \strng{fullhash}{bbf5cf579a65f1ecf6f425694c878f16}
+      \strng{fullhashraw}{bbf5cf579a65f1ecf6f425694c878f16}
+      \strng{bibnamehash}{bbf5cf579a65f1ecf6f425694c878f16}
+      \strng{authorbibnamehash}{bbf5cf579a65f1ecf6f425694c878f16}
+      \strng{authornamehash}{bbf5cf579a65f1ecf6f425694c878f16}
+      \strng{authorfullhash}{bbf5cf579a65f1ecf6f425694c878f16}
+      \strng{authorfullhashraw}{bbf5cf579a65f1ecf6f425694c878f16}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{3rd International Conference on Innovative Mechanisms for Industry Applications (ICIMIA)}
+      \field{title}{A Comprehensive Review on Functional Analysis of Real-Time Operating Systems}
+      \field{year}{2023}
+      \field{pages}{1098\bibrangedash 1102}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/ICIMIA60377.2023.10426594
+      \endverb
+    \endentry
+    \entry{rodrigues2020aplicativo}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=d29bb75af3288ab1f33f90ff78e7a0f6}{%
+           family={Rodrigues},
+           familyi={R\bibinitperiod},
+           given={Pablo\bibnamedelima Leon},
+           giveni={P\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Universidade de Passo Fundo}%
+      }
+      \strng{namehash}{d29bb75af3288ab1f33f90ff78e7a0f6}
+      \strng{fullhash}{d29bb75af3288ab1f33f90ff78e7a0f6}
+      \strng{fullhashraw}{d29bb75af3288ab1f33f90ff78e7a0f6}
+      \strng{bibnamehash}{d29bb75af3288ab1f33f90ff78e7a0f6}
+      \strng{authorbibnamehash}{d29bb75af3288ab1f33f90ff78e7a0f6}
+      \strng{authornamehash}{d29bb75af3288ab1f33f90ff78e7a0f6}
+      \strng{authorfullhash}{d29bb75af3288ab1f33f90ff78e7a0f6}
+      \strng{authorfullhashraw}{d29bb75af3288ab1f33f90ff78e7a0f6}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Um aplicativo para gerar recomendações e alertas sobre a qualidade do ar em um smart campus}
+      \field{year}{2020}
+      \true{nocite}
+    \endentry
+    \entry{rodrigues2024tinyml}{monography}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=1fe632c1df38f740e8adb582100939d9}{%
+           family={RODRIGUES},
+           familyi={R\bibinitperiod},
+           given={Tayco\bibnamedelimb Murilo\bibnamedelima Santos},
+           giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Instituto de Computação, Universidade Federal de Alagoas}%
+      }
+      \list{location}{1}{%
+        {Maceió}%
+      }
+      \strng{namehash}{1fe632c1df38f740e8adb582100939d9}
+      \strng{fullhash}{1fe632c1df38f740e8adb582100939d9}
+      \strng{fullhashraw}{1fe632c1df38f740e8adb582100939d9}
+      \strng{bibnamehash}{1fe632c1df38f740e8adb582100939d9}
+      \strng{authorbibnamehash}{1fe632c1df38f740e8adb582100939d9}
+      \strng{authornamehash}{1fe632c1df38f740e8adb582100939d9}
+      \strng{authorfullhash}{1fe632c1df38f740e8adb582100939d9}
+      \strng{authorfullhashraw}{1fe632c1df38f740e8adb582100939d9}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{bookpagination}{sheet}
+      \field{title}{Aplicação de TinyML em sensores virtuais para monitoramento da qualidade do ar em ambientes industriais}
+      \field{type}{Trabalho de Conclusão de Curso (Bacharelado em Engenharia de Computação)}
+      \field{year}{2024}
+      \field{pages}{51 f.}
+      \range{pages}{-1}
+    \endentry
+    \entry{sarker2021machine}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e22a4443fd23c87312de251117c5f761}{%
+           family={Sarker},
+           familyi={S\bibinitperiod},
+           given={Iqbal\bibnamedelima H.},
+           giveni={I\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e22a4443fd23c87312de251117c5f761}
+      \strng{fullhash}{e22a4443fd23c87312de251117c5f761}
+      \strng{fullhashraw}{e22a4443fd23c87312de251117c5f761}
+      \strng{bibnamehash}{e22a4443fd23c87312de251117c5f761}
+      \strng{authorbibnamehash}{e22a4443fd23c87312de251117c5f761}
+      \strng{authornamehash}{e22a4443fd23c87312de251117c5f761}
+      \strng{authorfullhash}{e22a4443fd23c87312de251117c5f761}
+      \strng{authorfullhashraw}{e22a4443fd23c87312de251117c5f761}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{2661-8907}
+      \field{journaltitle}{SN Computer Science}
+      \field{number}{3}
+      \field{title}{Machine learning: Algorithms, real-world applications and research directions}
+      \field{volume}{2}
+      \field{year}{2021}
+      \field{pages}{160}
+      \range{pages}{1}
+    \endentry
+    \entry{schurholz2020artificial}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=5c373d77a4a503b3f427248b128746fc}{%
+           family={Schürholz},
+           familyi={S\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6021756c296e247da25022b26731c8d6}{%
+           family={Kubler},
+           familyi={K\bibinitperiod},
+           given={Sylvain},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8da289bb46b6a95f52ced670c23af820}{%
+           family={Zaslavsky},
+           familyi={Z\bibinitperiod},
+           given={Arkady},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{778f05ccbf62026d11c42c7b0c331855}
+      \strng{fullhash}{778f05ccbf62026d11c42c7b0c331855}
+      \strng{fullhashraw}{778f05ccbf62026d11c42c7b0c331855}
+      \strng{bibnamehash}{778f05ccbf62026d11c42c7b0c331855}
+      \strng{authorbibnamehash}{778f05ccbf62026d11c42c7b0c331855}
+      \strng{authornamehash}{778f05ccbf62026d11c42c7b0c331855}
+      \strng{authorfullhash}{778f05ccbf62026d11c42c7b0c331855}
+      \strng{authorfullhashraw}{778f05ccbf62026d11c42c7b0c331855}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Cleaner Production}
+      \field{title}{Artificial intelligence-enabled context-aware air quality prediction for smart cities}
+      \field{volume}{271}
+      \field{year}{2020}
+      \field{pages}{121941}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.jclepro.2020.121941
+      \endverb
+    \endentry
+    \entry{septian2022}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=4090c5332231517fff832d0fa9b6ad2c}{%
+           family={SEPTIAN},
+           familyi={S\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7f215b538e52e84f0877a2c0f23052c6}{%
+           family={MISBAHUDDIN},
+           familyi={M\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=762fe937fe645ef70743f91265667d81}{%
+           family={ARKAN},
+           familyi={A\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4a3d0da0d22d084658a7ac8877151dd2}
+      \strng{fullhash}{4a3d0da0d22d084658a7ac8877151dd2}
+      \strng{fullhashraw}{4a3d0da0d22d084658a7ac8877151dd2}
+      \strng{bibnamehash}{4a3d0da0d22d084658a7ac8877151dd2}
+      \strng{authorbibnamehash}{4a3d0da0d22d084658a7ac8877151dd2}
+      \strng{authornamehash}{4a3d0da0d22d084658a7ac8877151dd2}
+      \strng{authorfullhash}{4a3d0da0d22d084658a7ac8877151dd2}
+      \strng{authorfullhashraw}{4a3d0da0d22d084658a7ac8877151dd2}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Jurnal Teknik Informatika (JUTIF)}
+      \field{number}{1}
+      \field{title}{Freertos based air quality monitoring system using secure internet of things}
+      \field{volume}{3}
+      \field{year}{2022}
+      \field{pages}{147\bibrangedash 153}
+      \range{pages}{7}
+      \verb{doi}
+      \verb https://doi.org/10.20884/1.jutif.2022.3.1.172
+      \endverb
+    \endentry
+    \entry{serdaroglu2023location}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=e8b0bf15bff9b7c115073e35d39a6454}{%
+           family={Serdaroglu},
+           familyi={S\bibinitperiod},
+           given={Kemal\bibnamedelima Cagri},
+           giveni={K\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=df0bd527250f123ac8694a4cfb458a4a}{%
+           family={Baydere},
+           familyi={B\bibinitperiod},
+           given={Sebnem},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=93e4cc1290c3dda1cd507bad66dc437b}{%
+           family={Saovapakhiran},
+           familyi={S\bibinitperiod},
+           given={Boonyarith},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8dc6a0d537dc41b45e78eabd0b4e1cc5}{%
+           family={Charnsripinyo},
+           familyi={C\bibinitperiod},
+           given={Chalermpol},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{8afe13aa4b4e8e16b87b37d197eeda7f}
+      \strng{fullhash}{a559e2a8d9ca84530d588c48737db0f8}
+      \strng{fullhashraw}{a559e2a8d9ca84530d588c48737db0f8}
+      \strng{bibnamehash}{8afe13aa4b4e8e16b87b37d197eeda7f}
+      \strng{authorbibnamehash}{8afe13aa4b4e8e16b87b37d197eeda7f}
+      \strng{authornamehash}{8afe13aa4b4e8e16b87b37d197eeda7f}
+      \strng{authorfullhash}{a559e2a8d9ca84530d588c48737db0f8}
+      \strng{authorfullhashraw}{a559e2a8d9ca84530d588c48737db0f8}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2023 International Conference on Smart Applications, Communications and Networking (SmartNets)}
+      \field{title}{Location Aware Fog Computing Based Air Quality Monitoring System}
+      \field{year}{2023}
+      \field{pages}{1\bibrangedash 6}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/SmartNets58706.2023.10216133
+      \endverb
+    \endentry
+    \entry{shinyei2010ppd42ns}{manual}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e548a09229afcf14d188f5bb7f403bdf}{%
+           family={Shinyei},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{e548a09229afcf14d188f5bb7f403bdf}
+      \strng{fullhash}{e548a09229afcf14d188f5bb7f403bdf}
+      \strng{fullhashraw}{e548a09229afcf14d188f5bb7f403bdf}
+      \strng{bibnamehash}{e548a09229afcf14d188f5bb7f403bdf}
+      \strng{authorbibnamehash}{e548a09229afcf14d188f5bb7f403bdf}
+      \strng{authornamehash}{e548a09229afcf14d188f5bb7f403bdf}
+      \strng{authorfullhash}{e548a09229afcf14d188f5bb7f403bdf}
+      \strng{authorfullhashraw}{e548a09229afcf14d188f5bb7f403bdf}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Datasheet do sensor de material particulado}
+      \field{title}{Particle Sensor Model PPD42NS}
+      \field{version}{1.8}
+      \field{year}{2010}
+    \endentry
+    \entry{silva2025airpure}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=edf9537a671cb5d2d088fb0a863eb7b6}{%
+           family={Silva},
+           familyi={S\bibinitperiod},
+           given={Bruna\bibnamedelimb M.\bibnamedelimi O.},
+           giveni={B\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim O\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7922e5a245d05e47541385ae91530c43}{%
+           family={Junior},
+           familyi={J\bibinitperiod},
+           given={Iwens\bibnamedelimb G.\bibnamedelimi S.},
+           giveni={I\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1db51255a59f3d5c115bc0ece7b50fa5}{%
+           family={Bulcão-Neto},
+           familyi={B\bibinithyphendelim N\bibinitperiod},
+           given={Renato\bibnamedelima F.},
+           giveni={R\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{8bbe342ebe7443657811c4a6c4f5bf6a}
+      \strng{fullhash}{8bbe342ebe7443657811c4a6c4f5bf6a}
+      \strng{fullhashraw}{8bbe342ebe7443657811c4a6c4f5bf6a}
+      \strng{bibnamehash}{8bbe342ebe7443657811c4a6c4f5bf6a}
+      \strng{authorbibnamehash}{8bbe342ebe7443657811c4a6c4f5bf6a}
+      \strng{authornamehash}{8bbe342ebe7443657811c4a6c4f5bf6a}
+      \strng{authorfullhash}{8bbe342ebe7443657811c4a6c4f5bf6a}
+      \strng{authorfullhashraw}{8bbe342ebe7443657811c4a6c4f5bf6a}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Anais (SBCUP)}
+      \field{title}{Air-Pure Monitor: Uma Solucão IoT de Baixo Custo para Ambientes Internos Saudáveis}
+      \field{year}{2025}
+      \true{nocite}
+    \endentry
+    \entry{wcama}{inproceedings}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=19cb2aecb433314cb20dfb1ca9c43a54}{%
+           family={Thaylor},
+           familyi={T\bibinitperiod},
+           given={Eusébio},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ca1fe1c8aa0ba4503fc7c3051337755e}{%
+           family={Cunha},
+           familyi={C\bibinitperiod},
+           given={Nandson},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ba7dbb24af2578e1ec933fa0ce2de9fa}{%
+           family={Moraes},
+           familyi={M\bibinitperiod},
+           given={Alife},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9c6bda8bf6783ef38696bb30d87e0382}{%
+           family={Junior},
+           familyi={J\bibinitperiod},
+           given={Warley},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0ac9aa75cb91563aff79d668caf250bd}{%
+           family={Alves},
+           familyi={A\bibinitperiod},
+           given={Elton},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Maceió/AL}%
+      }
+      \list{publisher}{1}{%
+        {SBC}%
+      }
+      \strng{namehash}{541b871e66a9a3196a293ba593d53033}
+      \strng{fullhash}{59b9c68cc4131dffa875c135b3c504d1}
+      \strng{fullhashraw}{59b9c68cc4131dffa875c135b3c504d1}
+      \strng{bibnamehash}{541b871e66a9a3196a293ba593d53033}
+      \strng{authorbibnamehash}{541b871e66a9a3196a293ba593d53033}
+      \strng{authornamehash}{541b871e66a9a3196a293ba593d53033}
+      \strng{authorfullhash}{59b9c68cc4131dffa875c135b3c504d1}
+      \strng{authorfullhashraw}{59b9c68cc4131dffa875c135b3c504d1}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Anais do XVI Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}
+      \field{issn}{2595-6124}
+      \field{title}{IQArMobi: Classificação Inteligente da Qualidade do Ar e Ciente de Localização em Ambientes Externos e Internos}
+      \field{year}{2025}
+      \field{pages}{216\bibrangedash 225}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.5753/wcama.2025.9015
+      \endverb
+      \verb{urlraw}
+      \verb https://sol.sbc.org.br/index.php/wcama/article/view/36099
+      \endverb
+      \verb{url}
+      \verb https://sol.sbc.org.br/index.php/wcama/article/view/36099
+      \endverb
+    \endentry
+    \entry{epa1999filter}{report}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e86a8fe03720a498c9ee0fea1285897e}{%
+           family={{United States Environmental Protection Agency (EPA)}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {EPA}%
+      }
+      \strng{namehash}{e86a8fe03720a498c9ee0fea1285897e}
+      \strng{fullhash}{e86a8fe03720a498c9ee0fea1285897e}
+      \strng{fullhashraw}{e86a8fe03720a498c9ee0fea1285897e}
+      \strng{bibnamehash}{e86a8fe03720a498c9ee0fea1285897e}
+      \strng{authorbibnamehash}{e86a8fe03720a498c9ee0fea1285897e}
+      \strng{authornamehash}{e86a8fe03720a498c9ee0fea1285897e}
+      \strng{authorfullhash}{e86a8fe03720a498c9ee0fea1285897e}
+      \strng{authorfullhashraw}{e86a8fe03720a498c9ee0fea1285897e}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{number}{Compendium Method IO-3.1}
+      \field{title}{Selection, Preparation and Extraction of Filter Materials}
+      \field{type}{techreport}
+      \field{year}{1999}
+    \endentry
+    \entry{villarim2020sensor}{thesis}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ad6bc8bde09530b11df5d29575f85f38}{%
+           family={Villarim},
+           familyi={V\bibinitperiod},
+           given={Mariana\bibnamedelima Rodrigues},
+           giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Universidade Federal da Paraíba}%
+      }
+      \list{location}{1}{%
+        {João Pessoa}%
+      }
+      \strng{namehash}{ad6bc8bde09530b11df5d29575f85f38}
+      \strng{fullhash}{ad6bc8bde09530b11df5d29575f85f38}
+      \strng{fullhashraw}{ad6bc8bde09530b11df5d29575f85f38}
+      \strng{bibnamehash}{ad6bc8bde09530b11df5d29575f85f38}
+      \strng{authorbibnamehash}{ad6bc8bde09530b11df5d29575f85f38}
+      \strng{authornamehash}{ad6bc8bde09530b11df5d29575f85f38}
+      \strng{authorfullhash}{ad6bc8bde09530b11df5d29575f85f38}
+      \strng{authorfullhashraw}{ad6bc8bde09530b11df5d29575f85f38}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{bookpagination}{sheet}
+      \field{title}{Estudo e desenvolvimento de um sensor sem fio inteligente para monitoramento distribuído de poluentes atmosféricos no contexto de cidades inteligentes}
+      \field{type}{Dissertação (Mestrado em Engenharia Elétrica)}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://repositorio.ufpb.br/jspui/handle/123456789/20464
+      \endverb
+      \verb{url}
+      \verb https://repositorio.ufpb.br/jspui/handle/123456789/20464
+      \endverb
+    \endentry
+    \entry{wang2023}{inproceedings}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=800aa1e216f1ff90f8161cd4cab0d532}{%
+           family={WANG},
+           familyi={W\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c185382d8baf5f710f2c111879f441e4}{%
+           family={HUO},
+           familyi={H\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd95125343b0a36b5b0e2cb8a9b48951}{%
+           family={HU},
+           familyi={H\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9a4f5154292fe7c8509dfd8bddcc5a23}{%
+           family={WANG},
+           familyi={W\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{ac4deb25f07d2e3fb443b8911a031b6d}
+      \strng{fullhash}{e13a03c6f6925e0981ebde45d2653952}
+      \strng{fullhashraw}{e13a03c6f6925e0981ebde45d2653952}
+      \strng{bibnamehash}{ac4deb25f07d2e3fb443b8911a031b6d}
+      \strng{authorbibnamehash}{ac4deb25f07d2e3fb443b8911a031b6d}
+      \strng{authornamehash}{ac4deb25f07d2e3fb443b8911a031b6d}
+      \strng{authorfullhash}{e13a03c6f6925e0981ebde45d2653952}
+      \strng{authorfullhashraw}{e13a03c6f6925e0981ebde45d2653952}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{3rd International Conference on Digital Society and Intelligent Systems (DSInS)}
+      \field{title}{Research on Real-time Monitoring System of Multiscenario Health Data Based on Internet of Things}
+      \field{year}{2023}
+      \field{pages}{332\bibrangedash 336}
+      \range{pages}{5}
+      \verb{doi}
+      \verb 10.1109/DSInS60115.2023.10455560
+      \endverb
+    \endentry
+    \entry{warden2020tinyml}{book}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=cfc28a19549f0d8ff117cf79be90d213}{%
+           family={Warden},
+           familyi={W\bibinitperiod},
+           given={Pete},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=131336c50827334ae58ae71b5107861a}{%
+           family={Situnayake},
+           familyi={S\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {O'Reilly}%
+      }
+      \strng{namehash}{2db3b8d2efed89ff41fbb2993a3d4419}
+      \strng{fullhash}{2db3b8d2efed89ff41fbb2993a3d4419}
+      \strng{fullhashraw}{2db3b8d2efed89ff41fbb2993a3d4419}
+      \strng{bibnamehash}{2db3b8d2efed89ff41fbb2993a3d4419}
+      \strng{authorbibnamehash}{2db3b8d2efed89ff41fbb2993a3d4419}
+      \strng{authornamehash}{2db3b8d2efed89ff41fbb2993a3d4419}
+      \strng{authorfullhash}{2db3b8d2efed89ff41fbb2993a3d4419}
+      \strng{authorfullhashraw}{2db3b8d2efed89ff41fbb2993a3d4419}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9781492052043}
+      \field{title}{TinyML: Machine Learning with TensorFlow Lite on Arduino and Ultra-low-power Microcontrollers}
+      \field{year}{2020}
+    \endentry
+    \entry{yang2019quantization}{inproceedings}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=51e5fb9f55c5b5d1edb17aea3861c908}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e2a55d0b1c12c5c5d4797a727172bf22}
+      \strng{fullhash}{e2a55d0b1c12c5c5d4797a727172bf22}
+      \strng{fullhashraw}{e2a55d0b1c12c5c5d4797a727172bf22}
+      \strng{bibnamehash}{e2a55d0b1c12c5c5d4797a727172bf22}
+      \strng{authorbibnamehash}{e2a55d0b1c12c5c5d4797a727172bf22}
+      \strng{authornamehash}{e2a55d0b1c12c5c5d4797a727172bf22}
+      \strng{authorfullhash}{e2a55d0b1c12c5c5d4797a727172bf22}
+      \strng{authorfullhashraw}{e2a55d0b1c12c5c5d4797a727172bf22}
+      \field{sortinit}{Y}
+      \field{sortinithash}{fd67ad5a9ef0f7456bdd9aab10fe1495}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}
+      \field{title}{Quantization networks}
+      \field{year}{2019}
+      \field{pages}{7300\bibrangedash 7308}
+      \range{pages}{9}
+    \endentry
+    \entry{zannetti1990air}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=5bfd62984bfb11e0556df1afe4b93591}{%
+           family={Zannetti},
+           familyi={Z\bibinitperiod},
+           given={D.\bibnamedelimi P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer US}%
+      }
+      \strng{namehash}{5bfd62984bfb11e0556df1afe4b93591}
+      \strng{fullhash}{5bfd62984bfb11e0556df1afe4b93591}
+      \strng{fullhashraw}{5bfd62984bfb11e0556df1afe4b93591}
+      \strng{bibnamehash}{5bfd62984bfb11e0556df1afe4b93591}
+      \strng{authorbibnamehash}{5bfd62984bfb11e0556df1afe4b93591}
+      \strng{authornamehash}{5bfd62984bfb11e0556df1afe4b93591}
+      \strng{authorfullhash}{5bfd62984bfb11e0556df1afe4b93591}
+      \strng{authorfullhashraw}{5bfd62984bfb11e0556df1afe4b93591}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{1st}
+      \field{isbn}{978-1-4757-4467-5}
+      \field{title}{Air Pollution Modeling: Theories, Computational Methods and Available Software}
+      \field{year}{1990}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
 
-\bibitem[CUNHA 2024]{cunha2024}
-\abntrefinfo{CUNHA}{CUNHA}{2024}
-{CUNHA, N. e.~a. Arquitetura de monitoramento de qualidade de ar baseada no
-  lorawan e fiware em um campus universitário. In:  \emph{Anais do XV Workshop
-  de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}.
-  Brasília/DF: [s.n.], 2024. p. 169--178.}
-
-\bibitem[Francisco et al.]{franciscomonitoramento}
-\abntrefinfo{Francisco et al.}{FRANCISCO et al.}{}
-{FRANCISCO, A. C.~C. et al. Monitoramento inteligente de aspectos ambientais em
-  campus universit{\'a}rio.
-\emph{Universidades \& Sustentabilidade}, p.~126.}
-
-\bibitem[Ladeira 2024]{ladeira2024mliot}
-\abntrefinfo{Ladeira}{LADEIRA}{2024}
-{LADEIRA, E. F.~L.
-\emph{A Machine Learning-based Decision Support System for IoT Monitoring
-  Solutions}.
-Disserta\c{c}\~{a}o (Master Thesis) --- Universidade da Beira Interior,
-  Covilh\~a, 2024.
-Dispon{\'\i}vel em: \url{http://hdl.handle.net/10400.6/19045}.}
-
-\bibitem[Rodrigues 2020]{rodrigues2020aplicativo}
-\abntrefinfo{Rodrigues}{RODRIGUES}{2020}
-{RODRIGUES, P.~L. Um aplicativo para gerar recomenda{\c{c}}{\~o}es e alertas
-  sobre a qualidade do ar em um smart campus.
-Universidade de Passo Fundo, 2020.}
-
-\bibitem[RODRIGUES 2024]{rodrigues2024tinyml}
-\abntrefinfo{RODRIGUES}{RODRIGUES}{2024}
-{RODRIGUES, T. M.~S.
-\emph{Aplicação de TinyML em sensores virtuais para monitoramento da
-  qualidade do ar em ambientes industriais}.
-51 f.~p. Monografia (Trabalho de Conclusão de Curso (Bacharelado em Engenharia
-  de Computação)) --- Instituto de Computação, Universidade Federal de
-  Alagoas, Maceió, 2024.}
-
-\bibitem[Silva, Junior e Bulcão-Neto 2025]{silva2025airpure}
-\abntrefinfo{Silva, Junior e Bulcão-Neto}{SILVA; JUNIOR; BULCãO-NETO}{2025}
-{SILVA, B. M.~O.; JUNIOR, I. G.~S.; BULCãO-NETO, R.~F. Air-pure monitor: Uma
-  solucão iot de baixo custo para ambientes internos saudáveis. In:
-  \emph{Anais (SBCUP)}. [S.l.: s.n.], 2025.}
-
-\bibitem[Thaylor et al. 2025]{wcama}
-\abntrefinfo{Thaylor et al.}{THAYLOR et al.}{2025}
-{THAYLOR, E. et al. Iqarmobi: Classificação inteligente da qualidade do ar e
-  ciente de localização em ambientes externos e internos. In:  \emph{Anais do
-  XVI Workshop de Computação Aplicada à Gestão do Meio Ambiente e Recursos
-  Naturais}. Porto Alegre, RS, Brasil: SBC, 2025. p. 216--225.
-ISSN 2595-6124. Dispon{\'\i}vel em:
-  \url{https://sol.sbc.org.br/index.php/wcama/article/view/36099}.}
-
-\bibitem[Villarim 2020]{villarim2020sensor}
-\abntrefinfo{Villarim}{VILLARIM}{2020}
-{VILLARIM, M.~R.
-\emph{Estudo e desenvolvimento de um sensor sem fio inteligente para
-  monitoramento distribu{\'i}do de poluentes atmosf{\'e}ricos no contexto de
-  cidades inteligentes}.
-Disserta\c{c}\~{a}o (Disserta{\c c}{\~a}o (Mestrado em Engenharia
-  El{\'e}trica)) --- Universidade Federal da Para{\'i}ba, Jo{\~a}o Pessoa,
-  2020.
-Dispon{\'\i}vel em:
-  \url{https://repositorio.ufpb.br/jspui/handle/123456789/20464}.}
-
-\end{thebibliography}

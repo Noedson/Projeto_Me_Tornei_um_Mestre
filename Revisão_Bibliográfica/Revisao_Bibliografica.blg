@@ -1,68 +1,15 @@
-This is BibTeX, Version 0.99e
-Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
-The top-level auxiliary file: Revisao_Bibliografica.aux
-Reallocating 'name_of_file' (item size: 1) to 12 items.
-The style file: abntex2-alf.bst
-Reallocating 'name_of_file' (item size: 1) to 16 items.
-Reallocating 'name_of_file' (item size: 1) to 49 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'wiz_functions' (item size: 4) to 6000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'wiz_functions' (item size: 4) to 9000 items.
-Database file #1: abntex2-options.bib
-Database file #2: ../Protocolo_De_Revisão/Referencias/referencias.bib
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'glb_str_end' (item size: 4) to 20 items.
-Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
-Reallocating 'global_strs' (item size: 1) to 4000000 items.
-+---------------------------------------------------------+
-| Estilo bibliográfico abntex2-alf.bst versão v-1.9.7           |
-| Em caso de dúvidas ou problemas com este estilo procure |
-| http://www.abntex.net.br/                               |
-+---------------------------------------------------------+
-You've used 15 entries,
-            6714 wiz_defined-function locations,
-            1280 strings with 12052 characters,
-and the built_in function-call counts, 13980 in all, are:
-= -- 1252
-> -- 428
-< -- 92
-+ -- 271
-- -- 128
-* -- 980
-:= -- 1815
-add.period$ -- 53
-call.type$ -- 15
-change.case$ -- 153
-chr.to.int$ -- 32
-cite$ -- 13
-duplicate$ -- 778
-empty$ -- 990
-format.name$ -- 617
-if$ -- 3308
-int.to.chr$ -- 1
-int.to.str$ -- 0
-missing$ -- 251
-newline$ -- 66
-num.names$ -- 65
-pop$ -- 326
-preamble$ -- 1
-purify$ -- 60
-quote$ -- 0
-skip$ -- 934
-stack$ -- 1
-substring$ -- 617
-swap$ -- 380
-text.length$ -- 23
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 7
-warning$ -- 0
-while$ -- 103
-width$ -- 0
-write$ -- 220
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is 'Revisao_Bibliografica.blg'
+[479] biber-MSWIN64:342> INFO - === 
+[635] Biber.pm:421> INFO - Reading 'Revisao_Bibliografica.bcf'
+[885] Biber.pm:1002> INFO - Found 17 citekeys in bib section 0
+[916] Biber.pm:4487> INFO - Processing section 0
+[940] Biber.pm:4678> INFO - Looking for bibtex file 'referencias.bib' for section 0
+[1055] bibtex.pm:1713> INFO - LaTeX decoding ...
+[1339] bibtex.pm:1519> INFO - Found BibTeX data source 'referencias.bib'
+[1673] UCollate.pm:68> INFO - Overriding locale 'pt-BR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1673] UCollate.pm:68> INFO - Overriding locale 'pt-BR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1673] Biber.pm:4307> INFO - Sorting list 'nty/global//global/global/global' of type 'entry' with template 'nty' and locale 'pt-BR'
+[1674] Biber.pm:4313> INFO - No sort tailoring available for locale 'pt-BR'
+[1740] bbl.pm:676> INFO - Writing 'Revisao_Bibliografica.bbl' with encoding 'UTF-8'
+[1766] bbl.pm:779> INFO - Output to Revisao_Bibliografica.bbl
