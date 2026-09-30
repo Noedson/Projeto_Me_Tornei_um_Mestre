@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.7.30)  30 SEP 2026 18:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.7.30)  30 SEP 2026 18:54
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -680,8 +680,8 @@ LaTeX Info: Redefining \newblock on input line 591.
 LaTeX Info: Redefining \cite on input line 618.
 \ABCItoken=\toks30
 )
-Package color Info: Redefining color blue on input line 118.
-Package hyperref Info: Option `colorlinks' set `true' on input line 135.
+Package color Info: Redefining color blue on input line 120.
+Package hyperref Info: Option `colorlinks' set `true' on input line 137.
 \c@quadro=\count371
 \c@loqdepth=\count372
 \cftbeforequadroskip=\skip262
@@ -695,28 +695,28 @@ Writing index file abntex2-modelo-trabalho-academico.idx
 (abntex2-modelo-trabalho-academico.aux
 Package babel Info: 'brazil' activates 'portuges' shorthands.
 (babel)             Reported on input line 13.
- (abntex2-modelo-include-comandos.aux))
+ (Introducao/Introducao.aux) (abntex2-modelo-include-comandos.aux))
 \openout1 = `abntex2-modelo-trabalho-academico.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-Package hyperref Info: Link coloring ON on input line 186.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 188.
+LaTeX Font Info:    ... okay on input line 188.
+Package hyperref Info: Link coloring ON on input line 188.
 \myptabbox=\box60
 \myptabboxwidth=\skip265
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
@@ -738,13 +738,13 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-LaTeX Info: Redefining \microtypecontext on input line 186.
-Package microtype Info: Applying patch `item' on input line 186.
-Package microtype Info: Applying patch `toc' on input line 186.
-Package microtype Info: Applying patch `eqnum' on input line 186.
-Package microtype Info: Applying patch `footnote' on input line 186.
-Package microtype Info: Applying patch `verbatim' on input line 186.
-LaTeX Info: Redefining \microtypesetup on input line 186.
+LaTeX Info: Redefining \microtypecontext on input line 188.
+Package microtype Info: Applying patch `item' on input line 188.
+Package microtype Info: Applying patch `toc' on input line 188.
+Package microtype Info: Applying patch `eqnum' on input line 188.
+Package microtype Info: Applying patch `footnote' on input line 188.
+Package microtype Info: Applying patch `verbatim' on input line 188.
+LaTeX Info: Redefining \microtypesetup on input line 188.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -762,9 +762,9 @@ Package babel Info: Main language set to 'brazil'.
 <figures/UFPA.pdf, id=3, 289.08pt x 351.3125pt>
 File: figures/UFPA.pdf Graphic file (type pdf)
 <use figures/UFPA.pdf>
-Package pdftex.def Info: figures/UFPA.pdf  used on input line 203.
+Package pdftex.def Info: figures/UFPA.pdf  used on input line 205.
 (pdftex.def)             Requested size: 90.99861pt x 110.58896pt.
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 203.
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 205.
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -775,116 +775,43 @@ Package microtype Info: Loading generic protrusion settings for font family
  [1
 
 {C:/Users/Noedson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./figures/UFPA.pdf>]
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 212.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 214.
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 212.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 214.
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 212.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 214.
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 212.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 214.
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 212.
+(Font)              <12> on input line 214.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 212.
+(Font)              <8> on input line 214.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 212.
+(Font)              <6> on input line 214.
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.212 
+l.214 
        [1
 
 
 
 ]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 235.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 235.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 235.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 235.
- [2]
-Overfull \hbox (0.24408pt too wide) in paragraph at lines 310--310
- [][] 
- []
+\openout2 = `Introducao/Introducao.aux'.
 
-
-Overfull \hbox (0.24408pt too wide) in paragraph at lines 312--312
- [][] 
- []
-
-
-Overfull \hbox (0.24408pt too wide) in paragraph at lines 313--313
- [][] 
- []
-
-[3
-
-] [4
-
-] [5
-
-
-] [6
-
-]
-
-LaTeX Warning: Citation `NBR6028:2003' on page 7 undefined on input line 372.
-
-[7
-
-] [8
-
-] (abntex2-modelo-trabalho-academico.lof) [9
-
-] (abntex2-modelo-trabalho-academico.loq) [10
-
-] (abntex2-modelo-trabalho-academico.lot) [11
-
-] [12
-
-
-] [13
-
-
-{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}] (abntex2-modelo-trabalho-academico.toc
-LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 22.
- [14
-
-]) [15]
+ (Introducao/Introducao.tex
 Cap\'{\i }tulo 1.
-
-LaTeX Warning: Citation `abntex2classe' on page 16 undefined on input line 472.
-
-
-LaTeX Warning: Citation `abntex2-wiki-como-customizar' on page 16 undefined on input line 487.
-
-
-LaTeX Warning: Citation `abntex2classe' on page 16 undefined on input line 490.
-
-
-LaTeX Warning: Citation `abntex2cite' on page 16 undefined on input line 490.
-
-
-LaTeX Warning: Citation `abntex2cite-alf' on page 16 undefined on input line 490.
-
-
-LaTeX Warning: Citation `memoir' on page 16 undefined on input line 491.
-
-[16
+) [2
 
 
 ]
@@ -902,45 +829,54 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-LaTeX Warning: Citation `NBR10520:2002' on page 17 undefined on input line 53.
+LaTeX Warning: Citation `NBR10520:2002' on page 3 undefined on input line 53.
 
 
 Overfull \hbox (20.47523pt too wide) in paragraph at lines 60--60
 []\T1/lmtt/m/n/12 As citações diretas, no texto, com mais de três linhas [...] deve-se observar[] 
  []
 
-[17
+[3
+
+
 
 
 ]
-
-LaTeX Warning: Citation `NBR14724:2011' on page 18 undefined on input line 96.
-
-
-LaTeX Warning: Citation `van86' on page 18 undefined on input line 127.
-
-
-LaTeX Warning: Citation `van86' on page 18 undefined on input line 127.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 96.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 96.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 96.
 
 
-LaTeX Warning: Citation `ibge1993' on page 18 undefined on input line 131.
+LaTeX Warning: Citation `NBR14724:2011' on page 4 undefined on input line 96.
 
-[18]
-<figures/abntex2-modelo-img-grafico.pdf, id=280, 847.165pt x 314.17375pt>
+
+LaTeX Warning: Citation `van86' on page 4 undefined on input line 127.
+
+
+LaTeX Warning: Citation `van86' on page 4 undefined on input line 127.
+
+
+LaTeX Warning: Citation `ibge1993' on page 4 undefined on input line 131.
+
+[4]
+<figures/abntex2-modelo-img-grafico.pdf, id=65, 847.165pt x 314.17375pt>
 File: figures/abntex2-modelo-img-grafico.pdf Graphic file (type pdf)
 <use figures/abntex2-modelo-img-grafico.pdf>
 Package pdftex.def Info: figures/abntex2-modelo-img-grafico.pdf  used on input line 227.
 (pdftex.def)             Requested size: 423.58145pt x 157.08649pt.
 
 
-LaTeX Warning: Citation `araujo2012' on page 19 undefined on input line 229.
+LaTeX Warning: Citation `araujo2012' on page 5 undefined on input line 229.
 
 
-LaTeX Warning: Citation `araujo2012' on page 19 undefined on input line 229.
+LaTeX Warning: Citation `araujo2012' on page 5 undefined on input line 229.
 
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <14.4> not available
 (Font)              Font shape `T1/lmss/m/sl' tried instead on input line 233.
-<figures/abntex2-modelo-img-marca.pdf, id=283, 227.51701pt x 72.2695pt>
+<figures/abntex2-modelo-img-marca.pdf, id=68, 227.51701pt x 72.2695pt>
 File: figures/abntex2-modelo-img-marca.pdf Graphic file (type pdf)
 <use figures/abntex2-modelo-img-marca.pdf>
 Package pdftex.def Info: figures/abntex2-modelo-img-marca.pdf  used on input line 246.
@@ -955,33 +891,33 @@ File: figures/abntex2-modelo-img-grafico.pdf Graphic file (type pdf)
 Package pdftex.def Info: figures/abntex2-modelo-img-grafico.pdf  used on input line 253.
 (pdftex.def)             Requested size: 169.43pt x 62.83363pt.
 
-LaTeX Warning: Citation `araujo2012' on page 19 undefined on input line 254.
+LaTeX Warning: Citation `araujo2012' on page 5 undefined on input line 254.
 
 
-LaTeX Warning: Citation `araujo2012' on page 19 undefined on input line 254.
+LaTeX Warning: Citation `araujo2012' on page 5 undefined on input line 254.
 
-[19]
+[5]
 
-LaTeX Warning: Citation `NBR14724:2011' on page 20 undefined on input line 258.
-
-
-LaTeX Warning: Citation `NBR14724:2011' on page 20 undefined on input line 271.
-
-[20 <./figures/abntex2-modelo-img-grafico.pdf> <./figures/abntex2-modelo-img-marca.pdf>]
-
-LaTeX Warning: Citation `NBR6024:2012' on page 21 undefined on input line 307.
+LaTeX Warning: Citation `NBR14724:2011' on page 6 undefined on input line 258.
 
 
-LaTeX Warning: Citation `NBR6024:2012' on page 21 undefined on input line 330.
+LaTeX Warning: Citation `NBR14724:2011' on page 6 undefined on input line 271.
 
-[21{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
+[6 <./figures/abntex2-modelo-img-grafico.pdf> <./figures/abntex2-modelo-img-marca.pdf>]
+
+LaTeX Warning: Citation `NBR6024:2012' on page 7 undefined on input line 307.
+
+
+LaTeX Warning: Citation `NBR6024:2012' on page 7 undefined on input line 330.
+
+[7{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
 Overfull \hbox (26.65024pt too wide) in paragraph at lines 383--383
 []   \T1/lmtt/m/n/12 \usepackage{indentfirst}      % Indenta o primeiro parágrafo de cada seção.[] 
  []
 
-[22]
+[8]
 
-LaTeX Warning: Citation `memoir' on page 23 undefined on input line 413.
+LaTeX Warning: Citation `memoir' on page 9 undefined on input line 413.
 
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <17.28> on input line 436.
@@ -990,7 +926,7 @@ Overfull \hbox (1.95023pt too wide) in paragraph at lines 453--453
 []   \T1/lmtt/m/n/12 makeindex ARQUIVO_PRINCIPAL.nlo -s nomencl.ist -o ARQUIVO_PRINCIPAL.nls[] 
  []
 
-[23]
+[9]
 Overfull \hbox (8.12523pt too wide) in paragraph at lines 475--475
 []\T1/lmtt/m/n/12 Ao nomear a \autoref{tab-nivinv} e a \autoref{fig_circulo}, apresentamos um[] 
  []
@@ -1010,18 +946,18 @@ Overfull \hbox (26.65024pt too wide) in paragraph at lines 482--482
 []\T1/lmtt/m/n/12 Veja a \autoref{sec-divisoes} para outros exemplos de remissões internas entre[] 
  []
 
-[24]
+[10]
 
-LaTeX Warning: Citation `NBR14724:2011' on page 25 undefined on input line 553.
+LaTeX Warning: Citation `NBR14724:2011' on page 11 undefined on input line 553.
 
 
-LaTeX Warning: Citation `NBR6024:2012' on page 25 undefined on input line 554.
+LaTeX Warning: Citation `NBR6024:2012' on page 11 undefined on input line 554.
 
-[25]
+[11]
 
-LaTeX Warning: Citation `babel' on page 26 undefined on input line 598.
+LaTeX Warning: Citation `babel' on page 12 undefined on input line 598.
 
-[26]
+[12]
 Overfull \hbox (205.0856pt too wide) in paragraph at lines 615--615
  [][] [][][]\T1/lmr/m/n/10 (-20) Extraído de: [][]$<[]http : / / bigbrowser . blog . lemonde . fr / 2013 / 02 / 17 / tu-[]ne-[]tweeteras-[]point-[]le-[]vatican-[]interdit-[]aux-[]cardinaux-[]de-[]tweeter-[]pendant-[]le-[]conclave /
  []
@@ -1034,83 +970,70 @@ Package babel Info: Importing data for 'spanish'
 (babel)             from babel-es.ini. Reported on input line 633.
 
 
-LaTeX Warning: Citation `abntex2classe' on page 27 undefined on input line 643.
+LaTeX Warning: Citation `abntex2classe' on page 13 undefined on input line 643.
 
 
-LaTeX Warning: Citation `abntex2classe' on page 27 undefined on input line 653.
+LaTeX Warning: Citation `abntex2classe' on page 13 undefined on input line 653.
 
 
-LaTeX Warning: Citation `NBR14724:2011' on page 27 undefined on input line 658.
+LaTeX Warning: Citation `NBR14724:2011' on page 13 undefined on input line 658.
 
-[27]
+[13]
 
-LaTeX Warning: Citation `abntex2cite' on page 28 undefined on input line 668.
+LaTeX Warning: Citation `abntex2cite' on page 14 undefined on input line 668.
 
 
-LaTeX Warning: Citation `abntex2cite-alf' on page 28 undefined on input line 668.
+LaTeX Warning: Citation `abntex2cite-alf' on page 14 undefined on input line 668.
 
 
 Overfull \hbox (6.91217pt too wide) in paragraph at lines 706--709
 []\T1/lmr/m/n/12 (-20) Inscreva-se no grupo de usu-á-rios L[]T[]X: [][]$<[]http : / / groups . google . com / group / latex-[]br>[]$[][],
  []
 
-[28]) [29]
+[14]) [15]
 Cap\'{\i }tulo 3.
-[30
+[16
 
 
 
 ]
 Cap\'{\i }tulo 4.
-[31
+[17
 
 ]
 Cap\'{\i }tulo 5.
-[32
+[18
 
 ]
 Cap\'{\i }tulo 6.
-[33
+[19
 
 ]
 Cap\'{\i }tulo 7.
 No file abntex2-modelo-trabalho-academico.bbl.
-[34
+[20
 
 ]
 AP\^ENDICE A.
-[35
+[21
 
 ]
 AP\^ENDICE B.
-[36
+[22
 
 ]
 ANEXO A.
-[37
+[23
 
 ]
 ANEXO B.
-[38
+[24
 
 ]
 ANEXO C.
-[39
+[25
 
-]
-\tf@lof=\write5
-\openout5 = `abntex2-modelo-trabalho-academico.lof'.
-
-\tf@loq=\write6
-\openout6 = `abntex2-modelo-trabalho-academico.loq'.
-
-\tf@lot=\write7
-\openout7 = `abntex2-modelo-trabalho-academico.lot'.
-
-\tf@toc=\write8
-\openout8 = `abntex2-modelo-trabalho-academico.toc'.
-
- (abntex2-modelo-trabalho-academico.aux (abntex2-modelo-include-comandos.aux))
+] (abntex2-modelo-trabalho-academico.aux (Introducao/Introducao.aux) (abntex2-modelo-include-comandos.aux))
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2020/03/25>
@@ -1121,17 +1044,17 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 19012 strings out of 467509
- 320177 string characters out of 5407801
- 909580 words of memory out of 5000000
- 47576 multiletter control sequences out of 15000+600000
- 734811 words of font info for 207 fonts, out of 8000000 for 9000
+ 18865 strings out of 467509
+ 317803 string characters out of 5407801
+ 906768 words of memory out of 5000000
+ 47515 multiletter control sequences out of 15000+600000
+ 718089 words of font info for 181 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,13n,107p,2054b,724s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/latxfont/line10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss17.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on abntex2-modelo-trabalho-academico.pdf (40 pages, 855663 bytes).
+<C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/latxfont/line10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss17.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
+Output written on abntex2-modelo-trabalho-academico.pdf (26 pages, 777307 bytes).
 PDF statistics:
- 806 PDF objects out of 1000 (max. 8388607)
- 157 named destinations out of 1000 (max. 500000)
- 62440 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 592 PDF objects out of 1000 (max. 8388607)
+ 113 named destinations out of 1000 (max. 500000)
+ 52112 words of extra memory for PDF output out of 61914 (max. 10000000)
 
