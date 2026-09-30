@@ -7,4 +7,29 @@ agravamento de enfermidades respiratórias e cardiovasculares.
 Segundo estimativas da Organizaçãoi Mundial da Saúde (OMS) a poluição do ar causa
 cerca de 4,2 milhões de mortes prematuras por ano. No Brasil, calcula - se
 que a degradação da qualidade do ar atmosférico cause aproximadamente 20 mil óbitos
-anuas 
+anuais, acrescidos de mais de 10,7 mil mortes por ano decorrentes da poluição do ar
+em ambientes internos \cite{cunha2024}. Esse panorama é severamente intensificado
+na região amazônica devido ao impacto direto e recorrente das queimadas florestais,
+que elevam expressivamente a emissõ de material particulado e gases nocivos na
+atmosféra resultando na poluição \cite{gomes2024}.
+
+
+Apesar dos avanços recentes na expansão da Internet das Coisas (IoT), a maioria
+das soluções atuais de sensoriamento de baixo custo opera sob a abordagem puramente reativa 
+e passiva \cite{cunha2024}. Nesses sistemas convencionais, o nó sensor limita - se a coltar
+medições brutas e transmiti - las à nuvem para exibição em dashboards estátivos, sem capacidade
+de antecipar picos de contaminação por poluentes como o Monoxido de Carbono (CO),
+Ozonio (O\textsubscript{3}), Dióxido de Carbono(CO\textsubscript{2}) ou Amonia NH\textsubscript{3}), e 
+sem executar ações de mitigação imediata. \cite{cunha2024}
+
+Do ponto de vista da arquitetura de sistemas embarcados, a maioria dos nós sensores IoT
+é desenvolvido sobre a arquitetura de laço infinito. Nesse modelo
+sem escalonamentos preempivo, a CPU do microcontrolador interrompe a rotina de amostragem
+física dos sensores durante a montagem e o envio dos pacotes via LoRaWan, introduzindo
+jitter, atrasos no tempos de transmissão (alcançando médias atpes 8,05 segundos) e uma taxa
+de perda de pacotes de 15,95\%. Alem disso, a dependencia exclusiva de servidores
+de nuvem para processar algoritmos de inteligencia artificial gera vulnerabilidade a quedas 
+de rede e latencia elevadas, impedindo garantias deterministicas de tempo real em cenários
+de riscos a saúde \cite{alves2025freertos}
+
+\section{Justificativa da Pesquisa}

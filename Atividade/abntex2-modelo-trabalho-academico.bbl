@@ -1,0 +1,28 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Alves et al. 2025]{alves2025freertos}
+\abntrefinfo{Alves et al.}{ALVES et al.}{2025}
+{ALVES, E.; SILVA, N.; J{\'U}NIOR, W.; MORAES, A.; SILVA, N.; BALIEIRO, A.
+  Freertos application in a real-time air quality monitoring architecture for
+  smart campus.
+\emph{IEEE Latin America Transactions}, IEEE, v.~23, n.~4, p. 266--273, 2025.}
+
+\bibitem[CUNHA 2024]{cunha2024}
+\abntrefinfo{CUNHA}{CUNHA}{2024}
+{CUNHA, N. e.~a. Arquitetura de monitoramento de qualidade de ar baseada no
+  lorawan e fiware em um campus universitário. In:  \emph{Anais do XV Workshop
+  de Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}.
+  Brasília/DF: [s.n.], 2024. p. 169--178.}
+
+\bibitem[Gomes, Lima e Brisil 2024]{gomes2024}
+\abntrefinfo{Gomes, Lima e Brisil}{GOMES; LIMA; BRISIL}{2024}
+{GOMES, R. dos A.; LIMA, R.~B. de; BRISIL, T. do V. Impact of the fires in the
+  amazon with the incidence of cases of respiratory problems in the population.
+\emph{Revista Foco}, v.~17, n.~12, p. 1--19, 2024.}
+
+\end{thebibliography}
