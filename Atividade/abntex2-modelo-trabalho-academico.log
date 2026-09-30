@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.7.30)  30 SEP 2026 18:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.7.30)  30 SEP 2026 20:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -862,7 +862,7 @@ LaTeX Warning: Citation `van86' on page 4 undefined on input line 127.
 LaTeX Warning: Citation `ibge1993' on page 4 undefined on input line 131.
 
 [4]
-<figures/abntex2-modelo-img-grafico.pdf, id=65, 847.165pt x 314.17375pt>
+<figures/abntex2-modelo-img-grafico.pdf, id=80, 847.165pt x 314.17375pt>
 File: figures/abntex2-modelo-img-grafico.pdf Graphic file (type pdf)
 <use figures/abntex2-modelo-img-grafico.pdf>
 Package pdftex.def Info: figures/abntex2-modelo-img-grafico.pdf  used on input line 227.
@@ -876,7 +876,7 @@ LaTeX Warning: Citation `araujo2012' on page 5 undefined on input line 229.
 
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <14.4> not available
 (Font)              Font shape `T1/lmss/m/sl' tried instead on input line 233.
-<figures/abntex2-modelo-img-marca.pdf, id=68, 227.51701pt x 72.2695pt>
+<figures/abntex2-modelo-img-marca.pdf, id=83, 227.51701pt x 72.2695pt>
 File: figures/abntex2-modelo-img-marca.pdf Graphic file (type pdf)
 <use figures/abntex2-modelo-img-marca.pdf>
 Package pdftex.def Info: figures/abntex2-modelo-img-marca.pdf  used on input line 246.
@@ -1010,28 +1010,35 @@ Cap\'{\i }tulo 6.
 
 ]
 Cap\'{\i }tulo 7.
-No file abntex2-modelo-trabalho-academico.bbl.
-[20
+(abntex2-modelo-trabalho-academico.bbl (abntex2-modelo-trabalho-academico.brf)
+\tf@brf=\write5
+\openout5 = `abntex2-modelo-trabalho-academico.brf'.
+
+ [20
+
+]
+bibitemlist
+) [21
 
 ]
 AP\^ENDICE A.
-[21
-
-]
-AP\^ENDICE B.
 [22
 
 ]
-ANEXO A.
+AP\^ENDICE B.
 [23
 
 ]
-ANEXO B.
+ANEXO A.
 [24
 
 ]
-ANEXO C.
+ANEXO B.
 [25
+
+]
+ANEXO C.
+[26
 
 ] (abntex2-modelo-trabalho-academico.aux (Introducao/Introducao.aux) (abntex2-modelo-include-comandos.aux))
  ***********
@@ -1042,19 +1049,21 @@ L3 programming layer <2020/03/25>
 
 LaTeX Warning: There were undefined references.
 
+Package rerunfilecheck Info: File `abntex2-modelo-trabalho-academico.brf' has not changed.
+(rerunfilecheck)             Checksum: 5541FD0688517CA3847263371233DFE1;1137.
  ) 
 Here is how much of TeX's memory you used:
- 18865 strings out of 467509
- 317803 string characters out of 5407801
- 906768 words of memory out of 5000000
- 47515 multiletter control sequences out of 15000+600000
- 718089 words of font info for 181 fonts, out of 8000000 for 9000
+ 18990 strings out of 467509
+ 319752 string characters out of 5407801
+ 907316 words of memory out of 5000000
+ 47610 multiletter control sequences out of 15000+600000
+ 718893 words of font info for 189 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,13n,107p,2054b,724s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/latxfont/line10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss17.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on abntex2-modelo-trabalho-academico.pdf (26 pages, 777307 bytes).
+Output written on abntex2-modelo-trabalho-academico.pdf (27 pages, 787358 bytes).
 PDF statistics:
- 592 PDF objects out of 1000 (max. 8388607)
- 113 named destinations out of 1000 (max. 500000)
- 52112 words of extra memory for PDF output out of 61914 (max. 10000000)
+ 625 PDF objects out of 1000 (max. 8388607)
+ 121 named destinations out of 1000 (max. 500000)
+ 52128 words of extra memory for PDF output out of 61914 (max. 10000000)
 
