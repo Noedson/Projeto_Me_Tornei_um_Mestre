@@ -25,4 +25,23 @@
   amazon with the incidence of cases of respiratory problems in the population.
 \emph{Revista Foco}, v.~17, n.~12, p. 1--19, 2024.}
 
+\bibitem[RODRIGUES 2024]{rodrigues2024tinyml}
+\abntrefinfo{RODRIGUES}{RODRIGUES}{2024}
+{RODRIGUES, T. M.~S.
+\emph{Aplicação de TinyML em sensores virtuais para monitoramento da
+  qualidade do ar em ambientes industriais}.
+51 f.~p. Monografia (Trabalho de Conclusão de Curso (Bacharelado em Engenharia
+  de Computação)) --- Instituto de Computação, Universidade Federal de
+  Alagoas, Maceió, 2024.}
+
+\bibitem[Thaylor et al. 2025]{wcama}
+\abntrefinfo{Thaylor et al.}{THAYLOR et al.}{2025}
+{THAYLOR, E.; CUNHA, N.; MORAES, A.; JUNIOR, W.; ALVES, E. Iqarmobi:
+  Classificação inteligente da qualidade do ar e ciente de localização em
+  ambientes externos e internos. In:  \emph{Anais do XVI Workshop de
+  Computação Aplicada à Gestão do Meio Ambiente e Recursos Naturais}. Porto
+  Alegre, RS, Brasil: SBC, 2025. p. 216--225.
+ISSN 2595-6124. Dispon{\'\i}vel em:
+  \url{https://sol.sbc.org.br/index.php/wcama/article/view/36099}.}
+
 \end{thebibliography}
