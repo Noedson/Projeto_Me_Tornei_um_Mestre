@@ -1,0 +1,28 @@
+\chapter{Objetivos de Trabalho}
+\section{Objetivo Geral}
+Aprimorar e validar a arquitetura do IQArMobi, 
+transformando - o em um agente inteligente para Monitoramento
+da qualidade do ar, com capacidade de predição temporal e resposta automatizada
+em tempo real, integrando a uma arquitetura IoT escalável baseada em sistemas
+operacionais de tempo real e de middleware contexto, adaptando às particularidades
+amazônicas.
+\section{Objetivos Específicos}
+\begin{enumerate}
+    \item Expandir a arquitetura técnica, implementando um firware deterministico
+          preemptivo baseado em FreeRTOS no microcontrolador Heltec Wifi LoRa 32 v2
+          para gerenciar tarefas concorrente de leitura de sensores e comunicação via LoRaWAN
+          \cite{alves2025freertos};
+    \item Desenvolver e embarcar modelos de IA preditiva local 
+          (regressão contínua de séries temporais) quantizados na 
+          borda para antecipar concentrações quantitativas de gases
+          poluentes (CO, O\textsubscript{3}, NH\textsubscript{3}, CO\textsubscript{2});
+    \item Reescrever o midlware FIWARE para que ele se torne o Agente inteligente e ao mesmo tempo
+          uma plataforma de gestão da qualidade do ar
+          que vai garantir a interoperabilidade com outros sistemas de gestão da qualidade do ar
+          em uma rede de sensores.  
+    \item Validar o agente inteligente em campo por meio de uma campanha 
+          experimental contínua de mais de 30 dias em 
+          ambientes internos (laboratórios) e externos de um 
+          smart campus na Amazônia, mensurando métricas de desempenho de 
+          rede, consumo de hardware e precisão de IA
+\end{enumerate}

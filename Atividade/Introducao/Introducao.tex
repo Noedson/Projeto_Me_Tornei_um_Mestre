@@ -1,10 +1,10 @@
 \chapter{Introdução}
 \section{Contextualização e Problematização}
-A dregradação da qualidade do ar atmosférico e de ambientes 
-internos representar um dos maiores desafios da saúde pública me
-escala mundia, estados diretamente associada ao surgimento e ao 
+A degradação da qualidade do ar atmosférico e de ambientes 
+internos representa um dos maiores desafios da saúde pública em
+escala mundial, estando diretamente associada ao surgimento e ao 
 agravamento de enfermidades respiratórias e cardiovasculares.
-Segundo estimativas da Organizaçãoi Mundial da Saúde (OMS) a poluição do ar causa
+Segundo estimativas da Organização Mundial da Saúde (OMS), a poluição do ar causa
 cerca de 4,2 milhões de mortes prematuras por ano. No Brasil, calcula - se
 que a degradação da qualidade do ar atmosférico cause aproximadamente 20 mil óbitos
 anuais, acrescidos de mais de 10,7 mil mortes por ano decorrentes da poluição do ar
@@ -33,3 +33,32 @@ de rede e latencia elevadas, impedindo garantias deterministicas de tempo real e
 de riscos a saúde \cite{alves2025freertos}
 
 \section{Justificativa da Pesquisa}
+
+Para superar o gargalo da passividade e da imprevisibilidade temporal nos nós sensores,
+faz - se necessário evoluir a ariquetura do IQArMobi \cite{cunha2024,wcama}. A proposta de aprimoramento
+fundamenta - se na integração de sistema operacional FreeRTOS no micro controlador Heltec Wifi Lora 32 v2
+para gerenciar de forma concorrente e preemptiva as tarefas de sensoriamento e transmissão
+de rede. Conforme demonstrado por \citeonline{alves2025freertos}, o uso de tarefas separadas e filas de memória
+no FreeRTOS reduz o intervalo médio de transmissão em 37,5\% e eleva significativamente o throughput de dados, com taxa de sucesso de 
+88,7\%, garantindo que o ciclo de amostragem de 5 segundos seja estritamente respeitado.
+
+A arquitetura adora uma abordagem colaborativa Borda-Nuvem. Na camada fisica (edge), a execução local demodelos de 
+regressão quantizados vai interpretador TensorFlow Lite Micro permite predizer as concetrações
+de poluentes diretamente no chip de apenas 49,01 microsegundos~($\mu$s), reduzindo a volumetria do arquivo
+binário do modelo em 93,69\% e viabilizando o acionamento da nuvem \cite{rodrigues2024tinyml}. Na camada de nuvem,
+a integração do gateway Dragino DLOS8N e servidor ChirpStack ao banco de dados PostgreSQL assegura a persistencia
+história, a analise de longo prazo e a notificação aos usuários por meio de um
+aplicativo mobile ciente de localização via algoritmo Heversine \cite{cunha2024,wcama}.
+
+\section{Questão de Pesquisa}
+
+\begin{quote}
+Como integrar, de forma concorrente e determinística, 
+um Sistema Operacional de Tempo Real (FreeRTOS), 
+inteligência preditiva na borda, rede de longo alcance LoRaWAN 
+e o middleware FIWARE em um agente inteligente de baixo custo 
+para garantir respostas automatizadas em tempo real e monitoramento 
+contínuo da qualidade do ar em \emph{Smart Campus} na Amazônia?
+ \cite{alves2025freertos}
+
+\end{quote}
