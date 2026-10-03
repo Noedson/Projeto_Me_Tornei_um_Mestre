@@ -1,0 +1,76 @@
+\chapter{Metodologia}
+\section{Enquadramento Epistemológico Metodológico}
+A Fundamentação Epistemológiva desta pesquisa baseia - se no paradigma de Design Science Research
+(DSR), voltado ao desenvolvimento, avaliação e validação de artefados tecnológicos para resolver 
+problemas práticos e gerar novos conhecimentos cientificos. Operacionalmente, a investigação
+adota o método Design Science Research Methodology (DSRM) proposto por \citeonline{peffers2007design}
+que organiza a pesquisa nas etapas de identificação do problema, definição dos objetivos, projeto
+e desenvolvimento, demonstração, avaliação e comunicação.
+\section{Unidade Experimental de Fatores Controlados}
+A uniddade Esperimental deste trabalho é constituida pelo nó sensor físico baseado no microcontrolador
+Heltec Wifi Lora 31 v2, integrado aos sensores de gases (MQ - 9, MQ - 131, MQ 135) e variaveis
+microclimáticos (DHT11).
+
+Para avaliar o desempenho de artefato embarcadom dois fatores principais serão manipulados e
+testados de forma controlada:
+
+\begin{enumerate}
+    \item \textbf{Concorrencia e Escalonamento do Firmware:} Avaliados de dois niveis de comparaçãp:
+                                                             nó operando com RTOS (escalonamento preemptivo 
+                                                             por prioridade de tarefas) versus nó sem RTOS(execução
+                                                             sequencial não deterministico)
+    \item \textbf{Niveis de Quantização do Modelo TinyML:}  Submetido a 5 estratégias de otimização pós - treinamento
+                                                            com TensorFlow Lite Micro, baseando - se em \citeonline{rodrigues2024tinyml}
+                                                            Float32 (padrão) Float16, Faixa Dinâmica (Dynamic Range), Full Int8 (inteiro
+                                                            completo) e Weight Only (apenas peso)
+\end{enumerate}
+
+\section{Variaveis de Resposta}
+
+Os efeitos das variações dos fatores controlados serão medidos por duas dimensões de variáveis de Resposta
+
+\subsection{Desempenho de Computação, Hardware e Rede}
+\begin{itemize}
+    \item \textbf{Latência Computacional ($\mu$s):} Tempo de processamento consumido durante a inferência
+                                                    do modelo na borda;
+    \item  \textbf{Packet Delivery Ratio (PDR\%)}: Taxa percentual de pacotes entregues com sucesso vis LoRaWan;
+    \item  \textbf{Throughput de Transmissão e Recepção (b/s)}: Volumetria de bits transmitidos e recebidos;
+\end{itemize}
+
+\subsection{Acurácia da Inteligencia Artificial}
+
+\begin{itemize}
+    \item \textbf{Man Square Error (MSE)};
+    \item \textbf{Root Mean Square Error (RMSE)};
+    \item \textbf{Mean Absolut Error ($R^2$)};
+\end{itemize}
+
+\section{Procedimentos Metodológicos}
+
+O clico de engenharia e avaliação do artefato organiza - se em cinco etapas sequenciais
+
+\begin{enumerate}
+    \item \textbf{Etapa 1: Análise de Requisitos e Problematização}: Revisão sistemática da literatura
+                                                                     (2020 - 2026), especificação de requisitos e modelagem da 
+                                                                     arquitetura distribuida;
+    \item \textbf{Etapa 2: Projeto do Sistema Embarcado}: Desenvolvimento do hardware do nó sensor e codificação
+                                                          em C/C++ do firmware concorrente gerenciado pelo FreeRTOS
+    \item \textbf{Etapa 3: Desenvolvimento do Pipeline TinyML}: Treinamento offline de redes neurais
+                                                                em python, quantização pós - treinamento e conversão em array C/C++
+                                                                para execução via TensorFlow Lite Micro;
+    \item \textbf{Etapa 4: Integração do Middleware}: Configuração do LoRaWan com servidor ChirpStack e publicação contextual via plataforma reescrita
+                                                      com persistencia em PostgreSQL;
+    \item \textbf{Etapa 5: Validação em Campo}: Implantação piloto contínua por mais de 30 dias 
+                                                em ambientes internos e externos do campus amazônico para coleta in loco
+                                                de métricas computacionais e ambientais;
+\end{enumerate}
+
+
+
+\section{Protocolo de Controle e Coleta de Dados}
+\subsection{Controle Experimental e Calibração Metrológica}
+\begin{itemize}
+    \item \textbf{Isolamento de Condições de Contorno}: Nos teste comparativos entre firmwares 
+                                                        (FreeRTOS vs Não-RTOS), os nós sensores serão
+                                                        instaldos rigorosamente no mesmo lo
+\end{itemize}
