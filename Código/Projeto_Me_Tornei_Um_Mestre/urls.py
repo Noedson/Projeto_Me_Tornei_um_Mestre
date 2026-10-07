@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from telemetria.views import chirpstack_webhook
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/chirpstack/webhook/', chirpstack_webhook, name = 'chirpstack_webhook'),
 ]

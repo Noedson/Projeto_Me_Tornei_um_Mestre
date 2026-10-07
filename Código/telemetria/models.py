@@ -1,13 +1,13 @@
-import select
-from django.utils import version
+
 from django.db import models
 
 # Create your models here.
 
 class SensorNode(models.Model):
-    dev_eui = models.CharField(max_length = 31, unique = True, verbose = "DevEUI")
-    nome = models.CharField(max_lenght = 100, default = "Sensor_Galpao_lab")
-    localizacao = models.CharField(maxLenght = 150, blank = True, null = True)
+    dev_eui = models.CharField(max_length = 31, unique = True, verbose_name = "DevEUI")
+    nome = models.CharField(max_length=100, default="Sensor_Galpao_lab")
+    localizacao = models.CharField(max_length = 150, blank = True, null = True)
+    criado_em = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.nome} ({self.dev_eui})"
@@ -16,13 +16,13 @@ class AirReading(models.Model):
     sensor = models.ForeignKey(SensorNode, on_delete = models.CASCADE, 
                                related_name = "leituras")
     
-    timestamp = models.DateField(db_index = True)
+    timestamp = models.DateTimeField(db_index = True)
 
     # Gases extraido do JSON da colula 'Object' do chirpstack
 
     co_mq135 = models.FloatField(verbose_name= "CO (MQ - 135)")
     co2_mq135 = models.FloatField(verbose_name= "CO2 (MQ - 135)")
-    nh4_mq135 = models.FloatField(verbose_name= "NH4 (MQ - 135)")
+    mh4_mq135 = models.FloatField(verbose_name= "MH4 (MQ - 135)")
     aceton_mq135 = models.FloatField(verbose_name= "Acetona (MQ - 135)")
     alcool_mq135 = models.FloatField(verbose_name= "Alcool (MQ - 135)")
     toluen_mq135 = models.FloatField(verbose_name= "Tolueno (MQ - 135)")
@@ -40,4 +40,11 @@ class AgentAlert(models.Model):
         ('ANOMALIA','Anomalia Detectada (Pico ou Falha)'),
         ('PREVISAO_CRITICA','Risco Futuro Previsto'),
     ]
-    
+    sensor = models.ForeignKey(SensorNode, on_delete=models.CASCADE, related_name="Alertas")
+    timestamp = models.DateTimeField(auto_now=True)
+    tipo = models.CharField(max_length = 30, choices = TIPO_CHOICES)
+    mensagem = models.TextField()
+    resolvido = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"[{self.tipo}] {self.sensor.nome} - {self.timestamp}"
