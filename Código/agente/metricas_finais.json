@@ -1,0 +1,6 @@
+{
+    "limiar_anomalia_p95": 0.008586531746534568,
+    "forecasting_mae_co": 3.0675135548909505,
+    "forecasting_rmse_co": 3.101717320830843,
+    "total_amostras_teste": 84881
+}

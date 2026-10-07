@@ -1,0 +1,17 @@
+{
+    "limiar_anomalia": 0.008586531746534568,
+    "gases": [
+        "CO_MQ135",
+        "CO2_MQ135",
+        "MH4_MQ135",
+        "Aceton_MQ135",
+        "Alcool_MQ135",
+        "Toluen_MQ135",
+        "O3_MQ131"
+    ],
+    "classes": [
+        "Boa",
+        "Moderada",
+        "Ruim"
+    ]
+}
