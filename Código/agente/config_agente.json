@@ -1,5 +1,6 @@
 {
-    "limiar_anomalia": 0.008586531746534568,
+    "limiar_anomalia": 0.04934558644890785,
+    "metodo_limiar": "Otimizacao F1 na validacao (anomalia=0.2)",
     "gases": [
         "CO_MQ135",
         "CO2_MQ135",
@@ -9,9 +10,57 @@
         "Toluen_MQ135",
         "O3_MQ131"
     ],
+    "features": [
+        "CO_MQ135",
+        "CO2_MQ135",
+        "MH4_MQ135",
+        "Aceton_MQ135",
+        "Alcool_MQ135",
+        "Toluen_MQ135",
+        "O3_MQ131",
+        "CO_media_8h"
+    ],
     "classes": [
         "Boa",
         "Moderada",
         "Ruim"
-    ]
+    ],
+    "janela": 30,
+    "horizonte_min": 15,
+    "freq_resample": "1min",
+    "janela_media_co": "8h",
+    "gap_max_s": 900.0,
+    "transformacao": "clip[0,clip_max] -> log1p -> MinMaxScaler",
+    "clip_max": [
+        4174.57781213012,
+        353.60973600000057,
+        272.394751500001,
+        146.7350266666702,
+        288.948359166667,
+        197.28050590909533,
+        77.98511833333404,
+        4174.57781213012
+    ],
+    "delta_std": [
+        0.056077990680933,
+        0.05419463664293289,
+        0.05101596564054489,
+        0.056086793541908264,
+        0.05640769377350807,
+        0.056593045592308044,
+        0.05308486521244049,
+        0.016733495518565178
+    ],
+    "pesos_classe": [
+        1.6614102125167847,
+        0.9180015325546265,
+        0.764070987701416
+    ],
+    "co_moderada_ppm": 4.5,
+    "co_ruim_ppm": 9.5,
+    "versoes": {
+        "tensorflow": "2.21.0",
+        "scikit-learn": "1.9.1",
+        "numpy": "2.5.3"
+    }
 }

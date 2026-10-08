@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SensorNode, AirReading, AgentAlert
+from .models import SensorNode, AirReading, AgentAlert, AgentPrediction
 # Register your models here.
 
 @admin.register(SensorNode)
@@ -14,4 +14,10 @@ class AirReadingAdmin(admin.ModelAdmin):
 @admin.register(AgentAlert)
 class AgenteAlertAdmin(admin.ModelAdmin):
     list_display = ('sensor', 'tipo', 'timestamp', 'resolvido')
-    list_alert = ('tipo', 'resolido')
+    list_filter = ('tipo', 'resolvido')
+
+@admin.register(AgentPrediction)
+class AgentPredictionAdmin(admin.ModelAdmin):
+    list_display = ('sensor', 'timestamp', 'classe_iqar', 'anomalia', 'erro_reconstrucao', 'previsao_co')
+    list_filter = ('classe_iqar', 'anomalia', 'sensor')
+    search_fields = ('sensor__nome',)
