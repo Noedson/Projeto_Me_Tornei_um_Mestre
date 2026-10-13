@@ -40,6 +40,7 @@ class AirQualifyService:
 
                 cfg = cls._instance.config
                 cls._instance.limiar = cfg["limiar_anomalia"]
+                cls._instance.eps_travado = cfg.get("eps_travado", 0.0015)
                 cls._instance.classes = cfg.get("classes", ["Boa", "Moderada", "Ruim"])
                 cls._instance.clip_max = np.asarray(cfg["clip_max"], dtype=float)
                 cls._instance.delta_std = np.asarray(cfg["delta_std"], dtype=np.float32)
@@ -101,11 +102,22 @@ class AirQualifyService:
         # 3. Inferência Multi-Task em lote
         rec_out, delta_out, class_out = (np.asarray(t) for t in self.model(lote, training=False))
 
-        # 4. Anomalia: confirmada se >= MIN_JANELAS_ANOMALAS janelas passarem do limiar
-        erros = np.mean(np.abs(lote - rec_out), axis=(1, 2))
+        # 4. Anomalia: cálculo idêntico ao treino (máximo por passo temporal) + sensor travado
+        # lote tem shape: (n_janelas, JANELA, 8)
+        # Calcula média nos 8 canais por passo, e pega o pior passo (pico) de cada janela:
+        erros = np.mean(np.abs(lote - rec_out), axis=2).max(axis=1)
         n_acima = int((erros > self.limiar).sum())
-        is_anomalia = n_acima >= min(MIN_JANELAS_ANOMALAS, n_janelas)
+        anomalia_reconstrucao = n_acima >= min(MIN_JANELAS_ANOMALAS, n_janelas)
         erro_atual = float(erros[-1])
+
+        # Verificação se o sensor está travado na janela mais recente (últimos 7 gases, sem média de 8h)
+
+        desvio_recente = lote[-1, :, :7].std(axis=0)
+        esta_travado = bool(desvio_recente.max() < self.eps_travado)
+
+        # Anomalia confirmada se o Autoencoder disparar OU se o sensor estiver travado
+
+        is_anomalia = anomalia_reconstrucao or esta_travado
 
         # 5. Previsão do próximo passo (última janela)
         previsto_esc = np.clip(lote[-1, -1, :] + delta_out[-1] * self.delta_std, 0.0, 1.0)
@@ -121,12 +133,16 @@ class AirQualifyService:
 
         if is_anomalia:
             tipo_alerta = "ANOMALIA"
-            mensagem = (f"Anomalia detectada nos sensores! Erro: {erro_atual:.4f} "
-                        f"(Limiar: {self.limiar:.4f}; {n_acima}/{n_janelas} janelas acima)")
-        elif classe_idx == 2:  # Risco "Ruim"
+            if esta_travado:
+                mensagem = "Anomalia detectada: sensor travado (leituras sem variação temporal detectável)!"
+            else:
+                mensagem = (f"Anomalia detectada nos sensores! Erro: {erro_atual:.4f} "
+                            f"(Limiar: {self.limiar:.4f}; {n_acima}/{n_janelas} janelas acima)")
+        elif classe_idx == 2:  # Risco de qualidade do ar "Ruim" previsto
             tipo_alerta = "PREVISAO_CRITICA"
             mensagem = (f"Previsão de deterioração da qualidade do ar para 'Ruim' "
                         f"(prob. {probs[2]:.0%}). Tendência futura de CO: {valores_previstos[0]:.2f} ppm")
+
 
         if tipo_alerta:
             cooldown_limit = ultimo_ts - timedelta(minutes=self.cooldown_minutos)

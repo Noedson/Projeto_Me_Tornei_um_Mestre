@@ -44,7 +44,7 @@ JANELA = 30                # 30 minutos de histórico observado
 HORIZONTE = 15             # Prevê o estado daqui a 15 minutos (elimina o viés dos 5 segundos)
 STRIDE_TREINO = 1          # Com dados a cada 1 min, não precisa pular amostras
 BATCH, EPOCAS = 128, 50
-PESOS_LOSS = {"saida_anomalia": 1.0, "saida_delta": 2.0, "saida_iqar": 1.0}
+PESOS_LOSS = {"saida_anomalia": 1.0, "saida_delta": 1.0, "saida_iqar": 1.0}
 CLASSES = ["Boa", "Moderada", "Ruim"]
 PESO_CLASSE_MAX = 10.0
 MAGNITUDES_ANOMALIA = [0.05, 0.1, 0.2, 0.3]
@@ -247,7 +247,8 @@ historico = modelo.fit(
 print(">>> Passo 6: Calibrando limiar ótimo na base de VALIDAÇÃO...")
 
 def erro_reconstrucao(X, rec):
-    return np.mean(np.abs(X - rec), axis=(1, 2))
+    erro_por_passo = np.mean(np.abs(X - rec), axis = 2)
+    return erro_por_passo.max(axis = 1)
 
 # 7.1 Injeção de anomalias sintéticas
 def injetar_anomalias(X, tipo, mag=0.0):
@@ -272,14 +273,50 @@ X_val_sint = injetar_anomalias(X_val, tipo="pico", mag=MAG_REF)
 pred_val_sint = modelo.predict(X_val_sint, batch_size=1024, verbose=0)
 err_val_sint = erro_reconstrucao(X_val_sint, pred_val_sint[0])
 
-y_val_bin = np.r_[np.zeros(len(err_val_normal)), np.ones(len(err_val_sint))]
-erros_val_todos = np.r_[err_val_normal, err_val_sint]
+# y_val_bin = np.r_[np.zeros(len(err_val_normal)), np.ones(len(err_val_sint))]
+# erros_val_todos = np.r_[err_val_normal, err_val_sint]
 
-candidatos = np.linspace(np.percentile(err_val_normal, 90), np.percentile(err_val_sint, 99), 100)
+# candidatos = np.linspace(np.percentile(err_val_normal, 90), np.percentile(err_val_sint, 99), 100)
+# f1_scores = [f1_score(y_val_bin, erros_val_todos > c, zero_division=0) for c in candidatos]
+# melhor_idx = int(np.argmax(f1_scores))
+# limiar_anomalia = float(candidatos[melhor_idx])
+
+# 1. Gera amostras sintéticas de pico e de deriva
+X_val_pico = injetar_anomalias(X_val, tipo="pico", mag=MAG_REF)
+X_val_deriva = injetar_anomalias(X_val, tipo="deriva", mag=MAG_REF)
+
+# 2. Concatena os dois conjuntos anômalos
+X_val_anomalias = np.r_[X_val_pico, X_val_deriva]
+
+# 3. Calcula o erro de reconstrução das anomalias misturadas
+pred_val_anom = modelo.predict(X_val_anomalias, batch_size=1024, verbose=0)
+err_val_anom = erro_reconstrucao(X_val_anomalias, pred_val_anom[0])
+
+# 4. Rótulos binários: 0 para normais (repetidos para parear com a quantidade de anomalias), 1 para anomalias
+y_val_bin = np.r_[np.zeros(len(err_val_normal) * 2), np.ones(len(err_val_anom))]
+erros_val_todos = np.r_[err_val_normal, err_val_normal, err_val_anom]
+
+# 5. Busca do limiar maximizando o F1-Score balanceado
+candidatos = np.linspace(np.percentile(err_val_normal, 90), np.percentile(err_val_anom, 99), 100)
 f1_scores = [f1_score(y_val_bin, erros_val_todos > c, zero_division=0) for c in candidatos]
 melhor_idx = int(np.argmax(f1_scores))
 limiar_anomalia = float(candidatos[melhor_idx])
+
+# Abordagem por Especificidade Controlada (ex: aceitar no máximo 2.5% de falsos alarmes)
+TAXA_ALARME_ACEITAVEL = 0.025
+limiar_por_percentil = float(np.percentile(err_val_normal, 100 * (1.0 - TAXA_ALARME_ACEITAVEL)))
+# Usa o maior entre o limiar ótimo do F1 e o limiar de proteção contra falso alarme
+limiar_anomalia = max(float(candidatos[melhor_idx]), limiar_por_percentil)
+
 print(f"    Limiar calibrado: {limiar_anomalia:.5f} (F1 esperado na validação: {f1_scores[melhor_idx]:.2%})")
+
+def janela_travada(X, eps):
+    desvio = X[:, :, :len(GASES)].std(axis = 1)
+    return desvio.max(axis = 1) < eps
+
+desvio_val = X_val[:, :, :len(GASES)].std(axis = 1).max(axis = 1)
+eps_travado = float(np.percentile(desvio_val, 1))
+print(f"        eps sensor travado: {eps_travado}")
 
 # Passo 8: Avaliação no TESTE
 print(">>> Passo 7: Avaliando no conjunto de teste...")
@@ -305,6 +342,13 @@ for tipo in ("pico", "deriva"):
     for mag in MAGNITUDES_ANOMALIA:
         erros_anom[(tipo, mag)], deteccao[tipo][str(mag)] = avaliar_deteccao(injetar_anomalias(X_ref, tipo, mag))
 erros_anom["travado"], deteccao["travado"] = avaliar_deteccao(injetar_anomalias(X_ref, "travado"))
+
+# --- NOVO: avaliação da regra de sensor travado ---
+X_trav = injetar_anomalias(X_ref, "travado")
+recall_travado = float(janela_travada(X_trav, eps_travado).mean())
+falso_alarme_travado = float(janela_travada(X_ref, eps_travado).mean())
+print(f"    Travado -> recall {recall_travado:.3f} | falso alarme {falso_alarme_travado:.3f}")
+
 _ref = deteccao["pico"][str(MAG_REF)]
 auc_anom, p_a, r_a = _ref["auc"], _ref["precision"], _ref["recall"]
 
@@ -341,6 +385,14 @@ rel_cls = classification_report(ycls_test, y_cls_pred, labels=[0, 1, 2], target_
                                 output_dict=True, zero_division=0)
 cm = confusion_matrix(ycls_test, y_cls_pred, labels=[0, 1, 2])
 
+# Avaliação nas transições reais de classe (onde o baseline de persistência erra por definição)
+masc_transicao = (cls_persist != ycls_test)
+n_transicoes = int(masc_transicao.sum())
+if n_transicoes > 0:
+    acc_trans_modelo = float((y_cls_pred[masc_transicao] == ycls_test[masc_transicao]).mean())
+else:
+    acc_trans_modelo = 0.0
+
 # Passo 9: Salva os Artefatos
 print(">>> Passo 8: Salvando os arquivos do Agente...")
 
@@ -348,6 +400,7 @@ modelo.save(OUTPUT_DIR / "modelo_iqar.keras")
 joblib.dump(scaler, OUTPUT_DIR / "scaler.pkl")
 config = {
     "limiar_anomalia": limiar_anomalia,
+    "eps_travado": eps_travado,
     "metodo_limiar": f"Otimizacao F1 na validacao (anomalia={MAG_REF})",
     "gases": GASES,
     "features": FEATURES,
@@ -452,7 +505,10 @@ for ax, metrica, titulo in [(axes[0], "auc", "AUC-ROC"), (axes[1], "recall", "Re
     for tipo, cor in [("pico", "darkorange"), ("deriva", "purple")]:
         ax.plot(MAGNITUDES_ANOMALIA, [deteccao[tipo][str(m)][metrica] for m in MAGNITUDES_ANOMALIA],
                 marker="o", color=cor, label=tipo.capitalize())
-    ax.axhline(deteccao["travado"][metrica], color="seagreen", linestyle=":", label="Travado")
+    # ax.axhline(deteccao["travado"][metrica], color="seagreen", linestyle=":", label="Travado")
+    val_travado = recall_travado if metrica == "recall" else deteccao["travado"][metrica]
+    label_travado = "Travado (Regra σ)" if metrica == "recall" else "Travado (Autoencoder)"
+    ax.axhline(val_travado, color="seagreen", linestyle=":", label=label_travado)
     ax.set_xlabel("Magnitude injetada (escala normalizada 0-1)")
     ax.set_title(titulo, fontweight="bold")
     ax.set_ylim(0, 1.02)
@@ -483,7 +539,7 @@ plt.close()
 # RELATÓRIO DE MÉTRICAS NUMÉRICAS PARA A DISSERTAÇÃO
 # -------------------------------------------------------------------------
 relatorio = {
-    "amostras": {"treino": int(len(X_train)), "validacao": int(len(X_val)), "teste": int(len(X_test))},
+    "amostras": {"treino": int(len(X_train)), "validacao": int(len(X_val)), "teste": int(len(X_test)), "travado_regra": {"eps": eps_travado, "recall": recall_travado,"falso_alarme": falso_alarme_travado}},
     "distribuicao_classes": {"treino": dist(ycls_train), "validacao": dist(ycls_val), "teste": dist(ycls_test)},
     "anomalia": {
         "limiar": limiar_anomalia,
@@ -499,6 +555,8 @@ relatorio = {
         "acuracia_baseline_persistencia": acc_persist,
         "acuracia_balanceada_modelo": bacc_modelo,
         "acuracia_balanceada_persistencia": bacc_persist,
+        "acuracia_nas_transicoes": acc_trans_modelo,
+        "total_transicoes_teste": n_transicoes,
         "f1_macro_modelo": f1m_modelo,
         "f1_macro_persistencia": f1m_persist,
         "por_classe": {c: rel_cls[c] for c in CLASSES},
@@ -520,4 +578,5 @@ print(f" Anomalias sintéticas (pico +{MAG_REF}) -> AUC {auc_anom:.3f} | precisi
 print(f" CO: MAE modelo {metricas_gases['CO_MQ135']['mae_modelo']:.3f} vs persistência {metricas_gases['CO_MQ135']['mae_persistencia']:.3f}")
 print(f" IQAr: F1-macro modelo {f1m_modelo:.3f} vs persistência {f1m_persist:.3f} | "
       f"acurácia bal. {bacc_modelo:.3f} vs {bacc_persist:.3f} | recall Ruim {rel_cls['Ruim']['recall']:.3f}")
+print(f" Transições IQAr (15 min): {n_transicoes} eventos | Acurácia Modelo: {acc_trans_modelo:.1%} (Persistência: 0.0%)")
 print("="*50)

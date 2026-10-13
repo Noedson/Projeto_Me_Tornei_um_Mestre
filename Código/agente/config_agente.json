@@ -1,5 +1,6 @@
 {
-    "limiar_anomalia": 0.04934558644890785,
+    "limiar_anomalia": 0.11891429871320724,
+    "eps_travado": 0.0015365862054750323,
     "metodo_limiar": "Otimizacao F1 na validacao (anomalia=0.2)",
     "gases": [
         "CO_MQ135",
