@@ -77,6 +77,10 @@ Este roteiro conta uma história científica clara: **contexto $\rightarrow$ dia
 > **Resposta:**  
 > *"Identificamos que o Autoencoder puro tem um ponto cego teórico para sensor travado: sinal plano constante gera erro de reconstrução baixo, fazendo com que o limiar nunca seja ultrapassado. Por isso, implementamos uma **arquitetura híbrida de detecção**: o Autoencoder cuida de picos e descalibrações (*drift*), e um módulo estatístico monitora o desvio padrão temporal recente ($\sigma < \epsilon$). Se a variância do sensor congelar, o alarme de 'sensor travado' é disparado imediatamente com 100% de recall."*
 
+### P6: *"No Gráfico 2, por que a curva prevista parece atrasada em relação à real (o real cai antes da previsão)?"*
+> **Resposta:**  
+> *"Esse é um dos pontos mais interessantes da análise visual: no gráfico de validação, as curvas deveriam estar perfeitamente sobrepostas no mesmo instante do eixo X. O fato de a linha prevista reagir cerca de 15 minutos após a curva real evidencia o fenômeno clássico de **atraso de fase (*phase lag*)**. Como as quedas ou picos bruscos decorrem de fatores externos imprevistos (ex: abertura de portas), a rede adota a estratégia de menor erro médio, que é imitar a persistência defasada. Isso explica visualmente por que a acurácia em transições é de 29% e fundamenta nossa próxima melhoria: incorporar features de velocidade ($dy/dt$) e função de perda com penalidade direcional."*
+
 ---
 
 ## 3. "Colinha de Bolso" (Dados Técnicos Rápidos)
