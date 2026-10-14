@@ -44,7 +44,7 @@ JANELA = 30                # 30 minutos de histórico observado
 HORIZONTE = 15             # Prevê o estado daqui a 15 minutos (elimina o viés dos 5 segundos)
 STRIDE_TREINO = 1          # Com dados a cada 1 min, não precisa pular amostras
 BATCH, EPOCAS = 128, 50
-PESOS_LOSS = {"saida_anomalia": 1.0, "saida_delta": 1.0, "saida_iqar": 1.0}
+PESOS_LOSS = {"saida_anomalia": 15.0, "saida_delta": 1.0, "saida_iqar": 2.5}
 CLASSES = ["Boa", "Moderada", "Ruim"]
 PESO_CLASSE_MAX = 10.0
 MAGNITUDES_ANOMALIA = [0.05, 0.1, 0.2, 0.3]
@@ -67,17 +67,19 @@ def extrair_gases(texto_json):
     except (ValueError, KeyError, TypeError):
         return [np.nan] * len(GASES)
 
-print(">>> Passo 2: Processando e reamostrando leituras (1 minuto)...")
+print(">>> Passo 2: Processando e reamostrando leituras (1 minuto) com filtro de mediana móvel...")
 
 matriz_gases = [extrair_gases(obj) for obj in df_raw["object"]]
 df = pd.DataFrame(matriz_gases, columns=GASES)
 df["time"] = df_raw["time"]
 df = df.dropna().sort_values("time").set_index("time")
 
-# Reamostra para 1 minuto (média) para filtrar ruído de alta frequência
+# Reamostra para 1 minuto (média) para filtrar ruído elétrico de alta frequência
 df_1m = df[GASES].resample(FREQ_RESAMPLE).mean()
 # Tolera pequenos buracos de até 3 minutos interpolando linearmente
-df = df_1m.interpolate(method="time", limit=3).dropna().reset_index()
+df_interp = df_1m.interpolate(method="time", limit=3)
+# Filtro de mediana móvel de 3 passos para erradicar espículas espúrias de bancada que inflam o RMSE
+df = df_interp.rolling(window=3, min_periods=1, center=True).median().dropna().reset_index()
 
 # Segmentação para gaps reais maiores que 15 minutos
 dt = df["time"].diff().dt.total_seconds()
@@ -106,8 +108,8 @@ for b in np.unique(bloco_id):
 
 masc_treino = particao == "treino"
 
-# Teto de outliers calculado SÓ com o treino (P99.9); aplicado depois em val/teste/produção
-clip_gases = np.quantile(bruto_gases[masc_treino], 0.999, axis=0)
+# Teto de outliers com P99.5 (elimina saturação do MQ-135 sem cortar picos de poluição reais)
+clip_gases = np.quantile(bruto_gases[masc_treino], 0.995, axis=0)
 
 # 8º canal: média móvel de 8 h do CO (só passado, limitada ao teto do treino).
 co_media = media_movel_co(df["time"], bruto_gases[:, 0], clip_gases[0])
@@ -144,11 +146,12 @@ def montar(inicios):
     X = escalado[idx]                                                   # (m, JANELA, 8)
     y_fut = escalado[inicios + JANELA + HORIZONTE - 1]                 # valor em t + HORIZONTE
     y_cls = rotulos[inicios + JANELA + HORIZONTE - 1]                  # classe em t + HORIZONTE
-    return X, y_fut, y_cls
+    y_cls_atual = rotulos[inicios + JANELA - 1]                        # classe no instante t (final da janela)
+    return X, y_fut, y_cls, y_cls_atual
 
-X_train, yfut_train, ycls_train = montar(inicios_treino)
-X_val, yfut_val, ycls_val = montar(inicios_val)
-X_test, yfut_test, ycls_test = montar(inicios_teste)
+X_train, yfut_train, ycls_train, ycls_atual_train = montar(inicios_treino)
+X_val, yfut_val, ycls_val, ycls_atual_val = montar(inicios_val)
+X_test, yfut_test, ycls_test, ycls_atual_test = montar(inicios_teste)
 
 # Delta padronizado em relação ao último valor observado na janela
 delta_std = np.maximum((yfut_train - X_train[:, -1, :]).std(axis=0), 1e-6).astype(np.float32)
@@ -161,32 +164,68 @@ dtr, dva = alvo_delta(X_train, yfut_train), alvo_delta(X_val, yfut_val)
 def dist(y):
     return {CLASSES[i]: int((y == i).sum()) for i in range(3)}
 
-print(f"    Treino {len(X_train)} | Validação {len(X_val)} | Teste {len(X_test)} janelas")
+transicoes_treino = int((ycls_atual_train != ycls_train).sum())
+print(f"    Treino {len(X_train)} ({transicoes_treino} transições) | Validação {len(X_val)} | Teste {len(X_test)} janelas")
 print(f"    Classes treino: {dist(ycls_train)} | val: {dist(ycls_val)} | teste: {dist(ycls_test)}")
 
-# Passo 5: Construção da Arquitetura Multi-Task no Keras
-print(">>> Passo 4: Construindo a rede neural Multi-Task...")
+# Ponderação de amostras: foca gradientes nas transições de classe do IQAr
+transicao_train_masc = (ycls_atual_train != ycls_train)
+pesos_transicao_delta = np.where(transicao_train_masc, 3.0, 1.0).astype(np.float32)
+pesos_transicao_iqar = np.where(transicao_train_masc, 3.5, 1.0).astype(np.float32)
+sample_weight_train = [
+    np.ones((len(X_train), JANELA), dtype=np.float32),
+    pesos_transicao_delta,
+    pesos_transicao_iqar,
+]
+
+# Passo 5: Construção da Arquitetura Multi-Task no Keras com Skip Connections Físicas
+print(">>> Passo 4: Construindo a rede neural Multi-Task com Skip Connections de Dinâmica...")
 
 entrada = layers.Input(shape=(JANELA, len(FEATURES)), name="input_sensores")
 
-# Shared Encoder
+# Shared Encoder Temporal (Bi-LSTM)
 lstm_shared = layers.Bidirectional(layers.LSTM(32, return_sequences=True))(entrada)
 lstm_shared = layers.Dropout(0.2)(lstm_shared)
 features_latentes = layers.LSTM(16, return_sequences=False)(lstm_shared)
 
-# Cabeça 1: Detecção de Anomalia (gargalo de 8 neurônios)
+# Extração explícita de dinâmicas físicas (derivadas temporais recentes)
+# Tendência nos últimos 5 minutos: t - (t-5)
+tendencia_5min = layers.Lambda(
+    lambda x: x[:, -1, :] - x[:, -5, :],
+    name="derivada_5min"
+)(entrada)
+
+# Velocidade instantânea no último minuto: t - (t-1)
+velocidade_1min = layers.Lambda(
+    lambda x: x[:, -1, :] - x[:, -2, :],
+    name="velocidade_1min"
+)(entrada)
+
+# Aceleração (mudança da taxa de variação recente)
+aceleracao = layers.Lambda(
+    lambda x: (x[:, -1, :] - x[:, -3, :]) - (x[:, -3, :] - x[:, -5, :]),
+    name="aceleracao_recente"
+)(entrada)
+
+# Concatenação da representação latente com a dinâmica temporal explícita
+features_com_dinamica = layers.Concatenate(name="features_com_dinamica")([
+    features_latentes, tendencia_5min, velocidade_1min, aceleracao
+])
+
+# Cabeça 1: Detecção de Anomalia (Autoencoder LSTM - preserva gargalo limpo)
 gargalo = layers.Dense(8, activation="relu", name="gargalo_anomalia")(features_latentes)
 repeat = layers.RepeatVector(JANELA)(gargalo)
 dec_lstm = layers.LSTM(16, return_sequences=True)(repeat)
 saida_anomalia = layers.TimeDistributed(layers.Dense(len(FEATURES)), name="saida_anomalia")(dec_lstm)
 
-# Cabeça 2: Previsão temporal (delta padronizado, saída linear)
-dense_fore = layers.Dense(32, activation="relu")(features_latentes)
+# Cabeça 2: Previsão temporal (alimentada com as dinâmicas explícitas)
+dense_fore = layers.Dense(32, activation="relu")(features_com_dinamica)
 dense_fore = layers.Dropout(0.1)(dense_fore)
+dense_fore = layers.Dense(16, activation="relu")(dense_fore)
 saida_delta = layers.Dense(len(FEATURES), name="saida_delta")(dense_fore)
 
-# Cabeça 3: Classificação da Qualidade do Ar (IQAr)
-dense_class = layers.Dense(16, activation="relu")(features_latentes)
+# Cabeça 3: Classificação da Qualidade do Ar (IQAr - alimentada com as dinâmicas explícitas)
+dense_class = layers.Dense(16, activation="relu")(features_com_dinamica)
 saida_iqar = layers.Dense(3, activation="softmax", name="saida_iqar")(dense_class)
 
 modelo = Model(
@@ -208,11 +247,31 @@ def perda_iqar_ponderada(y_true, y_pred):
     ce = tf.keras.losses.sparse_categorical_crossentropy(y, y_pred)
     return ce * tf.gather(_pesos_classe_tf, y)
 
+@tf.keras.utils.register_keras_serializable(package="agente")
+def perda_delta_direcional(y_true, y_pred):
+    """
+    Penaliza o erro padrão (Huber) adicionando penalidade pesada
+    para previsões de sinal oposto (inversão direcional) e punindo
+    a inércia (prever delta nulo em momentos de variação real).
+    """
+    erro = y_true - y_pred
+    huber = tf.keras.losses.Huber(delta=1.0)(y_true, y_pred)
+    
+    # Penalidade quando os sinais têm direções opostas
+    sinal_oposto = tf.cast((y_true * y_pred) < 0.0, tf.float32)
+    penalidade_direcao = tf.reduce_mean(sinal_oposto * tf.abs(erro))
+    
+    # Penalidade para inércia em momentos de variação significativa (|y_true| > 0.5)
+    delta_significativo = tf.cast(tf.abs(y_true) > 0.5, tf.float32)
+    penalidade_inercia = tf.reduce_mean(delta_significativo * tf.square(erro))
+    
+    return huber + 0.6 * penalidade_direcao + 0.3 * penalidade_inercia
+
 modelo.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
     loss={
         "saida_anomalia": "mse",
-        "saida_delta": "huber",
+        "saida_delta": perda_delta_direcional,
         "saida_iqar": perda_iqar_ponderada,
     },
     loss_weights=PESOS_LOSS,
@@ -231,12 +290,16 @@ callbacks = [
     tf.keras.callbacks.ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3, min_lr=1e-5),
 ]
 
+y_train = [X_train, dtr, ycls_train]
+y_val = [X_val, dva, ycls_val]
+
 historico = modelo.fit(
     X_train,
-    {"saida_anomalia": X_train, "saida_delta": dtr, "saida_iqar": ycls_train},
+    y_train,
+    sample_weight=sample_weight_train,
     validation_data=(
         X_val,
-        {"saida_anomalia": X_val, "saida_delta": dva, "saida_iqar": ycls_val}
+        y_val
     ),
     epochs=EPOCAS,
     batch_size=BATCH,
@@ -302,10 +365,10 @@ f1_scores = [f1_score(y_val_bin, erros_val_todos > c, zero_division=0) for c in 
 melhor_idx = int(np.argmax(f1_scores))
 limiar_anomalia = float(candidatos[melhor_idx])
 
-# Abordagem por Especificidade Controlada (ex: aceitar no máximo 2.5% de falsos alarmes)
-TAXA_ALARME_ACEITAVEL = 0.025
+# Abordagem por Especificidade Controlada (garante no máximo 1.0% de falsos alarmes na validação normal)
+TAXA_ALARME_ACEITAVEL = 0.01
 limiar_por_percentil = float(np.percentile(err_val_normal, 100 * (1.0 - TAXA_ALARME_ACEITAVEL)))
-# Usa o maior entre o limiar ótimo do F1 e o limiar de proteção contra falso alarme
+# O limiar deve obrigatoriamente respeitar a trava de especificidade para evitar saturação de falsos alarmes
 limiar_anomalia = max(float(candidatos[melhor_idx]), limiar_por_percentil)
 
 print(f"    Limiar calibrado: {limiar_anomalia:.5f} (F1 esperado na validação: {f1_scores[melhor_idx]:.2%})")
@@ -437,7 +500,7 @@ plt.rcParams.update({'font.size': 11, 'figure.autolayout': True})
 print(">>> Gerando Gráfico 1: Curvas de Loss por tarefa...")
 h = historico.history
 paineis = [("loss", "Perda total ponderada"), ("saida_anomalia_loss", "Anomalia (MSE)"),
-           ("saida_delta_loss", "Previsão do delta (Huber)"), ("saida_iqar_loss", "Classificação IQAr (entropia cruzada)")]
+           ("saida_delta_loss", "Previsão do delta (Perda Direcional)"), ("saida_iqar_loss", "Classificação IQAr (entropia cruzada)")]
 fig, axes = plt.subplots(2, 2, figsize=(11, 7))
 for ax, (chave, titulo) in zip(axes.ravel(), paineis):
     if chave in h:

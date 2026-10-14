@@ -21,8 +21,8 @@ class AirQualifyService:
     Agente Inteligente Multi-Task:
     Carrega o modelo treinado uma única vez (Singleton thread-safe) e avalia:
     1. Detecção de Anomalias (Erro de Reconstrução, confirmada em janelas consecutivas)
-    2. Previsão Temporal Futura (Forecasting dos gases, 1 passo à frente)
-    3. Classificação do Nível da Qualidade do Ar (IQAr)
+    2. Previsão Temporal Futura (Forecasting dos gases, 15 minutos à frente)
+    3. Classificação do Nível da Qualidade do Ar (IQAr, 15 minutos à frente)
     """
     _instance = None
     _lock = threading.Lock()
@@ -31,8 +31,8 @@ class AirQualifyService:
         with cls._lock:
             if cls._instance is None:
                 cls._instance = super(AirQualifyService, cls).__new__(cls)
-                # 1. Carrega o modelo, normalizador e configurações salvas
-                cls._instance.model = tf.keras.models.load_model(BASE_DIR / 'modelo_iqar.keras')
+                # 1. Carrega o modelo (compile=False para inferência rápida sem precisar recompilar losses), normalizador e configs
+                cls._instance.model = tf.keras.models.load_model(BASE_DIR / 'modelo_iqar.keras', compile=False)
                 cls._instance.scaler = joblib.load(BASE_DIR / 'scaler.pkl')
 
                 with open(BASE_DIR / 'config_agente.json', 'r') as f:
@@ -138,10 +138,10 @@ class AirQualifyService:
             else:
                 mensagem = (f"Anomalia detectada nos sensores! Erro: {erro_atual:.4f} "
                             f"(Limiar: {self.limiar:.4f}; {n_acima}/{n_janelas} janelas acima)")
-        elif classe_idx == 2:  # Risco de qualidade do ar "Ruim" previsto
+        elif classe_idx == 2:  # Risco de qualidade do ar "Ruim" previsto em 15 minutos
             tipo_alerta = "PREVISAO_CRITICA"
-            mensagem = (f"Previsão de deterioração da qualidade do ar para 'Ruim' "
-                        f"(prob. {probs[2]:.0%}). Tendência futura de CO: {valores_previstos[0]:.2f} ppm")
+            mensagem = (f"Alerta Preditivo (15 min à frente): Risco iminente de qualidade do ar 'Ruim' "
+                        f"(prob. {probs[2]:.0%}). Projeção futura de CO: {valores_previstos[0]:.2f} ppm")
 
 
         if tipo_alerta:
