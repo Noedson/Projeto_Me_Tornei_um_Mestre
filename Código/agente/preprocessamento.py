@@ -7,6 +7,21 @@ exatamente como foram vistos no treino (evita "training-serving skew").
 """
 import numpy as np
 import pandas as pd
+import tensorflow as tf
+from tensorflow.keras import layers
+
+
+@tf.keras.utils.register_keras_serializable(package="agente")
+class DinamicaTemporal(layers.Layer):
+    """Concatena tendência (t - t-4), velocidade (t - t-1) e aceleração."""
+
+    def call(self, x):
+        t = x[:, -1, :]
+        tendencia = t - x[:, -5, :]
+        velocidade = t - x[:, -2, :]
+        aceleracao = (t - x[:, -3, :]) - (x[:, -3, :] - x[:, -5, :])
+        return tf.concat([tendencia, velocidade, aceleracao], axis=-1)
+
 
 JANELA = 30       # 30 minutos de histórico (com agregação de 1 minuto)
 HORIZONTE = 15    # Previsão para 15 minutos à frente

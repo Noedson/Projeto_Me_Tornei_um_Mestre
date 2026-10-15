@@ -1,173 +1,181 @@
 {
     "amostras": {
-        "treino": 31394,
-        "validacao": 6326,
-        "teste": 5980,
-        "travado_regra": {
-            "eps": 0.0019275370286777616,
+        "treino": 31291,
+        "validacao": 6310,
+        "teste": 5951,
+        "sensor_travado": {
+            "eps": 0.0019415768329054117,
             "recall": 1.0,
-            "falso_alarme": 0.0118
+            "falso_alarme": 0.0116
         }
     },
     "distribuicao_classes": {
         "treino": {
-            "Boa": 7113,
-            "Moderada": 11808,
-            "Ruim": 12473
+            "Boa": 6947,
+            "Moderada": 11926,
+            "Ruim": 12418
         },
         "validacao": {
-            "Boa": 1804,
-            "Moderada": 2953,
-            "Ruim": 1569
+            "Boa": 1813,
+            "Moderada": 2944,
+            "Ruim": 1553
         },
         "teste": {
-            "Boa": 2849,
-            "Moderada": 2156,
-            "Ruim": 975
+            "Boa": 2759,
+            "Moderada": 2232,
+            "Ruim": 960
         }
     },
     "anomalia": {
-        "limiar": 0.13256525993347168,
-        "taxa_alarme_em_dados_normais_teste": 0.0782608695652174,
+        "limiar": 0.12455958127975464,
+        "taxa_alarme_em_dados_normais_teste": 0.08721223323811124,
         "magnitude_referencia": 0.2,
         "deteccao_por_tipo_e_magnitude": {
             "pico": {
                 "0.05": {
-                    "auc": 0.6283204800000001,
-                    "precision": 0.5296208530805687,
-                    "recall": 0.0894,
-                    "f1": 0.15297741273100615
+                    "auc": 0.6382570000000001,
+                    "precision": 0.523704520396913,
+                    "recall": 0.095,
+                    "f1": 0.16082613847976976
                 },
                 "0.1": {
-                    "auc": 0.82996062,
-                    "precision": 0.5670665212649946,
-                    "recall": 0.104,
-                    "f1": 0.1757647456481325
+                    "auc": 0.85040712,
+                    "precision": 0.5985130111524164,
+                    "recall": 0.1288,
+                    "f1": 0.2119815668202765
                 },
                 "0.2": {
-                    "auc": 0.9369486,
-                    "precision": 0.9206951658010387,
-                    "recall": 0.9218,
-                    "f1": 0.9212472516490106
+                    "auc": 0.9449800799999999,
+                    "precision": 0.9187817258883249,
+                    "recall": 0.9774,
+                    "f1": 0.9471848047291405
                 },
                 "0.3": {
-                    "auc": 0.96861084,
-                    "precision": 0.9264269829503335,
-                    "recall": 0.9998,
-                    "f1": 0.961716044632551
+                    "auc": 0.9754917999999999,
+                    "precision": 0.9204712812960235,
+                    "recall": 1.0,
+                    "f1": 0.9585889570552147
                 }
             },
             "deriva": {
                 "0.05": {
-                    "auc": 0.6258318199999999,
-                    "precision": 0.534037558685446,
-                    "recall": 0.091,
-                    "f1": 0.15550239234449761
+                    "auc": 0.5358617800000001,
+                    "precision": 0.5183946488294314,
+                    "recall": 0.093,
+                    "f1": 0.1577073088010853
                 },
                 "0.1": {
-                    "auc": 0.8005206,
-                    "precision": 0.5790031813361611,
-                    "recall": 0.1092,
-                    "f1": 0.18374558303886926
+                    "auc": 0.73335514,
+                    "precision": 0.556923076923077,
+                    "recall": 0.1086,
+                    "f1": 0.1817573221757322
                 },
                 "0.2": {
-                    "auc": 0.9032489399999999,
-                    "precision": 0.7642517814726841,
-                    "recall": 0.2574,
-                    "f1": 0.3850987432675045
+                    "auc": 0.89931156,
+                    "precision": 0.7966101694915254,
+                    "recall": 0.3384,
+                    "f1": 0.4750140370578327
                 },
                 "0.3": {
-                    "auc": 0.9437762,
-                    "precision": 0.9241497898356897,
-                    "recall": 0.9674,
-                    "f1": 0.945280437756498
+                    "auc": 0.9457959599999999,
+                    "precision": 0.9155260070394994,
+                    "recall": 0.9364,
+                    "f1": 0.9258453628633577
                 }
-            },
-            "travado": {
-                "auc": 0.31970122,
-                "precision": 0.09977324263038549,
-                "recall": 0.0088,
-                "f1": 0.01617349751883845
             }
         }
     },
     "previsao_por_gas": {
         "CO_MQ135": {
-            "mae_modelo": 2.485970590122413,
-            "mae_persistencia": 2.863264908007723,
-            "rmse_modelo": 14.137850732878341,
-            "skill_vs_persistencia": 0.1317706639124192
+            "mae_modelo": 2.450623749785002,
+            "mae_persistencia": 2.583316499741737,
+            "rmse_modelo": 12.683083733235847,
+            "rmse_persistencia": 13.34108631342269,
+            "skill_mae": 0.0513652701749866,
+            "skill_rmse": 0.04932151436010235
         },
         "CO2_MQ135": {
-            "mae_modelo": 0.7562372876293864,
-            "mae_persistencia": 0.8491123624438379,
-            "rmse_modelo": 3.2694966019074068,
-            "skill_vs_persistencia": 0.10937901616123802
+            "mae_modelo": 0.7814726014453487,
+            "mae_persistencia": 0.8438856104808022,
+            "rmse_modelo": 3.0697977016784743,
+            "rmse_persistencia": 3.2547591413146377,
+            "skill_mae": 0.07395908670595042,
+            "skill_rmse": 0.05682799605302136
         },
         "MH4_MQ135": {
-            "mae_modelo": 0.8594432454472554,
-            "mae_persistencia": 0.9550137263728253,
-            "rmse_modelo": 3.3639512200950294,
-            "skill_vs_persistencia": 0.10007236365968253
+            "mae_modelo": 0.8910355779541117,
+            "mae_persistencia": 0.9767000199061472,
+            "rmse_modelo": 3.1594090073251295,
+            "rmse_persistencia": 3.3662138739762852,
+            "skill_mae": 0.08770803747937583,
+            "skill_rmse": 0.06143545074480694
         },
         "Aceton_MQ135": {
-            "mae_modelo": 0.18473029518632644,
-            "mae_persistencia": 0.2085595390452256,
-            "rmse_modelo": 0.9005166799760329,
-            "skill_vs_persistencia": 0.1142563124563285
+            "mae_modelo": 0.1858999644297746,
+            "mae_persistencia": 0.19927943411773316,
+            "rmse_modelo": 0.8386953861402325,
+            "rmse_persistencia": 0.8873890198772403,
+            "skill_mae": 0.0671392396671201,
+            "skill_rmse": 0.05487292793384346
         },
         "Alcool_MQ135": {
-            "mae_modelo": 0.4507432848182028,
-            "mae_persistencia": 0.5081406341460346,
-            "rmse_modelo": 2.1181152621685135,
-            "skill_vs_persistencia": 0.11295563761455918
+            "mae_modelo": 0.4566148529673943,
+            "mae_persistencia": 0.49197239818345073,
+            "rmse_modelo": 1.9580538129049074,
+            "rmse_persistencia": 2.0729348409177604,
+            "skill_mae": 0.07186896123971576,
+            "skill_rmse": 0.055419507523927325
         },
         "Toluen_MQ135": {
-            "mae_modelo": 0.23227981130479886,
-            "mae_persistencia": 0.26202818784606474,
-            "rmse_modelo": 1.157400146061775,
-            "skill_vs_persistencia": 0.11353120740865619
+            "mae_modelo": 0.23231971623105355,
+            "mae_persistencia": 0.24793865016252614,
+            "rmse_modelo": 1.067409333395392,
+            "rmse_persistencia": 1.127131312822402,
+            "skill_mae": 0.0629951559437556,
+            "skill_rmse": 0.05298582227962667
         },
         "O3_MQ131": {
-            "mae_modelo": 0.3311461995188412,
-            "mae_persistencia": 0.3246362366596573,
-            "rmse_modelo": 1.0778603209061068,
-            "skill_vs_persistencia": -0.020053099820796838
+            "mae_modelo": 0.3212572460257733,
+            "mae_persistencia": 0.31682456690057614,
+            "rmse_modelo": 1.0443800966745889,
+            "rmse_persistencia": 1.064496563591796,
+            "skill_mae": -0.013990957735888543,
+            "skill_rmse": 0.018897634436066846
         }
     },
     "classificacao": {
         "rotulo": "CO media movel 8h (EPA/CONAMA), 15 min a frente",
         "pesos_classe": {
-            "Boa": 1.4712029695510864,
-            "Moderada": 0.8862352967262268,
-            "Ruim": 0.8389855623245239
+            "Boa": 1.501415491104126,
+            "Moderada": 0.8745877146720886,
+            "Ruim": 0.8399366736412048
         },
-        "acuracia_modelo": 0.9695652173913043,
-        "acuracia_baseline_persistencia": 0.9842809364548495,
-        "acuracia_balanceada_modelo": 0.9611261882690454,
-        "acuracia_balanceada_persistencia": 0.9791410519981948,
-        "acuracia_nas_transicoes": 0.3617021276595745,
-        "total_transicoes_teste": 94,
-        "f1_macro_modelo": 0.9666143345346084,
-        "f1_macro_persistencia": 0.9811197089819027,
+        "acuracia_modelo": 0.9751302302134095,
+        "acuracia_baseline_persistencia": 0.9840362964207696,
+        "acuracia_balanceada_modelo": 0.9616462285046917,
+        "acuracia_balanceada_persistencia": 0.9786389325171493,
+        "acuracia_nas_transicoes": 0.43157894736842106,
+        "total_transicoes_teste": 95,
+        "f1_macro_modelo": 0.9699711076720227,
+        "f1_macro_persistencia": 0.9808807648327473,
         "por_classe": {
             "Boa": {
-                "precision": 0.9953051643192489,
-                "recall": 0.9673569673569674,
-                "f1-score": 0.9811320754716981,
-                "support": 2849.0
+                "precision": 0.9817661780479084,
+                "recall": 0.9952881478796666,
+                "f1-score": 0.9884809215262779,
+                "support": 2759.0
             },
             "Moderada": {
-                "precision": 0.9269031141868512,
-                "recall": 0.9939703153988868,
-                "f1-score": 0.959265890778872,
-                "support": 2156.0
+                "precision": 0.9574187884108868,
+                "recall": 0.9771505376344086,
+                "f1-score": 0.9671840354767184,
+                "support": 2232.0
             },
             "Ruim": {
                 "precision": 1.0,
-                "recall": 0.9220512820512821,
-                "f1-score": 0.959445037353255,
-                "support": 975.0
+                "recall": 0.9125,
+                "f1-score": 0.954248366013072,
+                "support": 960.0
             }
         }
     }
