@@ -1,0 +1,354 @@
+{
+    "V3_Normalizado": {
+        "previsao_co": {
+            "mae_modelo": 765.9821155626607,
+            "mae_persistencia": 1524.3809814453125,
+            "skill_mae": 0.49751267899156715,
+            "rmse_modelo": 57928.8133565922,
+            "rmse_persistencia": 81923.578125,
+            "skill_rmse": 0.29289205034228716
+        },
+        "previsao_todos_gases": {
+            "CO_MQ135": {
+                "mae_modelo": 765.9821155626607,
+                "mae_persistencia": 1524.3809814453125,
+                "skill_mae": 0.49751267899156715,
+                "rmse_modelo": 57928.8133565922,
+                "rmse_persistencia": 81923.578125,
+                "skill_rmse": 0.29289205034228716
+            },
+            "CO2_MQ135": {
+                "mae_modelo": 8.077932584438615,
+                "mae_persistencia": 15.162020683288574,
+                "skill_mae": 0.46722585642281633,
+                "rmse_modelo": 516.6052985905642,
+                "rmse_persistencia": 730.6116333007812,
+                "skill_rmse": 0.2929139435453172
+            },
+            "MH4_MQ135": {
+                "mae_modelo": 3.4231405952228617,
+                "mae_persistencia": 5.7477827072143555,
+                "skill_mae": 0.404441543879818,
+                "rmse_modelo": 162.69951850700411,
+                "rmse_persistencia": 230.08245849609375,
+                "skill_rmse": 0.29286430799431695
+            },
+            "Aceton_MQ135": {
+                "mae_modelo": 9.185349852694994,
+                "mae_persistencia": 18.095008850097656,
+                "skill_mae": 0.49238212985757,
+                "rmse_modelo": 669.9275143943584,
+                "rmse_persistencia": 947.4268798828125,
+                "skill_rmse": 0.2928979231861968
+            },
+            "Alcool_MQ135": {
+                "mae_modelo": 12.42009489683975,
+                "mae_persistencia": 24.203256607055664,
+                "skill_mae": 0.48684199409681594,
+                "rmse_modelo": 878.490206611415,
+                "rmse_persistencia": 1242.3892822265625,
+                "skill_rmse": 0.2929026198318304
+            },
+            "Toluen_MQ135": {
+                "mae_modelo": 14.622656260458468,
+                "mae_persistencia": 28.879566192626953,
+                "skill_mae": 0.49366773160908217,
+                "rmse_modelo": 1075.3714077581471,
+                "rmse_persistencia": 1520.81201171875,
+                "skill_rmse": 0.2928965582387707
+            },
+            "O3_MQ131": {
+                "mae_modelo": 3.322898699516621,
+                "mae_persistencia": 3.8230881690979004,
+                "skill_mae": 0.13083388283438535,
+                "rmse_modelo": 33.55819656276299,
+                "rmse_persistencia": 35.29188919067383,
+                "skill_rmse": 0.0491243928185342
+            }
+        },
+        "skill_mae_medio": 0.42470083109886503,
+        "skill_rmse_medio": 0.2580702565653219,
+        "classificacao": {
+            "acuracia_global": 0.9843723743908587,
+            "acuracia_balanceada": 0.9739585011343349,
+            "f1_macro": 0.9798077012607127,
+            "acuracia_transicoes": 0.43157894736842106,
+            "recall_ruim": 0.934375,
+            "f1_ruim": 0.965034965034965,
+            "total_transicoes": 95
+        },
+        "anomalia": {
+            "limiar_p99": 0.12457355856895447,
+            "erro_medio_normal": 0.0670960322022438,
+            "erro_medio_anomalo": 0.17927466332912445,
+            "taxa_alarme_dados_normais": 0.09847084523609477,
+            "auc_pico_sintetico": 0.943138696599725
+        },
+        "tempo_treino_s": 336.29390382766724,
+        "epocas_treinadas": 30
+    },
+    "V3_SemNormalizacao": {
+        "previsao_co": {
+            "mae_modelo": 792.3045654296875,
+            "mae_persistencia": 1524.3809814453125,
+            "skill_mae": 0.48024504695769743,
+            "rmse_modelo": 57930.40234375,
+            "rmse_persistencia": 81923.578125,
+            "skill_rmse": 0.2928726543735787
+        },
+        "previsao_todos_gases": {
+            "CO_MQ135": {
+                "mae_modelo": 792.3045654296875,
+                "mae_persistencia": 1524.3809814453125,
+                "skill_mae": 0.48024504695769743,
+                "rmse_modelo": 57930.40234375,
+                "rmse_persistencia": 81923.578125,
+                "skill_rmse": 0.2928726543735787
+            },
+            "CO2_MQ135": {
+                "mae_modelo": 8.924603462219238,
+                "mae_persistencia": 15.162020683288574,
+                "skill_mae": 0.4113842970775099,
+                "rmse_modelo": 516.9021606445312,
+                "rmse_persistencia": 730.6116333007812,
+                "skill_rmse": 0.29250762363411364
+            },
+            "MH4_MQ135": {
+                "mae_modelo": 6.268588542938232,
+                "mae_persistencia": 5.7477827072143555,
+                "skill_mae": -0.0906098685794412,
+                "rmse_modelo": 167.3017120361328,
+                "rmse_persistencia": 230.08245849609375,
+                "skill_rmse": 0.272861942063379
+            },
+            "Aceton_MQ135": {
+                "mae_modelo": 9.483502388000488,
+                "mae_persistencia": 18.095008850097656,
+                "skill_mae": 0.4759050704775253,
+                "rmse_modelo": 669.9950561523438,
+                "rmse_persistencia": 947.4268798828125,
+                "skill_rmse": 0.29282663350736293
+            },
+            "Alcool_MQ135": {
+                "mae_modelo": 13.447755813598633,
+                "mae_persistencia": 24.203256607055664,
+                "skill_mae": 0.44438238077109093,
+                "rmse_modelo": 878.6732788085938,
+                "rmse_persistencia": 1242.3892822265625,
+                "skill_rmse": 0.2927552648926034
+            },
+            "Toluen_MQ135": {
+                "mae_modelo": 18.4483585357666,
+                "mae_persistencia": 28.879566192626953,
+                "skill_mae": 0.3611968264095141,
+                "rmse_modelo": 1077.8402099609375,
+                "rmse_persistencia": 1520.81201171875,
+                "skill_rmse": 0.29127321348362223
+            },
+            "O3_MQ131": {
+                "mae_modelo": 3.5994601249694824,
+                "mae_persistencia": 3.8230881690979004,
+                "skill_mae": 0.058494084948395364,
+                "rmse_modelo": 34.11115264892578,
+                "rmse_persistencia": 35.29188919067383,
+                "skill_rmse": 0.03345631443442443
+            }
+        },
+        "skill_mae_medio": 0.30585683400889885,
+        "skill_rmse_medio": 0.25265052091272633,
+        "classificacao": {
+            "acuracia_global": 0.9747941522433204,
+            "acuracia_balanceada": 0.9666599546266091,
+            "f1_macro": 0.9730061908080715,
+            "acuracia_transicoes": 0.5578947368421052,
+            "recall_ruim": 0.9416666666666667,
+            "f1_ruim": 0.9694369973190349,
+            "total_transicoes": 95
+        },
+        "anomalia": {
+            "limiar_p99": 9.896889686584473,
+            "erro_medio_normal": 17.594621658325195,
+            "erro_medio_anomalo": 20.90450096130371,
+            "taxa_alarme_dados_normais": 0.06452697025709965,
+            "auc_pico_sintetico": 0.8740875922198994
+        },
+        "tempo_treino_s": 313.9994194507599,
+        "epocas_treinadas": 30
+    },
+    "V4_Normalizado": {
+        "previsao_co": {
+            "mae_modelo": 765.6941977614879,
+            "mae_persistencia": 1524.3809814453125,
+            "skill_mae": 0.49770155421677487,
+            "rmse_modelo": 57928.85377669561,
+            "rmse_persistencia": 81923.578125,
+            "skill_rmse": 0.2928915569543722
+        },
+        "previsao_todos_gases": {
+            "CO_MQ135": {
+                "mae_modelo": 765.6941977614879,
+                "mae_persistencia": 1524.3809814453125,
+                "skill_mae": 0.49770155421677487,
+                "rmse_modelo": 57928.85377669561,
+                "rmse_persistencia": 81923.578125,
+                "skill_rmse": 0.2928915569543722
+            },
+            "CO2_MQ135": {
+                "mae_modelo": 8.00117792644489,
+                "mae_persistencia": 15.162020683288574,
+                "skill_mae": 0.47228815383006906,
+                "rmse_modelo": 516.6165139564023,
+                "rmse_persistencia": 730.6116333007812,
+                "skill_rmse": 0.2928985928920742
+            },
+            "MH4_MQ135": {
+                "mae_modelo": 3.3290567776414073,
+                "mae_persistencia": 5.7477827072143555,
+                "skill_mae": 0.42081025897814006,
+                "rmse_modelo": 162.7063286750608,
+                "rmse_persistencia": 230.08245849609375,
+                "skill_rmse": 0.2928347091796084
+            },
+            "Aceton_MQ135": {
+                "mae_modelo": 9.170134169098363,
+                "mae_persistencia": 18.095008850097656,
+                "skill_mae": 0.493223007235563,
+                "rmse_modelo": 669.9302145880661,
+                "rmse_persistencia": 947.4268798828125,
+                "skill_rmse": 0.292895073157593
+            },
+            "Alcool_MQ135": {
+                "mae_modelo": 12.372363556290223,
+                "mae_persistencia": 24.203256607055664,
+                "skill_mae": 0.4888140981539043,
+                "rmse_modelo": 878.4983539126475,
+                "rmse_persistencia": 1242.3892822265625,
+                "skill_rmse": 0.2928960620633845
+            },
+            "Toluen_MQ135": {
+                "mae_modelo": 14.601992715842252,
+                "mae_persistencia": 28.879566192626953,
+                "skill_mae": 0.49438323905397896,
+                "rmse_modelo": 1075.3755717271722,
+                "rmse_persistencia": 1520.81201171875,
+                "skill_rmse": 0.29289382024814925
+            },
+            "O3_MQ131": {
+                "mae_modelo": 3.28540422770915,
+                "mae_persistencia": 3.8230881690979004,
+                "skill_mae": 0.1406412610974711,
+                "rmse_modelo": 33.35191023506949,
+                "rmse_persistencia": 35.29188919067383,
+                "skill_rmse": 0.054969541163497504
+            }
+        },
+        "skill_mae_medio": 0.42969451036655737,
+        "skill_rmse_medio": 0.2588970508083827,
+        "classificacao": {
+            "acuracia_global": 0.9867249201814821,
+            "acuracia_balanceada": 0.9796111295692213,
+            "f1_macro": 0.9837549327062427,
+            "acuracia_transicoes": 0.49473684210526314,
+            "recall_ruim": 0.953125,
+            "f1_ruim": 0.9744408945686901,
+            "total_transicoes": 95
+        },
+        "anomalia": {
+            "limiar_p99": 0.13474898040294647,
+            "erro_medio_normal": 0.0652577131986618,
+            "erro_medio_anomalo": 0.16610386967658997,
+            "taxa_alarme_dados_normais": 0.07763401109057301,
+            "auc_pico_sintetico": 0.9369332831578883
+        },
+        "tempo_treino_s": 314.51365661621094,
+        "epocas_treinadas": 24
+    },
+    "V4_SemNormalizacao": {
+        "previsao_co": {
+            "mae_modelo": 784.8138427734375,
+            "mae_persistencia": 1524.3809814453125,
+            "skill_mae": 0.4851589908781653,
+            "rmse_modelo": 57930.73828125,
+            "rmse_persistencia": 81923.578125,
+            "skill_rmse": 0.29286855375312626
+        },
+        "previsao_todos_gases": {
+            "CO_MQ135": {
+                "mae_modelo": 784.8138427734375,
+                "mae_persistencia": 1524.3809814453125,
+                "skill_mae": 0.4851589908781653,
+                "rmse_modelo": 57930.73828125,
+                "rmse_persistencia": 81923.578125,
+                "skill_rmse": 0.29286855375312626
+            },
+            "CO2_MQ135": {
+                "mae_modelo": 9.124099731445312,
+                "mae_persistencia": 15.162020683288574,
+                "skill_mae": 0.39822666635049486,
+                "rmse_modelo": 517.2691650390625,
+                "rmse_persistencia": 730.6116333007812,
+                "skill_rmse": 0.29200529876300096
+            },
+            "MH4_MQ135": {
+                "mae_modelo": 3.8507273197174072,
+                "mae_persistencia": 5.7477827072143555,
+                "skill_mae": 0.3300499486725291,
+                "rmse_modelo": 163.40145874023438,
+                "rmse_persistencia": 230.08245849609375,
+                "skill_rmse": 0.28981348770224247
+            },
+            "Aceton_MQ135": {
+                "mae_modelo": 9.539746284484863,
+                "mae_persistencia": 18.095008850097656,
+                "skill_mae": 0.47279681576760446,
+                "rmse_modelo": 670.0716552734375,
+                "rmse_persistencia": 947.4268798828125,
+                "skill_rmse": 0.2927457838684935
+            },
+            "Alcool_MQ135": {
+                "mae_modelo": 13.396227836608887,
+                "mae_persistencia": 24.203256607055664,
+                "skill_mae": 0.4465113495221277,
+                "rmse_modelo": 878.862060546875,
+                "rmse_persistencia": 1242.3892822265625,
+                "skill_rmse": 0.29260331433975983
+            },
+            "Toluen_MQ135": {
+                "mae_modelo": 17.545459747314453,
+                "mae_persistencia": 28.879566192626953,
+                "skill_mae": 0.39246110449561167,
+                "rmse_modelo": 1075.554931640625,
+                "rmse_persistencia": 1520.81201171875,
+                "skill_rmse": 0.2927758833091517
+            },
+            "O3_MQ131": {
+                "mae_modelo": 3.78779673576355,
+                "mae_persistencia": 3.8230881690979004,
+                "skill_mae": 0.0092311324702401,
+                "rmse_modelo": 34.87724685668945,
+                "rmse_persistencia": 35.29188919067383,
+                "skill_rmse": 0.011748941286315429
+            }
+        },
+        "skill_mae_medio": 0.36206228687953906,
+        "skill_rmse_medio": 0.2520801804317272,
+        "classificacao": {
+            "acuracia_global": 0.9418585111745925,
+            "acuracia_balanceada": 0.9320745321708079,
+            "f1_macro": 0.9420046134603237,
+            "acuracia_transicoes": 0.45263157894736844,
+            "recall_ruim": 0.9135416666666667,
+            "f1_ruim": 0.9501625135427952,
+            "total_transicoes": 95
+        },
+        "anomalia": {
+            "limiar_p99": 9.693055152893066,
+            "erro_medio_normal": 19.92085075378418,
+            "erro_medio_anomalo": 22.83576202392578,
+            "taxa_alarme_dados_normais": 0.06419089228701058,
+            "auc_pico_sintetico": 0.8705813632143602
+        },
+        "tempo_treino_s": 394.49798703193665,
+        "epocas_treinadas": 30
+    }
+}
