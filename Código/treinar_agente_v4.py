@@ -548,18 +548,84 @@ plt.legend()
 plt.savefig(GRAFICOS_DIR / "3_distribuicao_erros_anomalia.png", dpi=300)
 plt.close()
 
-# Gráfico 4: Matriz de Confusão do IQAr
+# Gráfico 4: Matrizes de Confusão do IQAr (Multiclasse 3×3 + 2×2 com VP, FP, VN, FN para TODOS os Rótulos)
+fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+
+# 1. Painel (0, 0): Matriz Multiclasse 3x3 Geral
 cm_norm = cm / np.maximum(cm.sum(axis=1, keepdims=True), 1)
-fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=axes[0], xticklabels=CLASSES, yticklabels=CLASSES)
-axes[0].set_title('Contagem Absoluta', fontweight='bold')
-sns.heatmap(cm_norm, annot=True, fmt='.2f', cmap='Blues', vmin=0, vmax=1, ax=axes[1], xticklabels=CLASSES, yticklabels=CLASSES)
-axes[1].set_title('Normalizada por Classe Real (Recall)', fontweight='bold')
-for ax in axes:
-    ax.set_xlabel('Classe Prevista pelo Modelo')
-    ax.set_ylabel('Classe Real')
-    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
-fig.suptitle('Matriz de Confusão - Classificação do IQAr (15 min à frente)', fontsize=13, fontweight='bold')
+annot_multi = np.empty_like(cm, dtype=object)
+for r in range(len(CLASSES)):
+    for c in range(len(CLASSES)):
+        annot_multi[r, c] = f"{cm[r, c]:,}\n({cm_norm[r, c]:.1%})"
+
+sns.heatmap(cm, annot=annot_multi, fmt='', cmap='Blues', ax=axes[0, 0],
+            xticklabels=CLASSES, yticklabels=CLASSES, annot_kws={'fontsize': 10, 'fontweight': 'bold'})
+axes[0, 0].set_title('1. Matriz Multiclasse 3×3 (Visão Global do IQAr)', fontweight='bold', fontsize=12)
+axes[0, 0].set_xlabel('Classe Prevista pelo Modelo', fontweight='bold')
+axes[0, 0].set_ylabel('Classe Real', fontweight='bold')
+
+# Mapeamento para as 3 matrizes One-vs-Rest 2x2
+posicoes = {
+    "Ruim": (0, 1),      # Topo-Direito (foco no Alerta Crítico)
+    "Boa": (1, 0),       # Baixo-Esquerdo (Ar Limpo)
+    "Moderada": (1, 1),  # Baixo-Direito (Zona de Transição)
+}
+
+total_amostras = len(ycls_test)
+print("\n" + "="*60)
+print(" MATRIZES DE CONFUSÃO POR RÓTULO (ACERTOS E ERROS DETALHADOS)")
+print("="*60)
+print("Matriz Multiclasse 3x3 (Linha = Real, Coluna = Previsto):")
+print(f"       Boa    Mod   Ruim")
+for idx_c, c_nome in enumerate(CLASSES):
+    print(f"{c_nome:8s} {cm[idx_c, 0]:5d}  {cm[idx_c, 1]:5d}  {cm[idx_c, 2]:5d}")
+
+for classe in ["Ruim", "Boa", "Moderada"]:
+    idx = CLASSES.index(classe)
+    row_ax, col_ax = posicoes[classe]
+    ax = axes[row_ax, col_ax]
+    
+    # One-vs-Rest
+    y_real_bin = (ycls_test == idx)
+    y_pred_bin = (y_cls_pred == idx)
+    
+    vp = int(np.sum(y_real_bin & y_pred_bin))
+    fn = int(np.sum(y_real_bin & (~y_pred_bin)))
+    fp = int(np.sum((~y_real_bin) & y_pred_bin))
+    vn = int(np.sum((~y_real_bin) & (~y_pred_bin)))
+    
+    recall = (vp / (vp + fn)) if (vp + fn) > 0 else 0.0
+    precisao = (vp / (vp + fp)) if (vp + fp) > 0 else 0.0
+    especificidade = (vn / (vn + fp)) if (vn + fp) > 0 else 0.0
+    acuracia = (vp + vn) / total_amostras
+    
+    cm_bin = np.array([[vp, fn], [fp, vn]])
+    rotulos_bin = [
+        [f"VP (Acerto)\n{vp:,}\n({vp/total_amostras:.2%})", f"FN (Erro)\n{fn:,}\n({fn/total_amostras:.2%})"],
+        [f"FP (Erro)\n{fp:,}\n({fp/total_amostras:.2%})", f"VN (Acerto)\n{vn:,}\n({vn/total_amostras:.2%})"]
+    ]
+    
+    labels_eixos = [f"{classe}", f"Não-{classe}"]
+    sns.heatmap(cm_bin, annot=np.array(rotulos_bin), fmt='', cmap='Blues', ax=ax,
+                xticklabels=labels_eixos, yticklabels=labels_eixos, annot_kws={'fontsize': 10, 'fontweight': 'bold'})
+    
+    ax.set_title(f'Rótulo "{classe}" (2×2: VP, FP, VN, FN)\n'
+                 f'Acurácia: {acuracia:.2%} | Recall: {recall:.2%} | Precisão: {precisao:.2%}',
+                 fontweight='bold', fontsize=11)
+    ax.set_xlabel(f'Previsão ({classe} vs Demais)', fontweight='bold')
+    ax.set_ylabel(f'Realidade ({classe} vs Demais)', fontweight='bold')
+    
+    print(f"\n[Rótulo: {classe}]")
+    print(f"  Acertos: VP={vp:,} ({vp/total_amostras:.2%}), VN={vn:,} ({vn/total_amostras:.2%}) -> Total Acertos: {vp+vn:,} ({acuracia:.2%})")
+    print(f"  Erros:   FP={fp:,} ({fp/total_amostras:.2%}), FN={fn:,} ({fn/total_amostras:.2%}) -> Total Erros:   {fp+fn:,} ({(fp+fn)/total_amostras:.2%})")
+    print(f"  Métricas: Recall={recall:.2%} | Precisão={precisao:.2%} | Especificidade={especificidade:.2%}")
+
+fig.suptitle(
+    'Avaliação Completa da Classificação do IQAr (15 min à frente)\n'
+    'Diagonal Principal = Acertos (VP e VN) | Diagonal Secundária = Erros (FP e FN)',
+    fontsize=14, fontweight='bold'
+)
+plt.tight_layout()
 plt.savefig(GRAFICOS_DIR / "4_matriz_confusao_iqar.png", dpi=300)
 plt.close()
 

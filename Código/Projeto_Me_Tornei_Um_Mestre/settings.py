@@ -81,9 +81,13 @@ WSGI_APPLICATION = 'Projeto_Me_Tornei_Um_Mestre.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'smart_campus',         # Nome do banco criado no Passo 2
+        'USER': 'postgres',             # Seu usuário do Postgres
+        'PASSWORD': 'sua_senha_aqui',   # Sua senha do Postgres
+        'HOST': 'localhost',            # Ou o IP do servidor do banco
+        'PORT': '5432',                 # Porta padrão do Postgres
     }
 }
 

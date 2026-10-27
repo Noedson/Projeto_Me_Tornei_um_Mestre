@@ -49,6 +49,39 @@ class AirQualifyService:
                 print(">>> [Agente Inteligente] Modelo Multi-Task Carregado com Sucesso!")
         return cls._instance
 
+    @classmethod
+    def recarregar_modelo(cls):
+        """
+        Recarrega o modelo e o scaler a quente (Zero Downtime).
+        Carrega primeiro em variáveis temporárias e troca o ponteiro com thread-lock.
+        """
+        with cls._lock:
+            if cls._instance is not None:
+                print(">>> [Agente] Iniciando Hot-Reloading do Modelo...")
+                try:
+                    # Passo 1: Carrega em variáveis temporárias (se falhar, não afeta o que está no ar)
+                    novo_modelo = tf.keras.models.load_model(BASE_DIR / 'modelo_iqar_v4.keras', compile=False)
+                    novo_scaler = joblib.load(BASE_DIR / 'scaler.pkl')
+
+                    with open(BASE_DIR / 'config_agente.json', 'r') as f:
+                        nova_config = json.load(f)
+
+                    # Passo 2: Troca atômica de ponteiros em memória
+                    cls._instance.model = novo_modelo
+                    cls._instance.scaler = novo_scaler
+                    cls._instance.config = nova_config
+                    cls._instance.limiar = nova_config["limiar_anomalia"]
+                    cls._instance.eps_travado = nova_config.get("eps_travado", 0.0015)
+                    cls._instance.clip_max = np.asarray(nova_config["clip_max"], dtype=float)
+                    cls._instance.delta_std = np.asarray(nova_config["delta_std"], dtype=np.float32)
+
+                    print(">>> [Agente] Hot-Reloading concluído! Novo modelo em operação.")
+                    return True
+                except Exception as e:
+                    print(f">>> [ERRO Hot-Reloading] Falha ao recarregar: {e}. O modelo anterior foi mantido!")
+                    return False
+            return False
+
     def _normalizar(self, matriz):
         """Mesmo pipeline do treino: clip -> log1p -> MinMaxScaler."""
         return self.scaler.transform(preprocessar(matriz, self.clip_max)).astype(np.float32)
