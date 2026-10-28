@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-8-q#@7%-f2@@y_h(2bitqm-g__gd5w@a6ganpdbc@#%^k4!%eq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0,web').split(',')
 
 
 # Application definition
@@ -83,11 +84,11 @@ WSGI_APPLICATION = 'Projeto_Me_Tornei_Um_Mestre.wsgi.application'
 DATABASES = {
      'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'smart_campus',         # Nome do banco criado no Passo 2
-        'USER': 'postgres',             # Seu usuário do Postgres
-        'PASSWORD': 'sua_senha_aqui',   # Sua senha do Postgres
-        'HOST': 'localhost',            # Ou o IP do servidor do banco
-        'PORT': '5432',                 # Porta padrão do Postgres
+        'NAME': os.environ.get('POSTGRES_DB', 'smart_campus'),         # Nome do banco criado no Passo 2
+        'USER': os.environ.get('POSTGRES_USER', 'postgres'),             # Seu usuário do Postgres
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'postgres_password'),   # Sua senha do Postgres
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),            # Ou o IP do servidor do banco
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),                 # Porta padrão do Postgres
     }
 }
 

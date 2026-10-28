@@ -1,0 +1,131 @@
+services:
+  # 1. Banco de Dados PostgreSQL (compartilhado entre Django e ChirpStack)
+  db:
+    image: postgres:16-alpine
+    container_name: smart_campus_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: smart_campus
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./configuration/postgresql/initdb:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d smart_campus"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Redis (gerenciamento de sessões LoRaWAN do ChirpStack)
+  redis:
+    image: redis:7-alpine
+    container_name: smart_campus_redis
+    restart: unless-stopped
+    command: redis-server --save 300 1 --save 60 100 --appendonly no
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 3. Broker MQTT Mosquitto
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: smart_campus_mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./configuration/mosquitto/config/:/mosquitto/config/
+
+  # 4. ChirpStack v4 Network Server (Painel Web na porta 8080)
+  chirpstack:
+    image: chirpstack/chirpstack:4
+    container_name: smart_campus_chirpstack
+    command: -c /etc/chirpstack
+    restart: unless-stopped
+    volumes:
+      - ./configuration/chirpstack:/etc/chirpstack
+    depends_on:
+      db:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    environment:
+      - MQTT_BROKER_HOST=mosquitto
+      - REDIS_HOST=redis
+      - POSTGRESQL_HOST=db
+    ports:
+      - "8080:8080"
+
+  # 5. ChirpStack Gateway Bridge - Semtech UDP (Porta 1700/udp - Região AU915_0)
+  chirpstack-gateway-bridge:
+    image: chirpstack/chirpstack-gateway-bridge:4
+    container_name: smart_campus_gateway_bridge
+    restart: unless-stopped
+    ports:
+      - "1700:1700/udp"
+    volumes:
+      - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
+    environment:
+      - INTEGRATION__MQTT__EVENT_TOPIC_TEMPLATE=au915_0/gateway/{{ .GatewayID }}/event/{{ .EventType }}
+      - INTEGRATION__MQTT__STATE_TOPIC_TEMPLATE=au915_0/gateway/{{ .GatewayID }}/state/{{ .StateType }}
+      - INTEGRATION__MQTT__COMMAND_TOPIC_TEMPLATE=au915_0/gateway/{{ .GatewayID }}/command/#
+    depends_on:
+      - mosquitto
+
+  # 6. ChirpStack Gateway Bridge - BasicStation (Porta 3001 - Região AU915_0)
+  chirpstack-gateway-bridge-basicstation:
+    image: chirpstack/chirpstack-gateway-bridge:4
+    container_name: smart_campus_gateway_bridge_basicstation
+    restart: unless-stopped
+    command: -c /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge-basicstation-au915_0.toml
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./configuration/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
+    depends_on:
+      - mosquitto
+
+  # 7. ChirpStack REST API (Porta 8090)
+  chirpstack-rest-api:
+    image: chirpstack/chirpstack-rest-api:4
+    container_name: smart_campus_chirpstack_rest_api
+    restart: unless-stopped
+    command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
+    ports:
+      - "8090:8090"
+    depends_on:
+      - chirpstack
+
+  # 8. Aplicação Django + Agente Inteligente (Porta 8000)
+  web:
+    build: .
+    container_name: smart_campus_web
+    restart: unless-stopped
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      POSTGRES_DB: smart_campus
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1,0.0.0.0,web
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
