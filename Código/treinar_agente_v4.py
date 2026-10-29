@@ -56,8 +56,18 @@ rng = np.random.default_rng(SEED)
 FREQ_RESAMPLE = "1min"
 JANELA = 30                # 30 minutos de histórico observado
 HORIZONTE = 15             # Previsão para 15 minutos à frente
-STRIDE_TREINO = 1
-BATCH, EPOCAS = 128, 50
+STRIDE_TREINO = 1          # Com dados a cada 1 min, não precisa pular amostras
+import argparse
+_parser = argparse.ArgumentParser(description="Script Oficial de Treinamento e Avaliação do Agente Multi-Task (V4)")
+_parser.add_argument("--epocas", type=int, default=50, help="Número máximo de épocas de treinamento (padrão: 50)")
+_parser.add_argument("--batch", type=int, default=128, help="Tamanho do batch (padrão: 128)")
+_parser.add_argument("--patience", type=int, default=8, help="Paciência do Early Stopping (padrão: 8)")
+_parser.add_argument("--extra-csv", type=str, default=None, help="Caminho para CSV com novas leituras para anexar")
+_args, _ = _parser.parse_known_args()
+
+BATCH, EPOCAS = _args.batch, _args.epocas
+PATIENCE = _args.patience
+EXTRA_CSV = _args.extra_csv
 PESOS_LOSS = {"saida_anomalia": 15.0, "saida_delta": 2.0, "saida_iqar": 1.5}
 CLASSES = ["Boa", "Moderada", "Ruim"]
 PESO_CLASSE_MAX = 10.0
@@ -81,6 +91,16 @@ matriz_gases = [extrair_gases(obj) for obj in df_raw["object"]]
 df = pd.DataFrame(matriz_gases, columns=GASES)
 df["time"] = df_raw["time"]
 df = df.dropna().sort_values("time").set_index("time")
+
+if EXTRA_CSV and Path(EXTRA_CSV).exists():
+    print(f">>> [V4 Oficial] Incorporando leituras adicionais de '{EXTRA_CSV}'...")
+    df_extra_raw = pd.read_csv(EXTRA_CSV)
+    col_tempo = "Time" if "Time" in df_extra_raw.columns else "time"
+    df_extra_raw[col_tempo] = pd.to_datetime(df_extra_raw[col_tempo], utc=True)
+    df_extra_raw = df_extra_raw.set_index(col_tempo)
+    df = pd.concat([df, df_extra_raw[GASES]]).sort_index()
+    df = df[~df.index.duplicated(keep="last")]
+    print(f"    Total combinado de leituras válidas: {len(df)}")
 
 # -------------------------------------------------------------------------
 # Passo 2: Reamostragem Causal (1 minuto) e Alvo Bruto Honesto
@@ -264,12 +284,30 @@ modelo.compile(
 )
 
 # -------------------------------------------------------------------------
-# Passo 6: Treinamento do Modelo
 # -------------------------------------------------------------------------
-print(">>> [V4 Oficial] Passo 5: Treinando o Modelo com Early Stopping e ReduceLR...")
+# Passo 6: Treinamento do Modelo (com Early Stopping SEMPRE ATIVO)
+# -------------------------------------------------------------------------
+paciencia_efetiva = max(2, min(PATIENCE, EPOCAS // 2)) if EPOCAS < (PATIENCE * 2) else PATIENCE
+paciencia_lr = max(1, min(3, paciencia_efetiva // 2))
+
+print(f">>> [V4 Oficial] Passo 5: Treinando o Modelo (Máximo: {EPOCAS} épocas)...")
+print(f"    [Early Stopping ATIVO] Monitor='val_loss', Paciência={paciencia_efetiva} épocas, Restauração de Pesos=ON.")
+print(f"    [ReduceLROnPlateau ATIVO] Monitor='val_loss', Fator=0.5, Paciência={paciencia_lr} épocas.")
+
 callbacks = [
-    tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=8, restore_best_weights=True),
-    tf.keras.callbacks.ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3, min_lr=1e-5),
+    tf.keras.callbacks.EarlyStopping(
+        monitor="val_loss",
+        patience=paciencia_efetiva,
+        restore_best_weights=True,
+        verbose=1,
+    ),
+    tf.keras.callbacks.ReduceLROnPlateau(
+        monitor="val_loss",
+        factor=0.5,
+        patience=paciencia_lr,
+        min_lr=1e-5,
+        verbose=1,
+    ),
 ]
 
 historico = modelo.fit(
@@ -282,6 +320,13 @@ historico = modelo.fit(
     callbacks=callbacks,
     verbose=2,
 )
+
+epocas_reais = len(historico.history["loss"])
+if epocas_reais < EPOCAS:
+    print(f"\n>>> [Early Stopping Atuou com Sucesso] Treinamento convergiu e encerrou na época {epocas_reais}/{EPOCAS}!")
+    print(f"    (Evitou overfitting e restaurou os melhores pesos da validação).\n")
+else:
+    print(f"\n>>> Treinamento concluído atingindo o teto configurado de {EPOCAS} épocas.\n")
 
 # -------------------------------------------------------------------------
 # Passo 7: Calibração de Limiares na Base de Validação

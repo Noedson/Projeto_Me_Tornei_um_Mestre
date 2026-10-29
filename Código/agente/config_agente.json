@@ -1,6 +1,6 @@
 {
     "modelo_versao": "V4_oficial",
-    "limiar_anomalia": 0.12455958127975464,
+    "limiar_anomalia": 0.12223783135414124,
     "eps_travado": 0.0019415768329054117,
     "metodo_limiar": "Otimizacao F1 na validacao (anomalia=0.2)",
     "gases": [
@@ -62,9 +62,9 @@
     "co_moderada_ppm": 4.5,
     "co_ruim_ppm": 9.5,
     "versoes": {
-        "tensorflow": "2.21.0",
+        "tensorflow": "2.22.0-rc0",
         "scikit-learn": "1.9.1",
         "numpy": "2.5.3"
     },
-    "epocas_treinadas": 19
+    "epocas_treinadas": 23
 }

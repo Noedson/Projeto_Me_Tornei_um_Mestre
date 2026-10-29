@@ -1,5 +1,5 @@
 """
-Pré-processamento compartilhado entre o treino (treinar_agente.py) e a
+Pré-processamento compartilhado entre o treino (treinar_agente_v4.py) e a
 inferência (services.py).
 
 Manter UMA única implementação garante que o agente em produção veja os dados

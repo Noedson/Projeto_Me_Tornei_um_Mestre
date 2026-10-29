@@ -1,33 +1,56 @@
+import sys
 import json
-import joblib
-import numpy as np
-import pandas as pd
-import tensorflow as tf
+import shutil
+import subprocess
 from pathlib import Path
 from datetime import datetime, timedelta, timezone as dt_timezone
 
+import pandas as pd
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from telemetria.models import AirReading
 from agente.models import ConfiguracaoRetreino
 from agente.services import AirQualifyService, BASE_DIR
-from agente.preprocessamento import (
-    GASES,
-    JANELA,
-    HORIZONTE,
-    media_movel_co,
-    preprocessar,
-    classificar_co,
-)
+from agente.preprocessamento import GASES, JANELA, HORIZONTE
 
 
 class Command(BaseCommand):
-    help = "Retreina o agente periodicamente usando o modelo atual + dados recentes com validação e hot-reload."
+    help = "Retreina o agente inteligente executando o pipeline oficial V4 (treinar_agente_v4.py) com validação de gatekeeper e hot-reload."
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--forcar",
+            action="store_true",
+            help="Força o retreino mesmo se desativado no Django Admin ou se houver poucas amostras no banco.",
+        )
+        parser.add_argument(
+            "--epocas",
+            type=int,
+            default=50,
+            help="Número máximo de épocas para o retreino (padrão: 50). O Early Stopping permanece sempre ativo.",
+        )
+        parser.add_argument(
+            "--patience",
+            type=int,
+            default=8,
+            help="Paciência do Early Stopping (padrão: 8). O treinamento para antes caso o modelo pare de evoluir.",
+        )
+        parser.add_argument(
+            "--batch",
+            type=int,
+            default=128,
+            help="Tamanho do batch para o treinamento (padrão: 128).",
+        )
+        parser.add_argument(
+            "--ignorar-banco",
+            action="store_true",
+            help="Ignora novas leituras do banco PostgreSQL e retreina apenas com a base histórica 'event_up.csv'.",
+        )
 
     def handle(self, *args, **options):
         self.stdout.write("=" * 65)
-        self.stdout.write(">>> [Retreino Agente] Iniciando ciclo de retreinamento contínuo...")
+        self.stdout.write(">>> [Retreino Agente V4] Iniciando ciclo de retreinamento oficial...")
         self.stdout.write("=" * 65)
 
         # -------------------------------------------------------------
@@ -35,10 +58,11 @@ class Command(BaseCommand):
         # -------------------------------------------------------------
         config, _ = ConfiguracaoRetreino.objects.get_or_create(id=1)
 
-        if not config.ativo:
+        if not config.ativo and not options["forcar"]:
             self.stdout.write(
                 self.style.WARNING(
-                    ">>> [PAINEL ADMIN] O retreinamento automático está DESATIVADO pelo gestor. Abortando execução."
+                    ">>> [PAINEL ADMIN] O retreinamento automático está DESATIVADO pelo gestor.\n"
+                    ">>> (Para forçar manualmente a execução, utilize o argumento --forcar). Abortando."
                 )
             )
             return
@@ -65,144 +89,173 @@ class Command(BaseCommand):
                     )
                 )
 
-        intervalo_h = config.intervalo_horas
-        limite_de_tempo = hora_referencia - timedelta(hours=intervalo_h)
-        self.stdout.write(f">>> Buscando leituras das últimas {intervalo_h}h (desde {limite_de_tempo})...")
-
         # -------------------------------------------------------------
-        # 3. Extração dos Dados Recentes do Banco Django
+        # 3. Extração dos Dados Recentes do Banco Django (se houver)
         # -------------------------------------------------------------
-        leituras_qs = AirReading.objects.filter(timestamp__gte=limite_de_tempo).order_by("timestamp")
-        min_amostras = JANELA + HORIZONTE + 100
+        arquivo_extra_csv = None
+        temp_csv_path = BASE_DIR / "novas_leituras_retreino_temp.csv"
 
-        if leituras_qs.count() < min_amostras:
-            self.stdout.write(
-                self.style.WARNING(
-                    f">>> Amostras insuficientes no banco ({leituras_qs.count()} < {min_amostras} necessárias). Abortando."
+        if not options["ignorar_banco"]:
+            intervalo_h = config.intervalo_horas
+            limite_de_tempo = hora_referencia - timedelta(hours=intervalo_h)
+            self.stdout.write(f">>> Verificando leituras no banco das últimas {intervalo_h}h (desde {limite_de_tempo})...")
+
+            try:
+                leituras_qs = AirReading.objects.filter(timestamp__gte=limite_de_tempo).order_by("timestamp")
+                total_leituras = leituras_qs.count()
+                min_amostras = JANELA + HORIZONTE + 100
+
+                if total_leituras >= min_amostras or (options["forcar"] and total_leituras > 0):
+                    self.stdout.write(
+                        self.style.SUCCESS(
+                            f">>> Exportando {total_leituras} leituras recentes do banco para incorporar ao retreino V4..."
+                        )
+                    )
+                    dados = []
+                    for l in leituras_qs:
+                        dados.append({
+                            "Time": l.timestamp.isoformat(),
+                            "CO_MQ135": l.co_mq135,
+                            "CO2_MQ135": l.co2_mq135,
+                            "MH4_MQ135": l.mh4_mq135,
+                            "Aceton_MQ135": l.aceton_mq135,
+                            "Alcool_MQ135": l.alcool_mq135,
+                            "Toluen_MQ135": l.toluen_mq135,
+                            "O3_MQ131": l.o3_mq131,
+                        })
+                    df_novos = pd.DataFrame(dados)
+                    df_novos.to_csv(temp_csv_path, index=False)
+                    arquivo_extra_csv = temp_csv_path
+                else:
+                    self.stdout.write(
+                        self.style.NOTICE(
+                            f">>> Banco possui {total_leituras} leituras recentes (< {min_amostras}). "
+                            "Executando retreino com a base histórica completa 'event_up.csv'."
+                        )
+                    )
+            except Exception as e:
+                self.stdout.write(
+                    self.style.WARNING(
+                        f">>> Aviso ao consultar banco ({e}). Prosseguindo com o dataset histórico padrão."
+                    )
                 )
-            )
-            return
-
-        dados = []
-        for l in leituras_qs:
-            dados.append({
-                "Time": l.timestamp,
-                "CO_MQ135": l.co_mq135,
-                "CO2_MQ135": l.co2_mq135,
-                "MH4_MQ135": l.mh4_mq135,
-                "Aceton_MQ135": l.aceton_mq135,
-                "Alcool_MQ135": l.alcool_mq135,
-                "Toluen_MQ135": l.toluen_mq135,
-                "O3_MQ131": l.o3_mq131,
-            })
-
-        df_novos = (
-            pd.DataFrame(dados)
-            .set_index("Time")
-            .resample("1min")
-            .median()
-            .interpolate("time")
-        )
 
         # -------------------------------------------------------------
-        # 4. Carrega o Modelo Atual como Base (Warm-Start / Fine-Tuning)
+        # 4. Backup Preventivo do Modelo Atual (Rollback em caso de falha)
         # -------------------------------------------------------------
-        self.stdout.write(">>> Carregando modelo e scaler oficiais atuais...")
-        caminho_oficial = BASE_DIR / "modelo_iqar_v4.keras"
-        caminho_scaler = BASE_DIR / "scaler.pkl"
+        caminho_oficial = BASE_DIR / "modelo_iqar.keras"
+        caminho_backup = BASE_DIR / "modelo_iqar_backup.keras"
         caminho_cfg = BASE_DIR / "config_agente.json"
+        caminho_cfg_backup = BASE_DIR / "config_agente_backup.json"
 
-        if not caminho_oficial.exists():
-            self.stdout.write(self.style.ERROR(f">>> Arquivo de modelo não encontrado: {caminho_oficial}"))
-            return
-
-        modelo = tf.keras.models.load_model(caminho_oficial, compile=False)
-        scaler = joblib.load(caminho_scaler)
-
-        with open(caminho_cfg, "r") as f:
-            cfg = json.load(f)
-        clip_max = np.asarray(cfg["clip_max"], dtype=float)
+        if caminho_oficial.exists():
+            shutil.copy2(caminho_oficial, caminho_backup)
+        if caminho_cfg.exists():
+            shutil.copy2(caminho_cfg, caminho_cfg_backup)
 
         # -------------------------------------------------------------
-        # 5. Normalização com o Scaler Oficial
+        # 5. Execução do Retreino via Pipeline Oficial V4 (subprocess isolado)
         # -------------------------------------------------------------
-        filtrado = df_novos[GASES].rolling(5, min_periods=1, center=False).median().values
-        co_media_in = media_movel_co(df_novos.index, filtrado[:, 0], clip_max[0])
-        pre_in = preprocessar(np.column_stack([filtrado, co_media_in]), clip_max)
-        X_novos_escalados = scaler.transform(pre_in).astype(np.float32)
+        script_v4 = Path(BASE_DIR).parent / "treinar_agente_v4.py"
+        epocas = options["epocas"]
+        batch = options["batch"]
 
-        # -------------------------------------------------------------
-        # 6. Montagem das Janelas Temporais
-        # -------------------------------------------------------------
-        X, y_rec, y_cls = [], [], []
-        n = len(X_novos_escalados)
-        classes_reais = classificar_co(co_media_in)
+        comando = [
+            sys.executable,
+            str(script_v4),
+            "--epocas",
+            str(epocas),
+            "--batch",
+            str(batch),
+            "--patience",
+            str(options["patience"]),
+        ]
+        if arquivo_extra_csv:
+            comando.extend(["--extra-csv", str(arquivo_extra_csv)])
 
-        for i in range(n - JANELA - HORIZONTE):
-            X.append(X_novos_escalados[i:i + JANELA])
-            y_rec.append(X_novos_escalados[i:i + JANELA])
-            y_cls.append(classes_reais[i + JANELA + HORIZONTE - 1])
-
-        X = np.asarray(X, dtype=np.float32)
-        y_rec = np.asarray(y_rec, dtype=np.float32)
-        y_cls = np.asarray(y_cls, dtype=int)
-
-        if len(X) < 50:
-            self.stdout.write(self.style.WARNING(">>> Poucas janelas úteis geradas para retreino. Abortando."))
-            return
-
-        # -------------------------------------------------------------
-        # 7. Recompilação com Taxa Suave (1e-4) para Ajuste Fino
-        # -------------------------------------------------------------
-        modelo.compile(
-            optimizer=tf.keras.optimizers.Adam(learning_rate=1e-4),
-            loss={"saida_anomalia": "mse", "saida_iqar": "sparse_categorical_crossentropy"},
-            metrics={"saida_iqar": "accuracy"},
+        self.stdout.write(
+            f">>> Disparando: {' '.join(comando)} "
+            f"(Early Stopping SEMPRE ATIVO: monitor='val_loss', paciência={options['patience']})"
         )
+        self.stdout.write("-" * 65)
 
-        self.stdout.write(f">>> Executando Fine-Tuning em {len(X)} janelas (5 épocas)...")
-        hist = modelo.fit(X, [y_rec, y_cls], epochs=5, batch_size=64, verbose=0)
+        try:
+            resultado = subprocess.run(comando, cwd=str(script_v4.parent))
+            sucesso_processo = (resultado.returncode == 0)
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f">>> [ERRO] Falha ao executar processo do V4: {e}"))
+            sucesso_processo = False
+        finally:
+            # Limpeza do CSV temporário se tiver sido criado
+            if temp_csv_path.exists():
+                try:
+                    temp_csv_path.unlink()
+                except OSError:
+                    pass
+
+        if not sucesso_processo:
+            self.stdout.write(self.style.ERROR(">>> [ERRO CRÍTICO] O script 'treinar_agente_v4' retornou código de erro."))
+            if caminho_backup.exists():
+                shutil.copy2(caminho_backup, caminho_oficial)
+                self.stdout.write(">>> Backup do modelo anterior restaurado com sucesso.")
+            return
 
         # -------------------------------------------------------------
-        # 8. GATEKEEPER DE QUALIDADE: Validação antes de Promover
+        # 6. GATEKEEPER DE QUALIDADE: Validação antes de Promover
         # -------------------------------------------------------------
-        acc_nova = float(hist.history["saida_iqar_accuracy"][-1])
+        metricas_path = BASE_DIR / "metricas_finais.json"
+        acc_nova = 0.0
+
+        if metricas_path.exists():
+            try:
+                with open(metricas_path, "r", encoding="utf-8") as f:
+                    relatorio = json.load(f)
+                acc_nova = float(relatorio["classificacao"]["acuracia_modelo"])
+            except Exception as e:
+                self.stdout.write(self.style.WARNING(f">>> Falha ao ler métricas finais: {e}"))
+
         corte_minimo = float(config.acuracia_minima_gatekeeper)
-        self.stdout.write(f">>> Acurácia atingida no retreino: {acc_nova:.2%} (Mínimo exigido: {corte_minimo:.2%})")
+        self.stdout.write("-" * 65)
+        self.stdout.write(f">>> Acurácia atingida pelo V4: {acc_nova:.2%} (Mínimo exigido: {corte_minimo:.2%})")
 
         if acc_nova < corte_minimo:
             self.stdout.write(
                 self.style.ERROR(
-                    f">>> [GATEKEEPER REPROVOU] Acurácia ({acc_nova:.2%}) ficou abaixo do mínimo ({corte_minimo:.2%}). "
-                    "Nenhum arquivo foi modificado. O modelo atual continua em produção intacto."
+                    f">>> [GATEKEEPER REPROVOU] Acurácia ({acc_nova:.2%}) ficou abaixo do limite exigido ({corte_minimo:.2%}). "
+                    "Restaurando modelo anterior. Nenhum modelo com desempenho inferior foi para produção."
                 )
             )
+            if caminho_backup.exists():
+                shutil.copy2(caminho_backup, caminho_oficial)
+            if caminho_cfg_backup.exists():
+                shutil.copy2(caminho_cfg_backup, caminho_cfg)
             return
 
-        # -------------------------------------------------------------
-        # 9. Promoção Atômica de Arquivos
-        # -------------------------------------------------------------
-        self.stdout.write(self.style.SUCCESS(">>> [GATEKEEPER APROVOU] Modelo novo atingiu o padrão de qualidade!"))
-        caminho_candidato = BASE_DIR / "modelo_iqar_v4_candidato.keras"
-        modelo.save(caminho_candidato)
+        self.stdout.write(self.style.SUCCESS(">>> [GATEKEEPER APROVOU] Novo modelo V4 atingiu os critérios de excelência!"))
 
-        if caminho_candidato.exists():
-            caminho_candidato.replace(caminho_oficial)
-            self.stdout.write(f">>> Arquivo oficial substituído atomicamente: {caminho_oficial.name}")
+        # Remove backups preventivos pois o novo modelo foi promovido com sucesso
+        if caminho_backup.exists():
+            caminho_backup.unlink()
+        if caminho_cfg_backup.exists():
+            caminho_cfg_backup.unlink()
 
         # -------------------------------------------------------------
-        # 10. Disparo do Hot-Reloading no Django e Registro de Sucesso
+        # 7. Disparo do Hot-Reloading no Django e Registro de Sucesso
         # -------------------------------------------------------------
         recarregou = AirQualifyService.recarregar_modelo()
+        config.ultimo_retreino_sucesso = hora_referencia
+        config.save()
+
         if recarregou:
-            config.ultimo_retreino_sucesso = hora_referencia
-            config.save()
             self.stdout.write(
                 self.style.SUCCESS(
-                    ">>> [SUCESSO COMPLETO] Retreino, Validação e Hot-Reloading finalizados com Zero Downtime!"
+                    ">>> [SUCESSO COMPLETO] Retreino V4, Validação Gatekeeper e Hot-Reloading finalizados com Zero Downtime!"
                 )
             )
         else:
             self.stdout.write(
-                self.style.WARNING(">>> Modelo salvo em disco, mas a instância em memória ainda não havia sido instanciada.")
+                self.style.SUCCESS(
+                    ">>> [SUCESSO COMPLETO] Retreino V4 e Gatekeeper finalizados! "
+                    "Novos artefatos e gráficos gerados prontos para as próximas inferências."
+                )
             )

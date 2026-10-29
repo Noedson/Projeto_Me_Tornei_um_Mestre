@@ -174,5 +174,9 @@ python manage.py runserver
 
 ### Para retreinar o modelo no futuro:
 ```bash
-python treinar_agente.py
+python treinar_agente_v4.py
+```
+Ou através do comando de gerenciamento do Django:
+```bash
+python manage.py retreinar_agente
 ```

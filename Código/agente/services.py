@@ -6,7 +6,7 @@ from pathlib import Path
 import threading
 from datetime import timedelta
 
-from .preprocessamento import JANELA, preprocessar, media_movel_co
+from .preprocessamento import JANELA, preprocessar, media_movel_co, DinamicaTemporal
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -60,7 +60,7 @@ class AirQualifyService:
                 print(">>> [Agente] Iniciando Hot-Reloading do Modelo...")
                 try:
                     # Passo 1: Carrega em variáveis temporárias (se falhar, não afeta o que está no ar)
-                    novo_modelo = tf.keras.models.load_model(BASE_DIR / 'modelo_iqar_v4.keras', compile=False)
+                    novo_modelo = tf.keras.models.load_model(BASE_DIR / 'modelo_iqar.keras', compile=False)
                     novo_scaler = joblib.load(BASE_DIR / 'scaler.pkl')
 
                     with open(BASE_DIR / 'config_agente.json', 'r') as f:
