@@ -1,0 +1,72 @@
+{
+	"0": {
+		"id": 0,
+		"info": {
+			"devEUI": "d3afdcdc546af01d",
+			"devAddr": "01b259c7",
+			"nwkSKey": "07357f8365a3cc50f43f622eabd78cb9",
+			"appSKey": "6b374034cd0cabc5f40c1db07b40375b",
+			"appKey": "000102030405060708090a0b0c0d0e0f",
+			"name": "Sensor_Galpao_lab",
+			"status": {
+				"mtype": "UnConfirmedDataUp",
+				"payload": ",CO_MQ135|11.73,CO2_MQ135|6.28,Alcool_MQ135|3.20,Aceton_MQ135|1.19,Toluen_MQ135|1.43,MH4_MQ135|8.58,O3_MQ131|1.07",
+				"active": true,
+				"infoUplink": {
+					"fport": 4,
+					"fcnt": 37
+				},
+				"fcntDown": 1,
+				"base64": false
+			},
+			"configuration": {
+				"region": 5,
+				"sendInterval": 10,
+				"ackTimeout": 2,
+				"range": 10000,
+				"disableFCntDown": true,
+				"supportedOtaa": true,
+				"supportedADR": false,
+				"supportedFragment": true,
+				"supportedClassB": false,
+				"supportedClassC": false,
+				"dataRate": 5,
+				"rx1DROffset": 0,
+				"nbRetransmission": 1
+			},
+			"location": {
+				"latitude": -5.33451,
+				"longitude": -49.08876,
+				"altitude": 124
+			},
+			"rxs": [
+				{
+					"delay": 1000,
+					"durationOpen": 3000,
+					"channel": {
+						"active": true,
+						"enableUplink": false,
+						"freqUplink": 926300000,
+						"freqDownlink": 926300000,
+						"minDR": 8,
+						"maxDR": 13
+					},
+					"dataRate": 13
+				},
+				{
+					"delay": 1000,
+					"durationOpen": 3000,
+					"channel": {
+						"active": true,
+						"enableUplink": false,
+						"freqUplink": 923300000,
+						"freqDownlink": 923300000,
+						"minDR": 8,
+						"maxDR": 13
+					},
+					"dataRate": 8
+				}
+			]
+		}
+	}
+}

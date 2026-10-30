@@ -1,0 +1,9 @@
+{
+    "address": "0.0.0.0",
+    "port": 8002,
+    "metricsPort": 8003,
+    "configDirname": "lwnsimulator",
+    "autoStart": true,
+    "verbose": true
+}
+

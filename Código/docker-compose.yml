@@ -126,9 +126,24 @@ services:
       DJANGO_SUPERUSER_USERNAME: admin
       DJANGO_SUPERUSER_EMAIL: admin@smartcampus.com
       DJANGO_SUPERUSER_PASSWORD: admin_password
+      APP_MODE: ${APP_MODE:-desenvolvimento}
     depends_on:
       db:
         condition: service_healthy
+
+  # 9. Simulador LoRaWAN - UniCT-ARSLab/LWN-Simulator (Painel Web na porta 8002)
+  lwn-simulator:
+    build: ./configuration/lwn-simulator
+    container_name: smart_campus_lwn_simulator
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./configuration/lwn-simulator/lwnsimulator:/app/lwnsimulator
+    depends_on:
+      - chirpstack-gateway-bridge
+      - chirpstack
+      - web
 
 volumes:
   postgres_data:

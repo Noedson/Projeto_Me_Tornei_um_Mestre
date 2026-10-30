@@ -1,6 +1,21 @@
 # Script para subir o Docker Compose e abrir as logs em abas no Windows Terminal
-$ErrorActionPreference = "Stop"
+# Uso: .\iniciar_docker.ps1 [--desenvolvimento | --produção]
+[Console]::InputEncoding  = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding           = [System.Text.Encoding]::UTF8
+$ErrorActionPreference    = "Stop"
 Set-Location $PSScriptRoot
+
+$modo = "desenvolvimento"
+$modoExibicao = "DESENVOLVIMENTO ([AVISO]: Use somente enquanto desenvolve, recomendado usar o modo PRODU$([char]0x00C7)$([char]0x00C3)O)"
+foreach ($arg in $args) {
+    switch -Regex ($arg) {
+        "^(--produ|-p|-produ)"             { $modo = "producao"; $modoExibicao = "PRODU$([char]0x00C7)$([char]0x00C3)O" }
+        "^(--desenvolvimento|-d|-desenv)"  { $modo = "desenvolvimento"; $modoExibicao = "DESENVOLVIMENTO ([AVISO]: Use somente enquanto desenvolve, recomendado usar o modo PRODU$([char]0x00C7)$([char]0x00C3)O)" }
+    }
+}
+$env:APP_MODE = $modo
+Write-Host ">>> Modo selecionado para o servidor Web: $modoExibicao" -ForegroundColor Magenta
 
 # ==============================================================================
 # PASSO 1: Detectar / Instalar Terminal capaz de abrir abas (Windows Terminal)
@@ -91,7 +106,8 @@ $servicos = @(
     @{ Container = "smart_campus_mosquitto";              Titulo = "4. Mosquitto MQTT (1883)" },
     @{ Container = "smart_campus_db";                     Titulo = "5. PostgreSQL (5432)" },
     @{ Container = "smart_campus_redis";                  Titulo = "6. Redis (6379)" },
-    @{ Container = "smart_campus_chirpstack_rest_api";    Titulo = "7. REST API (8090)" }
+    @{ Container = "smart_campus_chirpstack_rest_api";    Titulo = "7. REST API (8090)" },
+    @{ Container = "smart_campus_lwn_simulator";          Titulo = "8. LWN Simulator (8002)" }
 )
 
 $pidFile = Join-Path $PSScriptRoot ".docker_terminals.pid"
@@ -106,7 +122,7 @@ if ($caminhoWT) {
         $nome = $s.Container
         $titulo = $s.Titulo
         
-        $logCmd = "`$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; `$PID | Out-File -Append -FilePath '$pidFile'; docker logs -f $nome"
+        $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; `$PID | Out-File -Append -FilePath '$pidFile'; docker logs -f $nome"
         
         # O parâmetro -w 0 anexa novas abas na mesma janela (Janela 0)
         Start-Process $caminhoWT -ArgumentList @("-w", "0", "new-tab", "--title", $titulo, "powershell", "-NoExit", "-Command", $logCmd)
@@ -124,7 +140,7 @@ if ($caminhoWT) {
     foreach ($s in $servicos) {
         $nome = $s.Container
         $titulo = $s.Titulo
-        $logCmd = "`$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; docker logs -f $nome"
+        $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; docker logs -f $nome"
         $proc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", $logCmd
         $pids += $proc.Id
     }

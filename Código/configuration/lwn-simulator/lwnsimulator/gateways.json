@@ -1,0 +1,19 @@
+{
+	"0": {
+		"id": 0,
+		"info": {
+			"macAddress": "a84041ffff2385aa",
+			"keepAlive": 30,
+			"active": true,
+			"typeGateway": false,
+			"name": "Gateway_Campus_Sim",
+			"location": {
+				"latitude": -5.33451,
+				"longitude": -49.08876,
+				"altitude": 124
+			},
+			"ip": "",
+			"port": ""
+		}
+	}
+}

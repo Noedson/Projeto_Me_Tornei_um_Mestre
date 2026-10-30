@@ -1,4 +1,7 @@
-# Script para parar os containers do Docker Compose e fechar todos os terminais de logs abertos
+﻿# Script para parar os containers do Docker Compose e fechar todos os terminais de logs abertos
+[Console]::InputEncoding  = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding           = [System.Text.Encoding]::UTF8
 Set-Location $PSScriptRoot
 
 Write-Host ">>> Parando os containers do Docker Compose..." -ForegroundColor Cyan
@@ -32,7 +35,8 @@ $nomes = @(
     "4. Mosquitto",
     "5. PostgreSQL",
     "6. Redis",
-    "7. REST API"
+    "7. REST API",
+    "8. LWN Simulator"
 )
 
 foreach ($proc in (Get-Process powershell -ErrorAction SilentlyContinue)) {

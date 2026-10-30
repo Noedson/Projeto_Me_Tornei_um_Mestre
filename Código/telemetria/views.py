@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import json
 from django.http import JsonResponse
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from .models import SensorNode, AgentAlert, AirReading, AgentPrediction
 from agente.services import AirQualifyService
@@ -10,14 +11,20 @@ def chirpstack_webhook(request):
     if request.method != "POST":
         return JsonResponse({"error": f"O metodo {request.method} não é permitido"}, status=405)
 
+    # Ignora eventos do ChirpStack que não sejam uplink de dados (ex: join, status, ack, log)
+    evento = request.GET.get("event")
+    if evento and evento != "up":
+        print(f">>> [Webhook ChirpStack] Evento '{evento}' recebido e confirmado (200 OK).")
+        return JsonResponse({"status": "evento_ignorado", "event": evento}, status=200)
+
     try:
         data = json.loads(request.body)
 
         #Passo numero 1: Extrai o identificados do sensor do chirpstack
         device_info = data.get("deviceInfo",{})
         dev_eui = device_info.get("devEui") or data.get("devEui")
-        device_name = device_info.get("devicename", "Sensor_Galpao_lab")
-        time_str = data.get("time")
+        device_name = device_info.get("deviceName") or device_info.get("devicename") or "Sensor_Galpao_lab"
+        time_str = data.get("time") or timezone.now()
         obj = data.get("object", {})
 
         if not dev_eui or not obj:
@@ -46,6 +53,7 @@ def chirpstack_webhook(request):
             toluen_mq135=float(obj.get("Toluen_MQ135", 0.0)),
             o3_mq131=float(obj.get("O3_MQ131", 0.0))
         )
+        print(f">>> [Webhook] Leitura salva no PostgreSQL! Sensor={device_name} ({dev_eui}) | CO={co} | CO2={obj.get('CO2_MQ135')} | O3={obj.get('O3_MQ131')}")
 
         #Passo numero 4: Aciona o Agente Inteligente com as ultimas leituras (janela de 30 + confirmação)
         ultimas_leituras = list(AirReading.objects.filter(sensor=sensor).order_by('-timestamp')[:40])
