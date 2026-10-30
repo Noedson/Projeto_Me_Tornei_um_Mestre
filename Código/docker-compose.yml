@@ -127,12 +127,16 @@ services:
       DJANGO_SUPERUSER_EMAIL: admin@smartcampus.com
       DJANGO_SUPERUSER_PASSWORD: admin_password
       APP_MODE: ${APP_MODE:-desenvolvimento}
+      APP_TESTE: ${APP_TESTE:-0}
     depends_on:
       db:
         condition: service_healthy
 
   # 9. Simulador LoRaWAN - UniCT-ARSLab/LWN-Simulator (Painel Web na porta 8002)
+  # Sobe somente no modo de desenvolvimento e teste (.\iniciar_docker.ps1 -d -t)
   lwn-simulator:
+    profiles:
+      - teste
     build: ./configuration/lwn-simulator
     container_name: smart_campus_lwn_simulator
     restart: unless-stopped

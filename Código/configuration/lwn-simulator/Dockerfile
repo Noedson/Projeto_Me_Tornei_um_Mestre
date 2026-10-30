@@ -12,6 +12,9 @@ RUN sed -i 's/EnableUplink:      group.EnableUplink,/EnableUplink:      group.En
     sed -i 's/newIndexChannel := indexChannel % 8/newIndexChannel := 72 + (indexChannel % 8)/g' simulator/components/device/regional_parameters/au915_928.go && \
     sed -i 's/datarate, indexChannelUp = d.Info.Configuration.Region.SetupInfoRequest(int(d.Info.Status.IndexchannelActive))/datarate, indexChannelUp = d.Info.Configuration.Region.SetupInfoRequest(int(d.Info.Status.IndexchannelActive)); d.Info.Status.IndexchannelActive = uint16(indexChannelUp)/g' simulator/components/device/createRXPK.go
 
+# Sobrescreve os componentes do simulador com a simulação dinâmica do event_up (Boa <-> Moderada <-> Ruim) e painel de controle IQAr
+COPY overrides/ /src/
+
 RUN go install github.com/rakyll/statik@latest && \
     go mod download && \
     cd webserver && statik -f -src=public && cd .. && \

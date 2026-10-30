@@ -1,4 +1,5 @@
 import json
+import os
 import joblib
 import numpy as np
 import tensorflow as tf
@@ -105,21 +106,30 @@ class AirQualifyService:
 
         # Calcula a média móvel de 8h do CO. Precisamos buscar o histórico de 8h.
         ultimo_ts = tempos[-1]
-        oito_horas_atras = ultimo_ts - timedelta(hours=8)
-        
-        # Otimização: buscar apenas tempos e CO das últimas 8 horas
-        leituras_8h = AirReading.objects.filter(
-            sensor=sensor, 
-            timestamp__gte=oito_horas_atras,
-            timestamp__lte=ultimo_ts
-        ).order_by('timestamp').values_list('timestamp', 'co_mq135')
-        
-        tempos_8h = [r[0] for r in leituras_8h]
-        co_8h = [r[1] for r in leituras_8h]
-        
-        media_co_total = media_movel_co(tempos_8h, co_8h, self.clip_max[0])
-        # Precisamos apenas das médias correspondentes às leituras 'usadas'
-        media_co_usadas = media_co_total[-len(usadas):]
+        dt_mediano = float(np.median(dts)) if dts else 30.0
+        modo_teste = os.environ.get("APP_TESTE") == "1" or dt_mediano <= 20.0
+
+        if modo_teste:
+            # Em modo de simulação acelerada (ex: LWN-Simulator a cada 10s), calcula a média
+            # móvel na escala da janela atual para permitir transições rápidas Boa <-> Moderada <-> Ruim.
+            co_janela = [r.co_mq135 for r in usadas]
+            media_co_usadas = media_movel_co(tempos, co_janela, self.clip_max[0])
+        else:
+            oito_horas_atras = ultimo_ts - timedelta(hours=8)
+            
+            # Otimização: buscar apenas tempos e CO das últimas 8 horas
+            leituras_8h = AirReading.objects.filter(
+                sensor=sensor, 
+                timestamp__gte=oito_horas_atras,
+                timestamp__lte=ultimo_ts
+            ).order_by('timestamp').values_list('timestamp', 'co_mq135')
+            
+            tempos_8h = [r[0] for r in leituras_8h]
+            co_8h = [r[1] for r in leituras_8h]
+            
+            media_co_total = media_movel_co(tempos_8h, co_8h, self.clip_max[0])
+            # Precisamos apenas das médias correspondentes às leituras 'usadas'
+            media_co_usadas = media_co_total[-len(usadas):]
 
         # 2. Converte em matriz, normaliza e monta as janelas deslizantes
         matriz_gases = np.array([[

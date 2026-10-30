@@ -3,25 +3,25 @@
 		"id": 0,
 		"info": {
 			"devEUI": "d3afdcdc546af01d",
-			"devAddr": "01b259c7",
-			"nwkSKey": "07357f8365a3cc50f43f622eabd78cb9",
-			"appSKey": "6b374034cd0cabc5f40c1db07b40375b",
+			"devAddr": "00000000",
+			"nwkSKey": "00000000000000000000000000000000",
+			"appSKey": "00000000000000000000000000000000",
 			"appKey": "000102030405060708090a0b0c0d0e0f",
 			"name": "Sensor_Galpao_lab",
 			"status": {
-				"mtype": "UnConfirmedDataUp",
-				"payload": ",CO_MQ135|11.73,CO2_MQ135|6.28,Alcool_MQ135|3.20,Aceton_MQ135|1.19,Toluen_MQ135|1.43,MH4_MQ135|8.58,O3_MQ131|1.07",
+				"mtype": "ConfirmedDataUp",
+				"payload": ",CO_MQ135|1.83,CO2_MQ135|1.63,Alcool_MQ135|0.71,Aceton_MQ135|0.24,Toluen_MQ135|0.28,MH4_MQ135|2.67,O3_MQ131|0.77",
 				"active": true,
 				"infoUplink": {
 					"fport": 4,
 					"fcnt": 37
 				},
-				"fcntDown": 1,
+				"fcntDown": 0,
 				"base64": false
 			},
 			"configuration": {
 				"region": 5,
-				"sendInterval": 10,
+				"sendInterval": 5,
 				"ackTimeout": 2,
 				"range": 10000,
 				"disableFCntDown": true,
@@ -44,14 +44,14 @@
 					"delay": 1000,
 					"durationOpen": 3000,
 					"channel": {
-						"active": true,
+						"active": false,
 						"enableUplink": false,
-						"freqUplink": 926300000,
-						"freqDownlink": 926300000,
-						"minDR": 8,
-						"maxDR": 13
+						"freqUplink": 0,
+						"freqDownlink": 0,
+						"minDR": 0,
+						"maxDR": 0
 					},
-					"dataRate": 13
+					"dataRate": 0
 				},
 				{
 					"delay": 1000,
@@ -59,10 +59,10 @@
 					"channel": {
 						"active": true,
 						"enableUplink": false,
-						"freqUplink": 923300000,
+						"freqUplink": 0,
 						"freqDownlink": 923300000,
-						"minDR": 8,
-						"maxDR": 13
+						"minDR": 0,
+						"maxDR": 0
 					},
 					"dataRate": 8
 				}

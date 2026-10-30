@@ -1,11 +1,11 @@
-﻿# Script para parar os containers do Docker Compose e fechar todos os terminais de logs abertos
+# Script para parar os containers do Docker Compose e fechar todos os terminais de logs abertos
 [Console]::InputEncoding  = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding           = [System.Text.Encoding]::UTF8
 Set-Location $PSScriptRoot
 
 Write-Host ">>> Parando os containers do Docker Compose..." -ForegroundColor Cyan
-docker compose down
+docker compose --profile teste down
 
 Write-Host ">>> Fechando as janelas de terminais dos serviços..." -ForegroundColor Yellow
 

@@ -61,21 +61,32 @@ def chirpstack_webhook(request):
         resultado = agente.avaliar_janela(sensor, ultimas_leituras)
 
         if resultado:
+            probs = resultado.get("probabilidades", {})
+            prev_co = resultado["previsao"].get("CO_MQ135", 0.0)
+            print(
+                f">>> [Agente IA] IQAr Previsto (15m): {resultado['classe']} "
+                f"(Boa={probs.get('Boa', 0):.0%}, Mod={probs.get('Moderada', 0):.0%}, Ruim={probs.get('Ruim', 0):.0%}) | "
+                f"CO Previsto={prev_co:.2f} ppm | Erro Rec={resultado['erro_reconstrucao']:.4f} | "
+                f"Anomalia={resultado['anomalia']}"
+            )
             AgentPrediction.objects.create(
                 sensor=sensor,
                 anomalia=resultado["anomalia"],
                 erro_reconstrucao=resultado["erro_reconstrucao"],
                 classe_iqar=resultado["classe"],
-                previsao_co=resultado["previsao"].get("CO_MQ135")
+                previsao_co=prev_co
             )
             
             alerta = resultado.get("alerta")
             if alerta:
+                print(f">>> [ALERTA AGENTE IA] [{alerta['tipo']}] {alerta['mensagem']}")
                 AgentAlert.objects.create(
                     sensor=sensor,
                     tipo=alerta["tipo"],
                     mensagem=alerta["mensagem"]
                 )
+        else:
+            print(f">>> [Agente IA] Coletando janela inicial de leituras ({len(ultimas_leituras)}/32)...")
         return JsonResponse({"status": "sucesso", "sensor": dev_eui}, status=200)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=400)

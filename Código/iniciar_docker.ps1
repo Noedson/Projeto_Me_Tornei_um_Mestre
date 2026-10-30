@@ -1,5 +1,5 @@
 # Script para subir o Docker Compose e abrir as logs em abas no Windows Terminal
-# Uso: .\iniciar_docker.ps1 [--desenvolvimento | --produção]
+# Uso: .\iniciar_docker.ps1 [-d [-t] | -p]
 [Console]::InputEncoding  = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding           = [System.Text.Encoding]::UTF8
@@ -7,15 +7,31 @@ $ErrorActionPreference    = "Stop"
 Set-Location $PSScriptRoot
 
 $modo = "desenvolvimento"
+$teste = $false
 $modoExibicao = "DESENVOLVIMENTO ([AVISO]: Use somente enquanto desenvolve, recomendado usar o modo PRODU$([char]0x00C7)$([char]0x00C3)O)"
 foreach ($arg in $args) {
     switch -Regex ($arg) {
         "^(--produ|-p|-produ)"             { $modo = "producao"; $modoExibicao = "PRODU$([char]0x00C7)$([char]0x00C3)O" }
         "^(--desenvolvimento|-d|-desenv)"  { $modo = "desenvolvimento"; $modoExibicao = "DESENVOLVIMENTO ([AVISO]: Use somente enquanto desenvolve, recomendado usar o modo PRODU$([char]0x00C7)$([char]0x00C3)O)" }
+        "^(--teste|-t|-teste|--test)"      { $teste = $true }
     }
 }
+
+# O LWN-Simulator só sobe no modo de desenvolvimento E teste (-d -t).
+# Não sobe quando ficar somente -d e não sobe no modo produção (-p).
+$iniciarLwn = ($modo -eq "desenvolvimento") -and $teste
+
 $env:APP_MODE = $modo
+$env:APP_TESTE = if ($iniciarLwn) { "1" } else { "0" }
+
 Write-Host ">>> Modo selecionado para o servidor Web: $modoExibicao" -ForegroundColor Magenta
+if ($iniciarLwn) {
+    Write-Host ">>> Modo de TESTE (-t) ATIVO: O LWN-Simulator será iniciado (simulação dinâmica do event_up: Boa <-> Moderada <-> Ruim)." -ForegroundColor Green
+} elseif ($modo -eq "producao" -and $teste) {
+    Write-Host ">>> [AVISO] A flag -t foi ignorada porque o modo PRODUÇÃO (-p) está ativo. O LWN-Simulator NÃO será iniciado." -ForegroundColor Yellow
+} else {
+    Write-Host ">>> LWN-Simulator DESATIVADO (para iniciar o simulador em desenvolvimento, execute: .\iniciar_docker.ps1 -d -t)." -ForegroundColor DarkYellow
+}
 
 # ==============================================================================
 # PASSO 1: Detectar / Instalar Terminal capaz de abrir abas (Windows Terminal)
@@ -92,9 +108,25 @@ $caminhoWT = Garantir-TerminalAbas
 # ==============================================================================
 # PASSO 2: Construir e iniciar os containers (instalação de pacotes Python, etc.)
 # ==============================================================================
+# Garante que o entrypoint.sh sempre esteja com quebras de linha LF (Linux) antes de montar no container
+$entrypointPath = Join-Path $PSScriptRoot "entrypoint.sh"
+if (Test-Path $entrypointPath) {
+    $bytes = [System.IO.File]::ReadAllBytes($entrypointPath)
+    $textoLF = [System.Text.Encoding]::UTF8.GetString($bytes) -replace "`r`n", "`n"
+    [System.IO.File]::WriteAllText($entrypointPath, $textoLF, (New-Object System.Text.UTF8Encoding($false)))
+}
+
 Write-Host "`n>>> [2/3] Construindo e iniciando os containers com Docker Compose..." -ForegroundColor Cyan
 Write-Host "    (Isso pode levar alguns minutos caso precise instalar os pacotes Python no Docker)" -ForegroundColor Gray
-docker compose up -d --build
+if ($iniciarLwn) {
+    docker compose --profile teste up -d --build
+} else {
+    # Garante que o LWN-Simulator seja parado/removido caso estivesse rodando de uma execução anterior
+    $ErrorActionPreference = "Continue"
+    docker rm -f smart_campus_lwn_simulator 2>$null | Out-Null
+    $ErrorActionPreference = "Stop"
+    docker compose up -d --build
+}
 
 # ==============================================================================
 # PASSO 3: Abrir logs dos serviços em abas no Windows Terminal (ou janelas normais)
@@ -106,9 +138,11 @@ $servicos = @(
     @{ Container = "smart_campus_mosquitto";              Titulo = "4. Mosquitto MQTT (1883)" },
     @{ Container = "smart_campus_db";                     Titulo = "5. PostgreSQL (5432)" },
     @{ Container = "smart_campus_redis";                  Titulo = "6. Redis (6379)" },
-    @{ Container = "smart_campus_chirpstack_rest_api";    Titulo = "7. REST API (8090)" },
-    @{ Container = "smart_campus_lwn_simulator";          Titulo = "8. LWN Simulator (8002)" }
+    @{ Container = "smart_campus_chirpstack_rest_api";    Titulo = "7. REST API (8090)" }
 )
+if ($iniciarLwn) {
+    $servicos += @{ Container = "smart_campus_lwn_simulator"; Titulo = "8. LWN Simulator (8002)" }
+}
 
 $pidFile = Join-Path $PSScriptRoot ".docker_terminals.pid"
 if (Test-Path $pidFile) { Remove-Item $pidFile -Force -ErrorAction SilentlyContinue }
