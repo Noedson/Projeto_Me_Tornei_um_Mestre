@@ -1,0 +1,10 @@
+# Node-RED runtime files (mantem apenas flows.json)
+nodered_data/.config*
+nodered_data/.flows*.backup
+nodered_data/node_modules/
+nodered_data/lib/
+nodered_data/package*.json
+
+# Arquivos pesados / temporarios de execucao
+nodered-image.zip
+.docker_terminals.pid
