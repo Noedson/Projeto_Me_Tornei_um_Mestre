@@ -2,16 +2,16 @@
   "latex-workshop.linting.chktex.enabled": false,
   "latex-workshop.linting.lacheck.enabled": false,
   "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.autoClean.run": "always",
+  "latex-workshop.latex.clean.method": "glob",
   "latex-workshop.message.error.show": false,
   "latex-workshop.message.warning.show": false,
   "latex-workshop.latex.recipes": [
     {
-      "name": "pdflatex + bibtex + pdflatex*2",
+      "name": "pdflatex (limpar temporarios)",
       "tools": [
         "pdflatex",
-        "bibtex",
-        "pdflatex",
-        "pdflatex"
+        "limpar_temp"
       ]
     }
   ],
@@ -20,17 +20,18 @@
       "name": "pdflatex",
       "command": "pdflatex",
       "args": [
-        "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
         "%DOCFILE%"
       ]
     },
     {
-      "name": "bibtex",
-      "command": "bibtex",
+      "name": "limpar_temp",
+      "command": "powershell",
       "args": [
-        "%DOCFILE_EXT%"
+        "-NoProfile",
+        "-Command",
+        "Remove-Item -Path '%DIR%\\*' -Include *.aux,*.bbl,*.blg,*.idx,*.ind,*.lof,*.lot,*.out,*.toc,*.acn,*.acr,*.alg,*.glg,*.glo,*.gls,*.fls,*.log,*.fdb_latexmk,*.snm,*.nav,*.loq,*.synctex.gz,*.brf -Force -ErrorAction SilentlyContinue"
       ]
     }
   ],
@@ -57,6 +58,8 @@
     "*.fdb_latexmk",
     "*.snm",
     "*.nav",
+    "*.loq",
+    "*.brf",
     "*.synctex.gz"
   ]
 }

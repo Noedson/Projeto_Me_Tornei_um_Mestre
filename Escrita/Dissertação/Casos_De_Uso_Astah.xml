@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.1" xmlns:UML="org.omg.xmi.namespace.UML">
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Antigravity UML Generator for Astah</XMI.exporter>
+      <XMI.exporterVersion>1.0</XMI.exporterVersion>
+    </XMI.documentation>
+    <XMI.metamodel xmi.name="UML" xmi.version="1.4"/>
+  </XMI.header>
+  <XMI.content>
+    <UML:Model xmi.id="model_iqarmobi" name="Sistema IQArMobi" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+      <UML:Namespace.ownedElement>
+        <!-- Atores -->
+        <UML:Actor xmi.id="actor_chirpstack" name="Servidor de Rede ChirpStack" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:Actor xmi.id="actor_gestor" name="Gestor Ambiental / Usuário" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:Actor xmi.id="actor_admin" name="Administrador de Sistema / MLOps" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+
+        <!-- Casos de Uso -->
+        <UML:UseCase xmi.id="uc_01" name="Receber Telemetria Ambiental via Webhook" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_02" name="Executar Inferência Multi-Task de Qualidade do Ar" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:UseCase.extensionPoint>
+            <UML:ExtensionPoint xmi.id="ep_anomalia" name="Anomalia ou Violação CONAMA/EPA Detectada" visibility="public" isSpecification="false" location="Pós-Inferência"/>
+          </UML:UseCase.extensionPoint>
+        </UML:UseCase>
+        <UML:UseCase xmi.id="uc_03" name="Emitir Alerta de Anomalia ou Violação Normativa" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_04" name="Consultar Séries Históricas e Previsões" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_05" name="Gerenciar Alertas Ativos" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_06" name="Atualizar Modelo Neural em Tempo de Execução (Hot-Reloading)" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_07" name="Gerenciar Nós Sensores (SensorNodes)" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+
+        <!-- Relacionamentos Include e Extend -->
+        <UML:Include xmi.id="inc_01_02" visibility="public" isSpecification="false" base="uc_01" addition="uc_02"/>
+        <UML:Extend xmi.id="ext_03_02" visibility="public" isSpecification="false" base="uc_02" extension="uc_03">
+          <UML:Extend.extensionPoint>
+            <UML:ExtensionPoint xmi.idref="ep_anomalia"/>
+          </UML:Extend.extensionPoint>
+        </UML:Extend>
+
+        <!-- Associações Atores -> Casos de Uso -->
+        <UML:Association xmi.id="assoc_cs_uc01" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_cs_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_chirpstack"/>
+            <UML:AssociationEnd xmi.id="end_cs_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_01"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <UML:Association xmi.id="assoc_gestor_uc04" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_g4_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_gestor"/>
+            <UML:AssociationEnd xmi.id="end_g4_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_04"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <UML:Association xmi.id="assoc_gestor_uc05" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_g5_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_gestor"/>
+            <UML:AssociationEnd xmi.id="end_g5_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_05"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <UML:Association xmi.id="assoc_admin_uc06" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_a6_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_admin"/>
+            <UML:AssociationEnd xmi.id="end_a6_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_06"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <UML:Association xmi.id="assoc_admin_uc07" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_a7_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_admin"/>
+            <UML:AssociationEnd xmi.id="end_a7_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_07"/>
+          </UML:Association.connection>
+        </UML:Association>
+      </UML:Namespace.ownedElement>
+    </UML:Model>
+  </XMI.content>
+</XMI>
+
