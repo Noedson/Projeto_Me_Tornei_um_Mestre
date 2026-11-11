@@ -1,20 +1,50 @@
-% ------------------------------------------------------------------------
-% Documento Textual de Uma Página: Descrição Geral da Nova Arquitetura
-% Enfoque em Engenharia de Software (Compatível com abnTeX2)
-% ------------------------------------------------------------------------
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{microtype}
+\usepackage{enumitem}
 
-\section{Arquitetura de Software e Projeto do Sistema}
+% Margens e espaçamento calibrados para preencher exatamente 1 página A4
+\geometry{a4paper, left=2.2cm, right=2cm, top=1.4cm, bottom=1.4cm}
+\setlength{\parindent}{1.0cm}
+\setlength{\parskip}{0.03cm}
 
-Sob a perspectiva da Engenharia de Software, a transição da arquitetura legada do ecossistema \emph{IQArMobi} para a nova arquitetura proposta caracteriza uma refatoração estrutural voltada à eliminação de complexidade acidental, redução de acoplamento e consolidação de serviços. A versão predecessora baseava-se em uma topologia distribuída heterogênea composta por onze containers (incluindo roteamento em \emph{Node-RED}, um serviço \emph{proxy} intermediário em \emph{Node.js/TypeScript}, os componentes \emph{Orion Context Broker}, \emph{IoT-Agent} e \emph{Cygnus} da plataforma FIWARE, além de persistência poliglota redundante em PostgreSQL e MongoDB). Esse encadeamento introduzia múltiplos pontos únicos de falha (\emph{Single Points of Failure}), sobrecarga de serialização HTTP/JSON entre \emph{middlewares} e elevado consumo de memória sem agregar regras de negócio preditivas. Na nova arquitetura, esses intermediários foram substituídos por um \textbf{Monólito Modular Orientado a Eventos} desenvolvido sobre o \emph{framework} \emph{Django} (Python), reduzindo a cadeia de ingestão para uma integração direta via \emph{Webhook} e unificando a persistência em uma única instância relacional \emph{PostgreSQL 16}.
+\begin{document}
+\pagestyle{empty}
+\setstretch{0.90}
 
-O fluxo de integração adota o estilo arquitetural \textbf{Orientado a Eventos (\emph{Event-Driven Architecture} --- EDA)} combinado ao padrão de transformação de dados na borda de rede. Os quadros de telemetria emitidos pelos nós sensores LoRaWAN (ou injetados pelo ambiente de testes de integração \emph{LWN-Simulator}) trafegam via UDP Semtech até o \emph{ChirpStack Gateway Bridge}, que atua como adaptador de protocolo para o barramento \emph{publish/subscribe} \emph{MQTT (Eclipse Mosquitto)}. No servidor de rede \emph{ChirpStack v4} --- apoiado pelo banco em memória \emph{Redis 7} para gestão de estado de sessão ---, um \emph{Codec JavaScript} encapsulado no perfil do dispositivo deserializa a carga útil bruta e estrutura um \emph{Data Transfer Object (DTO)} em formato JSON. Subsequentemente, mediante um \emph{Webhook HTTP} assíncrono (\texttt{POST /api/chirpstack/webhook/?event=up}), o \emph{ChirpStack} aciona diretamente o controlador do \emph{Django}, que realiza a filtragem idempotente de eventos de controle de rede antes de invocar a camada de domínio.
+\begin{center}
+    {\large\bfseries CONTEXTO GERAL E FUNCIONAMENTO DO SISTEMA DE MONITORAMENTO INTELIGENTE DA QUALIDADE DO AR (IQArMobi)}\\[0.12cm]
+    {\small\textbf{Autor:} Noedson Romario Vieira da Silva \quad|\quad \textbf{PPGCA -- NDAE/UFPA}}
+    \vspace{0.06cm}
+    \hrule
+\end{center}
 
-Internamente, a aplicação \emph{backend} foi estruturada segundo os princípios de \textbf{Separação de Responsabilidades (\emph{Separation of Concerns})} e \textbf{Alta Coesão}, organizando-se em dois contextos delimitados (\emph{Bounded Contexts}): (i) o módulo \texttt{telemetria}, responsável pelos controladores de ingestão, exposição de interfaces analíticas e Mapeamento Objeto-Relacional (\textbf{ORM}) das entidades de domínio (\texttt{SensorNode}, \texttt{AirReading}, \texttt{AgentPrediction} e \texttt{AgentAlert}), utilizando indexação em árvore B (\texttt{db\_index=True}) sob o atributo temporal para otimizar consultas de séries históricas; e (ii) o módulo \texttt{agente}, que encapsula a inteligência de negócio na classe de serviço \texttt{AirQualifyService}. Para atender a requisitos não funcionais estritos de latência, concorrência e disponibilidade, o serviço implementa quatro padrões de projeto:
-\begin{enumerate}
-    \item \textbf{\emph{Singleton Thread-Safe} com Exclusão Mútua (\texttt{threading.Lock}):} assegura que o grafo computacional do \emph{TensorFlow/Keras} e os transformadores de normalização (\texttt{scikit-learn}) sejam instanciados uma única vez em memória RAM, prevenindo contenção de recursos e sobrecarga de E/S a cada requisição;
-    \item \textbf{\emph{Hot-Reloading} Atômico (\emph{Zero-Downtime Update}):} permite a substituição em tempo de execução dos artefatos do modelo neural mediante carregamento prévio em variáveis isoladas e troca atômica de ponteiros em memória sob \emph{lock}, preservando a instância anterior em caso de exceção (\emph{graceful fallback});
-    \item \textbf{Inferência \emph{Multi-Task} Unificada:} consolida três saídas analíticas (reconstrução via \emph{Autoencoder}, regressão preditiva de 15 minutos e classificação normativa CONAMA/EPA) em uma única chamada ao grafo computacional, reduzindo em dois terços o custo computacional de inferência;
-    \item \textbf{\emph{Notification Throttling} (\emph{Cooldown} de Estado):} controla a emissão de alertas verificando registros não resolvidos nos últimos 15 minutos, garantindo idempotência semântica e prevenindo tempestades de notificações (\emph{alert storms}).
+\vspace{0.06cm}
+
+\noindent\textbf{1. Propósito Geral (O que o sistema faz e qual problema resolve):}
+O sistema desenvolvido é uma plataforma autônoma de ponta a ponta (Borda-Nuvem) voltada ao \textbf{monitoramento contínuo, previsão temporal e diagnóstico inteligente da qualidade do ar} em ambientes internos (como laboratórios e salas de aula) e externos de um \emph{Smart Campus} na região amazônica. Diferentemente das soluções convencionais de Internet das Coisas (IoT) --- que operam de maneira puramente passiva, limitando-se a coletar medições e exibi-las em painéis estáticos após o ambiente já se encontrar poluído ---, este sistema atua como um \textbf{Agente Inteligente Proativo}. Sua função primordial é proteger a saúde dos ocupantes do campus antecipando episódios críticos de contaminação atmosférica com \textbf{15 minutos de antecedência}, ao mesmo tempo em que audita automaticamente a integridade física dos próprios sensores instalados em campo.
+
+\noindent\textbf{2. Coleta e Transmissão de Dados Ambientais em Tempo Real:}
+Na prática, o sistema monitora continuamente \textbf{sete compostos gasosos} por meio de estações sensoras de baixo custo equipadas com os sensores semicondutores \emph{MQ-135} e \emph{MQ-131}, aferindo as concentrações de \textbf{monóxido de carbono (CO), dióxido de carbono (CO\textsubscript{2}), amônia (NH\textsubscript{4}), álcool, acetona, tolueno e ozônio (O\textsubscript{3})}. Cada estação física baseia-se no microcontrolador \emph{Heltec WiFi LoRa 32 v2} gerenciado pelo sistema operacional de tempo real \emph{FreeRTOS}, garantindo leituras periódicas determinísticas sem perda de pacotes. Para vencer grandes distâncias no campus universitário com baixo consumo de energia e sem depender de cobertura Wi-Fi local, as estações transmitem os pacotes via rádio \textbf{LoRaWAN} (padrão brasileiro \texttt{AU915\_0}) até um \emph{gateway} central --- contando também com um modo de simulação integrado (\emph{LWN-Simulator}) que emula estações virtuais para validação completa antes da implantação física.
+
+\noindent\textbf{3. Recepção, Adequação à Norma Ambiental e Armazenamento Centralizado:}
+Ao chegarem ao servidor de rede \textbf{ChirpStack v4}, os pacotes LoRaWAN são autenticados, decodificados automaticamente em valores numéricos de concentração (ppm) e enviados diretamente à plataforma web central desenvolvida em \textbf{Python/Django}. O sistema armazena cada leitura no banco de dados relacional \textbf{PostgreSQL}, vinculando-a à identificação única da estação (\texttt{DevEUI}), sua localização e o instante exato da coleta. Em seguida, o sistema realiza o processamento científico dos sinais: agrega as leituras em médias de \textbf{1 minuto} (eliminando ruídos elétricos de alta frequência típicos de sensores de baixo custo), organiza uma janela histórica recente de \textbf{30 minutos} e calcula a \textbf{média móvel das últimas 8 horas de monóxido de carbono (CO)}, cumprindo estritamente o critério oficial da legislação ambiental brasileira (\textbf{Resolução CONAMA nº 491/2018}) e da agência norte-americana \textbf{US-EPA}.
+
+\noindent\textbf{4. Inteligência Artificial Embarcada (As Três Entregas do Agente Inteligente):}
+A cada nova leitura recebida, o \textbf{Agente Inteligente} integrado ao servidor (baseado em uma Rede Neural Recorrente \emph{Bidirectional LSTM Multi-Task} em \emph{TensorFlow/Keras}) analisa o comportamento temporal dos gases e executa simultaneamente \textbf{três ações autônomas}:
+\begin{enumerate}[nosep, leftmargin=1.4cm]
+    \item \textbf{Previsão Futura de Poluentes (\emph{Forecasting} de 15 minutos):} estima quantitativamente qual será a concentração de cada um dos sete gases \textbf{15 minutos à frente}, permitindo identificar tendências de elevação brusca antes que limites nocivos à saúde sejam atingidos;
+    \item \textbf{Classificação Preventiva do Índice de Qualidade do Ar (IQAr):} enquadra a condição futura do ar (em 15 minutos) nas classes normativas \textbf{Boa} ($< 4{,}5\textrm{ ppm}$), \textbf{Moderada} ($4{,}5\textrm{ a }9{,}5\textrm{ ppm}$) ou \textbf{Ruim} ($\ge 9{,}5\textrm{ ppm}$), emitindo avisos preventivos antecipados para tomada de decisão e ventilação ou evacuação do local;
+    \item \textbf{Autodiagnóstico de Falhas e Anomalias nos Sensores:} verifica a confiabilidade dos próprios equipamentos combinando um \emph{Autoencoder} neural (que detecta picos elétricos espúrios e perda gradual de calibração) com um monitor estatístico de variância temporal ($\sigma < \epsilon$) que detecta imediatamente se um sensor \textbf{travou ou congelou} enviando valores constantes repetidos, impedindo que falhas eletrônicas gerem falsos alertas ambientais.
 \end{enumerate}
 
-Por fim, os requisitos de \textbf{reprodutibilidade, testabilidade e operação contínua (DevOps)} são atendidos via \textbf{Infraestrutura como Código (IaC)} com \emph{Docker Compose}, empregando verificações ativas de saúde (\emph{healthchecks}) e orquestração determinística de dependências. O sistema implementa \textbf{Provisionamento \emph{Zero-Touch}} no processo de inicialização (\texttt{entrypoint.sh} e \texttt{garantir\_chirpstack.py}), populando de forma automatizada e idempotente esquemas de banco de dados, superusuários, chaves criptográficas OTAA, perfis de rádio \texttt{AU915\_0} e rotas de integração, além de suportar perfis parametrizados de execução para desenvolvimento, simulação ponta a ponta e produção otimizada (\texttt{--noreload}).
+\noindent\textbf{5. Emissão Inteligente de Alertas e Suporte à Decisão:}
+Por fim, todas as medições atuais, projeções futuras de 15 minutos, probabilidades de risco do IQAr e diagnósticos de saúde dos sensores são registrados e exibidos em tempo real em painéis analíticos e APIs web. Quando o Agente detecta uma falha física no sensor ou prevê qualidade do ar ``Ruim'', ele dispara automaticamente um \textbf{alerta estruturado} --- regulado por um intervalo inteligente de segurança (\emph{cooldown} de 15 minutos) para evitar alertas duplicados ---, entregando ao campus um sistema completo, preventivo e autônomo de gestão da qualidade do ar.
+
+\end{document}

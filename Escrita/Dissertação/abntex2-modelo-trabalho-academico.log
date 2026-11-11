@@ -1,42 +1,49 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.7.30)  30 SEP 2026 18:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.2) (preloaded format=pdflatex 2026.9.30)  9 NOV 2026 16:54
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
 **./abntex2-modelo-trabalho-academico.tex
 (abntex2-modelo-trabalho-academico.tex
-LaTeX2e <2026-06-01>
-L3 programming layer <2026-06-18>
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
 (abntex2.cls
 Document Class: abntex2 <CURRENT_DATE> v<VERSION> abnTeX2
 (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/memoir\memoir.cls
-Document Class: memoir 2025/11/04 v3.8.4b configurable book, report, article document class
-(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/xpatch\xpatch.sty (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
-Package: expl3 2026-06-18 L3 programming layer (loader) 
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
-File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count276
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/memoir\memoir.cls
+Document Class: memoir 2025/11/04 v3.8.4b configurable book, report, article do
+cument class
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/xpatch\xpatch.sty
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+Package: expl3 2026-01-19 L3 programming layer (loader) 
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-p
+dftex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count275
 ))
 Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xparse.sty
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpa
+rse.sty
 Package: xparse 2025-10-09 L3 Experimental document command parser
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
 Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count277
+\etb@tempcnta=\count276
 ))
 \onelineskip=\skip49
 \lxvchars=\skip50
 \xlvchars=\skip51
-\@memcnta=\count278
-\c@@memmarkcntra=\count279
+\@memcnta=\count277
+\c@@memmarkcntra=\count278
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
 Package: iftex 2024/12/12 v1.0g TeX engine tests
 )
 \trimtop=\skip52
 \trimedge=\skip53
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/memoir\mem12.clo
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/memoir\mem12.clo
 File: mem12.clo 2022/07/29 v0.5 memoir class 12pt size option
 )
 \binding=\skip54
@@ -49,20 +56,20 @@ File: mem12.clo 2022/07/29 v0.5 memoir class 12pt size option
 \mem@maxheadheight=\skip61
 \mem@maxfootheight=\skip62
 \headwidth=\skip63
-\c@storedpagenumber=\count280
-\memPD=\dimen150
+\c@storedpagenumber=\count279
+\memPD=\dimen148
 \m@mabparskip=\skip64
 \thanksmarkwidth=\skip65
 \thanksmarksep=\skip66
 \droptitle=\skip67
-\c@book=\count281
-\c@part=\count282
-\c@chapter=\count283
-\c@section=\count284
-\c@subsection=\count285
-\c@subsubsection=\count286
-\c@paragraph=\count287
-\c@subparagraph=\count288
+\c@book=\count280
+\c@part=\count281
+\c@chapter=\count282
+\c@section=\count283
+\c@subsection=\count284
+\c@subsubsection=\count285
+\c@paragraph=\count286
+\c@subparagraph=\count287
 \beforechapskip=\skip68
 \midchapskip=\skip69
 \afterchapskip=\skip70
@@ -84,10 +91,10 @@ File: mem12.clo 2022/07/29 v0.5 memoir class 12pt size option
 \beforesubparaskip=\skip86
 \aftersubparaskip=\skip87
 \pfbreakskip=\skip88
-\c@@ppsavesec=\count289
-\c@@ppsaveapp=\count290
-\ragrparindent=\dimen151
-\everylistparindent=\dimen152
+\c@@ppsavesec=\count288
+\c@@ppsaveapp=\count289
+\ragrparindent=\dimen149
+\everylistparindent=\dimen150
 \parsepi=\skip89
 \topsepi=\skip90
 \itemsepi=\skip91
@@ -103,80 +110,85 @@ File: mem12.clo 2022/07/29 v0.5 memoir class 12pt size option
 \@enLab=\toks17
 \abstitleskip=\skip101
 \absleftindent=\skip102
-\abs@leftindent=\dimen153
+\abs@leftindent=\dimen151
 \absrightindent=\skip103
 \absparindent=\skip104
 \absparsep=\skip105
-\c@vslineno=\count291
-\c@poemline=\count292
-\c@modulo@vs=\count293
-\c@memfvsline=\count294
+\c@vslineno=\count290
+\c@poemline=\count291
+\c@modulo@vs=\count292
+\c@memfvsline=\count293
 \vleftskip=\skip106
 \vrightskip=\skip107
 \stanzaskip=\skip108
 \versewidth=\skip109
 \vgap=\skip110
 \vindent=\skip111
-\vleftmargin=\dimen154
-\c@verse=\count295
-\c@chrsinstr=\count296
+\vleftmargin=\dimen152
+\c@verse=\count294
+\c@chrsinstr=\count295
 \beforepoemtitleskip=\skip112
 \afterpoemtitleskip=\skip113
-\c@poem=\count297
+\c@poem=\count296
 \beforePoemTitleskip=\skip114
 \midPoemTitleskip=\skip115
 \afterPoemTitleskip=\skip116
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
-Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
-\col@sep=\dimen155
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+\col@sep=\dimen153
 \ar@mcellbox=\box53
-\extrarowheight=\dimen156
+\extrarowheight=\dimen154
 \NC@list=\toks18
 \extratabsurround=\skip117
 \backup@length=\skip118
 \ar@cellbox=\box54
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\dcolumn.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\dcolumn.sty
 Package: dcolumn 2025/10/21 v1.06 decimal alignment package (DPC)
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\delarray.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\delarray.sty
 Package: delarray 2014/10/28 v1.01 array delimiter package (DPC)
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\tabularx.sty
 Package: tabularx 2023/12/11 v2.12a `tabularx' package (DPC)
-\TX@col@width=\dimen157
-\TX@old@table=\dimen158
-\TX@old@col=\dimen159
-\TX@target=\dimen160
-\TX@delta=\dimen161
-\TX@cols=\count298
+\TX@col@width=\dimen155
+\TX@old@table=\dimen156
+\TX@old@col=\dimen157
+\TX@target=\dimen158
+\TX@delta=\dimen159
+\TX@cols=\count297
 \TX@ftn=\toks19
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen162
-\lightrulewidth=\dimen163
-\cmidrulewidth=\dimen164
-\belowrulesep=\dimen165
-\belowbottomsep=\dimen166
-\aboverulesep=\dimen167
-\abovetopsep=\dimen168
-\cmidrulesep=\dimen169
-\cmidrulekern=\dimen170
-\defaultaddspace=\dimen171
-\@cmidla=\count299
-\@cmidlb=\count300
-\@aboverulesep=\dimen172
-\@belowrulesep=\dimen173
-\@thisruleclass=\count301
-\@lastruleclass=\count302
-\@thisrulewidth=\dimen174
+\heavyrulewidth=\dimen160
+\lightrulewidth=\dimen161
+\cmidrulewidth=\dimen162
+\belowrulesep=\dimen163
+\belowbottomsep=\dimen164
+\aboverulesep=\dimen165
+\abovetopsep=\dimen166
+\cmidrulesep=\dimen167
+\cmidrulekern=\dimen168
+\defaultaddspace=\dimen169
+\@cmidla=\count298
+\@cmidlb=\count299
+\@aboverulesep=\dimen170
+\@belowrulesep=\dimen171
+\@thisruleclass=\count300
+\@lastruleclass=\count301
+\@thisrulewidth=\dimen172
 )
 \ctableftskip=\skip119
 \ctabrightskip=\skip120
-\abovecolumnspenalty=\count303
-\@linestogo=\count304
-\@cellstogo=\count305
-\@cellsincolumn=\count306
+\abovecolumnspenalty=\count302
+\@linestogo=\count303
+\@cellstogo=\count304
+\@cellsincolumn=\count305
 \crtok=\toks20
-\@mincolumnwidth=\dimen175
-\c@newflo@tctr=\count307
+\@mincolumnwidth=\dimen173
+\c@newflo@tctr=\count306
 \mem@margin@floatbox=\box55
 \@contcwidth=\skip121
 \@contindw=\skip122
@@ -187,47 +199,59 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \subfloatcaptopadj=\skip127
 \subfloatbottomskip=\skip128
 \subfloatlabelskip=\skip129
-\subfloatcapmargin=\dimen176
-\c@@contsubnum=\count308
+\subfloatcapmargin=\dimen174
+\c@@contsubnum=\count307
 \m@mscap@capbox=\box56
 \m@mscap@fbox=\box57
-\sidecapsep=\dimen177
-\sidecapwidth=\dimen178
-\m@m@tempdima=\dimen179
-\m@mscapraise=\dimen180
-\sidecapraise=\dimen181
-\m@mscapmainwidth=\dimen182
-\m@mscaplkern=\dimen183
+\sidecapsep=\dimen175
+\sidecapwidth=\dimen176
+\m@m@tempdima=\dimen177
+\m@mscapraise=\dimen178
+\sidecapraise=\dimen179
+\m@mscapmainwidth=\dimen180
+\m@mscaplkern=\dimen181
 \beforeepigraphskip=\skip130
 \afterepigraphskip=\skip131
 \epigraphwidth=\skip132
 \epigraphrule=\skip133
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2026-01-29 v2.58 Cross-referencing by name of section
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty
 Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr
+.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettitlestring.sty
+))
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gett
+itlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.s
+ty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
-Package: keyval 2026-05-17 v1.15 key=value parser (DPC)
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks21
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.s
+ty
 Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )))
-\c@section@level=\count309
+\c@section@level=\count308
 )
 \tocentryskip=\skip134
 \tocbaseline=\skip135
 \cftparskip=\skip136
 \cftbeforebookskip=\skip137
-\cftbookindent=\dimen184
-\cftbooknumwidth=\dimen185
+\cftbookindent=\dimen182
+\cftbooknumwidth=\dimen183
 \cftbeforepartskip=\skip138
 \cftpartindent=\skip139
 \cftpartnumwidth=\skip140
@@ -249,9 +273,9 @@ Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 \cftbeforesubparagraphskip=\skip156
 \cftsubparagraphindent=\skip157
 \cftsubparagraphnumwidth=\skip158
-\prechapterprecisshift=\dimen186
-\c@maxsecnumdepth=\count310
-\bibindent=\dimen187
+\prechapterprecisshift=\dimen184
+\c@maxsecnumdepth=\count309
+\bibindent=\dimen185
 \bibitemsep=\skip159
 \indexcolsep=\skip160
 \indexrule=\skip161
@@ -259,8 +283,8 @@ Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 \@indexbox=\insert252
 LaTeX Info: Redefining \raggedbottom on input line 8095.
 LaTeX Info: Redefining \flushbottom on input line 8099.
-\glossarycolsep=\dimen188
-\glossaryrule=\dimen189
+\glossarycolsep=\dimen186
+\glossaryrule=\dimen187
 \sideparvshift=\skip162
 \sideins=\insert251
 \sidebartopsep=\skip163
@@ -273,8 +297,8 @@ LaTeX Info: Redefining \flushbottom on input line 8099.
 \footinsdim=\skip170
 \footinsv@r=\insert250
 \@mpfootinsv@r=\insert249
-\m@m@k=\count311
-\m@m@h=\dimen190
+\m@m@k=\count310
+\m@m@h=\dimen188
 \m@mipn@skip=\skip171
 \sidefootins=\insert248
 \sidefootadjust=\skip172
@@ -283,14 +307,15 @@ LaTeX Info: Redefining \flushbottom on input line 8099.
 \sidefootvsep=\skip175
 \sidefootwidth=\skip176
 \m@mdownsf=\skip177
-\c@sidefootnote=\count312
+\c@sidefootnote=\count311
 \sidefootmarkwidth=\skip178
 \sidefootmarksep=\skip179
 \sidefootparindent=\skip180
-\c@pagenote=\count313
-\c@pagenoteshadow=\count314
+\c@pagenote=\count312
+\c@pagenoteshadow=\count313
 \mem@pn@lastkern=\skip181
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty
 Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks23
 \verbatim@line=\toks24
@@ -298,39 +323,41 @@ Package: verbatim 2024-01-22 v1.5x LaTeX2e package for verbatim enhancements
 )
 \verbatimindent=\skip182
 \verbatim@out=\write3
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\shortvrb.sty
-Package: shortvrb 2026-03-13 v3.0r Standard LaTeX documentation package V3 (FMi)
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\shortvrb.sty
+Package: shortvrb 2024/12/25 v3.0q Standard LaTeX documentation package V3 (FMi
+)
 )
 \bvboxsep=\skip183
-\c@memfbvline=\count315
-\c@bvlinectr=\count316
+\c@memfbvline=\count314
+\c@bvlinectr=\count315
 \bvnumlength=\skip184
-\fb@frw=\dimen191
-\fb@frh=\dimen192
-\FrameRule=\dimen193
-\FrameSep=\dimen194
-\c@cp@cntr=\count317
-\c@ism@mctr=\count318
-\c@xsm@mctr=\count319
-\c@csm@mctr=\count320
-\c@ksm@mctr=\count321
-\c@xksm@mctr=\count322
-\c@cksm@mctr=\count323
-\c@msm@mctr=\count324
-\c@xmsm@mctr=\count325
-\c@cmsm@mctr=\count326
-\c@bsm@mctr=\count327
-\c@workm@mctr=\count328
-\c@sheetsequence=\count329
-\c@lastsheet=\count330
-\c@lastpage=\count331
-\c@figure=\count332
-\c@lofdepth=\count333
+\fb@frw=\dimen189
+\fb@frh=\dimen190
+\FrameRule=\dimen191
+\FrameSep=\dimen192
+\c@cp@cntr=\count316
+\c@ism@mctr=\count317
+\c@xsm@mctr=\count318
+\c@csm@mctr=\count319
+\c@ksm@mctr=\count320
+\c@xksm@mctr=\count321
+\c@cksm@mctr=\count322
+\c@msm@mctr=\count323
+\c@xmsm@mctr=\count324
+\c@cmsm@mctr=\count325
+\c@bsm@mctr=\count326
+\c@workm@mctr=\count327
+\c@sheetsequence=\count328
+\c@lastsheet=\count329
+\c@lastpage=\count330
+\c@figure=\count331
+\c@lofdepth=\count332
 \cftbeforefigureskip=\skip185
 \cftfigureindent=\skip186
 \cftfigurenumwidth=\skip187
-\c@table=\count334
-\c@lotdepth=\count335
+\c@table=\count333
+\c@lotdepth=\count334
 \cftbeforetableskip=\skip188
 \cfttableindent=\skip189
 \cfttablenumwidth=\skip190
@@ -361,124 +388,169 @@ Package tocbibind [2008/07/23] emulated by memoir.
 Package tocloft [2008/07/23] emulated by memoir.
 Package tocvsec2 [2008/07/23] emulated by memoir.
 Package verse [2008/07/23] emulated by memoir.
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/textcase\textcase.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/textcase\textcase.sty
 Package: textcase 2025/02/16 v1.05 Text only upper/lower case changing (DPC)
 Package textcase Info: Defining Legacy names on input line 20.
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
-Package: hyperref 2026-06-17 v7.01r Hypertext links for LaTeX
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefinekeys.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+Package: hyperref 2026-01-29 v7.01p Hypertext links for LaTeX
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefi
+nekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape
+.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcm
+ds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
+))
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.sty
-Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 )
-\@linkdim=\dimen195
-\Hy@linkcounter=\count336
-\Hy@pagecounter=\count337
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
-File: pd1enc.def 2026-06-17 v7.01r Hyperref: PDFDocEncoding definition (HO)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc
+.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
+)
+)
+\@linkdim=\dimen193
+\Hy@linkcounter=\count335
+\Hy@pagecounter=\count336
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+File: pd1enc.def 2026-01-29 v7.01p Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count338
+\Hy@SavedSpaceFactor=\count337
  (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
-File: puenc.def 2026-06-17 v7.01r Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2026-01-29 v7.01p Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Hyper figures OFF on input line 4199.
-Package hyperref Info: Link nesting OFF on input line 4204.
-Package hyperref Info: Hyper index ON on input line 4207.
-Package hyperref Info: Plain pages OFF on input line 4214.
-Package hyperref Info: Backreferencing OFF on input line 4219.
+Package hyperref Info: Hyper figures OFF on input line 4201.
+Package hyperref Info: Link nesting OFF on input line 4206.
+Package hyperref Info: Hyper index ON on input line 4209.
+Package hyperref Info: Plain pages OFF on input line 4216.
+Package hyperref Info: Backreferencing OFF on input line 4221.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4466.
-\c@Hy@tempcnt=\count339
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+Package hyperref Info: Bookmarks ON on input line 4468.
+\c@Hy@tempcnt=\count338
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4805.
-\XeTeXLinkMargin=\dimen196
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+LaTeX Info: Redefining \url on input line 4807.
+\XeTeXLinkMargin=\dimen194
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc.sty
-Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintca
+lc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
+)
 ))
-\Fld@menulength=\count340
-\Field@Width=\dimen197
-\Fld@charsize=\dimen198
-Package hyperref Info: Hyper figures OFF on input line 6091.
-Package hyperref Info: Link nesting OFF on input line 6096.
-Package hyperref Info: Hyper index ON on input line 6099.
-Package hyperref Info: backreferencing OFF on input line 6106.
-Package hyperref Info: Link coloring OFF on input line 6111.
-Package hyperref Info: Link coloring with OCG OFF on input line 6116.
-Package hyperref Info: PDF/A mode OFF on input line 6121.
-\Hy@abspage=\count341
-\c@Item=\count342
-\c@Hfootnote=\count343
+\Fld@menulength=\count339
+\Field@Width=\dimen195
+\Fld@charsize=\dimen196
+Package hyperref Info: Hyper figures OFF on input line 6084.
+Package hyperref Info: Link nesting OFF on input line 6089.
+Package hyperref Info: Hyper index ON on input line 6092.
+Package hyperref Info: backreferencing OFF on input line 6099.
+Package hyperref Info: Link coloring OFF on input line 6104.
+Package hyperref Info: Link coloring with OCG OFF on input line 6109.
+Package hyperref Info: PDF/A mode OFF on input line 6114.
+\Hy@abspage=\count340
+\c@Item=\count341
+\c@Hfootnote=\count342
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
-File: hpdftex.def 2026-06-17 v7.01r Hyperref driver for pdfTeX
-\Fld@listcount=\count344
-\c@bookmark@seq@number=\count345
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfilecheck.sty
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+File: hpdftex.def 2026-01-29 v7.01p Hyperref driver for pdfTeX
+\Fld@listcount=\count343
+\c@bookmark@seq@number=\count344
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunf
+ilecheck.sty
 Package: rerunfilecheck 2025-06-21 v1.11 Rerun checks for auxiliary files (HO)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquecounter.sty
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniqu
+ecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 284.
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+84.
 )
 \Hy@SectionHShift=\skip191
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/memoir\memhfixc.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/memoir\memhfixc.sty
 Package: memhfixc 2025/09/16 v1.24 hyperref package fixes for memoir class
-\c@memhycontfloat=\count346
-\c@mem@Hpagenote=\count347
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
+\c@memhycontfloat=\count345
+\c@mem@Hpagenote=\count346
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
 Package: bookmark 2026-05-21 v1.32 PDF bookmarks (HO)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bkm-pdftex.def
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bkm-pdftex.d
+ef
 File: bkm-pdftex.def 2026-05-21 v1.32 bookmark driver for pdfTeX (HO)
-\BKM@id=\count348
-)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
-Package: babel 2026/06/14 v26.9 The multilingual framework for LuaLaTeX, pdfLaTeX and XeLaTeX
-\babel@savecnt=\count349
-LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input line 2084.
-LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input line 2086.
-LaTeX Encoding Info:    Redeclaring text command \ij (encoding T1) on input line 2088.
-LaTeX Encoding Info:    Redeclaring text command \IJ (encoding T1) on input line 2089.
-LaTeX Encoding Info:    Ignoring declaration for text command \ij (encoding ?) on input line 2090.
-LaTeX Encoding Info:    Ignoring declaration for text command \IJ (encoding ?) on input line 2092.
-LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) on input line 2117.
-\U@D=\dimen199
+\BKM@id=\count347
+))
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
+Package: babel 2026/03/24 v26.5 The multilingual framework for LuaLaTeX, pdfLaT
+eX and XeLaTeX
+\babel@savecnt=\count348
+LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input li
+ne 2078.
+LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input li
+ne 2080.
+LaTeX Encoding Info:    Redeclaring text command \ij (encoding T1) on input lin
+e 2082.
+LaTeX Encoding Info:    Redeclaring text command \IJ (encoding T1) on input lin
+e 2083.
+LaTeX Encoding Info:    Ignoring declaration for text command \ij (encoding ?) 
+on input line 2084.
+LaTeX Encoding Info:    Ignoring declaration for text command \IJ (encoding ?) 
+on input line 2086.
+LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) 
+on input line 2111.
+\U@D=\dimen197
 \l@unhyphenated=\language79
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
 \bbl@readstream=\read3
-\bbl@dirlevel=\count350
+\bbl@dirlevel=\count349
 Package babel Info: Configuration files are deprecated, as
 (babel)             they can break document portability.
-(babel)             Reported on input line 4252.
-
+(babel)             Reported on input line 4206.
 *************************************
 * Local config file bblopts.cfg used
 *
 (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg
-File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of babel
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/en\babel-english.tex) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/invalid\babel-brazil.tex)
-Package babel Info: Importing font and identification data for 'english'
-(babel)             from babel-en.ini. Reported on input line 4380.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/babel-english\english.ldf
+File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of
+ babel
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/en\bab
+el-english.tex)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/invali
+d\babel-brazil.tex)
+Package babel Info: Importing font and identification data for english
+(babel)             from babel-en.ini. Reported on input line 4330.
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/babel-english\english
+.ldf
 Language: english 2017/06/06 v3.3r English support from the babel system
 Package babel Info: Hyphen rules for 'canadian' set to \l@english
 (babel)             (\language0). Reported on input line 102.
@@ -490,34 +562,37 @@ Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 
 Package babel Warning: Name 'brazil' is deprecated.
 (babel)                Use 'brazilian' instead.
-(babel)                Reported on input line 4380.
+(babel)                Reported on input line 4330.
 
-Package babel Info: Importing font and identification data for 'brazil'
-(babel)             from babel-pt-BR.ini. Reported on input line 4380.
-(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/babel-portuges\brazilian.ldf
+Package babel Info: Importing font and identification data for brazil
+(babel)             from babel-pt-BR.ini. Reported on input line 4330.
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/babel-portuges\brazil
+ian.ldf
 Language: portuges 2026/01/24 v1.2u Portuguese support from the babel system
 Package babel Info: Hyphen rules for 'brazil' set to \l@portuguese
 (babel)             (\language56). Reported on input line 100.
 Package babel Info: Making " an active character on input line 132.
-)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
+))
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty
 Package: enumitem 2025/02/06 v3.11 Customized lists
 \labelindent=\skip192
-\enit@outerparindent=\dimen256
+\enit@outerparindent=\dimen198
 \enit@toks=\toks25
 \enit@inbox=\box58
-\enit@count@id=\count351
-\enitdp@description=\count352
+\enit@count@id=\count350
+\enitdp@description=\count351
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
 Package: calc 2025/03/01 v4.3b Infix arithmetic (KKT,FJ)
-\calc@Acount=\count353
-\calc@Bcount=\count354
-\calc@Adimen=\dimen257
-\calc@Bdimen=\dimen258
+\calc@Acount=\count352
+\calc@Bcount=\count353
+\calc@Adimen=\dimen199
+\calc@Bdimen=\dimen256
 \calc@Askip=\skip193
 \calc@Bskip=\skip194
 LaTeX Info: Redefining \setlength on input line 86.
 LaTeX Info: Redefining \addtolength on input line 87.
-\calc@Ccount=\count355
+\calc@Ccount=\count354
 \calc@Cskip=\skip195
 )
 
@@ -540,7 +615,7 @@ Sidefoothsep and sidefootwidth: 7pt and 42pt
 Sidefootvsep and sidefootheight: 14.5pt and 590.14995pt
 ******************************************************
 
-\c@abntex@bookmarkcounter=\count356
+\c@abntex@bookmarkcounter=\count355
 \cftlastnumwidth=\skip196
 
 Class memoir Warning: \settocpreprocessor is marked deprecated and will be
@@ -551,13 +626,13 @@ Class memoir Warning: \settocpreprocessor is marked deprecated and will be
 
 \chapternamenumlength=\skip197
 \ABNTEXcitacaorecuo=\skip198
-\c@alineasi=\count357
-\c@alineasii=\count358
-\enitdp@alineas=\count359
-\c@subalineasi=\count360
-\enitdp@subalineas=\count361
-\c@incisosi=\count362
-\enitdp@incisos=\count363
+\c@alineasi=\count356
+\c@alineasii=\count357
+\enitdp@alineas=\count358
+\c@subalineasi=\count359
+\enitdp@subalineas=\count360
+\c@incisosi=\count361
+\enitdp@incisos=\count362
 \ABNTEXsignwidth=\skip199
 \ABNTEXsignthickness=\skip256
 \ABNTEXsignskip=\skip257
@@ -595,84 +670,103 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty
 Package: fontenc 2025/07/18 v2.1d Standard LaTeX package
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 116.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 11
+6.
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
+))
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/base\inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks26
 \inpenc@posthook=\toks27
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\indentfirst.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/tools\indentfirst.sty
 Package: indentfirst 2023/07/02 v1.03 Indent first paragraph (DPC)
 ) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\color.sty
-Package: color 2026-05-17 v1.3f Standard LaTeX Color (DPC)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+Package: color 2025/01/14 v1.3e Standard LaTeX Color (DPC)
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cf
+g
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.d
+ef
 File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
-Package: graphicx 2026-05-17 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
-Package: graphics 2026-05-17 v1.4h Standard LaTeX Graphics (DPC,SPQR)
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.lt
+x))
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics
+.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 106.
 )
-\Gin@req@height=\dimen259
-\Gin@req@width=\dimen260
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.sty
+\Gin@req@height=\dimen257
+\Gin@req@width=\dimen258
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.s
+ty
 Package: microtype 2026/03/01 v3.2d Micro-typographical refinements (RS)
 \MT@toks=\toks28
 \MT@tempbox=\box59
-\MT@count=\count364
+\MT@count=\count363
 LaTeX Info: Redefining \noprotrusionifhmode on input line 1084.
 LaTeX Info: Redefining \leftprotrusion on input line 1085.
 \MT@prot@toks=\toks29
 LaTeX Info: Redefining \rightprotrusion on input line 1104.
 LaTeX Info: Redefining \textls on input line 1449.
-\MT@outer@kern=\dimen261
+\MT@outer@kern=\dimen259
 LaTeX Info: Redefining \microtypecontext on input line 2053.
 LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
-\MT@listname@count=\count365
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-pdftex.def
+\MT@listname@count=\count364
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype-p
+dftex.def
 File: microtype-pdftex.def 2026/03/01 v3.2d Definitions specific to pdftex (RS)
+
 LaTeX Info: Redefining \lsstyle on input line 944.
 LaTeX Info: Redefining \lslig on input line 944.
 \MT@outer@space=\skip258
 )
 Package microtype Info: Loading configuration file microtype.cfg.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.cfg
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\microtype.c
+fg
 File: microtype.cfg 2026/03/01 v3.2d microtype main configuration file (RS)
 )
 LaTeX Info: Redefining \microtypesetup on input line 3065.
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lipsum\lipsum.sty (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/l3keys2e\l3keys2e.sty
-Package: l3keys2e 2025-10-09 LaTeX2e option processing using LaTeX3 keys
 )
-Package: lipsum 2021-09-20 v2.7 150 paragraphs of Lorem Ipsum dummy text
-\g__lipsum_par_int=\count366
-\l__lipsum_a_int=\count367
-\l__lipsum_b_int=\count368
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lipsum\lipsum.ltd.tex)) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\backref.sty
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\backref.sty
 Package: backref 2025-06-21 v1.45 Bibliographical back referencing
 ) (abntex2cite.sty
 Package: abntex2cite <CURRENT_DATE> v<VERSION> abnTeX2
  (abntex2abrev.sty)
 \minimumbiblabelwidth=\skip259
 \ABCIauxlen=\skip260
-\c@ABCIaux=\count369
-\c@ABCImax=\count370
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifpdf.sty
+\c@ABCIaux=\count365
+\c@ABCImax=\count366
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifpdf.sty
 Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifxetex.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/relsize\relsize.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/relsize\relsize.sty
 Package: relsize 2013/03/29 ver 4.1
 )
 \biblabelsep=\skip261
@@ -680,16 +774,15 @@ LaTeX Info: Redefining \newblock on input line 591.
 LaTeX Info: Redefining \cite on input line 618.
 \ABCItoken=\toks30
 )
-Package color Info: Redefining color blue on input line 118.
-Package hyperref Info: Option `colorlinks' set `true' on input line 135.
-\c@quadro=\count371
-\c@loqdepth=\count372
+Package color Info: Redefining color blue on input line 119.
+Package hyperref Info: Option `colorlinks' set `true' on input line 136.
+\c@quadro=\count367
+\c@loqdepth=\count368
 \cftbeforequadroskip=\skip262
 \cftquadroindent=\skip263
 \cftquadronumwidth=\skip264
 \abntex2-modelo-trabalho-academico@idxfile=\write4
 \openout4 = `abntex2-modelo-trabalho-academico.idx'.
-
 
 Writing index file abntex2-modelo-trabalho-academico.idx 
 (abntex2-modelo-trabalho-academico.aux
@@ -698,53 +791,60 @@ Package babel Info: 'brazil' activates 'portuges' shorthands.
  (abntex2-modelo-include-comandos.aux))
 \openout1 = `abntex2-modelo-trabalho-academico.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 186.
-LaTeX Font Info:    ... okay on input line 186.
-Package hyperref Info: Link coloring ON on input line 186.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 187.
+LaTeX Font Info:    ... okay on input line 187.
+Package hyperref Info: Link coloring ON on input line 187.
 \myptabbox=\box60
 \myptabboxwidth=\skip265
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.
+mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count373
-\scratchdimen=\dimen262
+\scratchcounter=\count369
+\scratchdimen=\dimen260
 \scratchbox=\box61
-\nofMPsegments=\count374
-\nofMParguments=\count375
+\nofMPsegments=\count370
+\nofMParguments=\count371
 \everyMPshowfont=\toks31
-\MPscratchCnt=\count376
-\MPscratchDim=\dimen263
-\MPnumerator=\count377
-\makeMPintoPDFobject=\count378
+\MPscratchCnt=\count372
+\MPscratchDim=\dimen261
+\MPnumerator=\count373
+\makeMPintoPDFobject=\count374
 \everyMPtoPDFconversion=\toks32
-) (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
+)
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf
+-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys
+.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-LaTeX Info: Redefining \microtypecontext on input line 186.
-Package microtype Info: Applying patch `item' on input line 186.
-Package microtype Info: Applying patch `toc' on input line 186.
-Package microtype Info: Applying patch `eqnum' on input line 186.
-Package microtype Info: Applying patch `footnote' on input line 186.
-Package microtype Info: Applying patch `verbatim' on input line 186.
-LaTeX Info: Redefining \microtypesetup on input line 186.
+LaTeX Info: Redefining \microtypecontext on input line 187.
+Package microtype Info: Applying patch `item' on input line 187.
+Package microtype Info: Applying patch `toc' on input line 187.
+Package microtype Info: Applying patch `eqnum' on input line 187.
+Package microtype Info: Applying patch `footnote' on input line 187.
+Package microtype Info: Applying patch `verbatim' on input line 187.
+LaTeX Info: Redefining \microtypesetup on input line 187.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -755,78 +855,92 @@ Package microtype Info: Patching command `\showhyphens'.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
-File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
+(RS)
 )
-Package babel Info: Main language set to 'brazil'.
 <figures/UFPA.pdf, id=3, 289.08pt x 351.3125pt>
 File: figures/UFPA.pdf Graphic file (type pdf)
 <use figures/UFPA.pdf>
-Package pdftex.def Info: figures/UFPA.pdf  used on input line 203.
+Package pdftex.def Info: figures/UFPA.pdf  used on input line 204.
 (pdftex.def)             Requested size: 90.99861pt x 110.58896pt.
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 203.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmss.fd
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 2
+04.
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmss.fd
 File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmss' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [1
 
-{C:/Users/Noedson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./figures/UFPA.pdf>]
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 212.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
+[1
+
+{C:/Users/Noedson/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/No
+edson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-ec.enc} <./figures/UF
+PA.pdf>]
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
+13.
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 212.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
+13.
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 212.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
+213.
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 212.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
+213.
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 212.
+(Font)              <12> on input line 213.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 212.
+(Font)              <8> on input line 213.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 212.
+(Font)              <6> on input line 213.
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.212 
+l.213 
        [1
 
 
 
 ]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 235.
+(Font)              <10.95> on input line 236.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 235.
+(Font)              <10> on input line 236.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 235.
+(Font)              <7> on input line 236.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 235.
+(Font)              <5> on input line 236.
  [2]
-Overfull \hbox (0.24408pt too wide) in paragraph at lines 310--310
- [][] 
- []
-
-
-Overfull \hbox (0.24408pt too wide) in paragraph at lines 312--312
+Overfull \hbox (0.24408pt too wide) in paragraph at lines 311--311
  [][] 
  []
 
 
 Overfull \hbox (0.24408pt too wide) in paragraph at lines 313--313
+ [][] 
+ []
+
+
+Overfull \hbox (0.24408pt too wide) in paragraph at lines 314--314
  [][] 
  []
 
@@ -841,7 +955,7 @@ Overfull \hbox (0.24408pt too wide) in paragraph at lines 313--313
 
 ]
 
-LaTeX Warning: Citation `NBR6028:2003' on page 7 undefined on input line 372.
+LaTeX Warning: Citation `NBR6028:2003' on page 7 undefined on input line 373.
 
 [7
 
@@ -849,9 +963,11 @@ LaTeX Warning: Citation `NBR6028:2003' on page 7 undefined on input line 372.
 
 ] (abntex2-modelo-trabalho-academico.lof) [9
 
-] (abntex2-modelo-trabalho-academico.loq) [10
+]
+(abntex2-modelo-trabalho-academico.loq) [10
 
-] (abntex2-modelo-trabalho-academico.lot) [11
+]
+(abntex2-modelo-trabalho-academico.lot) [11
 
 ] [12
 
@@ -859,7 +975,11 @@ LaTeX Warning: Citation `NBR6028:2003' on page 7 undefined on input line 372.
 ] [13
 
 
-{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}] (abntex2-modelo-trabalho-academico.toc
+{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}{C
+:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}
+{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.en
+c}]
+(abntex2-modelo-trabalho-academico.toc
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
 (Font)              Font shape `T1/lmss/m/sl' tried instead on input line 22.
  [14
@@ -867,22 +987,26 @@ LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <12> not available
 ]) [15]
 Cap\'{\i }tulo 1.
 
-LaTeX Warning: Citation `abntex2classe' on page 16 undefined on input line 472.
+LaTeX Warning: Citation `abntex2classe' on page 16 undefined on input line 473.
 
 
-LaTeX Warning: Citation `abntex2-wiki-como-customizar' on page 16 undefined on input line 487.
+
+LaTeX Warning: Citation `abntex2-wiki-como-customizar' on page 16 undefined on 
+input line 488.
 
 
-LaTeX Warning: Citation `abntex2classe' on page 16 undefined on input line 490.
+LaTeX Warning: Citation `abntex2classe' on page 16 undefined on input line 491.
 
 
-LaTeX Warning: Citation `abntex2cite' on page 16 undefined on input line 490.
+
+LaTeX Warning: Citation `abntex2cite' on page 16 undefined on input line 491.
 
 
-LaTeX Warning: Citation `abntex2cite-alf' on page 16 undefined on input line 490.
+LaTeX Warning: Citation `abntex2cite-alf' on page 16 undefined on input line 49
+1.
 
 
-LaTeX Warning: Citation `memoir' on page 16 undefined on input line 491.
+LaTeX Warning: Citation `memoir' on page 16 undefined on input line 492.
 
 [16
 
@@ -892,7 +1016,8 @@ LaTeX Warning: Citation `memoir' on page 16 undefined on input line 491.
 
  (abntex2-modelo-include-comandos.tex
 Cap\'{\i }tulo 2.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 37.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
+7.
 (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -906,7 +1031,8 @@ LaTeX Warning: Citation `NBR10520:2002' on page 17 undefined on input line 53.
 
 
 Overfull \hbox (20.47523pt too wide) in paragraph at lines 60--60
-[]\T1/lmtt/m/n/12 As citações diretas, no texto, com mais de três linhas [...] deve-se observar[] 
+[]\T1/lmtt/m/n/12 As citações diretas, no texto, com mais de três linhas [...] 
+deve-se observar[] 
  []
 
 [17
@@ -929,7 +1055,8 @@ LaTeX Warning: Citation `ibge1993' on page 18 undefined on input line 131.
 <figures/abntex2-modelo-img-grafico.pdf, id=280, 847.165pt x 314.17375pt>
 File: figures/abntex2-modelo-img-grafico.pdf Graphic file (type pdf)
 <use figures/abntex2-modelo-img-grafico.pdf>
-Package pdftex.def Info: figures/abntex2-modelo-img-grafico.pdf  used on input line 227.
+Package pdftex.def Info: figures/abntex2-modelo-img-grafico.pdf  used on input 
+line 227.
 (pdftex.def)             Requested size: 423.58145pt x 157.08649pt.
 
 
@@ -943,7 +1070,8 @@ LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <14.4> not available
 <figures/abntex2-modelo-img-marca.pdf, id=283, 227.51701pt x 72.2695pt>
 File: figures/abntex2-modelo-img-marca.pdf Graphic file (type pdf)
 <use figures/abntex2-modelo-img-marca.pdf>
-Package pdftex.def Info: figures/abntex2-modelo-img-marca.pdf  used on input line 246.
+Package pdftex.def Info: figures/abntex2-modelo-img-marca.pdf  used on input li
+ne 246.
 (pdftex.def)             Requested size: 204.76341pt x 65.04192pt.
 
 Overfull \hbox (22.76619pt too wide) in paragraph at lines 246--247
@@ -952,7 +1080,8 @@ Overfull \hbox (22.76619pt too wide) in paragraph at lines 246--247
 
 File: figures/abntex2-modelo-img-grafico.pdf Graphic file (type pdf)
 <use figures/abntex2-modelo-img-grafico.pdf>
-Package pdftex.def Info: figures/abntex2-modelo-img-grafico.pdf  used on input line 253.
+Package pdftex.def Info: figures/abntex2-modelo-img-grafico.pdf  used on input 
+line 253.
 (pdftex.def)             Requested size: 169.43pt x 62.83363pt.
 
 LaTeX Warning: Citation `araujo2012' on page 19 undefined on input line 254.
@@ -965,18 +1094,23 @@ LaTeX Warning: Citation `araujo2012' on page 19 undefined on input line 254.
 LaTeX Warning: Citation `NBR14724:2011' on page 20 undefined on input line 258.
 
 
+
 LaTeX Warning: Citation `NBR14724:2011' on page 20 undefined on input line 271.
 
-[20 <./figures/abntex2-modelo-img-grafico.pdf> <./figures/abntex2-modelo-img-marca.pdf>]
+
+[20 <./figures/abntex2-modelo-img-grafico.pdf> <./figures/abntex2-modelo-img-ma
+rca.pdf>]
 
 LaTeX Warning: Citation `NBR6024:2012' on page 21 undefined on input line 307.
 
 
 LaTeX Warning: Citation `NBR6024:2012' on page 21 undefined on input line 330.
 
-[21{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}]
+[21{C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex
+.enc}]
 Overfull \hbox (26.65024pt too wide) in paragraph at lines 383--383
-[]   \T1/lmtt/m/n/12 \usepackage{indentfirst}      % Indenta o primeiro parágrafo de cada seção.[] 
+[]   \T1/lmtt/m/n/12 \usepackage{indentfirst}      % Indenta o primeiro parágra
+fo de cada seção.[] 
  []
 
 [22]
@@ -987,32 +1121,38 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <17.28> on input line 436.
 
 Overfull \hbox (1.95023pt too wide) in paragraph at lines 453--453
-[]   \T1/lmtt/m/n/12 makeindex ARQUIVO_PRINCIPAL.nlo -s nomencl.ist -o ARQUIVO_PRINCIPAL.nls[] 
+[]   \T1/lmtt/m/n/12 makeindex ARQUIVO_PRINCIPAL.nlo -s nomencl.ist -o ARQUIVO_
+PRINCIPAL.nls[] 
  []
 
 [23]
 Overfull \hbox (8.12523pt too wide) in paragraph at lines 475--475
-[]\T1/lmtt/m/n/12 Ao nomear a \autoref{tab-nivinv} e a \autoref{fig_circulo}, apresentamos um[] 
+[]\T1/lmtt/m/n/12 Ao nomear a \autoref{tab-nivinv} e a \autoref{fig_circulo}, a
+presentamos um[] 
  []
 
 
 Overfull \hbox (26.65024pt too wide) in paragraph at lines 477--477
-[]\T1/lmtt/m/n/12 \autoref{cap_exemplos}, que tem o nome \emph{\nameref{cap_exemplos}}. O número[] 
+[]\T1/lmtt/m/n/12 \autoref{cap_exemplos}, que tem o nome \emph{\nameref{cap_exe
+mplos}}. O número[] 
  []
 
 
 Overfull \hbox (32.82524pt too wide) in paragraph at lines 479--479
-[]\T1/lmtt/m/n/12 \autopageref{cap_exemplos}\footnote{O número da página de uma remissão pode ser[] 
+[]\T1/lmtt/m/n/12 \autopageref{cap_exemplos}\footnote{O número da página de uma
+ remissão pode ser[] 
  []
 
 
 Overfull \hbox (26.65024pt too wide) in paragraph at lines 482--482
-[]\T1/lmtt/m/n/12 Veja a \autoref{sec-divisoes} para outros exemplos de remissões internas entre[] 
+[]\T1/lmtt/m/n/12 Veja a \autoref{sec-divisoes} para outros exemplos de remissõ
+es internas entre[] 
  []
 
 [24]
 
 LaTeX Warning: Citation `NBR14724:2011' on page 25 undefined on input line 553.
+
 
 
 LaTeX Warning: Citation `NBR6024:2012' on page 25 undefined on input line 554.
@@ -1023,35 +1163,46 @@ LaTeX Warning: Citation `babel' on page 26 undefined on input line 598.
 
 [26]
 Overfull \hbox (205.0856pt too wide) in paragraph at lines 615--615
- [][] [][][]\T1/lmr/m/n/10 (-20) Extraído de: [][]$<[]http : / / bigbrowser . blog . lemonde . fr / 2013 / 02 / 17 / tu-[]ne-[]tweeteras-[]point-[]le-[]vatican-[]interdit-[]aux-[]cardinaux-[]de-[]tweeter-[]pendant-[]le-[]conclave /
+ [][] [][][]\T1/lmr/m/n/10 (-20) Extraído de: [][]$<[]http : / / bigbrowser . b
+log . lemonde . fr / 2013 / 02 / 17 / tu-[]ne-[]tweeteras-[]point-[]le-[]vatica
+n-[]interdit-[]aux-[]cardinaux-[]de-[]tweeter-[]pendant-[]le-[]conclave /
  []
 
-(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/fr\babel-french.tex)
-Package babel Info: Importing data for 'french'
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/fr\bab
+el-french.tex)
+Package babel Info: Importing data for french
 (babel)             from babel-fr.ini. Reported on input line 617.
- (C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/es\babel-spanish.tex)
-Package babel Info: Importing data for 'spanish'
+
+(C:\Users\Noedson\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/es\bab
+el-spanish.tex)
+Package babel Info: Importing data for spanish
 (babel)             from babel-es.ini. Reported on input line 633.
 
 
 LaTeX Warning: Citation `abntex2classe' on page 27 undefined on input line 643.
 
 
+
 LaTeX Warning: Citation `abntex2classe' on page 27 undefined on input line 653.
 
 
+
 LaTeX Warning: Citation `NBR14724:2011' on page 27 undefined on input line 658.
+
 
 [27]
 
 LaTeX Warning: Citation `abntex2cite' on page 28 undefined on input line 668.
 
 
-LaTeX Warning: Citation `abntex2cite-alf' on page 28 undefined on input line 668.
+LaTeX Warning: Citation `abntex2cite-alf' on page 28 undefined on input line 66
+8.
 
 
 Overfull \hbox (6.91217pt too wide) in paragraph at lines 706--709
-[]\T1/lmr/m/n/12 (-20) Inscreva-se no grupo de usu-á-rios L[]T[]X: [][]$<[]http : / / groups . google . com / group / latex-[]br>[]$[][],
+[]\T1/lmr/m/n/12 (-20) Inscreva-se no grupo de usu-á-rios L[]T[]X: [][]$<[]http
+ : / / groups . google . com / group / latex-[]br>[]$[][],
  []
 
 [28]) [29]
@@ -1110,9 +1261,10 @@ ANEXO C.
 \tf@toc=\write8
 \openout8 = `abntex2-modelo-trabalho-academico.toc'.
 
- (abntex2-modelo-trabalho-academico.aux (abntex2-modelo-include-comandos.aux))
+ (abntex2-modelo-trabalho-academico.aux
+(abntex2-modelo-include-comandos.aux))
  ***********
-LaTeX2e <2026-06-01>
+LaTeX2e <2025-11-01>
 L3 programming layer <2020/03/25>
  ***********
 
@@ -1121,15 +1273,36 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 19012 strings out of 467509
- 320177 string characters out of 5407801
- 909580 words of memory out of 5000000
- 47576 multiletter control sequences out of 15000+600000
- 734811 words of font info for 207 fonts, out of 8000000 for 9000
+ 18546 strings out of 467866
+ 308076 string characters out of 5417345
+ 805026 words of memory out of 5000000
+ 46779 multiletter control sequences out of 15000+600000
+ 734356 words of font info for 202 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,13n,107p,2054b,724s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/latxfont/line10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss17.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
-Output written on abntex2-modelo-trabalho-academico.pdf (40 pages, 855663 bytes).
+ 99i,13n,107p,2054b,725s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/l
+atxfont/line10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type1/
+public/lm/lmbx10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/lm/lmbx12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/lm/lmex10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/lm/lmmi12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/font
+s/type1/public/lm/lmmi8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/lm/lmr10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/lm/lmr12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/lm/lmr7.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/lm/lmr8.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX/f
+onts/type1/public/lm/lmri10.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKTeX
+/fonts/type1/public/lm/lmri12.pfb><C:/Users/Noedson/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/lm/lmss10.pfb><C:/Users/Noedson/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/Noedson/AppData/Local/Programs/
+MiKTeX/fonts/type1/public/lm/lmss17.pfb><C:/Users/Noedson/AppData/Local/Program
+s/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Users/Noedson/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/lm/lmsso12.pfb><C:/Users/Noedson/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/Noedson/AppData/Loca
+l/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/Noedson/AppData/Loc
+al/Programs/MiKTeX/fonts/type1/public/lm/lmtt12.pfb>
+Output written on abntex2-modelo-trabalho-academico.pdf (40 pages, 846052 bytes
+).
 PDF statistics:
  806 PDF objects out of 1000 (max. 8388607)
  157 named destinations out of 1000 (max. 500000)
