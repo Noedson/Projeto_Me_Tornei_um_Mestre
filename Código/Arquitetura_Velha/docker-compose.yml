@@ -308,6 +308,26 @@ services:
       - chirpstack
       - proxy-integracao
 
+  # ============================================================================
+  # 6. COLETOR AUTOMÁTICO DE RECURSOS COMPUTACIONAIS (Reprodutibilidade Científica)
+  # ============================================================================
+  monitor-recursos:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: monitor_recursos_velha
+    restart: unless-stopped
+    ports:
+      - "9096:9096"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./monitorar_recursos_docker.py:/app/monitorar_recursos_docker.py
+      - ./monitoramento:/app/monitoramento
+    environment:
+      - USAR_AGENTE=${USAR_AGENTE:-0}
+      - MONITOR_PORT=9096
+      - TZ=America/Sao_Paulo
+
 volumes:
   velha_postgresqldata:
   velha_redisdata:

@@ -17,14 +17,141 @@ import csv
 import datetime
 import json
 import os
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 import re
+import sqlite3
 import subprocess
+import threading
 import time
+from urllib.parse import parse_qs, urlparse
 
 BASE_DIR = Path(__file__).resolve().parent
 MONITORAMENTO_DIR = BASE_DIR / "monitoramento"
 CSV_PATH = MONITORAMENTO_DIR / "recursos_docker.csv"
+DB_PATH = MONITORAMENTO_DIR / "metricas_experimento.db"
+ESTADO_AGENTE_PATH = MONITORAMENTO_DIR / "estado_agente.json"
+CSV_LEITURAS_PATH = MONITORAMENTO_DIR / "metricas_processamento_leituras.csv"
+
+
+def ler_estado(padrao: str = "0") -> str:
+    if ESTADO_AGENTE_PATH.exists():
+        try:
+            dados = json.loads(ESTADO_AGENTE_PATH.read_text(encoding="utf-8"))
+            return "1" if str(dados.get("usar_agente", padrao)) in ("1", "true", "True") else "0"
+        except Exception:
+            pass
+    return str(padrao)
+
+
+def salvar_estado_agente(usar_agente: str):
+    MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
+    valor = 1 if str(usar_agente) in ("1", "true", "True") else 0
+    ESTADO_AGENTE_PATH.write_text(json.dumps({"usar_agente": valor}), encoding="utf-8")
+
+
+def inicializar_sqlite():
+    MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS recursos_docker(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp TEXT,
+                arquitetura TEXT,
+                usar_agente INTEGER,
+                container TEXT,
+                cpu_percent REAL,
+                mem_usage_mb REAL,
+                mem_limit_mb REAL,
+                net_rx_kbps REAL,
+                net_tx_kbps REAL,
+                block_read_mb REAL,
+                block_write_mb REAL,
+                pids INTEGER
+            )
+        """)
+
+
+def salvar_amostras_sqlite(amostras: list[dict]):
+    with sqlite3.connect(DB_PATH) as conn:
+        conn.executemany("""
+            INSERT INTO recursos_docker(
+                timestamp, arquitetura, usar_agente, container,
+                cpu_percent, mem_usage_mb, mem_limit_mb,
+                net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, [
+            (
+                a["timestamp"],
+                a["arquitetura"],
+                int(a["usar_agente"]),
+                a["container"],
+                float(a["cpu_percent"]),
+                float(a["mem_usage_mb"]),
+                float(a["mem_limit_mb"]),
+                float(a["net_rx_kbps"]),
+                float(a["net_tx_kbps"]),
+                float(a["block_read_mb"]),
+                float(a["block_write_mb"]),
+                int(a["pids"]),
+            ) for a in amostras
+        ])
+
+
+class SyncAPIHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        return
+
+    def _enviar_json(self, status: int, payload: dict):
+        corpo = json.dumps(payload).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.end_headers()
+        self.wfile.write(corpo)
+
+    def do_OPTIONS(self):
+        self._enviar_json(200, {"ok": True})
+
+    def do_GET(self):
+        parsed = urlparse(self.path)
+        if parsed.path != "/api/sync":
+            return self._enviar_json(404, {"erro": "Rota nao encontrada"})
+        qs = parse_qs(parsed.query)
+        after_id = int(qs.get("after_id", ["0"])[0])
+        limite = int(qs.get("limit", ["500"])[0])
+        with sqlite3.connect(DB_PATH) as conn:
+            conn.row_factory = sqlite3.Row
+            linhas = conn.execute(
+                "SELECT * FROM recursos_docker WHERE id > ? ORDER BY id ASC LIMIT ?",
+                (after_id, limite),
+            ).fetchall()
+        leituras = []
+        if CSV_LEITURAS_PATH.exists():
+            with open(CSV_LEITURAS_PATH, mode="r", encoding="utf-8", errors="ignore") as f:
+                leituras = list(csv.DictReader(f))[-100:]
+        self._enviar_json(200, {
+            "arquitetura": "Arquitetura_Velha",
+            "usar_agente": int(ler_estado("0")),
+            "recursos": [dict(r) for r in linhas],
+            "leituras": leituras,
+        })
+
+    def do_POST(self):
+        if self.path != "/api/agente":
+            return self._enviar_json(404, {"erro": "Rota nao encontrada"})
+        tamanho = int(self.headers.get("Content-Length", "0"))
+        body = json.loads(self.rfile.read(tamanho).decode("utf-8") or "{}")
+        novo_estado = "1" if str(body.get("usar_agente", "0")) in ("1", "true", "True") else "0"
+        salvar_estado_agente(novo_estado)
+        # Inicia ou para o container velha_agente_ia se existir no Docker
+        acao = "start" if novo_estado == "1" else "stop"
+        subprocess.run(["docker", acao, "velha_agente_ia"], capture_output=True)
+        print(f">>> [API Controle - Arq. Velha] Estado USAR_AGENTE alterado para: {novo_estado}")
+        self._enviar_json(200, {"ok": True, "usar_agente": int(novo_estado)})
 
 PREFIXOS_CONTAINERS = ("velha_", "fiware-", "db-mongo", "grafana")
 
@@ -233,6 +360,15 @@ def main():
     args = parser.parse_args()
 
     MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
+    inicializar_sqlite()
+    if not ESTADO_AGENTE_PATH.exists():
+        salvar_estado_agente(args.usar_agente)
+
+    porta_api = int(os.environ.get("MONITOR_PORT", "9096"))
+    servidor_http = ThreadingHTTPServer(("0.0.0.0", porta_api), SyncAPIHandler)
+    threading.Thread(target=servidor_http.serve_forever, daemon=True).start()
+    print(f">>> [API Sync] Escutando na porta {porta_api} (/api/sync e /api/agente)")
+
     campos = [
         "timestamp",
         "arquitetura",
@@ -259,13 +395,15 @@ def main():
         "pids",
     ]
 
-    print(f">>> [Monitor Docker - Arquitetura_Velha] USAR_AGENTE={args.usar_agente} | Intervalo={args.intervalo}s")
-    print(f">>> Salvando continuamente em: {CSV_PATH}")
+    print(f">>> [Monitor Docker - Arquitetura_Velha] USAR_AGENTE={ler_estado(args.usar_agente)} | Intervalo={args.intervalo}s")
+    print(f">>> Salvando continuamente em: {CSV_PATH} e {DB_PATH}")
 
     while True:
         try:
-            amostras = coletar_amostra("Arquitetura_Velha", str(args.usar_agente))
+            estado_atual = ler_estado(str(args.usar_agente))
+            amostras = coletar_amostra("Arquitetura_Velha", estado_atual)
             if amostras:
+                salvar_amostras_sqlite(amostras)
                 escrever_header = not CSV_PATH.exists()
                 if not escrever_header:
                     with open(CSV_PATH, mode="r", encoding="utf-8", errors="ignore") as f_in:

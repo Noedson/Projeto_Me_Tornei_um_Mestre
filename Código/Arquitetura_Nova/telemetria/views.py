@@ -12,6 +12,17 @@ from agente.preprocessamento import CO_MODERADA, CO_RUIM
 
 MONITORAMENTO_DIR = Path(__file__).resolve().parent.parent / "monitoramento"
 CSV_LEITURAS_PATH = MONITORAMENTO_DIR / "metricas_processamento_leituras.csv"
+ESTADO_AGENTE_PATH = MONITORAMENTO_DIR / "estado_agente.json"
+
+
+def obter_estado_agente() -> bool:
+    if ESTADO_AGENTE_PATH.exists():
+        try:
+            dados = json.loads(ESTADO_AGENTE_PATH.read_text(encoding="utf-8"))
+            return str(dados.get("usar_agente", "1")) in ("1", "true", "True")
+        except Exception:
+            pass
+    return os.environ.get("USAR_AGENTE", "1") == "1"
 
 
 def classificar_co_reativo(co_val: float) -> str:
@@ -106,7 +117,7 @@ def chirpstack_webhook(request):
         iqar_reativo = classificar_co_reativo(co_float)
         alerta_reativo = iqar_reativo == "Ruim"
 
-        usar_agente = os.environ.get("USAR_AGENTE", "1") == "1"
+        usar_agente = obter_estado_agente()
         print(
             f">>> [Webhook] Leitura salva no PostgreSQL! Sensor={device_name} ({dev_eui}) | "
             f"CO={co_float:.2f} ppm (IQAr Presente={iqar_reativo}) | "

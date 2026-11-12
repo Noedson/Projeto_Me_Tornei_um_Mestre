@@ -149,6 +149,24 @@ services:
       - chirpstack-gateway-bridge
       - chirpstack
       - web
+  
+  # 10. Coletor Automático de Recursos Computacionais (Reprodutibilidade Científica)
+  monitor-recursos:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: monitor_recursos_nova
+    restart: unless-stopped
+    ports:
+      - "9095:9095"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./monitorar_recursos_docker.py:/app/monitorar_recursos_docker.py
+      - ./monitoramento:/app/monitoramento
+    environment:
+      - USAR_AGENTE=${USAR_AGENTE:-1}
+      - MONITOR_PORT=9095
+      - TZ=America/Sao_Paulo
 
 volumes:
   postgres_data:

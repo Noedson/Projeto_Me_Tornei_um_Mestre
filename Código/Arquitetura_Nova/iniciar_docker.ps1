@@ -163,7 +163,7 @@ $servicos = @(
 if ($iniciarLwn) {
     $servicos += @{ Container = "smart_campus_lwn_simulator"; Titulo = "8. LWN Simulator (8002)" }
 }
-$servicos += @{ ComandoHost = "python `"$PSScriptRoot\monitorar_recursos_docker.py`" --usar-agente $usarAgente"; Titulo = "9. Monitor Recursos Docker (CSV)" }
+$servicos += @{ Container = "monitor_recursos_nova"; Titulo = "9. Monitor Recursos Docker (CSV)" }
 
 $pidFile = Join-Path $PSScriptRoot ".docker_terminals.pid"
 if (Test-Path $pidFile) { Remove-Item $pidFile -Force -ErrorAction SilentlyContinue }

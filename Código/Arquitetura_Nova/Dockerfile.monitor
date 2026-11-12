@@ -1,0 +1,13 @@
+FROM python:3.12-alpine
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Instala apenas o cliente Docker (docker-cli) para consultar o docker.sock
+RUN apk add --no-cache docker-cli
+
+WORKDIR /app
+
+COPY monitorar_recursos_docker.py /app/
+
+CMD ["python", "/app/monitorar_recursos_docker.py"]

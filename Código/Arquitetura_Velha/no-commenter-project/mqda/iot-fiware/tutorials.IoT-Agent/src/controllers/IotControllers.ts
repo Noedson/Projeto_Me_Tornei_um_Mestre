@@ -15,6 +15,18 @@ import { calculateHeatIndex, targetConcept } from "../helpers/calcHeatIndex";
 
 const MONITORAMENTO_DIR = "/app/monitoramento";
 const CSV_LEITURAS_PATH = path.join(MONITORAMENTO_DIR, "metricas_processamento_leituras.csv");
+const ESTADO_AGENTE_PATH = path.join(MONITORAMENTO_DIR, "estado_agente.json");
+
+function obterEstadoAgente(): boolean {
+  try {
+    if (fs.existsSync(ESTADO_AGENTE_PATH)) {
+      const raw = fs.readFileSync(ESTADO_AGENTE_PATH, "utf-8");
+      const parsed = JSON.parse(raw);
+      return String(parsed.usar_agente) === "1" || parsed.usar_agente === true;
+    }
+  } catch (_) {}
+  return process.env.USAR_AGENTE === "1";
+}
 const CSV_HEADER = [
   "timestamp_recebimento",
   "timestamp_sensor",
@@ -195,7 +207,7 @@ export const SUBMIT_DATA_AGENT = async (req: Request, res: Response) => {
       heatConcept as any
     );
 
-    const usarAgente = process.env.USAR_AGENTE === "1";
+    const usarAgente = obterEstadoAgente();
     let iqarPrevisto15m = "";
     let coPrevisto15m = "";
     let anomaliaDetectada: string | number = "";
