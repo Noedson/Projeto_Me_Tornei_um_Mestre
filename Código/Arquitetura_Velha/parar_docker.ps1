@@ -5,7 +5,7 @@ $OutputEncoding           = [System.Text.Encoding]::UTF8
 Set-Location $PSScriptRoot
 
 Write-Host ">>> Parando os containers da Arquitetura Velha..." -ForegroundColor Cyan
-docker compose --profile teste down
+docker compose --profile teste --profile agente down
 
 Write-Host ">>> Fechando as janelas de terminais dos serviços..." -ForegroundColor Yellow
 
@@ -33,7 +33,10 @@ $nomes = @(
     "6. FIWARE Orion",
     "7. FIWARE Cygnus",
     "8. MongoDB",
-    "9. LWN Simulator"
+    "9. Agente IA",
+    "9. LWN Simulator",
+    "10. LWN Simulator",
+    "11. Monitor Recursos Docker"
 )
 
 foreach ($proc in (Get-Process powershell -ErrorAction SilentlyContinue)) {

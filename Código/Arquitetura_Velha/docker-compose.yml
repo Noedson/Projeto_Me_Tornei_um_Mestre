@@ -249,6 +249,7 @@ services:
     volumes:
       - ./no-commenter-project/mqda/iot-fiware/tutorials.IoT-Agent/src:/app/src
       - ./no-commenter-project/mqda/iot-fiware/tutorials.IoT-Agent/provisionar_arquitetura_velha.js:/app/provisionar_arquitetura_velha.js
+      - ./monitoramento:/app/monitoramento
     environment:
       - PORT=4000
       - ORION_URL=http://orion:1026
@@ -261,12 +262,33 @@ services:
       - CHIRPSTACK_PG_PASSWORD=chirpstack
       - CHIRPSTACK_PG_DB=chirpstack
       - NODERED_WEBHOOK_URL=http://velha_nodered:1880/chirpstack
+      - USAR_AGENTE=${USAR_AGENTE:-0}
+      - AGENTE_IA_URL=http://velha_agente_ia:5000/avaliar
     depends_on:
       - orion
       - iot-agent
       - mongo-db
       - chirpstack
       - nodered
+
+  # ============================================================================
+  # 4.1 SERVIÇO DO AGENTE INTELIGENTE V4 (Opcional - Sobe apenas quando USAR_AGENTE=1)
+  # ============================================================================
+  agente-ia:
+    profiles:
+      - agente
+    build: ../Arquitetura_Nova
+    container_name: velha_agente_ia
+    restart: unless-stopped
+    command: python /app/servico_agente_velha.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../Arquitetura_Nova/agente:/app/agente
+      - ./servico_agente_velha.py:/app/servico_agente_velha.py
+    environment:
+      - PORT=5000
+      - APP_TESTE=${APP_TESTE:-0}
 
   # ============================================================================
   # 5. SIMULADOR LORAWAN (Opcional - Sobe com .\iniciar_docker.ps1 -d -t)

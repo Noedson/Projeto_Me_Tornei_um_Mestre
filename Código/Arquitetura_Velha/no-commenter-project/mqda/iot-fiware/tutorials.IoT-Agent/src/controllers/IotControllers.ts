@@ -1,4 +1,7 @@
 import express, { Request, Response } from "express";
+import fs from "fs";
+import path from "path";
+import { performance } from "perf_hooks";
 import { serviceIot } from "../services/CreateServiceIot";
 import { sendDataAgent } from "../services/SendDataDevice";
 import { getAllSensors } from "../services/ShowSensors";
@@ -9,6 +12,39 @@ import { createDocumentRoom, createDocumentSensor, getRooms, findLastDocByIdRoom
 import { format } from "../helpers/formatDataSensors";
 import { calcIQAR } from "../helpers/calcIQAR";
 import { calculateHeatIndex, targetConcept } from "../helpers/calcHeatIndex";
+
+const MONITORAMENTO_DIR = "/app/monitoramento";
+const CSV_LEITURAS_PATH = path.join(MONITORAMENTO_DIR, "metricas_processamento_leituras.csv");
+const CSV_HEADER = [
+  "timestamp_recebimento",
+  "timestamp_sensor",
+  "arquitetura",
+  "usar_agente",
+  "dev_eui",
+  "co_atual",
+  "iqar_reativo_presente",
+  "alerta_reativo_presente",
+  "iqar_previsto_15m",
+  "co_previsto_15m",
+  "anomalia_detectada",
+  "erro_reconstrucao",
+  "tipo_alerta_agente",
+  "latencia_total_ms",
+  "latencia_agente_ms",
+].join(",") + "\n";
+
+function registrarMetricaCsv(valores: (string | number)[]) {
+  try {
+    fs.mkdirSync(MONITORAMENTO_DIR, { recursive: true });
+    if (!fs.existsSync(CSV_LEITURAS_PATH)) {
+      fs.writeFileSync(CSV_LEITURAS_PATH, CSV_HEADER, { encoding: "utf-8" });
+    }
+    const linha = valores.map((v) => String(v ?? "").replace(/,/g, ";")).join(",") + "\n";
+    fs.appendFileSync(CSV_LEITURAS_PATH, linha, { encoding: "utf-8" });
+  } catch (err: any) {
+    console.log(">>> [Aviso Monitoramento] Falha ao gravar CSV:", err?.message);
+  }
+}
 
 export const ping = async (req: Request, res: Response) => {
   res.status(200).json({ pong: "ok" });
@@ -101,7 +137,8 @@ export const CREATE_SENSORS = async (req: Request, res: Response) => {
 };
 
 export const SUBMIT_DATA_AGENT = async (req: Request, res: Response) => {
-  let { room, data } = req.body;
+  const tInicioTotal = performance.now();
+  let { room, data, time } = req.body;
   let sensorDataObject: { [key: string]: number } = {};
   let arr: any = [];
 
@@ -138,8 +175,15 @@ export const SUBMIT_DATA_AGENT = async (req: Request, res: Response) => {
     const heatConcept = targetConcept(temperatura, umidade);
     const [iqarLabel, iqarDados] = calcIQAR(arr);
 
-    console.log("Qualidade do Ar:", iqarLabel);
+    const coAtual = sensorDataObject["CO_MQ135_Level"] ?? 0.0;
+    const iqarReativo = coAtual >= 9.5 ? "Ruim" : coAtual >= 4.5 ? "Moderada" : "Boa";
+    const alertaReativo = iqarReativo === "Ruim" || (iqarLabel && iqarLabel !== "Boa" && iqarLabel !== "Moderada");
+
+    console.log(`Qualidade do Ar (Tabela calcIQAR): ${iqarLabel} | CO=${coAtual.toFixed(2)} ppm (IQAr EPA=${iqarReativo})`);
     console.log("Dados IQAR:", iqarDados);
+    if (alertaReativo) {
+      console.log(`>>> [AVISO REATIVO - POLUICAO PRESENTE] CO atual (${coAtual.toFixed(2)} ppm) atingiu nivel critico (${iqarLabel})!`);
+    }
 
     const mongoLocal = await createDocumentSensor(
       room,
@@ -151,10 +195,92 @@ export const SUBMIT_DATA_AGENT = async (req: Request, res: Response) => {
       heatConcept as any
     );
 
+    const usarAgente = process.env.USAR_AGENTE === "1";
+    let iqarPrevisto15m = "";
+    let coPrevisto15m = "";
+    let anomaliaDetectada: string | number = "";
+    let erroReconstrucao = "";
+    let tipoAlertaAgente = "";
+    let latenciaAgenteMs = 0.0;
+
+    if (usarAgente) {
+      const agenteUrl = process.env.AGENTE_IA_URL || "http://velha_agente_ia:5000/avaliar";
+      const tInicioAgente = performance.now();
+      try {
+        const respAgente = await fetch(agenteUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            room,
+            timestamp: time || new Date().toISOString(),
+            gases: {
+              CO_MQ135: sensorDataObject["CO_MQ135_Level"] ?? 0.0,
+              CO2_MQ135: sensorDataObject["CO2_MQ135_Level"] ?? 0.0,
+              MH4_MQ135: sensorDataObject["MH4_MQ135_Level"] ?? 0.0,
+              Aceton_MQ135: sensorDataObject["Aceton_MQ135_Level"] ?? 0.0,
+              Alcool_MQ135: sensorDataObject["Alcool_MQ135_Level"] ?? 0.0,
+              Toluen_MQ135: sensorDataObject["Toluen_MQ135_Level"] ?? 0.0,
+              O3_MQ131: sensorDataObject["O3_MQ131_Level"] ?? 0.0,
+            },
+          }),
+        });
+        latenciaAgenteMs = performance.now() - tInicioAgente;
+        if (respAgente.ok) {
+          const resultado: any = await respAgente.json();
+          if (resultado.pronto) {
+            iqarPrevisto15m = resultado.classe || "";
+            const prevCoVal = resultado.previsao?.CO_MQ135 ?? 0.0;
+            coPrevisto15m = Number(prevCoVal).toFixed(4);
+            anomaliaDetectada = resultado.anomalia ? 1 : 0;
+            erroReconstrucao = Number(resultado.erro_reconstrucao ?? 0).toFixed(6);
+            console.log(
+              `>>> [Agente IA - Arq. Velha] IQAr Previsto (15m): ${iqarPrevisto15m} | ` +
+              `CO Previsto=${Number(prevCoVal).toFixed(2)} ppm | Erro Rec=${Number(resultado.erro_reconstrucao).toFixed(4)} | ` +
+              `Anomalia=${resultado.anomalia} | Tempo Agente=${latenciaAgenteMs.toFixed(2)} ms`
+            );
+            if (resultado.alerta) {
+              tipoAlertaAgente = resultado.alerta.tipo || "";
+              console.log(`>>> [ALERTA AGENTE IA - ARQ. VELHA] [${resultado.alerta.tipo}] ${resultado.alerta.mensagem}`);
+            }
+          } else {
+            console.log(`>>> [Agente IA - Arq. Velha] Coletando janela inicial (${resultado.amostras_atuais || 0}/${resultado.amostras_necessarias || 32})...`);
+          }
+        }
+      } catch (errAgente: any) {
+        latenciaAgenteMs = performance.now() - tInicioAgente;
+        console.log(`>>> [Aviso Agente IA - Arq. Velha] Erro ao consultar servico do agente: ${errAgente?.message}`);
+      }
+    } else {
+      console.log(">>> [Modo SEM AGENTE] Inferencia IA desativada (USAR_AGENTE=0). Apenas monitoramento reativo calcIQAR.");
+    }
+
+    const latenciaTotalMs = performance.now() - tInicioTotal;
+    registrarMetricaCsv([
+      new Date().toISOString(),
+      time || new Date().toISOString(),
+      "Arquitetura_Velha",
+      usarAgente ? 1 : 0,
+      room,
+      coAtual.toFixed(4),
+      iqarReativo,
+      alertaReativo ? 1 : 0,
+      iqarPrevisto15m,
+      coPrevisto15m,
+      anomaliaDetectada,
+      erroReconstrucao,
+      tipoAlertaAgente,
+      latenciaTotalMs.toFixed(3),
+      latenciaAgenteMs.toFixed(3),
+    ]);
+
     res.status(200).json({
       ok: "---Dados Recebidos ---",
       data,
       iqar: iqarLabel,
+      usar_agente: usarAgente,
+      iqar_previsto_15m: iqarPrevisto15m || null,
+      latencia_total_ms: Number(latenciaTotalMs.toFixed(3)),
+      latencia_agente_ms: Number(latenciaAgenteMs.toFixed(3)),
       mongodb: mongoLocal,
     });
   } else {

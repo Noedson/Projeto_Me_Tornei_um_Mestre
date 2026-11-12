@@ -1,5 +1,5 @@
 # Script para subir a Arquitetura Velha (ChirpStack -> Node-RED -> Proxy de Integração -> FIWARE IoT-Agent / Orion -> MongoDB)
-# Uso: .\iniciar_docker.ps1 [-d [-t] | -p]
+# Uso: .\iniciar_docker.ps1 [-d [-t] | -p] [-a | --com-agente | -sa | --sem-agente]
 [Console]::InputEncoding  = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding           = [System.Text.Encoding]::UTF8
@@ -8,17 +8,27 @@ Set-Location $PSScriptRoot
 
 $modo = "desenvolvimento"
 $teste = $false
+$usarAgente = "0"
 foreach ($arg in $args) {
     switch -Regex ($arg) {
-        "^(--produ|-p|-produ)"             { $modo = "producao" }
-        "^(--desenvolvimento|-d|-desenv)"  { $modo = "desenvolvimento" }
-        "^(--teste|-t|-teste|--test)"      { $teste = $true }
+        "^(--produ|-p|-produ)"                     { $modo = "producao" }
+        "^(--desenvolvimento|-d|-desenv)"          { $modo = "desenvolvimento" }
+        "^(--teste|-t|-teste|--test)"              { $teste = $true }
+        "^(--sem-agente|-sa|--no-agent)"           { $usarAgente = "0" }
+        "^(--com-agente|-a|--agent)"               { $usarAgente = "1" }
     }
 }
 
 $iniciarLwn = ($modo -eq "desenvolvimento") -and $teste
+$env:APP_TESTE = if ($iniciarLwn) { "1" } else { "0" }
+$env:USAR_AGENTE = $usarAgente
 
 Write-Host ">>> [ARQUITETURA VELHA] Fluxo: ChirpStack (8080) -> Node-RED (1880) -> Proxy de Integração (4000) -> FIWARE IoT-Agent (7896) / Orion (1026) -> MongoDB (27017)" -ForegroundColor Magenta
+if ($usarAgente -eq "1") {
+    Write-Host ">>> Agente Inteligente V4: ATIVADO (USAR_AGENTE=1 -> container velha_agente_ia na porta 5000)" -ForegroundColor Cyan
+} else {
+    Write-Host ">>> Agente Inteligente V4: DESATIVADO (USAR_AGENTE=0 - Modo Reativo Original calcIQAR) [Para ativar: use -a ou --com-agente]" -ForegroundColor Yellow
+}
 if ($iniciarLwn) {
     Write-Host ">>> Modo de TESTE (-t) ATIVO: O LWN-Simulator (8002) será iniciado para enviar pacotes LoRaWAN." -ForegroundColor Green
 } else {
@@ -76,14 +86,22 @@ if (-not $noderedImg) {
 # PASSO 3: Subir todos os containers da Arquitetura Velha
 # ==============================================================================
 Write-Host "`n>>> [2/3] Construindo e iniciando os containers da Arquitetura Velha..." -ForegroundColor Cyan
+$composeProfiles = @()
 if ($iniciarLwn) {
-    docker compose --profile teste up -d --build
+    $composeProfiles += "--profile", "teste"
 } else {
     $ErrorActionPreference = "Continue"
     docker rm -f velha_lwn_simulator 2>$null | Out-Null
     $ErrorActionPreference = "Stop"
-    docker compose up -d --build
 }
+if ($usarAgente -eq "1") {
+    $composeProfiles += "--profile", "agente"
+} else {
+    $ErrorActionPreference = "Continue"
+    docker rm -f velha_agente_ia 2>$null | Out-Null
+    $ErrorActionPreference = "Stop"
+}
+docker compose @composeProfiles up -d --build
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "`n>>> [ERRO] O comando 'docker compose' falhou (código $LASTEXITCODE). Verifique se o Docker Desktop está aberto e se a Arquitetura Nova foi parada." -ForegroundColor Red
@@ -103,9 +121,13 @@ $servicos = @(
     @{ Container = "fiware-cygnus";            Titulo = "7. FIWARE Cygnus (5051/5080)" },
     @{ Container = "db-mongo";                 Titulo = "8. MongoDB (27017)" }
 )
-if ($iniciarLwn) {
-    $servicos += @{ Container = "velha_lwn_simulator"; Titulo = "9. LWN Simulator (8002)" }
+if ($usarAgente -eq "1") {
+    $servicos += @{ Container = "velha_agente_ia"; Titulo = "9. Agente IA V4 (5000)" }
 }
+if ($iniciarLwn) {
+    $servicos += @{ Container = "velha_lwn_simulator"; Titulo = "10. LWN Simulator (8002)" }
+}
+$servicos += @{ ComandoHost = "python `"$PSScriptRoot\monitorar_recursos_docker.py`" --usar-agente $usarAgente"; Titulo = "11. Monitor Recursos Docker (CSV)" }
 
 $pidFile = Join-Path $PSScriptRoot ".docker_terminals.pid"
 if (Test-Path $pidFile) { Remove-Item $pidFile -Force -ErrorAction SilentlyContinue }
@@ -116,7 +138,11 @@ function Abrir-LogsPowerShell {
     foreach ($s in $servicos) {
         $nome = $s.Container
         $titulo = $s.Titulo
-        $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; docker logs -f $nome"
+        if ($s.ComandoHost) {
+            $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== $titulo ===' -ForegroundColor Cyan; $($s.ComandoHost)"
+        } else {
+            $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; docker logs -f $nome"
+        }
         $proc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", $logCmd
         $pids += $proc.Id
     }
@@ -132,7 +158,11 @@ if ($caminhoWT) {
             $s = $servicos[$i]
             $nome = $s.Container
             $titulo = $s.Titulo
-            $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; `$PID | Out-File -Append -FilePath '$pidFile'; docker logs -f $nome"
+            if ($s.ComandoHost) {
+                $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== $titulo ===' -ForegroundColor Cyan; `$PID | Out-File -Append -FilePath '$pidFile'; $($s.ComandoHost)"
+            } else {
+                $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; `$PID | Out-File -Append -FilePath '$pidFile'; docker logs -f $nome"
+            }
             Start-Process $caminhoWT -ArgumentList @("-w", "0", "new-tab", "--title", $titulo, "powershell", "-NoExit", "-Command", $logCmd) -ErrorAction Stop
             if ($i -eq 0) {
                 Start-Sleep -Milliseconds 700

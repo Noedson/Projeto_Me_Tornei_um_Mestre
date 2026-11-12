@@ -1,5 +1,5 @@
 # Script para subir o Docker Compose e abrir as logs em abas no Windows Terminal
-# Uso: .\iniciar_docker.ps1 [-d [-t] | -p]
+# Uso: .\iniciar_docker.ps1 [-d [-t] | -p] [-a | --com-agente | -sa | --sem-agente]
 [Console]::InputEncoding  = [System.Text.Encoding]::UTF8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding           = [System.Text.Encoding]::UTF8
@@ -8,12 +8,15 @@ Set-Location $PSScriptRoot
 
 $modo = "desenvolvimento"
 $teste = $false
+$usarAgente = "1"
 $modoExibicao = "DESENVOLVIMENTO ([AVISO]: Use somente enquanto desenvolve, recomendado usar o modo PRODU$([char]0x00C7)$([char]0x00C3)O)"
 foreach ($arg in $args) {
     switch -Regex ($arg) {
-        "^(--produ|-p|-produ)"             { $modo = "producao"; $modoExibicao = "PRODU$([char]0x00C7)$([char]0x00C3)O" }
-        "^(--desenvolvimento|-d|-desenv)"  { $modo = "desenvolvimento"; $modoExibicao = "DESENVOLVIMENTO ([AVISO]: Use somente enquanto desenvolve, recomendado usar o modo PRODU$([char]0x00C7)$([char]0x00C3)O)" }
-        "^(--teste|-t|-teste|--test)"      { $teste = $true }
+        "^(--produ|-p|-produ)"                     { $modo = "producao"; $modoExibicao = "PRODU$([char]0x00C7)$([char]0x00C3)O" }
+        "^(--desenvolvimento|-d|-desenv)"          { $modo = "desenvolvimento"; $modoExibicao = "DESENVOLVIMENTO ([AVISO]: Use somente enquanto desenvolve, recomendado usar o modo PRODU$([char]0x00C7)$([char]0x00C3)O)" }
+        "^(--teste|-t|-teste|--test)"              { $teste = $true }
+        "^(--sem-agente|-sa|--no-agent)"           { $usarAgente = "0" }
+        "^(--com-agente|-a|--agent)"               { $usarAgente = "1" }
     }
 }
 
@@ -23,8 +26,14 @@ $iniciarLwn = ($modo -eq "desenvolvimento") -and $teste
 
 $env:APP_MODE = $modo
 $env:APP_TESTE = if ($iniciarLwn) { "1" } else { "0" }
+$env:USAR_AGENTE = $usarAgente
 
 Write-Host ">>> Modo selecionado para o servidor Web: $modoExibicao" -ForegroundColor Magenta
+if ($usarAgente -eq "1") {
+    Write-Host ">>> Agente Inteligente V4: ATIVADO (USAR_AGENTE=1) [Para desativar: use -sa ou --sem-agente]" -ForegroundColor Cyan
+} else {
+    Write-Host ">>> Agente Inteligente V4: DESATIVADO (USAR_AGENTE=0 - Modo Reativo Sem Agente) [Para ativar: use -a ou --com-agente]" -ForegroundColor Yellow
+}
 if ($iniciarLwn) {
     Write-Host ">>> Modo de TESTE (-t) ATIVO: O LWN-Simulator será iniciado (simulação dinâmica do event_up: Boa <-> Moderada <-> Ruim)." -ForegroundColor Green
 } elseif ($modo -eq "producao" -and $teste) {
@@ -154,6 +163,7 @@ $servicos = @(
 if ($iniciarLwn) {
     $servicos += @{ Container = "smart_campus_lwn_simulator"; Titulo = "8. LWN Simulator (8002)" }
 }
+$servicos += @{ ComandoHost = "python `"$PSScriptRoot\monitorar_recursos_docker.py`" --usar-agente $usarAgente"; Titulo = "9. Monitor Recursos Docker (CSV)" }
 
 $pidFile = Join-Path $PSScriptRoot ".docker_terminals.pid"
 if (Test-Path $pidFile) { Remove-Item $pidFile -Force -ErrorAction SilentlyContinue }
@@ -164,7 +174,11 @@ function Abrir-LogsPowerShell {
     foreach ($s in $servicos) {
         $nome = $s.Container
         $titulo = $s.Titulo
-        $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; docker logs -f $nome"
+        if ($s.ComandoHost) {
+            $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== $titulo ===' -ForegroundColor Cyan; $($s.ComandoHost)"
+        } else {
+            $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; docker logs -f $nome"
+        }
         $proc = Start-Process powershell -PassThru -ArgumentList "-NoExit", "-Command", $logCmd
         $pids += $proc.Id
     }
@@ -181,7 +195,11 @@ if ($caminhoWT) {
             $nome = $s.Container
             $titulo = $s.Titulo
             
-            $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; `$PID | Out-File -Append -FilePath '$pidFile'; docker logs -f $nome"
+            if ($s.ComandoHost) {
+                $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== $titulo ===' -ForegroundColor Cyan; `$PID | Out-File -Append -FilePath '$pidFile'; $($s.ComandoHost)"
+            } else {
+                $logCmd = "[Console]::OutputEncoding = [System.Text.Encoding]::UTF8; `$Host.UI.RawUI.WindowTitle = '$titulo'; Write-Host '=== LOGS: $titulo ($nome) ===' -ForegroundColor Yellow; `$PID | Out-File -Append -FilePath '$pidFile'; docker logs -f $nome"
+            }
             
             # O parâmetro -w 0 anexa novas abas na mesma janela (Janela 0)
             Start-Process $caminhoWT -ArgumentList @("-w", "0", "new-tab", "--title", $titulo, "powershell", "-NoExit", "-Command", $logCmd) -ErrorAction Stop

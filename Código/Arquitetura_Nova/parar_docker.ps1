@@ -36,7 +36,8 @@ $nomes = @(
     "5. PostgreSQL",
     "6. Redis",
     "7. REST API",
-    "8. LWN Simulator"
+    "8. LWN Simulator",
+    "9. Monitor Recursos Docker"
 )
 
 foreach ($proc in (Get-Process powershell -ErrorAction SilentlyContinue)) {
