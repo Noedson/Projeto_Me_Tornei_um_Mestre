@@ -1,0 +1,65 @@
+services:
+  db-central:
+    image: postgres:16-alpine
+    container_name: dashboard_db_central
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: experimento_mestrado
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    ports:
+      - "5435:5432"
+    volumes:
+      - pg_central_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d experimento_mestrado"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  sync-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.sync
+    container_name: dashboard_sync_api
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./sincronizador_central.py:/app/sincronizador_central.py
+    environment:
+      - POSTGRES_HOST=db-central
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=experimento_mestrado
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_password
+      - URL_ARQ_NOVA=${URL_ARQ_NOVA:-http://host.docker.internal:9095}
+      - URL_ARQ_VELHA=${URL_ARQ_VELHA:-http://host.docker.internal:9096}
+    depends_on:
+      db-central:
+        condition: service_healthy
+
+  dashboard:
+    build: .
+    container_name: dashboard_experimento
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - sync-api
+
+volumes:
+  pg_central_data:
+
+    depends_on:
+      - sync-api
+
+volumes:
+  pg_central_data:
