@@ -204,3 +204,50 @@
   color: #fff;
   border-color: #2563eb;
 }
+
+.painel-config {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.painel-config h3 {
+  margin: 0;
+}
+
+.grid-config-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.grid-config-inputs label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.grid-config-inputs input {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  font-size: 14px;
+}
+
+.botoes-config {
+  display: flex;
+  gap: 10px;
+}
+
+.texto-url {
+  font-size: 12px;
+  opacity: 0.85;
+}

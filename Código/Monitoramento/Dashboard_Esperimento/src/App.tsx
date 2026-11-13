@@ -46,6 +46,9 @@ function App() {
   const [ultimaAtualizacao, setUltimaAtualizacao] = useState<string>('--')
   const [carregando, setCarregando] = useState<boolean>(false)
   const [janela, setJanela] = useState<string>('5m')
+  const [mostrarConfig, setMostrarConfig] = useState<boolean>(false)
+  const [urlVelhaInput, setUrlVelhaInput] = useState<string>('')
+  const [urlNovaInput, setUrlNovaInput] = useState<string>('')
 
   //1. Busca os dados do PostgreSQL Central em busca de 3 segundo
 
@@ -107,6 +110,30 @@ function App() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ alvo, usar_agente: novoEstado }),
       })
+      await buscarDados()
+    } finally {
+      setCarregando(false)
+    }
+  }
+
+  const abrirConfigUrls = () => {
+    setUrlVelhaInput(velha?.url || 'http://host.docker.internal:9096')
+    setUrlNovaInput(nova?.url || 'http://host.docker.internal:9095')
+    setMostrarConfig((v) => !v)
+  }
+
+  const salvarUrls = async () => {
+    setCarregando(true)
+    try {
+      await fetch(`${API_BASE}/api/config-urls`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url_velha: urlVelhaInput.trim(),
+          url_nova: urlNovaInput.trim(),
+        }),
+      })
+      setMostrarConfig(false)
       await buscarDados()
     } finally {
       setCarregando(false)
@@ -201,14 +228,55 @@ function App() {
           >
             Desligar Agente nas 2 Máquinas (Etapa 1)
           </button>
+          <button
+            disabled={carregando}
+            className="btn"
+            onClick={abrirConfigUrls}
+          >
+            ⚙️ Configurar IPs
+          </button>
         </div>
       </header>
+      {mostrarConfig && (
+        <section className="painel-config">
+          <h3>Configurar Endereços das Máquinas (Sync em Tempo Real)</h3>
+          <div className="grid-config-inputs">
+            <label>
+              Máquina 1 — Arquitetura Velha (porta 9096):
+              <input
+                type="text"
+                value={urlVelhaInput}
+                onChange={(e) => setUrlVelhaInput(e.target.value)}
+                placeholder="http://192.168.0.10:9096"
+              />
+            </label>
+            <label>
+              Máquina 2 — Arquitetura Nova (porta 9095):
+              <input
+                type="text"
+                value={urlNovaInput}
+                onChange={(e) => setUrlNovaInput(e.target.value)}
+                placeholder="http://192.168.0.11:9095"
+              />
+            </label>
+          </div>
+          <div className="botoes-config">
+            <button disabled={carregando} className="btn btn-ativar" onClick={salvarUrls}>
+              Salvar IPs
+            </button>
+            <button disabled={carregando} className="btn" onClick={() => setMostrarConfig(false)}>
+              Cancelar
+            </button>
+          </div>
+        </section>
+      )}
       {erro && <div className="alerta-erro">{erro}</div>}
       {/* Cards de Status das 2 Máquinas */}
       <section className="grid-maquinas">
         <div className="card-maquina">
           <h2>Máquina 1: Arquitetura Velha (FIWARE + Node-RED + Mongo)</h2>
           <p>Status: <strong>{velha?.online ? '🟢 Online' : '🔴 Offline'}</strong> | Último Sync: {velha?.ultimo_sync || '--'}</p>
+          <p className="texto-url">Endpoint: <code>{velha?.url || '--'}</code></p>
           <p>Modo Atual: <strong>{velha?.usar_agente === 1 ? '🤖 COM AGENTE IA' : '⚡ SEM AGENTE (Reativo)'}</strong></p>
           <div className="metricas-instantaneas">
             <Acelerometro titulo="CPU" valor={velhaAtual?.cpu_percent} max={100} unidade="%" />
@@ -227,6 +295,7 @@ function App() {
         <div className="card-maquina">
           <h2>Máquina 2: Arquitetura Nova (Django + PostgreSQL)</h2>
           <p>Status: <strong>{nova?.online ? '🟢 Online' : '🔴 Offline'}</strong> | Último Sync: {nova?.ultimo_sync || '--'}</p>
+          <p className="texto-url">Endpoint: <code>{nova?.url || '--'}</code></p>
           <p>Modo Atual: <strong>{nova?.usar_agente === 1 ? '🤖 COM AGENTE IA' : '⚡ SEM AGENTE (Reativo)'}</strong></p>
           <div className="metricas-instantaneas">
             <Acelerometro titulo="CPU" valor={novaAtual?.cpu_percent} max={100} unidade="%" />
