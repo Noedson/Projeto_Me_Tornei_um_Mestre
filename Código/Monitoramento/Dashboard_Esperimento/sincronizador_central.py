@@ -17,6 +17,7 @@ import threading
 import time
 import urllib.request
 import urllib.error
+from urllib.parse import parse_qs, urlparse
 
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -208,26 +209,65 @@ def loop_sincronizacao():
     while True:
         sincronizar_arquitetura("Arquitetura_Nova")
         sincronizar_arquitetura("Arquitetura_Velha")
-        time.sleep(5)
+        time.sleep(1)
 
 
-def obter_dados_dashboard():
+JANELAS_CONFIG = {
+    "1h": ("1 hour", "1 minute"),
+    "24h": ("24 hours", "15 minutes"),
+    "7d": ("7 days", "2 hours"),
+    "15d": ("15 days", "4 hours"),
+}
+
+
+def obter_dados_dashboard(janela: str = "5m"):
     with get_conn() as conn:
         with conn.cursor(cursor_factory=RealDictCursor) as cur:
-            # 1. Histórico recente TOTAL_ARQUITETURA de cada uma (últimos 40 pontos)
+            # 1. Última amostra instantânea + Histórico TOTAL_ARQUITETURA conforme janela
             historico = {}
+            atual = {}
             for arq in ("Arquitetura_Nova", "Arquitetura_Velha"):
                 cur.execute("""
                     SELECT origem_id, timestamp, usar_agente, cpu_percent, mem_usage_mb,
-                           net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                           net_rx_kbps, net_tx_kbps
                     FROM recursos_central
                     WHERE arquitetura = %s AND container = 'TOTAL_ARQUITETURA'
                     ORDER BY origem_id DESC
-                    LIMIT 40;
+                    LIMIT 1;
                 """, (arq,))
-                rows = list(cur.fetchall())
-                rows.reverse()
-                historico[arq] = rows
+                atual[arq] = cur.fetchone()
+
+                if janela in JANELAS_CONFIG:
+                    intervalo_total, bucket_step = JANELAS_CONFIG[janela]
+                    cur.execute(f"""
+                        SELECT
+                            MAX(origem_id) AS origem_id,
+                            MAX(timestamp) AS timestamp,
+                            ROUND(AVG(usar_agente))::int AS usar_agente,
+                            ROUND(AVG(cpu_percent)::numeric, 2) AS cpu_percent,
+                            ROUND(AVG(mem_usage_mb)::numeric, 2) AS mem_usage_mb,
+                            ROUND(AVG(net_rx_kbps)::numeric, 2) AS net_rx_kbps,
+                            ROUND(AVG(net_tx_kbps)::numeric, 2) AS net_tx_kbps
+                        FROM recursos_central
+                        WHERE arquitetura = %s
+                          AND container = 'TOTAL_ARQUITETURA'
+                          AND timestamp::timestamptz >= NOW() - INTERVAL '{intervalo_total}'
+                        GROUP BY date_bin(INTERVAL '{bucket_step}', timestamp::timestamptz, TIMESTAMPTZ '2000-01-01 00:00:00+00')
+                        ORDER BY MIN(timestamp::timestamptz) ASC;
+                    """, (arq,))
+                    historico[arq] = [dict(r) for r in cur.fetchall()]
+                else:
+                    cur.execute("""
+                        SELECT origem_id, timestamp, usar_agente, cpu_percent, mem_usage_mb,
+                               net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                        FROM recursos_central
+                        WHERE arquitetura = %s AND container = 'TOTAL_ARQUITETURA'
+                        ORDER BY origem_id DESC
+                        LIMIT 60;
+                    """, (arq,))
+                    rows = list(cur.fetchall())
+                    rows.reverse()
+                    historico[arq] = rows
 
             # 2. Médias consolidadas por (arquitetura, usar_agente) — Os 4 Cenários!
             cur.execute("""
@@ -273,6 +313,8 @@ def obter_dados_dashboard():
 
     return {
         "conexoes": ESTADO_CONEXAO,
+        "atual": atual,
+        "janela": janela,
         "historico": historico,
         "resumo_recursos": resumo_recursos,
         "resumo_leituras": resumo_leituras,
@@ -298,9 +340,12 @@ class CentralAPIHandler(BaseHTTPRequestHandler):
         self._enviar_json(200, {"ok": True})
 
     def do_GET(self):
-        if self.path.startswith("/api/dashboard"):
+        parsed = urlparse(self.path)
+        if parsed.path == "/api/dashboard":
             try:
-                dados = obter_dados_dashboard()
+                qs = parse_qs(parsed.query)
+                janela = qs.get("janela", ["5m"])[0]
+                dados = obter_dados_dashboard(janela)
                 return self._enviar_json(200, dados)
             except Exception as e:
                 return self._enviar_json(500, {"erro": str(e)})

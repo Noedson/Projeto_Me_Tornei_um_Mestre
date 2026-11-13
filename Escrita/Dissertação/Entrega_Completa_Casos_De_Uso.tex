@@ -149,17 +149,20 @@ A Figura 1 apresenta o Diagrama de Casos de Uso do \textbf{Sistema IQArMobi}, el
 A seguir são detalhadas as especificações textuais dos casos de uso do \textbf{Sistema IQArMobi}, contemplando os campos definidos na vídeo-aula: \emph{Identificador}, \emph{Nome}, \emph{Breve Descrição}, \emph{Atores e Participação}, \emph{Prioridade}, \emph{Pré-condições}, \emph{Pós-condições}, \emph{Fluxo de Eventos Principal}, \emph{Subfluxos}, \emph{Fluxos Secundários/Exceções} e \emph{Requisitos Não Funcionais Associados}.
 
 % --- UC01 ---
-\subsection*{1. Especificação do Caso de Uso UC01 (integrado a UC02 e UC03)}
+\subsection*{1. Especificação do Caso de Uso}
 
 \begin{longtable}{|>{\bfseries}p{3.8cm}|p{12.2cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{UC01 --- Receber Telemetria Ambiental via WebHook}} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Receber Telemetria Ambiental via WebHook}} \\ \hline
 
-Identificador & \texttt{UC01} \\ \hline
 
 Nome & Receber Telemetria Ambiental via WebHook \\ \hline
 
-Breve Descrição & Permite que o sistema receba automaticamente os pacotes de telemetria dos sete compostos gasosos enviados pelo servidor de rede LoRaWAN, valide e armazene as leituras ambientais, acione obrigatoriamente a inferência de Inteligência Artificial (\texttt{UC02}) e, caso seja detectada anomalia física ou risco ambiental, dispare um alerta preventivo (\texttt{UC03}). \\ \hline
+Breve Descrição & 
+Permite que o sistema receba automaticamente os pacotes de telemetria dos sete compostos 
+gasosos enviados pelo servidor de rede LoRaWAN, valide e armazene as leituras ambientais, acione 
+obrigatoriamente a inferência de Inteligência Artificial e, caso seja detectada anomalia física ou 
+risco ambiental, dispare um alerta preventivo. \\ \hline
 
 Atores & 
 \begin{minipage}[t]{\linewidth}
@@ -173,8 +176,8 @@ Atores &
 
 Casos de Uso Relacionados & 
 \begin{itemize}[nosep, leftmargin=0.5cm]
-    \item \textbf{\texttt{<<include>>} UC02 (Executar Inferência Multi-Task de Qualidade do Ar):} executado obrigatoriamente a cada nova leitura válida recebida.
-    \item \textbf{\texttt{<<extend>>} UC03 (Emitir Alerta de Anomalia ou Violação):} executado opcionalmente quando o ponto de extensão \emph{``Anomalia ou Violação CONAMA/EPA Detectada''} é atingido após a inferência.
+    \item \textbf{\texttt{<<include>>} (Executar Inferência Multi-Task de Qualidade do Ar):} executado obrigatoriamente a cada nova leitura válida recebida.
+    \item \textbf{\texttt{<<extend>>} (Emitir Alerta de Anomalia ou Violação):} executado opcionalmente quando o ponto de extensão \emph{``Anomalia ou Violação CONAMA/EPA Detectada''} é atingido após a inferência.
 \end{itemize} \\ \hline
 
 Prioridade & \textbf{Essencial (Alta)} \\ \hline
@@ -194,19 +197,19 @@ Pós-condições &
 
 Fluxo de Eventos Principal (Caminho Feliz) & 
 \begin{enumerate}[nosep, leftmargin=0.5cm]
-    \item O \textbf{Servidor Chirpstack} envia ao sistema um evento de telemetria (\texttt{up}) contendo o identificador da estação (\texttt{DevEUI}) e as medições dos sete gases (CO, CO\textsubscript{2}, NH\textsubscript{4}, álcool, acetona, tolueno e O\textsubscript{3}).
-    \item O \textbf{Sistema} verifica a autenticidade do evento, identifica a estação sensora correspondente e registra a leitura ambiental no banco de dados.
-    \item O \textbf{Sistema} agrega as leituras em janela temporal de 30 minutos (com médias de 1 minuto) e calcula a média móvel de 8 horas de monóxido de carbono (CO).
-    \item O \textbf{Sistema} inclui e executa o caso de uso \textbf{UC02 (Executar Inferência Multi-Task de Qualidade do Ar)}, obtendo: (a) as concentrações previstas para os próximos 15 minutos, (b) a classificação normativa do IQAr (\emph{Boa}, \emph{Moderada} ou \emph{Ruim}) e (c) o diagnóstico de saúde física do sensor.
-    \item O \textbf{Sistema} armazena os resultados da inferência vinculados à estação sensora.
-    \item O \textbf{Sistema} retorna a confirmação de recebimento e processamento com sucesso (\texttt{HTTP 200 OK}) ao \textbf{Servidor Chirpstack}, encerrando o caso de uso.
+    \item O Servidor Chirpstack envia ao sistema um evento de telemetria (\texttt{up}) contendo o identificador da estação (\texttt{DevEUI}) e as medições dos sete gases (CO, CO\textsubscript{2}, NH\textsubscript{4}, álcool, acetona, tolueno e O\textsubscript{3}).
+    \item O Sistema verifica a autenticidade do evento, identifica a estação sensora correspondente e registra a leitura ambiental no banco de dados.
+    \item O Sistema agrega as leituras em janela temporal de 30 minutos (com médias de 1 minuto) e calcula a média móvel de 8 horas de monóxido de carbono (CO).
+    \item O Sistema inclui e executa o caso de uso Executar Inferência Multi-Task de Qualidade do Ar, obtendo: (a) as concentrações previstas para os próximos 15 minutos, (b) a classificação normativa do IQAr (\emph{Boa}, \emph{Moderada} ou \emph{Ruim}) e (c) o diagnóstico de saúde física do sensor.
+    \item O Sistema armazena os resultados da inferência vinculados à estação sensora.
+    \item O Sistema retorna a confirmação de recebimento e processamento com sucesso (\texttt{HTTP 200 OK}) ao Servidor Chirpstack, encerrando o caso de uso.
 \end{enumerate} \\ \hline
 
 Fluxos Secundários (Alternativos e de Exceção) & 
 \begin{itemize}[nosep, leftmargin=0.5cm]
-    \item \textbf{[Fluxo Alternativo / Extensão no Passo 4 --- Violação Ambiental ou Anomalia no Sensor (\texttt{UC03})]:} Caso o resultado da inferência indique qualidade do ar futura \emph{``Ruim''} ($\ge 9{,}5\textrm{ ppm}$) ou falha física no sensor (erro de reconstrução elevado ou sinal congelado com variância nula), o \textbf{Sistema} aciona a extensão \textbf{UC03 (Emitir Alerta de Anomalia ou Violação)}, verifica se não há alerta idêntico emitido nos últimos 15 minutos (\emph{cooldown}) e registra um novo alerta crítico antes de prosseguir para o Passo 5.
-    \item \textbf{[Exceção no Passo 2 --- Evento de Controle sem Carga de Telemetria]:} Caso o \textbf{Servidor Chirpstack} envie um pacote apenas de controle de rede (como confirmação de conexão \emph{join} ou status de bateria) sem leituras de gases, o \textbf{Sistema} ignora a etapa de inferência, registra apenas o status de comunicação e retorna confirmação ao servidor.
-    \item \textbf{[Exceção no Passo 3 --- Histórico Insuficiente na Inicialização (\emph{Cold Start})]:} Caso a estação sensora tenha acabado de ser ligada e ainda possua menos de 30 minutos de histórico acumulado, o \textbf{Sistema} armazena a leitura atual, preenche temporariamente a janela histórica e sinaliza que a previsão opera em regime inicial.
+    \item \textbf{[Fluxo Alternativo / Extensão no Passo 4 --- Violação Ambiental ou Anomalia no Sensor]:} Caso o resultado da inferência indique qualidade do ar futura \emph{``Ruim''} ($\ge 9{,}5\textrm{ ppm}$) ou falha física no sensor (erro de reconstrução elevado ou sinal congelado com variância nula), o sistema aciona a extensão  Emitir Alerta de Anomalia ou Violação, verifica se não há alerta idêntico emitido nos últimos 15 minutos (\emph{cooldown}) e registra um novo alerta crítico antes de prosseguir para o Passo 5.
+    \item \textbf{[Exceção no Passo 2 --- Evento de Controle sem Carga de Telemetria]:} Caso o Servidor Chirpstack envie um pacote apenas de controle de rede (como confirmação de conexão \emph{join} ou status de bateria) sem leituras de gases, o sistema ignora a etapa de inferência, registra apenas o status de comunicação e retorna confirmação ao servidor.
+    \item \textbf{[Exceção no Passo 3 --- Histórico Insuficiente na Inicialização (\emph{Cold Start})]:} Caso a estação sensora tenha acabado de ser ligada e ainda possua menos de 30 minutos de histórico acumulado, o sistema armazena a leitura atual, preenche temporariamente a janela histórica e sinaliza que a previsão opera em regime inicial.
 \end{itemize} \\ \hline
 
 Requisitos Não Funcionais Associados & 
@@ -217,13 +220,12 @@ Requisitos Não Funcionais Associados &
 \end{longtable}
 
 % --- UC04 ---
-\subsection*{2. Especificação do Caso de Uso UC04}
+\subsection*{2. Especificação do Caso de Uso}
 
 \begin{longtable}{|>{\bfseries}p{3.8cm}|p{12.2cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{UC04 --- Consultar Séries Históricas e Previsões}} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Consultar Séries Históricas e Previsões}} \\ \hline
 
-Identificador & \texttt{UC04} \\ \hline
 
 Nome & Consultar Séries Históricas e Previsões \\ \hline
 
@@ -253,11 +255,11 @@ Pós-condições &
 
 Fluxo de Eventos Principal (Caminho Feliz) & 
 \begin{enumerate}[nosep, leftmargin=0.5cm]
-    \item O \textbf{Gestor Ambiental / Usuário} acessa o painel de monitoramento da qualidade do ar no sistema.
-    \item O \textbf{Sistema} recupera a lista de estações sensoras do campus e exibe o resumo geral do último Índice de Qualidade do Ar (IQAr) e o status de integridade de cada estação.
-    \item O \textbf{Gestor Ambiental / Usuário} seleciona uma estação sensora específica (por exemplo, \emph{Laboratório de Engenharia}) e o intervalo de tempo ou composto gasoso de interesse.
-    \item O \textbf{Sistema} consulta as séries históricas de medições reais e as respectivas previsões de 15 minutos geradas pelo Agente Inteligente para o filtro selecionado.
-    \item O \textbf{Sistema} apresenta os gráficos comparativos (valor medido versus valor previsto), as probabilidades de cada classe normativa (\emph{Boa}, \emph{Moderada}, \emph{Ruim}) e o erro de reconstrução do sensor, encerrando o caso de uso.
+    \item O Gestor Ambiental / Usuário acessa o painel de monitoramento da qualidade do ar no sistema.
+    \item O Sistema recupera a lista de estações sensoras do campus e exibe o resumo geral do último Índice de Qualidade do Ar (IQAr) e o status de integridade de cada estação.
+    \item O Gestor Ambiental / Usuário seleciona uma estação sensora específica (por exemplo, \emph{Laboratório de Engenharia}) e o intervalo de tempo ou composto gasoso de interesse.
+    \item O Sistema consulta as séries históricas de medições reais e as respectivas previsões de 15 minutos geradas pelo Agente Inteligente para o filtro selecionado.
+    \item O Sistema apresenta os gráficos comparativos (valor medido versus valor previsto), as probabilidades de cada classe normativa (\emph{Boa}, \emph{Moderada}, \emph{Ruim}) e o erro de reconstrução do sensor, encerrando o caso de uso.
 \end{enumerate} \\ \hline
 
 Fluxos Secundários (Alternativos e de Exceção) & 
@@ -273,13 +275,11 @@ Requisitos Não Funcionais Associados &
 \end{longtable}
 
 % --- UC05 ---
-\subsection*{3. Especificação do Caso de Uso UC05}
+\subsection*{3. Especificação do Caso de Uso}
 
 \begin{longtable}{|>{\bfseries}p{3.8cm}|p{12.2cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{UC05 --- Gerenciar Alertas Ativos}} \\ \hline
-
-Identificador & \texttt{UC05} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Gerenciar Alertas Ativos}} \\ \hline
 
 Nome & Gerenciar Alertas Ativos \\ \hline
 
@@ -310,17 +310,17 @@ Pós-condições &
 
 Fluxo de Eventos Principal (Caminho Feliz) & 
 \begin{enumerate}[nosep, leftmargin=0.5cm]
-    \item O \textbf{Gestor Ambiental / Usuário} solicita a listagem de alertas ativos no sistema.
-    \item O \textbf{Sistema} apresenta a lista de alertas não resolvidos ordenados por severidade e data/hora de ocorrência, exibindo a estação sensora afetada, o tipo de ocorrência (\emph{Poluição Prevista} ou \emph{Falha no Sensor}) e a mensagem de diagnóstico.
-    \item O \textbf{Gestor Ambiental / Usuário} seleciona um alerta específico para visualizar os detalhes da leitura e da previsão que motivaram o disparo.
-    \item O \textbf{Sistema} exibe os valores registrados no instante do alerta e o histórico recente da estação.
-    \item Após adotar a medida cabível (ex.: acionar ventilação da sala ou encaminhar o sensor para manutenção), o \textbf{Gestor Ambiental / Usuário} aciona a opção de confirmar a resolução do alerta.
-    \item O \textbf{Sistema} atualiza a situação do alerta para resolvido, registra o instante de encerramento e atualiza a lista de pendências na tela.
+    \item O Gestor Ambiental / Usuário solicita a listagem de alertas ativos no sistema.
+    \item O Sistema apresenta a lista de alertas não resolvidos ordenados por severidade e data/hora de ocorrência, exibindo a estação sensora afetada, o tipo de ocorrência (\emph{Poluição Prevista} ou \emph{Falha no Sensor}) e a mensagem de diagnóstico.
+    \item O Gestor Ambiental / Usuário seleciona um alerta específico para visualizar os detalhes da leitura e da previsão que motivaram o disparo.
+    \item O Sistema exibe os valores registrados no instante do alerta e o histórico recente da estação.
+    \item Após adotar a medida cabível (ex.: acionar ventilação da sala ou encaminhar o sensor para manutenção), o Gestor Ambiental / Usuário aciona a opção de confirmar a resolução do alerta.
+    \item O Sistema atualiza a situação do alerta para resolvido, registra o instante de encerramento e atualiza a lista de pendências na tela.
 \end{enumerate} \\ \hline
 
 Fluxos Secundários (Alternativos e de Exceção) & 
 \begin{itemize}[nosep, leftmargin=0.5cm]
-    \item \textbf{[Fluxo Alternativo no Passo 2 --- Consulta de Histórico de Alertas Resolvidos]:} O \textbf{Gestor Ambiental / Usuário} pode optar por filtrar alertas já encerrados anteriormente para fins de auditoria e relatórios de segurança do campus. O \textbf{Sistema} exibe o histórico completo sem habilitar a ação de resolução.
+    \item \textbf{[Fluxo Alternativo no Passo 2 --- Consulta de Histórico de Alertas Resolvidos]:} O Gestor Ambiental / Usuário pode optar por filtrar alertas já encerrados anteriormente para fins de auditoria e relatórios de segurança do campus. O Sistema exibe o histórico completo sem habilitar a ação de resolução.
 \end{itemize} \\ \hline
 
 Requisitos Não Funcionais Associados & 
@@ -330,13 +330,12 @@ Requisitos Não Funcionais Associados &
 \end{longtable}
 
 % --- UC06 ---
-\subsection*{4. Especificação do Caso de Uso UC06}
+\subsection*{4. Especificação do Caso de Uso}
 
 \begin{longtable}{|>{\bfseries}p{3.8cm}|p{12.2cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{UC06 --- Atualizar Modelo Neural (Hot - Reloading)}} \\ \hline
+\multicolumn{2}{|c|}{\textbf{ Atualizar Modelo Neural (Hot - Reloading)}} \\ \hline
 
-Identificador & \texttt{UC06} \\ \hline
 
 Nome & Atualizar Modelo Neural (Hot - Reloading) \\ \hline
 
@@ -356,27 +355,27 @@ Prioridade & \textbf{Importante (Média)} \\ \hline
 
 Pré-condições & 
 \begin{enumerate}[nosep, leftmargin=0.5cm]
-    \item O \textbf{Administrador do Sistema} deve estar autenticado com perfil administrativo.
+    \item O Administrador do Sistema deve estar autenticado com perfil administrativo.
     \item Os novos arquivos do modelo neural (\texttt{.keras}) e transformadores de normalização (\texttt{.pkl}) devem estar disponíveis no diretório de artefatos do servidor.
 \end{enumerate} \\ \hline
 
 Pós-condições & 
 \begin{enumerate}[nosep, leftmargin=0.5cm]
-    \item O modelo neural em memória RAM é substituído atomicamente pela nova versão e passa a atender imediatamente às próximas requisições de inferência (\texttt{UC02}).
+    \item O modelo neural em memória RAM é substituído atomicamente pela nova versão e passa a atender imediatamente às próximas requisições de inferência.
 \end{enumerate} \\ \hline
 
 Fluxo de Eventos Principal (Caminho Feliz) & 
 \begin{enumerate}[nosep, leftmargin=0.5cm]
-    \item O \textbf{Administrador do Sistema} solicita ao sistema a atualização em tempo de execução (\emph{Hot-Reloading}) do modelo do Agente Inteligente.
-    \item O \textbf{Sistema} localiza os novos arquivos do modelo neural e dos normalizadores no repositório de artefatos e realiza o carregamento preliminar em espaço isolado de memória, sem interromper as inferências em andamento.
-    \item O \textbf{Sistema} valida a estrutura das três saídas do novo modelo (reconstrução, previsão de 15 minutos e classificação do IQAr).
-    \item O \textbf{Sistema} aplica bloqueio de exclusão mútua (\emph{lock}), substitui a referência do modelo antigo pelo novo modelo validado em memória e libera o bloqueio.
-    \item O \textbf{Sistema} exibe mensagem de confirmação ao \textbf{Administrador do Sistema} informando a versão carregada e o horário da atualização.
+    \item O Administrador do Sistema solicita ao sistema a atualização em tempo de execução (\emph{Hot-Reloading}) do modelo do Agente Inteligente.
+    \item O Sistema localiza os novos arquivos do modelo neural e dos normalizadores no repositório de artefatos e realiza o carregamento preliminar em espaço isolado de memória, sem interromper as inferências em andamento.
+    \item O Sistema valida a estrutura das três saídas do novo modelo (reconstrução, previsão de 15 minutos e classificação do IQAr).
+    \item O Sistema aplica bloqueio de exclusão mútua (\emph{lock}), substitui a referência do modelo antigo pelo novo modelo validado em memória e libera o bloqueio.
+    \item O Sistema exibe mensagem de confirmação ao Administrador do Sistema informando a versão carregada e o horário da atualização.
 \end{enumerate} \\ \hline
 
 Fluxos Secundários (Alternativos e de Exceção) & 
 \begin{itemize}[nosep, leftmargin=0.5cm]
-    \item \textbf{[Exceção nos Passos 2 e 3 --- Arquivo Ausente, Corrompido ou Incompatível]:} Caso o novo arquivo do modelo esteja corrompido ou apresente formato incompatível, o \textbf{Sistema} aborta a substituição, preserva o modelo anterior funcionando normalmente em memória (\emph{graceful fallback}), registra o erro em log e notifica o \textbf{Administrador do Sistema} sobre a falha.
+    \item \textbf{[Exceção nos Passos 2 e 3 --- Arquivo Ausente, Corrompido ou Incompatível]:} Caso o novo arquivo do modelo esteja corrompido ou apresente formato incompatível, o Sistema aborta a substituição, preserva o modelo anterior funcionando normalmente em memória (\emph{graceful fallback}), registra o erro em log e notifica o Administrador do Sistema sobre a falha.
 \end{itemize} \\ \hline
 
 Requisitos Não Funcionais Associados & 
@@ -387,13 +386,13 @@ Requisitos Não Funcionais Associados &
 \end{longtable}
 
 % --- UC07 ---
-\subsection*{5. Especificação do Caso de Uso UC07}
+\subsection*{5. Especificação do Caso de Uso}
 
 \begin{longtable}{|>{\bfseries}p{3.8cm}|p{12.2cm}|}
 \hline
-\multicolumn{2}{|c|}{\textbf{UC07 --- Gerenciar Nós Sensores (Sensor Node)}} \\ \hline
+\multicolumn{2}{|c|}{\textbf{Gerenciar Nós Sensores (Sensor Node)}} \\ \hline
 
-Identificador & \texttt{UC07} \\ \hline
+
 
 Nome & Gerenciar Nós Sensores (Sensor Node) \\ \hline
 
@@ -413,7 +412,7 @@ Prioridade & \textbf{Importante (Média)} \\ \hline
 
 Pré-condições & 
 \begin{enumerate}[nosep, leftmargin=0.5cm]
-    \item O \textbf{Administrador do Sistema} deve estar autenticado no painel administrativo do sistema.
+    \item O Administrador do Sistema deve estar autenticado no painel administrativo do sistema.
 \end{enumerate} \\ \hline
 
 Pós-condições & 
@@ -423,32 +422,32 @@ Pós-condições &
 
 Fluxo de Eventos Principal e Subfluxos & 
 \begin{enumerate}[nosep, leftmargin=0.5cm]
-    \item O \textbf{Administrador do Sistema} acessa a funcionalidade de gerenciamento de nós sensores.
-    \item O \textbf{Sistema} exibe a relação das estações sensoras cadastradas no campus e disponibiliza as opções de \emph{Incluir Nó Sensor}, \emph{Alterar Informações do Nó Sensor} ou \emph{Desativar Nó Sensor}.
-    \item O \textbf{Administrador do Sistema} seleciona a operação desejada.
-    \item O \textbf{Sistema} executa o respectivo subfluxo selecionado:
+    \item O Administrador do Sistema acessa a funcionalidade de gerenciamento de nós sensores.
+    \item O Sistema exibe a relação das estações sensoras cadastradas no campus e disponibiliza as opções de \emph{Incluir Nó Sensor}, \emph{Alterar Informações do Nó Sensor} ou \emph{Desativar Nó Sensor}.
+    \item O Administrador do Sistema seleciona a operação desejada.
+    \item O Sistema executa o respectivo subfluxo selecionado:
     \begin{itemize}[nosep, leftmargin=0.5cm]
         \item \textbf{Subfluxo 4.1 --- Incluir Nó Sensor:}
         \begin{enumerate}[nosep, leftmargin=0.5cm]
-            \item O \textbf{Administrador} informa o código identificador único do rádio (\texttt{DevEUI} de 16 caracteres hexadecimais), o nome da estação e o local de instalação (ex.: \emph{Bloco B --- Sala 204}).
-            \item O \textbf{Sistema} valida que o \texttt{DevEUI} é único, registra a nova estação como ativa e confirma o cadastro.
+            \item O Administrador informa o código identificador único do rádio (\texttt{DevEUI} de 16 caracteres hexadecimais), o nome da estação e o local de instalação (ex.: \emph{Bloco B --- Sala 204}).
+            \item O Sistema valida que o \texttt{DevEUI} é único, registra a nova estação como ativa e confirma o cadastro.
         \end{enumerate}
         \item \textbf{Subfluxo 4.2 --- Alterar Informações do Nó Sensor:}
         \begin{enumerate}[nosep, leftmargin=0.5cm]
-            \item O \textbf{Administrador} seleciona um nó sensor existente e edita sua descrição ou localização física após remanejamento no campus.
-            \item O \textbf{Sistema} valida os dados, atualiza o registro mantendo o histórico de leituras preservado e confirma a alteração.
+            \item O Administrador seleciona um nó sensor existente e edita sua descrição ou localização física após remanejamento no campus.
+            \item O Sistema valida os dados, atualiza o registro mantendo o histórico de leituras preservado e confirma a alteração.
         \end{enumerate}
         \item \textbf{Subfluxo 4.3 --- Desativar Nó Sensor:}
         \begin{enumerate}[nosep, leftmargin=0.5cm]
-            \item O \textbf{Administrador} seleciona uma estação recolhida para manutenção e solicita sua desativação.
-            \item O \textbf{Sistema} marca o nó sensor como inativo (preservando todo o histórico científico já coletado) e encerra o subfluxo.
+            \item O Administrador seleciona uma estação recolhida para manutenção e solicita sua desativação.
+            \item O Sistema marca o nó sensor como inativo (preservando todo o histórico científico já coletado) e encerra o subfluxo.
         \end{enumerate}
     \end{itemize}
 \end{enumerate} \\ \hline
 
 Fluxos Secundários (Alternativos e de Exceção) & 
 \begin{itemize}[nosep, leftmargin=0.5cm]
-    \item \textbf{[Exceção no Subfluxo 4.1 --- Código \texttt{DevEUI} Duplicado ou Inválido]:} Caso o \textbf{Administrador} informe um código \texttt{DevEUI} já cadastrado em outra estação ou fora do padrão hexadecimal de 16 dígitos, o \textbf{Sistema} rejeita o cadastro, exibe mensagem indicando o conflito e solicita a correção do valor.
+    \item \textbf{[Exceção no Subfluxo 4.1 --- Código \texttt{DevEUI} Duplicado ou Inválido]:} Caso o Administrador informe um código \texttt{DevEUI} já cadastrado em outra estação ou fora do padrão hexadecimal de 16 dígitos, o \textbf{Sistema} rejeita o cadastro, exibe mensagem indicando o conflito e solicita a correção do valor.
 \end{itemize} \\ \hline
 
 Requisitos Não Funcionais Associados & 

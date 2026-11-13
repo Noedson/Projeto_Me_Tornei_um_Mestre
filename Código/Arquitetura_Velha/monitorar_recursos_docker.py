@@ -355,7 +355,7 @@ def coletar_amostra(arquitetura: str, usar_agente: str):
 
 def main():
     parser = argparse.ArgumentParser(description="Monitor de Recursos Docker - Arquitetura Velha")
-    parser.add_argument("--intervalo", type=int, default=15, help="Intervalo em segundos entre coletas (padrão: 15s)")
+    parser.add_argument("--intervalo", type=int, default=5, help="Intervalo em segundos entre coletas (padrão: 5s)")
     parser.add_argument("--usar-agente", type=str, default=os.environ.get("USAR_AGENTE", "0"), help="Flag USAR_AGENTE (1 ou 0)")
     args = parser.parse_args()
 

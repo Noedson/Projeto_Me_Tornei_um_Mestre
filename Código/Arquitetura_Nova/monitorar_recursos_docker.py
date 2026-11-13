@@ -12,7 +12,7 @@ Coleta periodicamente via `docker stats --no-stream` o consumo de:
 Salva automaticamente em `monitoramento/recursos_docker.csv`, registrando cada
 container individualmente e uma linha consolidada `TOTAL_ARQUITETURA`.
 """
-from django.utils.log import log_message
+# from django.utils.log import log_message
 import argparse
 import csv
 import datetime
@@ -347,7 +347,7 @@ def coletar_amostra(arquitetura: str, usar_agente: str):
 
 def main():
     parser = argparse.ArgumentParser(description="Monitor de Recursos Docker - Arquitetura Nova")
-    parser.add_argument("--intervalo", type=int, default=15, help="Intervalo em segundos entre coletas (padrão: 15s)")
+    parser.add_argument("--intervalo", type=int, default=5, help="Intervalo em segundos entre coletas (padrão: 5s)")
     parser.add_argument("--usar-agente", type=str, default=os.environ.get("USAR_AGENTE", "1"), help="Flag USAR_AGENTE (1 ou 0)")
     args = parser.parse_args()
 
