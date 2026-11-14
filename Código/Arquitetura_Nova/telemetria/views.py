@@ -1,8 +1,8 @@
 from django.shortcuts import render
-import csv
 import json
 import os
 import time
+import urllib.request
 from pathlib import Path
 from django.http import JsonResponse
 from django.utils import timezone
@@ -11,8 +11,8 @@ from .models import SensorNode, AgentAlert, AirReading, AgentPrediction
 from agente.preprocessamento import CO_MODERADA, CO_RUIM
 
 MONITORAMENTO_DIR = Path(__file__).resolve().parent.parent / "monitoramento"
-CSV_LEITURAS_PATH = MONITORAMENTO_DIR / "metricas_processamento_leituras.csv"
 ESTADO_AGENTE_PATH = MONITORAMENTO_DIR / "estado_agente.json"
+MONITOR_LEITURA_URL = os.environ.get("MONITOR_LEITURA_URL", "http://monitor-recursos:9095/api/leitura")
 
 
 def obter_estado_agente() -> bool:
@@ -35,32 +35,15 @@ def classificar_co_reativo(co_val: float) -> str:
 
 def registrar_metrica_leitura(linha: dict):
     try:
-        MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
-        arquivo_existe = CSV_LEITURAS_PATH.exists()
-        campos = [
-            "timestamp_recebimento",
-            "timestamp_sensor",
-            "arquitetura",
-            "usar_agente",
-            "dev_eui",
-            "co_atual",
-            "iqar_reativo_presente",
-            "alerta_reativo_presente",
-            "iqar_previsto_15m",
-            "co_previsto_15m",
-            "anomalia_detectada",
-            "erro_reconstrucao",
-            "tipo_alerta_agente",
-            "latencia_total_ms",
-            "latencia_agente_ms",
-        ]
-        with open(CSV_LEITURAS_PATH, mode="a", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=campos)
-            if not arquivo_existe:
-                writer.writeheader()
-            writer.writerow(linha)
+        req = urllib.request.Request(
+            MONITOR_LEITURA_URL,
+            data=json.dumps(linha).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=1.5).close()
     except Exception as e:
-        print(f">>> [Aviso Monitoramento] Falha ao gravar CSV de métricas: {e}")
+        print(f">>> [Aviso Monitoramento] Falha ao enviar métrica para SQLite: {e}")
 
 
 @csrf_exempt

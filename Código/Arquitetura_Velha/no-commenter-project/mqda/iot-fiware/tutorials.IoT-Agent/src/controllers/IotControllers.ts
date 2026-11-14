@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import fs from "fs";
+import http from "http";
 import path from "path";
 import { performance } from "perf_hooks";
 import { serviceIot } from "../services/CreateServiceIot";
@@ -14,7 +15,6 @@ import { calcIQAR } from "../helpers/calcIQAR";
 import { calculateHeatIndex, targetConcept } from "../helpers/calcHeatIndex";
 
 const MONITORAMENTO_DIR = "/app/monitoramento";
-const CSV_LEITURAS_PATH = path.join(MONITORAMENTO_DIR, "metricas_processamento_leituras.csv");
 const ESTADO_AGENTE_PATH = path.join(MONITORAMENTO_DIR, "estado_agente.json");
 
 function obterEstadoAgente(): boolean {
@@ -27,35 +27,28 @@ function obterEstadoAgente(): boolean {
   } catch (_) {}
   return process.env.USAR_AGENTE === "1";
 }
-const CSV_HEADER = [
-  "timestamp_recebimento",
-  "timestamp_sensor",
-  "arquitetura",
-  "usar_agente",
-  "dev_eui",
-  "co_atual",
-  "iqar_reativo_presente",
-  "alerta_reativo_presente",
-  "iqar_previsto_15m",
-  "co_previsto_15m",
-  "anomalia_detectada",
-  "erro_reconstrucao",
-  "tipo_alerta_agente",
-  "latencia_total_ms",
-  "latencia_agente_ms",
-].join(",") + "\n";
 
-function registrarMetricaCsv(valores: (string | number)[]) {
+function registrarMetricaLeitura(payload: Record<string, any>) {
   try {
-    fs.mkdirSync(MONITORAMENTO_DIR, { recursive: true });
-    if (!fs.existsSync(CSV_LEITURAS_PATH)) {
-      fs.writeFileSync(CSV_LEITURAS_PATH, CSV_HEADER, { encoding: "utf-8" });
-    }
-    const linha = valores.map((v) => String(v ?? "").replace(/,/g, ";")).join(",") + "\n";
-    fs.appendFileSync(CSV_LEITURAS_PATH, linha, { encoding: "utf-8" });
-  } catch (err: any) {
-    console.log(">>> [Aviso Monitoramento] Falha ao gravar CSV:", err?.message);
-  }
+    const corpo = JSON.stringify(payload);
+    const req = http.request(
+      {
+        hostname: "monitor-recursos",
+        port: 9096,
+        path: "/api/leitura",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(corpo),
+        },
+        timeout: 1500,
+      },
+      (res) => res.resume()
+    );
+    req.on("error", () => {});
+    req.write(corpo);
+    req.end();
+  } catch (_) {}
 }
 
 export const ping = async (req: Request, res: Response) => {
@@ -267,23 +260,23 @@ export const SUBMIT_DATA_AGENT = async (req: Request, res: Response) => {
     }
 
     const latenciaTotalMs = performance.now() - tInicioTotal;
-    registrarMetricaCsv([
-      new Date().toISOString(),
-      time || new Date().toISOString(),
-      "Arquitetura_Velha",
-      usarAgente ? 1 : 0,
-      room,
-      coAtual.toFixed(4),
-      iqarReativo,
-      alertaReativo ? 1 : 0,
-      iqarPrevisto15m,
-      coPrevisto15m,
-      anomaliaDetectada,
-      erroReconstrucao,
-      tipoAlertaAgente,
-      latenciaTotalMs.toFixed(3),
-      latenciaAgenteMs.toFixed(3),
-    ]);
+    registrarMetricaLeitura({
+      timestamp_recebimento: new Date().toISOString(),
+      timestamp_sensor: time || new Date().toISOString(),
+      arquitetura: "Arquitetura_Velha",
+      usar_agente: usarAgente ? 1 : 0,
+      dev_eui: room,
+      co_atual: coAtual.toFixed(4),
+      iqar_reativo_presente: iqarReativo,
+      alerta_reativo_presente: alertaReativo ? 1 : 0,
+      iqar_previsto_15m: iqarPrevisto15m,
+      co_previsto_15m: coPrevisto15m,
+      anomalia_detectada: anomaliaDetectada,
+      erro_reconstrucao: erroReconstrucao,
+      tipo_alerta_agente: tipoAlertaAgente,
+      latencia_total_ms: latenciaTotalMs.toFixed(3),
+      latencia_agente_ms: latenciaAgenteMs.toFixed(3),
+    });
 
     res.status(200).json({
       ok: "---Dados Recebidos ---",

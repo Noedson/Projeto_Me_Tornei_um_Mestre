@@ -75,6 +75,55 @@ def inicializar_sqlite():
                 pids INTEGER
             )
         """)
+            conn.execute("""
+            CREATE TABLE IF NOT EXISTS leituras_processamento(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp_recebimento TEXT,
+                timestamp_sensor TEXT,
+                arquitetura TEXT,
+                usar_agente INTEGER,
+                dev_eui TEXT,
+                co_atual REAL,
+                iqar_reativo_presente TEXT,
+                alerta_reativo_presente INTEGER,
+                iqar_previsto_15m TEXT,
+                co_previsto_15m REAL,
+                anomalia_detectada INTEGER,
+                erro_reconstrucao REAL,
+                tipo_alerta_agente TEXT,
+                latencia_total_ms REAL,
+                latencia_agente_ms REAL
+            )
+        """)
+
+
+def salvar_leitura_sqlite(d: dict):
+    with DB_LOCK:
+        with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+            conn.execute("""
+                INSERT INTO leituras_processamento(
+                    timestamp_recebimento, timestamp_sensor, arquitetura, usar_agente,
+                    dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                    iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                    erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (
+                d.get("timestamp_recebimento"),
+                d.get("timestamp_sensor"),
+                d.get("arquitetura", "Arquitetura_Velha"),
+                int(d.get("usar_agente", 0)),
+                d.get("dev_eui"),
+                float(d["co_atual"]) if d.get("co_atual") not in (None, "") else None,
+                d.get("iqar_reativo_presente"),
+                int(d.get("alerta_reativo_presente", 0)),
+                d.get("iqar_previsto_15m") or None,
+                float(d["co_previsto_15m"]) if d.get("co_previsto_15m") not in (None, "") else None,
+                int(d["anomalia_detectada"]) if d.get("anomalia_detectada") not in (None, "") else None,
+                float(d["erro_reconstrucao"]) if d.get("erro_reconstrucao") not in (None, "") else None,
+                d.get("tipo_alerta_agente") or None,
+                float(d["latencia_total_ms"]) if d.get("latencia_total_ms") not in (None, "") else None,
+                float(d["latencia_agente_ms"]) if d.get("latencia_agente_ms") not in (None, "") else None,
+            ))
 
 
 def salvar_amostras_sqlite(amostras: list[dict]):
@@ -135,10 +184,10 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
                     "SELECT * FROM recursos_docker WHERE id > ? ORDER BY id ASC LIMIT ?",
                     (after_id, limite),
                 ).fetchall()
-        leituras = []
-        if CSV_LEITURAS_PATH.exists():
-            with open(CSV_LEITURAS_PATH, mode="r", encoding="utf-8", errors="ignore") as f:
-                leituras = list(csv.DictReader(f))[-100:]
+                leituras_rows = conn.execute(
+                    "SELECT * FROM leituras_processamento ORDER BY id DESC LIMIT 100"
+                ).fetchall()
+        leituras = [dict(r) for r in reversed(leituras_rows)]
         self._enviar_json(200, {
             "arquitetura": "Arquitetura_Velha",
             "usar_agente": int(ler_estado("0")),
@@ -147,10 +196,13 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
         })
 
     def do_POST(self):
-        if self.path != "/api/agente":
-            return self._enviar_json(404, {"erro": "Rota nao encontrada"})
         tamanho = int(self.headers.get("Content-Length", "0"))
         body = json.loads(self.rfile.read(tamanho).decode("utf-8") or "{}")
+        if self.path == "/api/leitura":
+            salvar_leitura_sqlite(body)
+            return self._enviar_json(200, {"ok": True})
+        if self.path != "/api/agente":
+            return self._enviar_json(404, {"erro": "Rota nao encontrada"})
         novo_estado = "1" if str(body.get("usar_agente", "0")) in ("1", "true", "True") else "0"
         salvar_estado_agente(novo_estado)
         # Inicia ou para o container velha_agente_ia se existir no Docker
@@ -402,7 +454,7 @@ def main():
     ]
 
     print(f">>> [Monitor Docker - Arquitetura_Velha] USAR_AGENTE={ler_estado(args.usar_agente)} | Intervalo={args.intervalo}s")
-    print(f">>> Salvando continuamente em: {CSV_PATH} e {DB_PATH}")
+    print(f">>> Salvando continuamente no SQLite: {DB_PATH}")
 
     while True:
         try:
@@ -410,19 +462,6 @@ def main():
             amostras = coletar_amostra("Arquitetura_Velha", estado_atual)
             if amostras:
                 salvar_amostras_sqlite(amostras)
-                escrever_header = not CSV_PATH.exists()
-                if not escrever_header:
-                    with open(CSV_PATH, mode="r", encoding="utf-8", errors="ignore") as f_in:
-                        primeira_linha = f_in.readline().strip()
-                    if "net_rx_speed," not in primeira_linha:
-                        escrever_header = True
-                        with open(CSV_PATH, mode="w", newline="", encoding="utf-8") as f_reset:
-                            pass
-                with open(CSV_PATH, mode="a", newline="", encoding="utf-8") as f:
-                    writer = csv.DictWriter(f, fieldnames=campos)
-                    if escrever_header:
-                        writer.writeheader()
-                    writer.writerows(amostras)
 
                 resumo = amostras[-1]
                 print(
