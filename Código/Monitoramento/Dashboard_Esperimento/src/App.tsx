@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid, ReferenceLine } from 'recharts';
+import * as XLSX from 'xlsx';
 import { Acelerometro } from './components/Acelerometro';
 import './App.css'
 
@@ -79,6 +80,121 @@ function App() {
       minute: '2-digit',
       second: '2-digit',
     })
+  }
+
+  const formatarDuracaoAmostras = (amostras: number) => {
+    const seg = Math.max(0, Number(amostras || 0) * 5)
+    const dias = Math.floor(seg / 86400)
+    const horas = Math.floor((seg % 86400) / 3600)
+    const mins = Math.floor((seg % 3600) / 60)
+    return `${dias}d ${horas}h ${mins}m`
+  }
+
+  const classeIqar = (iqar?: string) => {
+    const t = String(iqar || '').toLowerCase()
+    if (!t || t === '--') return 'badge-neutro'
+    if (t.includes('boa')) return 'badge-bom'
+    if (t.includes('moderada')) return 'badge-moderado'
+    return 'badge-ruim'
+  }
+
+  const baixarExcelDuasAbas = (nomeArquivo: string, linhasVelha: any[], linhasNova: any[]) => {
+    const wb = XLSX.utils.book_new()
+    const wsVelha = XLSX.utils.json_to_sheet(
+      linhasVelha.length > 0 ? linhasVelha : [{ Aviso: 'Sem dados coletados' }]
+    )
+    const wsNova = XLSX.utils.json_to_sheet(
+      linhasNova.length > 0 ? linhasNova : [{ Aviso: 'Sem dados coletados' }]
+    )
+    XLSX.utils.book_append_sheet(wb, wsVelha, 'Arquitetura Velha')
+    XLSX.utils.book_append_sheet(wb, wsNova, 'Arquitetura Nova')
+    XLSX.writeFile(wb, nomeArquivo)
+  }
+
+  const montarResumoFormatado = (arq: string) => {
+    return [0, 1]
+      .map((agente) => {
+        const r = (dados?.resumo_recursos || []).find(
+          (item: any) => item.arquitetura === arq && Number(item.usar_agente) === agente
+        )
+        const l = (dados?.resumo_leituras || []).find(
+          (item: any) => item.arquitetura === arq && Number(item.usar_agente) === agente
+        )
+        if (!r && !l) return null
+        return {
+          'Arquitetura': arq,
+          'Cenário': agente === 1 ? 'Com Agente IA' : 'Sem Agente (Reativo)',
+          'Amostras de Recursos': r?.amostras ?? 0,
+          'CPU Média': r?.cpu_media != null ? `${r.cpu_media}%` : '--',
+          'CPU Mediana (P50)': r?.cpu_mediana != null ? `${r.cpu_mediana}%` : '--',
+          'CPU P95': r?.cpu_p95 != null ? `${r.cpu_p95}%` : '--',
+          'CPU Desvio Padrão': r?.cpu_desvio != null ? `±${r.cpu_desvio}%` : '--',
+          'CPU Pico': r?.cpu_pico != null ? `${r.cpu_pico}%` : '--',
+          'RAM Média': r?.ram_media_mb != null ? formatarTamanhoMB(Number(r.ram_media_mb)) : '--',
+          'Rede Média': r?.rede_media_kbps != null ? formatarVelocidadeKBps(Number(r.rede_media_kbps)) : '--',
+          'Leituras Processadas': l?.total_leituras ?? 0,
+          'Latência Total Média': l?.latencia_total_media_ms != null ? `${l.latencia_total_media_ms} ms` : '--',
+          'Latência IA Média': l?.latencia_agente_media_ms != null ? `${l.latencia_agente_media_ms} ms` : '--',
+          'Alertas Reativos': l?.alertas_reativos ?? 0,
+          'Alertas Preditivos (+15m)': l?.alertas_preditivos ?? 0,
+        }
+      })
+      .filter(Boolean)
+  }
+
+  const montarHistoricoFormatado = (lista: any[]) =>
+    lista.map((r: any) => ({
+      'Data / Hora': formatarDataHora(r.timestamp, true),
+      'Cenário': Number(r.usar_agente) === 1 ? 'Com Agente IA' : 'Sem Agente (Reativo)',
+      'CPU': `${Number(r.cpu_percent || 0).toFixed(2)}%`,
+      'Memória RAM': formatarTamanhoMB(Number(r.mem_usage_mb || 0)),
+      'Rede RX': formatarVelocidadeKBps(Number(r.net_rx_kbps || 0)),
+      'Rede TX': formatarVelocidadeKBps(Number(r.net_tx_kbps || 0)),
+    }))
+
+  const exportarResumoXlsx = () => {
+    const velhaRows = montarResumoFormatado('Arquitetura_Velha')
+    const novaRows = montarResumoFormatado('Arquitetura_Nova')
+    baixarExcelDuasAbas('resumo_experimento_4_cenarios.xlsx', velhaRows, novaRows)
+  }
+
+  const exportarHistoricoXlsx = () => {
+    const velhaRows = montarHistoricoFormatado(histVelha)
+    const novaRows = montarHistoricoFormatado(histNova)
+    baixarExcelDuasAbas(`historico_experimento_${janela}.xlsx`, velhaRows, novaRows)
+  }
+
+  const exportarCardGraficoPng = (e: MouseEvent<HTMLButtonElement>, nomeArquivo: string) => {
+    const card = e.currentTarget.closest('.card-grafico')
+    const svg = card?.querySelector('svg.recharts-surface')
+    if (!svg) return
+    const rect = svg.getBoundingClientRect()
+    const clone = svg.cloneNode(true) as SVGSVGElement
+    clone.setAttribute('width', String(rect.width))
+    clone.setAttribute('height', String(rect.height))
+    const svgData = new XMLSerializer().serializeToString(clone)
+    const blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const img = new Image()
+    img.onload = () => {
+      const escala = 2
+      const canvas = document.createElement('canvas')
+      canvas.width = rect.width * escala
+      canvas.height = rect.height * escala
+      const ctx = canvas.getContext('2d')
+      if (ctx) {
+        ctx.fillStyle = '#ffffff'
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+        ctx.scale(escala, escala)
+        ctx.drawImage(img, 0, 0, rect.width, rect.height)
+        const link = document.createElement('a')
+        link.download = `${nomeArquivo}_${janela}.png`
+        link.href = canvas.toDataURL('image/png')
+        link.click()
+      }
+      URL.revokeObjectURL(url)
+    }
+    img.src = url
   }
 
   const buscarDados = async (janelaAlvo = janela) => {
@@ -200,7 +316,14 @@ function App() {
         stroke={m.cor}
         strokeDasharray="4 4"
         strokeWidth={2}
-        label={{ value: m.label, position: 'insideTopRight', fill: m.cor, fontSize: 11, fontWeight: 700 }}
+        label={{
+          value: m.label,
+          position: 'insideTopLeft',
+          dy: idx % 2 === 0 ? 0 : 14,
+          fill: m.cor,
+          fontSize: 11,
+          fontWeight: 700,
+        }}
       />
     ))
   const velhaAtual = velha?.online ? (dados?.atual?.Arquitetura_Velha || histVelha[histVelha.length - 1]) : null
@@ -312,19 +435,61 @@ function App() {
           </button>
         </div>
       </section>
+      {/* Progresso do Experimento (Etapa 1 vs Etapa 2 — Meta 15 dias por etapa) */}
+      <section className="secao-progresso">
+        <h2>Progresso do Experimento (Meta: 15 dias por Etapa · Coleta a cada 5s)</h2>
+        <div className="grid-progresso">
+          {[
+            { arq: 'Arquitetura_Velha', agente: 0, titulo: 'Etapa 1 · Arq. Velha (Sem Agente)' },
+            { arq: 'Arquitetura_Nova', agente: 0, titulo: 'Etapa 1 · Arq. Nova (Sem Agente)' },
+            { arq: 'Arquitetura_Velha', agente: 1, titulo: 'Etapa 2 · Arq. Velha (Com Agente)' },
+            { arq: 'Arquitetura_Nova', agente: 1, titulo: 'Etapa 2 · Arq. Nova (Com Agente)' },
+          ].map((cenario, idx) => {
+            const rec = (dados?.resumo_recursos || []).find(
+              (r: any) => r.arquitetura === cenario.arq && Number(r.usar_agente) === cenario.agente
+            )
+            const lei = (dados?.resumo_leituras || []).find(
+              (l: any) => l.arquitetura === cenario.arq && Number(l.usar_agente) === cenario.agente
+            )
+            const amostras = Number(rec?.amostras || 0)
+            const leituras = Number(lei?.total_leituras || 0)
+            const pctMeta = Math.min(100, (amostras / 259200) * 100)
+            return (
+              <div key={idx} className="card-progresso">
+                <div className="progresso-topo">
+                  <strong>{cenario.titulo}</strong>
+                  <span>{formatarDuracaoAmostras(amostras)}</span>
+                </div>
+                <div className="barra-progresso-trilha">
+                  <div className="barra-progresso-fill" style={{ width: `${pctMeta}%` }} />
+                </div>
+                <div className="progresso-rodape">
+                  <span>{amostras.toLocaleString('pt-BR')} amostras</span>
+                  <span>{leituras.toLocaleString('pt-BR')} leituras</span>
+                  <span>{pctMeta.toFixed(2)}% de 15d</span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </section>
       {/* Tabela Comparativa dos 4 Cenários (Fatorial 2x2) */}
       <section className="secao-tabela">
         <h2>Resumo Comparativo dos 4 Cenários (Médias Consolidadas no PostgreSQL)</h2>
-        <table className="tabela-metricas">
+        <div className="tabela-scroll">
+          <table className="tabela-metricas">
           <thead>
             <tr>
               <th>Arquitetura</th>
               <th>Cenário (Agente IA)</th>
               <th>Amostras</th>
               <th>CPU Média (%)</th>
+              <th>CPU Mediana (P50)</th>
+              <th>CPU P95</th>
+              <th>CPU ± DP</th>
               <th>CPU Pico (%)</th>
-              <th>RAM Média (MB)</th>
-              <th>Rede Média (KB/s)</th>
+              <th>RAM Média</th>
+              <th>Rede Média</th>
             </tr>
           </thead>
           <tbody>
@@ -334,18 +499,23 @@ function App() {
                 <td>{Number(item.usar_agente) === 1 ? '🤖 Com Agente' : '⚡ Sem Agente'}</td>
                 <td>{item.amostras}</td>
                 <td>{item.cpu_media}%</td>
+                <td>{item.cpu_mediana ?? '--'}%</td>
+                <td>{item.cpu_p95 ?? '--'}%</td>
+                <td>±{item.cpu_desvio ?? '0.00'}%</td>
                 <td>{item.cpu_pico}%</td>
                 <td>{formatarTamanhoMB(Number(item.ram_media_mb))}</td>
                 <td>{formatarVelocidadeKBps(Number(item.rede_media_kbps))}</td>
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </section>
       {/* Tabela Comparativa dos 4 Cenários (Latência e Alertas) */}
       <section className="secao-tabela">
         <h2>Resumo de Latência e Alertas (Presente Reativo vs. Futuro IA)</h2>
-        <table className="tabela-metricas">
+        <div className="tabela-scroll">
+          <table className="tabela-metricas">
           <thead>
             <tr>
               <th>Arquitetura</th>
@@ -370,7 +540,8 @@ function App() {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </section>
       {/* Seletor de Janela de Tempo dos Gráficos */}
       <section className="barra-janela">
@@ -385,13 +556,22 @@ function App() {
               {j.label}
             </button>
           ))}
+          <button className="btn-janela" onClick={exportarHistoricoXlsx}>
+            📥 Exportar Histórico (Excel)
+          </button>
+          <button className="btn-janela" onClick={exportarResumoXlsx}>
+            📥 Exportar Resumo (Excel)
+          </button>
         </div>
       </section>
       {/* Gráficos Comparativos Diretos: Velha vs. Nova (apenas quando ambas estão online) */}
       {velha?.online && nova?.online && (
         <section className="grid-graficos-comparativos">
           <div className="card-grafico">
-            <h3>Comparativo CPU (%) — Velha vs. Nova</h3>
+            <div className="topo-grafico">
+              <h3>Comparativo CPU (%) — Velha vs. Nova</h3>
+              <button className="btn-exportar-png" onClick={(e) => exportarCardGraficoPng(e, 'comparativo_cpu')}>📷 PNG</button>
+            </div>
             <ResponsiveContainer width="100%" height={240}>
               <LineChart data={dadosComparativos} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -409,7 +589,10 @@ function App() {
             </ResponsiveContainer>
           </div>
           <div className="card-grafico">
-            <h3>Comparativo Memória RAM — Velha vs. Nova</h3>
+            <div className="topo-grafico">
+              <h3>Comparativo Memória RAM — Velha vs. Nova</h3>
+              <button className="btn-exportar-png" onClick={(e) => exportarCardGraficoPng(e, 'comparativo_ram')}>📷 PNG</button>
+            </div>
             <ResponsiveContainer width="100%" height={240}>
               <LineChart data={dadosComparativos} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -427,7 +610,10 @@ function App() {
             </ResponsiveContainer>
           </div>
           <div className="card-grafico">
-            <h3>Comparativo Rede RX — Velha vs. Nova</h3>
+            <div className="topo-grafico">
+              <h3>Comparativo Rede RX — Velha vs. Nova</h3>
+              <button className="btn-exportar-png" onClick={(e) => exportarCardGraficoPng(e, 'comparativo_rede')}>📷 PNG</button>
+            </div>
             <ResponsiveContainer width="100%" height={240}>
               <LineChart data={dadosComparativos} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -449,7 +635,10 @@ function App() {
       {/* Gráficos em Tempo Real: Arquitetura Velha vs. Arquitetura Nova */}
       <section className="grid-graficos">
         <div className="card-grafico">
-          <h3>Máquina 1 (Arquitetura Velha) — CPU (%) e Rede</h3>
+          <div className="topo-grafico">
+            <h3>Máquina 1 (Arquitetura Velha) — CPU (%) e Rede</h3>
+            <button className="btn-exportar-png" onClick={(e) => exportarCardGraficoPng(e, 'velha_cpu_rede')}>📷 PNG</button>
+          </div>
           <ResponsiveContainer width="100%" height={260}>
             <LineChart data={histVelha} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -471,7 +660,10 @@ function App() {
           </ResponsiveContainer>
         </div>
         <div className="card-grafico">
-          <h3>Máquina 2 (Arquitetura Nova) — CPU (%) e Rede</h3>
+          <div className="topo-grafico">
+            <h3>Máquina 2 (Arquitetura Nova) — CPU (%) e Rede</h3>
+            <button className="btn-exportar-png" onClick={(e) => exportarCardGraficoPng(e, 'nova_cpu_rede')}>📷 PNG</button>
+          </div>
           <ResponsiveContainer width="100%" height={260}>
             <LineChart data={histNova} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -493,7 +685,10 @@ function App() {
           </ResponsiveContainer>
         </div>
         <div className="card-grafico">
-          <h3>Máquina 1 (Arquitetura Velha) — Memória RAM</h3>
+          <div className="topo-grafico">
+            <h3>Máquina 1 (Arquitetura Velha) — Memória RAM</h3>
+            <button className="btn-exportar-png" onClick={(e) => exportarCardGraficoPng(e, 'velha_ram')}>📷 PNG</button>
+          </div>
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={histVelha} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -510,7 +705,10 @@ function App() {
           </ResponsiveContainer>
         </div>
         <div className="card-grafico">
-          <h3>Máquina 2 (Arquitetura Nova) — Memória RAM</h3>
+          <div className="topo-grafico">
+            <h3>Máquina 2 (Arquitetura Nova) — Memória RAM</h3>
+            <button className="btn-exportar-png" onClick={(e) => exportarCardGraficoPng(e, 'nova_ram')}>📷 PNG</button>
+          </div>
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={histNova} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -530,7 +728,8 @@ function App() {
       {/* Últimas Leituras: Latência (ms) e Comparativo Alerta Reativo vs. Agente IA (15 min à frente) */}
       <section className="secao-tabela">
         <h2>Últimas Leituras Processadas — Latência (ms) e Antecipação do Aviso (Presente vs. Futuro 15m)</h2>
-        <table className="tabela-metricas">
+        <div className="tabela-scroll">
+          <table className="tabela-metricas">
           <thead>
             <tr>
               <th>Data / Hora</th>
@@ -545,21 +744,44 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {(dados?.ultimas_leituras || []).map((l: any, idx: number) => (
-              <tr key={idx}>
-                <td>{formatarDataHora(l.timestamp_recebimento, true)}</td>
-                <td>{l.arquitetura}</td>
-                <td>{Number(l.usar_agente) === 1 ? '🤖 Sim' : '⚡ Não'}</td>
-                <td>{l.co_atual} ppm</td>
-                <td>{l.iqar_reativo_presente}</td>
-                <td><strong>{l.iqar_previsto_15m || '--'}</strong></td>
-                <td>{l.co_previsto_15m ? `${l.co_previsto_15m} ppm` : '--'}</td>
-                <td>{l.tipo_alerta_agente || 'Normal'}</td>
-                <td>{l.latencia_total_ms} ms ({l.latencia_agente_ms} ms IA)</td>
-              </tr>
-            ))}
+            {(dados?.ultimas_leituras || []).map((l: any, idx: number) => {
+              const temAlertaAgente = Boolean(l.tipo_alerta_agente && l.tipo_alerta_agente !== 'Normal')
+              const antecipado = temAlertaAgente && Number(l.alerta_reativo_presente) === 0
+              return (
+                <tr key={idx}>
+                  <td>{formatarDataHora(l.timestamp_recebimento, true)}</td>
+                  <td>{l.arquitetura}</td>
+                  <td>{Number(l.usar_agente) === 1 ? '🤖 Sim' : '⚡ Não'}</td>
+                  <td>{l.co_atual} ppm</td>
+                  <td>
+                    <span className={`badge-status ${classeIqar(l.iqar_reativo_presente)}`}>
+                      {l.iqar_reativo_presente || '--'}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`badge-status ${classeIqar(l.iqar_previsto_15m)}`}>
+                      {l.iqar_previsto_15m || '--'}
+                    </span>
+                  </td>
+                  <td>{l.co_previsto_15m ? `${l.co_previsto_15m} ppm` : '--'}</td>
+                  <td>
+                    {antecipado ? (
+                      <span className="badge-status badge-antecipado">
+                        ⚡🤖 Antecipado: {l.tipo_alerta_agente}
+                      </span>
+                    ) : temAlertaAgente ? (
+                      <span className="badge-status badge-ruim">{l.tipo_alerta_agente}</span>
+                    ) : (
+                      <span className="badge-status badge-bom">Normal</span>
+                    )}
+                  </td>
+                  <td>{l.latencia_total_ms} ms ({l.latencia_agente_ms} ms IA)</td>
+                </tr>
+              )
+            })}
           </tbody>
-        </table>
+          </table>
+        </div>
       </section>
     </div>
   )

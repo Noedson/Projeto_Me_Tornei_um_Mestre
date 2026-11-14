@@ -121,3 +121,47 @@
    * **Bug:** Gráfico de predição invertida no tempo.
    * **Pesquisa/Detalhamento:** Destacar o papel do aprendizado não supervisionado (Autoencoder / erro de reconstrução sem rótulo prévio de anomalia) na escrita e nos gráficos.
 
+
+---
+
+## 7. Atualização da Sessão (13/11/2026) — Frontend Completo e Tempo Real
+
+### 1. Correções nos Coletores e Sincronizador
+* **`Código/Arquitetura_Nova/monitorar_recursos_docker.py`:**
+  * Removida importação acidental `from django.utils.log import log_message` que impedia o container Python Alpine de iniciar.
+  * Alterado `--intervalo` padrão de `15s` para `5s` (em ambos os coletores: Nova e Velha).
+  * Substituído `PRAGMA journal_mode=WAL` por `PRAGMA journal_mode=DELETE` com `DB_LOCK = threading.Lock()` e `timeout=30.0` (em ambos os coletores), resolvendo `sqlite3.OperationalError: disk I/O error` em volumes bind-mount do Windows no Docker.
+* **`Código/Monitoramento/Dashboard_Esperimento/sincronizador_central.py`:**
+  * Loop de sincronização acelerado para `1s`.
+  * `GET /api/dashboard?janela=...` agora suporta janelas `5m`, `1h`, `24h`, `7d` e `15d` (com agregação via `date_bin` no PostgreSQL para manter os gráficos leves em históricos longos) e retorna `atual` (última amostra instantânea).
+  * Adicionado `_normalizar_url` em `POST /api/config-urls` para completar `http://` automaticamente e converter `localhost`/`127.0.0.1` em `host.docker.internal` dentro do container.
+
+### 2. Dashboard React (`Código/Monitoramento/Dashboard_Esperimento/`)
+* **`src/components/Acelerometro.tsx` (Novo):** Velocímetros/acelerômetros SVG animados em tempo real para **CPU (%)**, **RAM**, **Rede RX** e **Rede TX** nos cards das 2 máquinas, zerando automaticamente para `--` quando a máquina fica Offline.
+* **`src/App.tsx` e `src/App.css`:**
+  * Polling a cada `2s` com indicador `🟢 Ao vivo` e data/hora em formato `pt-BR`.
+  * Conversão automática de unidades (`KB`/`MB`/`GB` e `B/s`/`KB/s`/`MB/s`/`GB/s`) nos acelerômetros, tabelas e gráficos (eixo Y + Tooltip), com `white-space: nowrap` e `overflow-x: auto` (`.tabela-scroll`) nas tabelas.
+  * **3 Gráficos Comparativos Diretos (Velha vs. Nova)** para CPU, RAM e Rede RX, exibidos automaticamente quando ambas as arquiteturas estão online simultaneamente.
+  * **Marcadores Verticais (`<ReferenceLine>`)** indicando o ponto exato em que o Agente IA é ligado (`🤖 Agente ON`) ou desligado (`⚡ Agente OFF`), posicionados à direita da linha (`insideTopLeft`) com alternância vertical (`dy`).
+  * **Painel de Configuração de IPs** na interface (`POST /api/config-urls`) e exibição do endpoint atual nos cards.
+  * **Painel de Progresso do Experimento (4 Cenários)** com barra de progresso rumo aos 15 dias por etapa (`259.200` amostras a `5s`), além de **badges coloridas** na tabela de últimas leituras destacando alertas antecipados (`⚡🤖 Antecipado (+15m)`).
+  * **Exportação:** botões para baixar **Excel (`.xlsx`)** com 2 abas separadas (`Arquitetura Velha` e `Arquitetura Nova`) tanto para o **Histórico** quanto para o **Resumo**, além de botão **`📷 PNG`** (2× resolução) em cada um dos 7 gráficos.
+* **`package.json`:** adicionada dependência `xlsx` para geração das planilhas multi-abas no navegador.
+
+### 3. Próximos Passos Pendentes
+* Verificar os dois itens restantes da anotação inicial:
+  * **Bug:** Gráfico de predição invertida no tempo.
+  * **Pesquisa/Detalhamento:** Destacar o papel do aprendizado não supervisionado (Autoencoder / erro de reconstrução sem rótulo prévio de anomalia) na escrita e nos gráficos.
+
+---
+
+## 8. Atualização Final da Sessão (13/11/2026) — Rigor Estatístico e Limpeza de Memória
+
+* **Alinhamento dos Marcadores ON/OFF (`src/App.tsx`):**
+  * Alterado `position: 'insideTopRight'` para `position: 'insideTopLeft'` com alternância vertical (`dy: 0` / `14`), posicionando o rótulo à direita da linha tracejada (exatamente onde o novo estado passa a valer) e evitando sobreposição.
+* **Métricas Estatísticas Robustas (`sincronizador_central.py` e `src/App.tsx`):**
+  * Adicionados **Mediana (P50)** (`PERCENTILE_CONT(0.5)`), **Percentil 95 (P95)** (`PERCENTILE_CONT(0.95)`) e **Desvio Padrão (`± DP`)** (`COALESCE(STDDEV_SAMP(cpu_percent), 0)`) na tabela `Resumo Comparativo dos 4 Cenários` e no Excel (`.xlsx`) exportado, permitindo comprovar estatisticamente que a diferença de CPU com o Agente IA não é apenas um pico isolado.
+* **Liberação de Memória RAM ao Desligar na Arquitetura Nova (`Arquitetura_Nova/monitorar_recursos_docker.py`):**
+  * Ao receber `usar_agente = 0` em `POST /api/agente`, além de atualizar `estado_agente.json`, o monitor dispara `docker restart smart_campus_web` em segundo plano (`subprocess.Popen`) para descarregar TensorFlow/Keras da RAM do processo Django imediatamente.
+* **Observação Experimental de RAM:**
+  * Medido no gráfico ao vivo da Arquitetura Velha um degrau de **~250 a 300 MB** ao ligar/desligar o container `velha_agente_ia` (custo real do Agente IA em RAM), sobre uma base de **~2,4 a 2,7 GB** da própria pilha FIWARE + Node-RED + MongoDB.

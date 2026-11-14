@@ -49,11 +49,15 @@ def salvar_estado_agente(usar_agente: str):
     valor = 1 if str(usar_agente) in ("1", "true", "True") else 0
     ESTADO_AGENTE_PATH.write_text(json.dumps({"usar_agente": valor}), encoding="utf-8")
 
+DB_LOCK = threading.Lock()
+
+
 def inicializar_sqlite():
     MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.execute("PRAGMA journal_mode=WAL")
-        conn.execute("""
+    with DB_LOCK:
+        with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+            conn.execute("PRAGMA journal_mode=DELETE")
+            conn.execute("""
             CREATE TABLE IF NOT EXISTS recursos_docker(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
@@ -72,8 +76,9 @@ def inicializar_sqlite():
         """)
 
 def salvar_amostras_sqlite(amostras: list[dict]):
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.executemany("""
+    with DB_LOCK:
+        with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+            conn.executemany("""
             INSERT INTO recursos_docker(
                 timestamp, arquitetura, usar_agente, container,
                 cpu_percent, mem_usage_mb, mem_limit_mb,
@@ -119,12 +124,13 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
         qs = parse_qs(parsed.query)
         after_id = int(qs.get("after_id", ["0"])[0])
         limite = int(qs.get("limit", ["500"])[0])
-        with sqlite3.connect(DB_PATH) as conn:
-            conn.row_factory = sqlite3.Row
-            linhas = conn.execute(
-                "SELECT * FROM recursos_docker WHERE id > ? ORDER BY id ASC LIMIT ?",
-                (after_id, limite),
-            ).fetchall()
+        with DB_LOCK:
+            with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+                conn.row_factory = sqlite3.Row
+                linhas = conn.execute(
+                    "SELECT * FROM recursos_docker WHERE id > ? ORDER BY id ASC LIMIT ?",
+                    (after_id, limite),
+                ).fetchall()
         leituras = []
         if CSV_LEITURAS_PATH.exists():
             with open(CSV_LEITURAS_PATH, mode="r", encoding="utf-8", errors="ignore") as f:
@@ -142,6 +148,13 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
         body = json.loads(self.rfile.read(tamanho).decode("utf-8") or "{}")
         novo_estado = "1" if str(body.get("usar_agente", "1")) in ("1", "true", "True") else "0"
         salvar_estado_agente(novo_estado)
+        if novo_estado == "0":
+            # Reinicia o Django em background para descarregar TensorFlow/Keras da RAM
+            subprocess.Popen(
+                ["docker", "restart", "smart_campus_web"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
         print(f">>> [API Controle] Estado USAR_AGENTE alterado para: {novo_estado}")
         self._enviar_json(200, {"ok": True, "usar_agente": int(novo_estado)})
 

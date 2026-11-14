@@ -50,11 +50,15 @@ def salvar_estado_agente(usar_agente: str):
     ESTADO_AGENTE_PATH.write_text(json.dumps({"usar_agente": valor}), encoding="utf-8")
 
 
+DB_LOCK = threading.Lock()
+
+
 def inicializar_sqlite():
     MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.execute("PRAGMA journal_mode=WAL")
-        conn.execute("""
+    with DB_LOCK:
+        with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+            conn.execute("PRAGMA journal_mode=DELETE")
+            conn.execute("""
             CREATE TABLE IF NOT EXISTS recursos_docker(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
@@ -74,8 +78,9 @@ def inicializar_sqlite():
 
 
 def salvar_amostras_sqlite(amostras: list[dict]):
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.executemany("""
+    with DB_LOCK:
+        with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+            conn.executemany("""
             INSERT INTO recursos_docker(
                 timestamp, arquitetura, usar_agente, container,
                 cpu_percent, mem_usage_mb, mem_limit_mb,
@@ -123,12 +128,13 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
         qs = parse_qs(parsed.query)
         after_id = int(qs.get("after_id", ["0"])[0])
         limite = int(qs.get("limit", ["500"])[0])
-        with sqlite3.connect(DB_PATH) as conn:
-            conn.row_factory = sqlite3.Row
-            linhas = conn.execute(
-                "SELECT * FROM recursos_docker WHERE id > ? ORDER BY id ASC LIMIT ?",
-                (after_id, limite),
-            ).fetchall()
+        with DB_LOCK:
+            with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+                conn.row_factory = sqlite3.Row
+                linhas = conn.execute(
+                    "SELECT * FROM recursos_docker WHERE id > ? ORDER BY id ASC LIMIT ?",
+                    (after_id, limite),
+                ).fetchall()
         leituras = []
         if CSV_LEITURAS_PATH.exists():
             with open(CSV_LEITURAS_PATH, mode="r", encoding="utf-8", errors="ignore") as f:

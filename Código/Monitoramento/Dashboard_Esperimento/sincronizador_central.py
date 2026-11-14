@@ -276,6 +276,9 @@ def obter_dados_dashboard(janela: str = "5m"):
                     usar_agente,
                     COUNT(*) AS amostras,
                     ROUND(AVG(cpu_percent)::numeric, 2) AS cpu_media,
+                    ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY cpu_percent)::numeric, 2) AS cpu_mediana,
+                    ROUND(PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY cpu_percent)::numeric, 2) AS cpu_p95,
+                    ROUND(COALESCE(STDDEV_SAMP(cpu_percent), 0)::numeric, 2) AS cpu_desvio,
                     ROUND(MAX(cpu_percent)::numeric, 2) AS cpu_pico,
                     ROUND(AVG(mem_usage_mb)::numeric, 2) AS ram_media_mb,
                     ROUND(AVG(net_rx_kbps + net_tx_kbps)::numeric, 2) AS rede_media_kbps
@@ -320,6 +323,15 @@ def obter_dados_dashboard(janela: str = "5m"):
         "resumo_leituras": resumo_leituras,
         "ultimas_leituras": ultimas_leituras,
     }
+
+
+def _normalizar_url(url: str) -> str:
+    u = str(url).strip().rstrip("/")
+    if not u:
+        return u
+    if not u.startswith(("http://", "https://")):
+        u = f"http://{u}"
+    return u.replace("://localhost", "://host.docker.internal").replace("://127.0.0.1", "://host.docker.internal")
 
 
 class CentralAPIHandler(BaseHTTPRequestHandler):
@@ -384,9 +396,9 @@ class CentralAPIHandler(BaseHTTPRequestHandler):
 
         if self.path == "/api/config-urls":
             if body.get("url_nova"):
-                ESTADO_CONEXAO["Arquitetura_Nova"]["url"] = str(body["url_nova"]).rstrip("/")
+                ESTADO_CONEXAO["Arquitetura_Nova"]["url"] = _normalizar_url(body["url_nova"])
             if body.get("url_velha"):
-                ESTADO_CONEXAO["Arquitetura_Velha"]["url"] = str(body["url_velha"]).rstrip("/")
+                ESTADO_CONEXAO["Arquitetura_Velha"]["url"] = _normalizar_url(body["url_velha"])
             return self._enviar_json(200, {"ok": True, "conexoes": ESTADO_CONEXAO})
 
         return self._enviar_json(404, {"erro": "Rota nao encontrada"})
