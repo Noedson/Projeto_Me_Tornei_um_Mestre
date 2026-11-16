@@ -17,7 +17,7 @@ import threading
 import time
 import urllib.request
 import urllib.error
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -45,6 +45,8 @@ ESTADO_CONEXAO = {
     },
 }
 
+SYNC_LOCK = threading.Lock()
+
 
 def get_conn():
     return psycopg2.connect(**PG_CONFIG)
@@ -71,15 +73,63 @@ def inicializar_postgres():
                             block_read_mb DOUBLE PRECISION,
                             block_write_mb DOUBLE PRECISION,
                             pids INTEGER,
-                            UNIQUE(arquitetura, origem_id)
+                            UNIQUE(arquitetura, timestamp, container)
                         );
                     """)
                     cur.execute("""
+                        ALTER TABLE recursos_central
+                        DROP CONSTRAINT IF EXISTS recursos_central_arquitetura_origem_id_key;
+                    """)
+                    cur.execute("""
+                        CREATE UNIQUE INDEX IF NOT EXISTS idx_recursos_arq_ts_cont
+                        ON recursos_central (arquitetura, timestamp, container);
+                    """)
+                    cur.execute("""
                         CREATE INDEX IF NOT EXISTS idx_recursos_arq_cont_id
-                        ON recursos_central (arquitetura, container, origem_id DESC);
+                        ON recursos_central (arquitetura, container, id DESC);
                     """)
                     cur.execute("""
                         CREATE TABLE IF NOT EXISTS leituras_central (
+                            id SERIAL PRIMARY KEY,
+                            arquitetura TEXT NOT NULL,
+                            timestamp_recebimento TEXT NOT NULL,
+                            timestamp_sensor TEXT,
+                            usar_agente INTEGER,
+                            dev_eui TEXT,
+                            co_atual DOUBLE PRECISION,
+                            iqar_reativo_presente TEXT,
+                            alerta_reativo_presente INTEGER,
+                            iqar_previsto_15m TEXT,
+                            co_previsto_15m DOUBLE PRECISION,
+                            anomalia_detectada INTEGER,
+                            erro_reconstrucao DOUBLE PRECISION,
+                            tipo_alerta_agente TEXT,
+                            latencia_total_ms DOUBLE PRECISION,
+                            latencia_agente_ms DOUBLE PRECISION,
+                            UNIQUE(arquitetura, timestamp_recebimento)
+                        );
+                    """)
+                    cur.execute("""
+                        CREATE TABLE IF NOT EXISTS recursos_central_backup (
+                            id SERIAL PRIMARY KEY,
+                            origem_id INTEGER NOT NULL,
+                            arquitetura TEXT NOT NULL,
+                            timestamp TEXT NOT NULL,
+                            usar_agente INTEGER NOT NULL,
+                            container TEXT NOT NULL,
+                            cpu_percent DOUBLE PRECISION,
+                            mem_usage_mb DOUBLE PRECISION,
+                            mem_limit_mb DOUBLE PRECISION,
+                            net_rx_kbps DOUBLE PRECISION,
+                            net_tx_kbps DOUBLE PRECISION,
+                            block_read_mb DOUBLE PRECISION,
+                            block_write_mb DOUBLE PRECISION,
+                            pids INTEGER,
+                            UNIQUE(arquitetura, timestamp, container)
+                        );
+                    """)
+                    cur.execute("""
+                        CREATE TABLE IF NOT EXISTS leituras_central_backup (
                             id SERIAL PRIMARY KEY,
                             arquitetura TEXT NOT NULL,
                             timestamp_recebimento TEXT NOT NULL,
@@ -132,12 +182,16 @@ def sincronizar_arquitetura(nome_arq: str):
         with get_conn() as conn:
             with conn.cursor() as cur:
                 cur.execute(
-                    "SELECT COALESCE(MAX(origem_id), 0) FROM recursos_central WHERE arquitetura = %s;",
+                    """
+                    SELECT COALESCE(MAX(origem_id), 0), COALESCE(MAX(timestamp), '')
+                    FROM recursos_central
+                    WHERE arquitetura = %s;
+                    """,
                     (nome_arq,),
                 )
-                ultimo_id = cur.fetchone()[0]
+                ultimo_id, ultimo_ts = cur.fetchone()
 
-        req_url = f"{base_url}/api/sync?after_id={ultimo_id}&limit=500"
+        req_url = f"{base_url}/api/sync?after_id={ultimo_id}&after_ts={quote(str(ultimo_ts))}&limit=500"
         req = urllib.request.Request(req_url, method="GET")
         with urllib.request.urlopen(req, timeout=4.0) as resp:
             dados = json.loads(resp.read().decode("utf-8"))
@@ -159,7 +213,7 @@ def sincronizar_arquitetura(nome_arq: str):
                                 cpu_percent, mem_usage_mb, mem_limit_mb,
                                 net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
                             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                            ON CONFLICT (arquitetura, origem_id) DO NOTHING;
+                            ON CONFLICT (arquitetura, timestamp, container) DO NOTHING;
                         """, (
                             int(r["id"]), nome_arq, r["timestamp"], int(r["usar_agente"]), r["container"],
                             _float_or_none(r.get("cpu_percent")),
@@ -207,8 +261,9 @@ def sincronizar_arquitetura(nome_arq: str):
 
 def loop_sincronizacao():
     while True:
-        sincronizar_arquitetura("Arquitetura_Nova")
-        sincronizar_arquitetura("Arquitetura_Velha")
+        with SYNC_LOCK:
+            sincronizar_arquitetura("Arquitetura_Nova")
+            sincronizar_arquitetura("Arquitetura_Velha")
         time.sleep(1)
 
 
@@ -232,7 +287,7 @@ def obter_dados_dashboard(janela: str = "5m"):
                            net_rx_kbps, net_tx_kbps
                     FROM recursos_central
                     WHERE arquitetura = %s AND container = 'TOTAL_ARQUITETURA'
-                    ORDER BY origem_id DESC
+                    ORDER BY timestamp DESC, id DESC
                     LIMIT 1;
                 """, (arq,))
                 atual[arq] = cur.fetchone()
@@ -262,7 +317,7 @@ def obter_dados_dashboard(janela: str = "5m"):
                                net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
                         FROM recursos_central
                         WHERE arquitetura = %s AND container = 'TOTAL_ARQUITETURA'
-                        ORDER BY origem_id DESC
+                        ORDER BY timestamp DESC, id DESC
                         LIMIT 60;
                     """, (arq,))
                     rows = list(cur.fetchall())
@@ -314,6 +369,12 @@ def obter_dados_dashboard(janela: str = "5m"):
             """)
             ultimas_leituras = [dict(r) for r in cur.fetchall()]
 
+            # 5. Status do Backup Consolidado (Completo / Incremental)
+            cur.execute("SELECT COUNT(*) AS total FROM recursos_central_backup;")
+            total_rec_backup = cur.fetchone()["total"]
+            cur.execute("SELECT COUNT(*) AS total FROM leituras_central_backup;")
+            total_lei_backup = cur.fetchone()["total"]
+
     return {
         "conexoes": ESTADO_CONEXAO,
         "atual": atual,
@@ -322,6 +383,169 @@ def obter_dados_dashboard(janela: str = "5m"):
         "resumo_recursos": resumo_recursos,
         "resumo_leituras": resumo_leituras,
         "ultimas_leituras": ultimas_leituras,
+        "backup": {
+            "existe_backup": (total_rec_backup > 0 or total_lei_backup > 0),
+            "total_recursos_backup": total_rec_backup,
+            "total_leituras_backup": total_lei_backup,
+        },
+    }
+
+
+def fazer_backup_e_zerar_central() -> dict:
+    """
+    1. Pausa o loop de sync (SYNC_LOCK) e puxa os dados pendentes das duas máquinas.
+    2. No PostgreSQL Central: se não houver backup prévio, faz um Backup Completo;
+       se já existir, faz uma Atualização Incremental (ON CONFLICT DO NOTHING).
+    3. Aciona POST /api/backup-reset nas duas arquiteturas PRIMEIRO (para zerarem os SQLites locais).
+    4. Zera as tabelas ativas (`recursos_central` e `leituras_central`) para iniciar nova bateria limpa.
+    """
+    with SYNC_LOCK:
+        sincronizar_arquitetura("Arquitetura_Nova")
+        sincronizar_arquitetura("Arquitetura_Velha")
+
+        with get_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT COUNT(*) FROM recursos_central_backup;")
+                rec_antes = cur.fetchone()[0]
+                cur.execute("SELECT COUNT(*) FROM leituras_central_backup;")
+                lei_antes = cur.fetchone()[0]
+
+                modo = "backup_completo" if (rec_antes == 0 and lei_antes == 0) else "atualizacao_incremental"
+
+                cur.execute("""
+                    INSERT INTO recursos_central_backup (
+                        origem_id, arquitetura, timestamp, usar_agente, container,
+                        cpu_percent, mem_usage_mb, mem_limit_mb,
+                        net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                    )
+                    SELECT
+                        origem_id, arquitetura, timestamp, usar_agente, container,
+                        cpu_percent, mem_usage_mb, mem_limit_mb,
+                        net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                    FROM recursos_central
+                    ON CONFLICT (arquitetura, timestamp, container) DO NOTHING;
+                """)
+                cur.execute("""
+                    INSERT INTO leituras_central_backup (
+                        arquitetura, timestamp_recebimento, timestamp_sensor, usar_agente,
+                        dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                        iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                        erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                    )
+                    SELECT
+                        arquitetura, timestamp_recebimento, timestamp_sensor, usar_agente,
+                        dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                        iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                        erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                    FROM leituras_central
+                    ON CONFLICT (arquitetura, timestamp_recebimento) DO NOTHING;
+                """)
+
+                cur.execute("SELECT COUNT(*) FROM recursos_central_backup;")
+                rec_depois = cur.fetchone()[0]
+                cur.execute("SELECT COUNT(*) FROM leituras_central_backup;")
+                lei_depois = cur.fetchone()[0]
+
+        resultados_remotos = {}
+        for arq, info in ESTADO_CONEXAO.items():
+            try:
+                req = urllib.request.Request(
+                    f"{info['url']}/api/backup-reset",
+                    data=b"{}",
+                    headers={"Content-Type": "application/json"},
+                    method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=30.0) as resp:
+                    resultados_remotos[arq] = json.loads(resp.read().decode("utf-8"))
+            except Exception as e:
+                resultados_remotos[arq] = {"ok": False, "erro": str(e)}
+
+        with get_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute("TRUNCATE TABLE recursos_central, leituras_central RESTART IDENTITY;")
+
+    return {
+        "ok": True,
+        "modo": modo,
+        "novos_recursos_backup": rec_depois - rec_antes,
+        "novas_leituras_backup": lei_depois - lei_antes,
+        "total_recursos_backup": rec_depois,
+        "total_leituras_backup": lei_depois,
+        "remotos": resultados_remotos,
+    }
+
+
+def resgatar_backup_central() -> dict:
+    """
+    Restaura (mescla sem perda) os registros de `recursos_central_backup` e
+    `leituras_central_backup` de volta para as tabelas ativas (`recursos_central`
+    e `leituras_central`), além de acionar `/api/backup-restore` nas 2 máquinas.
+    """
+    with SYNC_LOCK:
+        resultados_remotos = {}
+        for arq, info in ESTADO_CONEXAO.items():
+            try:
+                req = urllib.request.Request(
+                    f"{info['url']}/api/backup-restore",
+                    data=b"{}",
+                    headers={"Content-Type": "application/json"},
+                    method="POST",
+                )
+                with urllib.request.urlopen(req, timeout=30.0) as resp:
+                    resultados_remotos[arq] = json.loads(resp.read().decode("utf-8"))
+            except Exception as e:
+                resultados_remotos[arq] = {"ok": False, "erro": str(e)}
+
+        with get_conn() as conn:
+            with conn.cursor() as cur:
+                cur.execute("SELECT COUNT(*) FROM recursos_central;")
+                rec_antes = cur.fetchone()[0]
+                cur.execute("SELECT COUNT(*) FROM leituras_central;")
+                lei_antes = cur.fetchone()[0]
+
+                cur.execute("""
+                    INSERT INTO recursos_central (
+                        origem_id, arquitetura, timestamp, usar_agente, container,
+                        cpu_percent, mem_usage_mb, mem_limit_mb,
+                        net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                    )
+                    SELECT
+                        origem_id, arquitetura, timestamp, usar_agente, container,
+                        cpu_percent, mem_usage_mb, mem_limit_mb,
+                        net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                    FROM recursos_central_backup
+                    ORDER BY timestamp ASC, id ASC
+                    ON CONFLICT (arquitetura, timestamp, container) DO NOTHING;
+                """)
+                cur.execute("""
+                    INSERT INTO leituras_central (
+                        arquitetura, timestamp_recebimento, timestamp_sensor, usar_agente,
+                        dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                        iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                        erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                    )
+                    SELECT
+                        arquitetura, timestamp_recebimento, timestamp_sensor, usar_agente,
+                        dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                        iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                        erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                    FROM leituras_central_backup
+                    ORDER BY timestamp_recebimento ASC, id ASC
+                    ON CONFLICT (arquitetura, timestamp_recebimento) DO NOTHING;
+                """)
+
+                cur.execute("SELECT COUNT(*) FROM recursos_central;")
+                rec_depois = cur.fetchone()[0]
+                cur.execute("SELECT COUNT(*) FROM leituras_central;")
+                lei_depois = cur.fetchone()[0]
+
+    return {
+        "ok": True,
+        "recursos_restaurados": rec_depois - rec_antes,
+        "leituras_restauradas": lei_depois - lei_antes,
+        "total_recursos_ativo": rec_depois,
+        "total_leituras_ativo": lei_depois,
+        "remotos": resultados_remotos,
     }
 
 
@@ -400,6 +624,20 @@ class CentralAPIHandler(BaseHTTPRequestHandler):
             if body.get("url_velha"):
                 ESTADO_CONEXAO["Arquitetura_Velha"]["url"] = _normalizar_url(body["url_velha"])
             return self._enviar_json(200, {"ok": True, "conexoes": ESTADO_CONEXAO})
+
+        if self.path == "/api/backup-reset":
+            try:
+                res = fazer_backup_e_zerar_central()
+                return self._enviar_json(200, res)
+            except Exception as e:
+                return self._enviar_json(500, {"ok": False, "erro": str(e)})
+
+        if self.path == "/api/backup-restore":
+            try:
+                res = resgatar_backup_central()
+                return self._enviar_json(200, res)
+            except Exception as e:
+                return self._enviar_json(500, {"ok": False, "erro": str(e)})
 
         return self._enviar_json(404, {"erro": "Rota nao encontrada"})
 

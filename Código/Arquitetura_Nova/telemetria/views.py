@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import json
 import os
+import threading
 import time
 import urllib.request
 from pathlib import Path
@@ -33,7 +34,7 @@ def classificar_co_reativo(co_val: float) -> str:
     return "Boa"
 
 
-def registrar_metrica_leitura(linha: dict):
+def _enviar_metrica_bg(linha: dict):
     try:
         req = urllib.request.Request(
             MONITOR_LEITURA_URL,
@@ -41,9 +42,13 @@ def registrar_metrica_leitura(linha: dict):
             headers={"Content-Type": "application/json"},
             method="POST",
         )
-        urllib.request.urlopen(req, timeout=1.5).close()
+        urllib.request.urlopen(req, timeout=5.0).close()
     except Exception as e:
         print(f">>> [Aviso Monitoramento] Falha ao enviar métrica para SQLite: {e}")
+
+
+def registrar_metrica_leitura(linha: dict):
+    threading.Thread(target=_enviar_metrica_bg, args=(linha,), daemon=True).start()
 
 
 @csrf_exempt
@@ -119,9 +124,9 @@ def chirpstack_webhook(request):
         # Passo numero 4: Aciona o Agente Inteligente somente se USAR_AGENTE=1
         if usar_agente:
             from agente.services import AirQualifyService
-            t_inicio_agente = time.perf_counter()
-            ultimas_leituras = list(AirReading.objects.filter(sensor=sensor).order_by('-timestamp')[:40])
             agente = AirQualifyService()
+            t_inicio_agente = time.perf_counter()
+            ultimas_leituras = list(AirReading.objects.filter(sensor=sensor).order_by('-timestamp')[:32])
             resultado = agente.avaliar_janela(sensor, ultimas_leituras)
             latencia_agente_ms = (time.perf_counter() - t_inicio_agente) * 1000.0
 

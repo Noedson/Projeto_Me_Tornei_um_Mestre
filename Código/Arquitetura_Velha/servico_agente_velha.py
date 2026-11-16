@@ -49,7 +49,14 @@ class AgenteVelhaEngine:
         # Histórico em memória por sala/sensor (até 1000 leituras ~ 8h+)
         self.historico = defaultdict(lambda: deque(maxlen=1000))
         self.ultimo_alerta = {}
-        print(">>> [Agente IA - Arquitetura Velha] Modelo Multi-Task V4 carregado com sucesso!")
+
+        # Compila o grafo estático C++ do TensorFlow + Warm-up (~5650ms -> ~31ms)
+        self._inferir_grafo = tf.function(
+            lambda x: self.model(x, training=False),
+            input_signature=[tf.TensorSpec(shape=[None, JANELA, 8], dtype=tf.float32)],
+        )
+        self._inferir_grafo(tf.zeros((N_JANELAS_CONFIRMACAO, JANELA, 8), dtype=tf.float32))
+        print(">>> [Agente IA - Arquitetura Velha] Modelo Multi-Task V4 e Grafo Compilado carregados com sucesso!")
 
     def _normalizar(self, matriz):
         return self.scaler.transform(preprocessar(matriz, self.clip_max)).astype(np.float32)
@@ -127,7 +134,8 @@ class AgenteVelhaEngine:
         lote = np.stack([escalada[i:i + JANELA] for i in range(n_janelas)])
 
         with self._lock:
-            rec_out, delta_out, class_out = (np.asarray(t) for t in self.model(lote, training=False))
+            rec_t, delta_t, class_t = self._inferir_grafo(tf.constant(lote, dtype=tf.float32))
+            rec_out, delta_out, class_out = rec_t.numpy(), delta_t.numpy(), class_t.numpy()
 
         erros = np.mean(np.abs(lote - rec_out), axis=2).max(axis=1)
         n_acima = int((erros > self.limiar).sum())

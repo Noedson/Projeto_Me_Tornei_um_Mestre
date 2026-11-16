@@ -31,6 +31,11 @@ interface DashBoardData {
   resumo_recursos: any[]
   resumo_leituras: any[]
   ultimas_leituras: any[]
+  backup?: {
+    existe_backup: boolean
+    total_recursos_backup: number
+    total_leituras_backup: number
+  }
 }
 
 const JANELAS = [
@@ -50,6 +55,7 @@ function App() {
   const [mostrarConfig, setMostrarConfig] = useState<boolean>(false)
   const [urlVelhaInput, setUrlVelhaInput] = useState<string>('')
   const [urlNovaInput, setUrlNovaInput] = useState<string>('')
+  const [avisoBackup, setAvisoBackup] = useState<string | null>(null)
 
   //1. Busca os dados do PostgreSQL Central em busca de 3 segundo
 
@@ -256,6 +262,59 @@ function App() {
     }
   }
 
+  const fazerBackupEZerar = async () => {
+    const jaTem = dados?.backup?.existe_backup
+    const tipoMsg = jaTem
+      ? 'Atualização Incremental no Backup existente'
+      : 'Backup Completo (1º Backup)'
+    if (!window.confirm(`Deseja realizar ${tipoMsg} e zerar o banco ativo para iniciar uma nova bateria limpa?`)) {
+      return
+    }
+    setCarregando(true)
+    setAvisoBackup(null)
+    try {
+      const resp = await fetch(`${API_BASE}/api/backup-reset`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      })
+      const json = await resp.json()
+      if (json.ok) {
+        const rotulo = json.modo === 'backup_completo' ? 'Backup Completo criado' : 'Backup Incremental atualizado'
+        setAvisoBackup(
+          `✅ ${rotulo}! (+${json.novos_recursos_backup} amostras de recursos e +${json.novas_leituras_backup} leituras salvas | Total no Backup: ${Number(json.total_recursos_backup).toLocaleString('pt-BR')} amostras e ${Number(json.total_leituras_backup).toLocaleString('pt-BR')} leituras). Banco ativo zerado!`
+        )
+      }
+      await buscarDados()
+    } finally {
+      setCarregando(false)
+    }
+  }
+
+  const resgatarBackup = async () => {
+    if (!window.confirm('Deseja resgatar (mesclar) todos os dados do Backup de volta para o banco ativo e gráficos?')) {
+      return
+    }
+    setCarregando(true)
+    setAvisoBackup(null)
+    try {
+      const resp = await fetch(`${API_BASE}/api/backup-restore`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      })
+      const json = await resp.json()
+      if (json.ok) {
+        setAvisoBackup(
+          `♻️ Backup resgatado com sucesso! (+${Number(json.recursos_restaurados).toLocaleString('pt-BR')} amostras de recursos e +${Number(json.leituras_restauradas).toLocaleString('pt-BR')} leituras restauradas | Total ativo: ${Number(json.total_recursos_ativo).toLocaleString('pt-BR')} amostras e ${Number(json.total_leituras_ativo).toLocaleString('pt-BR')} leituras).`
+        )
+      }
+      await buscarDados()
+    } finally {
+      setCarregando(false)
+    }
+  }
+
   const nova = dados?.conexoes?.Arquitetura_Nova
   const velha = dados?.conexoes?.Arquitetura_Velha
   const histVelha = dados?.historico?.Arquitetura_Velha || []
@@ -328,13 +387,61 @@ function App() {
     ))
   const velhaAtual = velha?.online ? (dados?.atual?.Arquitetura_Velha || histVelha[histVelha.length - 1]) : null
   const novaAtual = nova?.online ? (dados?.atual?.Arquitetura_Nova || histNova[histNova.length - 1]) : null
+
+  // Cálculos dinâmicos para os 4 Cards KPI Executivos (inspirados no redesign do Figma)
+  const recVelhaSem = (dados?.resumo_recursos || []).find((r: any) => r.arquitetura === 'Arquitetura_Velha' && Number(r.usar_agente) === 0)
+  const recVelhaCom = (dados?.resumo_recursos || []).find((r: any) => r.arquitetura === 'Arquitetura_Velha' && Number(r.usar_agente) === 1)
+  const recNovaSem = (dados?.resumo_recursos || []).find((r: any) => r.arquitetura === 'Arquitetura_Nova' && Number(r.usar_agente) === 0)
+  const recNovaCom = (dados?.resumo_recursos || []).find((r: any) => r.arquitetura === 'Arquitetura_Nova' && Number(r.usar_agente) === 1)
+
+  const redeVelhaRef = Number(recVelhaCom?.rede_media_kbps ?? recVelhaSem?.rede_media_kbps ?? velhaAtual?.net_rx_kbps ?? 0)
+  const redeNovaRef = Number(recNovaCom?.rede_media_kbps ?? recNovaSem?.rede_media_kbps ?? novaAtual?.net_rx_kbps ?? 0)
+  const reducaoRedePct = redeVelhaRef > 0 && redeNovaRef >= 0
+    ? Math.max(0, ((redeVelhaRef - redeNovaRef) / redeVelhaRef) * 100)
+    : null
+
+  const ramVelhaRef = Number(recVelhaSem?.ram_media_mb ?? recVelhaCom?.ram_media_mb ?? velhaAtual?.mem_usage_mb ?? 0)
+  const ramNovaRef = Number(recNovaSem?.ram_media_mb ?? recNovaCom?.ram_media_mb ?? novaAtual?.mem_usage_mb ?? 0)
+  const reducaoRamPct = ramVelhaRef > 0 && ramNovaRef > 0
+    ? Math.max(0, ((ramVelhaRef - ramNovaRef) / ramVelhaRef) * 100)
+    : null
+
+  const leiComAgente = (dados?.resumo_leituras || []).filter((l: any) => Number(l.usar_agente) === 1)
+  const latIaMedia = leiComAgente.length > 0
+    ? (leiComAgente.reduce((acc: number, item: any) => acc + Number(item.latencia_agente_media_ms || 0), 0) / leiComAgente.length)
+    : null
+  const deltaRamIaMb = recVelhaCom && recVelhaSem
+    ? Math.max(0, Number(recVelhaCom.ram_media_mb) - Number(recVelhaSem.ram_media_mb))
+    : recNovaCom && recNovaSem
+      ? Math.max(0, Number(recNovaCom.ram_media_mb) - Number(recNovaSem.ram_media_mb))
+      : null
+
+  const totalAlertasPreditivos = (dados?.resumo_leituras || []).reduce(
+    (acc: number, item: any) => acc + Number(item.alertas_preditivos || 0),
+    0
+  )
+  const totalAlertasReativos = (dados?.resumo_leituras || []).reduce(
+    (acc: number, item: any) => acc + Number(item.alertas_reativos || 0),
+    0
+  )
+
   return (
     <div className="painel-container">
       <header className="painel-header">
-        <div>
-          <h1>Monitoramento Experimental — Dissertação de Mestrado</h1>
-          <p>Comparativo: Arquitetura Velha (FIWARE) vs. Arquitetura Nova (Django) | Com e Sem Agente IA V4</p>
-          <span className="badge-ao-vivo">🟢 Ao vivo · Atualizado às {ultimaAtualizacao}</span>
+        <div className="header-info">
+          <div className="header-badges">
+            <span className="badge-ao-vivo">🟢 AO VIVO · POLLING 2S · {ultimaAtualizacao}</span>
+            <span className="badge-pill badge-brand">EXPERIMENTO FATORIAL 2×2 (30 DIAS)</span>
+            <span className="badge-pill badge-neutro-pill">
+              {dados?.backup?.existe_backup
+                ? `💾 BACKUP: ${Number(dados.backup.total_recursos_backup).toLocaleString('pt-BR')} rec · ${Number(dados.backup.total_leituras_backup).toLocaleString('pt-BR')} leituras (Incremental)`
+                : '💾 BACKUP: NENHUM (Próximo: Completo)'}
+            </span>
+          </div>
+          <h1>Monitoramento Experimental — Qualidade do Ar & Agente IA V4</h1>
+          <p className="header-subtitulo">
+            Comparativo Computacional e Preditivo: Arquitetura Velha (FIWARE/Mongo) vs. Arquitetura Nova (Django/PostgreSQL) · Bi-LSTM + Autoencoder
+          </p>
         </div>
         <div className="botoes-globais">
           <button
@@ -342,15 +449,33 @@ function App() {
             className="btn btn-ativar"
             onClick={() => alternarAgente('ambas', 1)}
           >
-            Ligar Agente nas 2 Máquinas (Etapa 2)
+            🤖 Ligar Agente (2 Máq.)
           </button>
           <button
             disabled={carregando}
             className="btn btn-desativar"
             onClick={() => alternarAgente('ambas', 0)}
           >
-            Desligar Agente nas 2 Máquinas (Etapa 1)
+            ⚡ Sem Agente (2 Máq.)
           </button>
+          <button
+            disabled={carregando}
+            className="btn"
+            onClick={fazerBackupEZerar}
+            title="Cria Backup Completo na 1ª vez (ou Atualização Incremental nas seguintes) e zera o banco ativo"
+          >
+            💾 {dados?.backup?.existe_backup ? 'Atualizar Backup + Zerar' : 'Backup Completo + Zerar'}
+          </button>
+          {dados?.backup?.existe_backup && (
+            <button
+              disabled={carregando}
+              className="btn"
+              onClick={resgatarBackup}
+              title="Restaura (mescla sem perda) os registros do Backup de volta para o banco ativo"
+            >
+              ♻️ Resgatar Backup
+            </button>
+          )}
           <button
             disabled={carregando}
             className="btn"
@@ -360,6 +485,73 @@ function App() {
           </button>
         </div>
       </header>
+      {avisoBackup && (
+        <div className="alerta-sucesso" onClick={() => setAvisoBackup(null)}>
+          {avisoBackup} <span style={{ opacity: 0.7, fontSize: 12 }}>(clique para fechar)</span>
+        </div>
+      )}
+
+      {/* Strip de 4 KPIs Executivos da Dissertação (Redesign Figma v2.0) */}
+      <section className="grid-kpis">
+        <div className="card-kpi">
+          <div className="kpi-topo">
+            <span className="kpi-label">REDUÇÃO DE REDE RX</span>
+            <span className="badge-status badge-bom">
+              {reducaoRedePct !== null ? `-${reducaoRedePct.toFixed(1)}%` : '1 POST vs 35 reqs'}
+            </span>
+          </div>
+          <strong className="kpi-valor">
+            {reducaoRedePct !== null ? `-${reducaoRedePct.toFixed(1)}% Banda RX` : formatarVelocidadeKBps(redeNovaRef)}
+          </strong>
+          <span className="kpi-detalhe">
+            Nova: {formatarVelocidadeKBps(redeNovaRef)} · Velha: {formatarVelocidadeKBps(redeVelhaRef)} (FIWARE)
+          </span>
+        </div>
+
+        <div className="card-kpi">
+          <div className="kpi-topo">
+            <span className="kpi-label">ECONOMIA DE RAM</span>
+            <span className="badge-status badge-bom">
+              {reducaoRamPct !== null ? `-${reducaoRamPct.toFixed(1)}%` : 'Footprint Base'}
+            </span>
+          </div>
+          <strong className="kpi-valor">
+            {reducaoRamPct !== null ? `-${reducaoRamPct.toFixed(1)}% RAM Base` : formatarTamanhoMB(ramNovaRef)}
+          </strong>
+          <span className="kpi-detalhe">
+            Nova: {formatarTamanhoMB(ramNovaRef)} · Velha: {formatarTamanhoMB(ramVelhaRef)} (Mongo + Orion)
+          </span>
+        </div>
+
+        <div className="card-kpi">
+          <div className="kpi-topo">
+            <span className="kpi-label">CUSTO AGENTE IA V4</span>
+            <span className="badge-status badge-brand">
+              {latIaMedia !== null ? `IA ${latIaMedia.toFixed(1)} ms` : 'TensorFlow V4'}
+            </span>
+          </div>
+          <strong className="kpi-valor">
+            {latIaMedia !== null ? `+${latIaMedia.toFixed(1)} ms` : '-- ms'}
+            {deltaRamIaMb !== null && deltaRamIaMb > 0 ? ` / +${formatarTamanhoMB(deltaRamIaMb)}` : ''}
+          </strong>
+          <span className="kpi-detalhe">
+            Inferência Multi-Task Bi-LSTM + Autoencoder em container
+          </span>
+        </div>
+
+        <div className="card-kpi">
+          <div className="kpi-topo">
+            <span className="kpi-label">ANTECIPAÇÃO ALERTA</span>
+            <span className="badge-status badge-antecipado">+15 min (Δt)</span>
+          </div>
+          <strong className="kpi-valor">
+            {totalAlertasPreditivos} preditivos
+          </strong>
+          <span className="kpi-detalhe">
+            {totalAlertasReativos} alertas reativos · Horizonte preditivo T+15 min
+          </span>
+        </div>
+      </section>
       {mostrarConfig && (
         <section className="painel-config">
           <h3>Configurar Endereços das Máquinas (Sync em Tempo Real)</h3>
@@ -397,42 +589,64 @@ function App() {
       {/* Cards de Status das 2 Máquinas */}
       <section className="grid-maquinas">
         <div className="card-maquina">
-          <h2>Máquina 1: Arquitetura Velha (FIWARE + Node-RED + Mongo)</h2>
-          <p>Status: <strong>{velha?.online ? '🟢 Online' : '🔴 Offline'}</strong> | Último Sync: {velha?.ultimo_sync || '--'}</p>
-          <p className="texto-url">Endpoint: <code>{velha?.url || '--'}</code></p>
-          <p>Modo Atual: <strong>{velha?.usar_agente === 1 ? '🤖 COM AGENTE IA' : '⚡ SEM AGENTE (Reativo)'}</strong></p>
-          <div className="metricas-instantaneas">
-            <Acelerometro titulo="CPU" valor={velhaAtual?.cpu_percent} max={100} unidade="%" />
-            <Acelerometro titulo="RAM" valor={velhaAtual?.mem_usage_mb} max={4096} corFixa="#a855f7" formatarValor={formatarTamanhoMB} />
-            <Acelerometro titulo="Rede RX" valor={velhaAtual?.net_rx_kbps} max={3072} corFixa="#f59e0b" formatarValor={formatarVelocidadeKBps} />
-            <Acelerometro titulo="Rede TX" valor={velhaAtual?.net_tx_kbps} max={3072} corFixa="#ef4444" formatarValor={formatarVelocidadeKBps} />
+          <div className="maquina-topo">
+            <h2>Máquina 1 · Arquitetura Velha (FIWARE + Node-RED + Mongo)</h2>
+            <span className={`badge-status ${velha?.online ? 'badge-bom' : 'badge-ruim'}`}>
+              {velha?.online ? '🟢 ONLINE' : '🔴 OFFLINE'} · Sync: {velha?.ultimo_sync || '--'}
+            </span>
           </div>
-          <button
-            disabled={carregando}
-            className="btn"
-            onClick={() => alternarAgente('Arquitetura_Velha', velha?.usar_agente === 1 ? 0 : 1)}
-          >
-            {velha?.usar_agente === 1 ? 'Desligar Agente na Velha' : 'Ligar Agente na Velha'}
-          </button>
+          <div className="maquina-meta">
+            <span className="texto-url">Endpoint: <code>{velha?.url || '--'}</code> · 35 transações/pacote</span>
+            <span className={`badge-status ${velha?.usar_agente === 1 ? 'badge-antecipado' : 'badge-neutro'}`}>
+              {velha?.usar_agente === 1 ? '🤖 COM AGENTE IA V4' : '⚡ SEM AGENTE (Reativo)'}
+            </span>
+          </div>
+          <div className="metricas-instantaneas">
+            <Acelerometro titulo="CPU (%)" valor={velhaAtual?.cpu_percent} max={100} unidade="%" />
+            <Acelerometro titulo="MEMÓRIA RAM" valor={velhaAtual?.mem_usage_mb} max={4096} corFixa="#a855f7" formatarValor={formatarTamanhoMB} />
+            <Acelerometro titulo="REDE RX" valor={velhaAtual?.net_rx_kbps} max={3072} corFixa="#f59e0b" formatarValor={formatarVelocidadeKBps} />
+            <Acelerometro titulo="REDE TX" valor={velhaAtual?.net_tx_kbps} max={3072} corFixa="#ef4444" formatarValor={formatarVelocidadeKBps} />
+          </div>
+          <div className="maquina-rodape">
+            <span className="maquina-dica">Coleta Docker Socket a cada 5s · Sem contaminação do container monitor</span>
+            <button
+              disabled={carregando}
+              className="btn btn-sm"
+              onClick={() => alternarAgente('Arquitetura_Velha', velha?.usar_agente === 1 ? 0 : 1)}
+            >
+              {velha?.usar_agente === 1 ? 'Desligar Agente na Velha' : 'Ligar Agente na Velha'}
+            </button>
+          </div>
         </div>
         <div className="card-maquina">
-          <h2>Máquina 2: Arquitetura Nova (Django + PostgreSQL)</h2>
-          <p>Status: <strong>{nova?.online ? '🟢 Online' : '🔴 Offline'}</strong> | Último Sync: {nova?.ultimo_sync || '--'}</p>
-          <p className="texto-url">Endpoint: <code>{nova?.url || '--'}</code></p>
-          <p>Modo Atual: <strong>{nova?.usar_agente === 1 ? '🤖 COM AGENTE IA' : '⚡ SEM AGENTE (Reativo)'}</strong></p>
-          <div className="metricas-instantaneas">
-            <Acelerometro titulo="CPU" valor={novaAtual?.cpu_percent} max={100} unidade="%" />
-            <Acelerometro titulo="RAM" valor={novaAtual?.mem_usage_mb} max={4096} corFixa="#06b6d4" formatarValor={formatarTamanhoMB} />
-            <Acelerometro titulo="Rede RX" valor={novaAtual?.net_rx_kbps} max={3072} corFixa="#10b981" formatarValor={formatarVelocidadeKBps} />
-            <Acelerometro titulo="Rede TX" valor={novaAtual?.net_tx_kbps} max={3072} corFixa="#3b82f6" formatarValor={formatarVelocidadeKBps} />
+          <div className="maquina-topo">
+            <h2>Máquina 2 · Arquitetura Nova (Django + PostgreSQL)</h2>
+            <span className={`badge-status ${nova?.online ? 'badge-bom' : 'badge-ruim'}`}>
+              {nova?.online ? '🟢 ONLINE' : '🔴 OFFLINE'} · Sync: {nova?.ultimo_sync || '--'}
+            </span>
           </div>
-          <button
-            disabled={carregando}
-            className="btn"
-            onClick={() => alternarAgente('Arquitetura_Nova', nova?.usar_agente === 1 ? 0 : 1)}
-          >
-            {nova?.usar_agente === 1 ? 'Desligar Agente na Nova' : 'Ligar Agente na Nova'}
-          </button>
+          <div className="maquina-meta">
+            <span className="texto-url">Endpoint: <code>{nova?.url || '--'}</code> · 1 INSERT direto/pacote</span>
+            <span className={`badge-status ${nova?.usar_agente === 1 ? 'badge-bom' : 'badge-neutro'}`}>
+              {nova?.usar_agente === 1 ? '🤖 COM AGENTE IA V4' : '⚡ SEM AGENTE (Reativo)'}
+            </span>
+          </div>
+          <div className="metricas-instantaneas">
+            <Acelerometro titulo="CPU (%)" valor={novaAtual?.cpu_percent} max={100} unidade="%" />
+            <Acelerometro titulo="MEMÓRIA RAM" valor={novaAtual?.mem_usage_mb} max={4096} corFixa="#06b6d4" formatarValor={formatarTamanhoMB} />
+            <Acelerometro titulo="REDE RX" valor={novaAtual?.net_rx_kbps} max={3072} corFixa="#10b981" formatarValor={formatarVelocidadeKBps} />
+            <Acelerometro titulo="REDE TX" valor={novaAtual?.net_tx_kbps} max={3072} corFixa="#3b82f6" formatarValor={formatarVelocidadeKBps} />
+          </div>
+          <div className="maquina-rodape">
+            <span className="maquina-dica">Coleta Docker Socket a cada 5s · Sem contaminação do container monitor</span>
+            <button
+              disabled={carregando}
+              className="btn btn-sm"
+              onClick={() => alternarAgente('Arquitetura_Nova', nova?.usar_agente === 1 ? 0 : 1)}
+            >
+              {nova?.usar_agente === 1 ? 'Desligar Agente na Nova' : 'Ligar Agente na Nova'}
+            </button>
+          </div>
         </div>
       </section>
       {/* Progresso do Experimento (Etapa 1 vs Etapa 2 — Meta 15 dias por etapa) */}
@@ -478,36 +692,36 @@ function App() {
         <h2>Resumo Comparativo dos 4 Cenários (Médias Consolidadas no PostgreSQL)</h2>
         <div className="tabela-scroll">
           <table className="tabela-metricas">
-          <thead>
-            <tr>
-              <th>Arquitetura</th>
-              <th>Cenário (Agente IA)</th>
-              <th>Amostras</th>
-              <th>CPU Média (%)</th>
-              <th>CPU Mediana (P50)</th>
-              <th>CPU P95</th>
-              <th>CPU ± DP</th>
-              <th>CPU Pico (%)</th>
-              <th>RAM Média</th>
-              <th>Rede Média</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(dados?.resumo_recursos || []).map((item: any, idx: number) => (
-              <tr key={idx}>
-                <td>{item.arquitetura}</td>
-                <td>{Number(item.usar_agente) === 1 ? '🤖 Com Agente' : '⚡ Sem Agente'}</td>
-                <td>{item.amostras}</td>
-                <td>{item.cpu_media}%</td>
-                <td>{item.cpu_mediana ?? '--'}%</td>
-                <td>{item.cpu_p95 ?? '--'}%</td>
-                <td>±{item.cpu_desvio ?? '0.00'}%</td>
-                <td>{item.cpu_pico}%</td>
-                <td>{formatarTamanhoMB(Number(item.ram_media_mb))}</td>
-                <td>{formatarVelocidadeKBps(Number(item.rede_media_kbps))}</td>
+            <thead>
+              <tr>
+                <th>Arquitetura</th>
+                <th>Cenário (Agente IA)</th>
+                <th>Amostras</th>
+                <th>CPU Média (%)</th>
+                <th>CPU Mediana (P50)</th>
+                <th>CPU P95</th>
+                <th>CPU ± DP</th>
+                <th>CPU Pico (%)</th>
+                <th>RAM Média</th>
+                <th>Rede Média</th>
               </tr>
-            ))}
-          </tbody>
+            </thead>
+            <tbody>
+              {(dados?.resumo_recursos || []).map((item: any, idx: number) => (
+                <tr key={idx}>
+                  <td>{item.arquitetura}</td>
+                  <td>{Number(item.usar_agente) === 1 ? '🤖 Com Agente' : '⚡ Sem Agente'}</td>
+                  <td>{item.amostras}</td>
+                  <td>{item.cpu_media}%</td>
+                  <td>{item.cpu_mediana ?? '--'}%</td>
+                  <td>{item.cpu_p95 ?? '--'}%</td>
+                  <td>±{item.cpu_desvio ?? '0.00'}%</td>
+                  <td>{item.cpu_pico}%</td>
+                  <td>{formatarTamanhoMB(Number(item.ram_media_mb))}</td>
+                  <td>{formatarVelocidadeKBps(Number(item.rede_media_kbps))}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </section>
@@ -516,30 +730,30 @@ function App() {
         <h2>Resumo de Latência e Alertas (Presente Reativo vs. Futuro IA)</h2>
         <div className="tabela-scroll">
           <table className="tabela-metricas">
-          <thead>
-            <tr>
-              <th>Arquitetura</th>
-              <th>Cenário (Agente IA)</th>
-              <th>Leituras</th>
-              <th>Latência Total Média (ms)</th>
-              <th>Latência IA Média (ms)</th>
-              <th>Alertas Reativos</th>
-              <th>Alertas Preditivos (+15m)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(dados?.resumo_leituras || []).map((item: any, idx: number) => (
-              <tr key={idx}>
-                <td>{item.arquitetura}</td>
-                <td>{Number(item.usar_agente) === 1 ? '🤖 Com Agente' : '⚡ Sem Agente'}</td>
-                <td>{item.total_leituras}</td>
-                <td>{item.latencia_total_media_ms ?? '--'} ms</td>
-                <td>{item.latencia_agente_media_ms ?? '--'} ms</td>
-                <td>{item.alertas_reativos}</td>
-                <td>{item.alertas_preditivos}</td>
+            <thead>
+              <tr>
+                <th>Arquitetura</th>
+                <th>Cenário (Agente IA)</th>
+                <th>Leituras</th>
+                <th>Latência Total Média (ms)</th>
+                <th>Latência IA Média (ms)</th>
+                <th>Alertas Reativos</th>
+                <th>Alertas Preditivos (+15m)</th>
               </tr>
-            ))}
-          </tbody>
+            </thead>
+            <tbody>
+              {(dados?.resumo_leituras || []).map((item: any, idx: number) => (
+                <tr key={idx}>
+                  <td>{item.arquitetura}</td>
+                  <td>{Number(item.usar_agente) === 1 ? '🤖 Com Agente' : '⚡ Sem Agente'}</td>
+                  <td>{item.total_leituras}</td>
+                  <td>{item.latencia_total_media_ms ?? '--'} ms</td>
+                  <td>{item.latencia_agente_media_ms ?? '--'} ms</td>
+                  <td>{item.alertas_reativos}</td>
+                  <td>{item.alertas_preditivos}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
         </div>
       </section>
@@ -575,10 +789,10 @@ function App() {
             <ResponsiveContainer width="100%" height={240}>
               <LineChart data={dadosComparativos} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="timestamp" tickFormatter={(v) => formatarDataHora(v)} />
+                <XAxis dataKey="timestamp" tickFormatter={(v: any) => formatarDataHora(v)} />
                 <YAxis width={58} />
                 <Tooltip
-                  labelFormatter={(v) => formatarDataHora(v, true)}
+                  labelFormatter={(v: any) => formatarDataHora(v, true)}
                   formatter={(v: any, name: any) => [`${Number(v).toFixed(2)}%`, name]}
                 />
                 <Legend />
@@ -596,10 +810,10 @@ function App() {
             <ResponsiveContainer width="100%" height={240}>
               <LineChart data={dadosComparativos} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="timestamp" tickFormatter={(v) => formatarDataHora(v)} />
-                <YAxis width={95} tickFormatter={(v) => formatarTamanhoMB(Number(v))} />
+                <XAxis dataKey="timestamp" tickFormatter={(v: any) => formatarDataHora(v)} />
+                <YAxis width={95} tickFormatter={(v: any) => formatarTamanhoMB(Number(v))} />
                 <Tooltip
-                  labelFormatter={(v) => formatarDataHora(v, true)}
+                  labelFormatter={(v: any) => formatarDataHora(v, true)}
                   formatter={(v: any, name: any) => [formatarTamanhoMB(Number(v)), name]}
                 />
                 <Legend />
@@ -617,10 +831,10 @@ function App() {
             <ResponsiveContainer width="100%" height={240}>
               <LineChart data={dadosComparativos} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="timestamp" tickFormatter={(v) => formatarDataHora(v)} />
-                <YAxis width={95} tickFormatter={(v) => formatarVelocidadeKBps(Number(v))} />
+                <XAxis dataKey="timestamp" tickFormatter={(v: any) => formatarDataHora(v)} />
+                <YAxis width={95} tickFormatter={(v: any) => formatarVelocidadeKBps(Number(v))} />
                 <Tooltip
-                  labelFormatter={(v) => formatarDataHora(v, true)}
+                  labelFormatter={(v: any) => formatarDataHora(v, true)}
                   formatter={(v: any, name: any) => [formatarVelocidadeKBps(Number(v)), name]}
                 />
                 <Legend />
@@ -642,10 +856,10 @@ function App() {
           <ResponsiveContainer width="100%" height={260}>
             <LineChart data={histVelha} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="timestamp" tickFormatter={(v) => formatarDataHora(v)} />
+              <XAxis dataKey="timestamp" tickFormatter={(v: any) => formatarDataHora(v)} />
               <YAxis width={68} />
               <Tooltip
-                labelFormatter={(v) => formatarDataHora(v, true)}
+                labelFormatter={(v: any) => formatarDataHora(v, true)}
                 formatter={(v: any, name: any) =>
                   name === 'Rede RX'
                     ? [formatarVelocidadeKBps(Number(v)), name]
@@ -667,10 +881,10 @@ function App() {
           <ResponsiveContainer width="100%" height={260}>
             <LineChart data={histNova} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="timestamp" tickFormatter={(v) => formatarDataHora(v)} />
+              <XAxis dataKey="timestamp" tickFormatter={(v: any) => formatarDataHora(v)} />
               <YAxis width={68} />
               <Tooltip
-                labelFormatter={(v) => formatarDataHora(v, true)}
+                labelFormatter={(v: any) => formatarDataHora(v, true)}
                 formatter={(v: any, name: any) =>
                   name === 'Rede RX'
                     ? [formatarVelocidadeKBps(Number(v)), name]
@@ -692,10 +906,10 @@ function App() {
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={histVelha} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="timestamp" tickFormatter={(v) => formatarDataHora(v)} />
-              <YAxis width={95} tickFormatter={(v) => formatarTamanhoMB(Number(v))} />
+              <XAxis dataKey="timestamp" tickFormatter={(v: any) => formatarDataHora(v)} />
+              <YAxis width={95} tickFormatter={(v: any) => formatarTamanhoMB(Number(v))} />
               <Tooltip
-                labelFormatter={(v) => formatarDataHora(v, true)}
+                labelFormatter={(v: any) => formatarDataHora(v, true)}
                 formatter={(v: any) => [formatarTamanhoMB(Number(v)), 'RAM']}
               />
               <Legend />
@@ -712,10 +926,10 @@ function App() {
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={histNova} margin={{ top: 12, right: 16, left: 4, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="timestamp" tickFormatter={(v) => formatarDataHora(v)} />
-              <YAxis width={95} tickFormatter={(v) => formatarTamanhoMB(Number(v))} />
+              <XAxis dataKey="timestamp" tickFormatter={(v: any) => formatarDataHora(v)} />
+              <YAxis width={95} tickFormatter={(v: any) => formatarTamanhoMB(Number(v))} />
               <Tooltip
-                labelFormatter={(v) => formatarDataHora(v, true)}
+                labelFormatter={(v: any) => formatarDataHora(v, true)}
                 formatter={(v: any) => [formatarTamanhoMB(Number(v)), 'RAM']}
               />
               <Legend />
@@ -730,56 +944,56 @@ function App() {
         <h2>Últimas Leituras Processadas — Latência (ms) e Antecipação do Aviso (Presente vs. Futuro 15m)</h2>
         <div className="tabela-scroll">
           <table className="tabela-metricas">
-          <thead>
-            <tr>
-              <th>Data / Hora</th>
-              <th>Arquitetura</th>
-              <th>Agente</th>
-              <th>CO Atual</th>
-              <th>IQAr Presente (Sem Agente)</th>
-              <th>IQAr Previsto (+15m)</th>
-              <th>CO Previsto (+15m)</th>
-              <th>Alerta Agente IA</th>
-              <th>Latência Total / IA (ms)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(dados?.ultimas_leituras || []).map((l: any, idx: number) => {
-              const temAlertaAgente = Boolean(l.tipo_alerta_agente && l.tipo_alerta_agente !== 'Normal')
-              const antecipado = temAlertaAgente && Number(l.alerta_reativo_presente) === 0
-              return (
-                <tr key={idx}>
-                  <td>{formatarDataHora(l.timestamp_recebimento, true)}</td>
-                  <td>{l.arquitetura}</td>
-                  <td>{Number(l.usar_agente) === 1 ? '🤖 Sim' : '⚡ Não'}</td>
-                  <td>{l.co_atual} ppm</td>
-                  <td>
-                    <span className={`badge-status ${classeIqar(l.iqar_reativo_presente)}`}>
-                      {l.iqar_reativo_presente || '--'}
-                    </span>
-                  </td>
-                  <td>
-                    <span className={`badge-status ${classeIqar(l.iqar_previsto_15m)}`}>
-                      {l.iqar_previsto_15m || '--'}
-                    </span>
-                  </td>
-                  <td>{l.co_previsto_15m ? `${l.co_previsto_15m} ppm` : '--'}</td>
-                  <td>
-                    {antecipado ? (
-                      <span className="badge-status badge-antecipado">
-                        ⚡🤖 Antecipado: {l.tipo_alerta_agente}
+            <thead>
+              <tr>
+                <th>Data / Hora</th>
+                <th>Arquitetura</th>
+                <th>Agente</th>
+                <th>CO Atual</th>
+                <th>IQAr Presente (Sem Agente)</th>
+                <th>IQAr Previsto (+15m)</th>
+                <th>CO Previsto (+15m)</th>
+                <th>Alerta Agente IA</th>
+                <th>Latência Total / IA (ms)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(dados?.ultimas_leituras || []).map((l: any, idx: number) => {
+                const temAlertaAgente = Boolean(l.tipo_alerta_agente && l.tipo_alerta_agente !== 'Normal')
+                const antecipado = temAlertaAgente && Number(l.alerta_reativo_presente) === 0
+                return (
+                  <tr key={idx}>
+                    <td>{formatarDataHora(l.timestamp_recebimento, true)}</td>
+                    <td>{l.arquitetura}</td>
+                    <td>{Number(l.usar_agente) === 1 ? '🤖 Sim' : '⚡ Não'}</td>
+                    <td>{l.co_atual} ppm</td>
+                    <td>
+                      <span className={`badge-status ${classeIqar(l.iqar_reativo_presente)}`}>
+                        {l.iqar_reativo_presente || '--'}
                       </span>
-                    ) : temAlertaAgente ? (
-                      <span className="badge-status badge-ruim">{l.tipo_alerta_agente}</span>
-                    ) : (
-                      <span className="badge-status badge-bom">Normal</span>
-                    )}
-                  </td>
-                  <td>{l.latencia_total_ms} ms ({l.latencia_agente_ms} ms IA)</td>
-                </tr>
-              )
-            })}
-          </tbody>
+                    </td>
+                    <td>
+                      <span className={`badge-status ${classeIqar(l.iqar_previsto_15m)}`}>
+                        {l.iqar_previsto_15m || '--'}
+                      </span>
+                    </td>
+                    <td>{l.co_previsto_15m ? `${l.co_previsto_15m} ppm` : '--'}</td>
+                    <td>
+                      {antecipado ? (
+                        <span className="badge-status badge-antecipado">
+                          ⚡🤖 Antecipado: {l.tipo_alerta_agente}
+                        </span>
+                      ) : temAlertaAgente ? (
+                        <span className="badge-status badge-ruim">{l.tipo_alerta_agente}</span>
+                      ) : (
+                        <span className="badge-status badge-bom">Normal</span>
+                      )}
+                    </td>
+                    <td>{l.latencia_total_ms} ms ({l.latencia_agente_ms} ms IA)</td>
+                  </tr>
+                )
+              })}
+            </tbody>
           </table>
         </div>
       </section>

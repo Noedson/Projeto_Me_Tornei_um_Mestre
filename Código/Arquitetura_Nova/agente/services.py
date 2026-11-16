@@ -47,7 +47,15 @@ class AirQualifyService:
                 cls._instance.delta_std = np.asarray(cfg["delta_std"], dtype=np.float32)
                 cls._instance.gap_max_s = cfg.get("gap_max_s", 60.0)
                 cls._instance.cooldown_minutos = 15
-                print(">>> [Agente Inteligente] Modelo Multi-Task Carregado com Sucesso!")
+
+                # Compila o grafo estático C++ do TensorFlow (evita loop Python Eager nos 30 passos da Bi-LSTM: ~5650ms -> ~31ms)
+                cls._instance._inferir_grafo = tf.function(
+                    lambda x: cls._instance.model(x, training=False),
+                    input_signature=[tf.TensorSpec(shape=[None, JANELA, 8], dtype=tf.float32)],
+                )
+                # Warm-up (pré-compila o grafo no carregamento do Singleton para a 1ª requisição já ser rápida)
+                cls._instance._inferir_grafo(tf.zeros((N_JANELAS_CONFIRMACAO, JANELA, 8), dtype=tf.float32))
+                print(">>> [Agente Inteligente] Modelo Multi-Task Carregado e Grafo Compilado com Sucesso!")
         return cls._instance
 
     @classmethod
@@ -75,6 +83,11 @@ class AirQualifyService:
                     cls._instance.eps_travado = nova_config.get("eps_travado", 0.0015)
                     cls._instance.clip_max = np.asarray(nova_config["clip_max"], dtype=float)
                     cls._instance.delta_std = np.asarray(nova_config["delta_std"], dtype=np.float32)
+                    cls._instance._inferir_grafo = tf.function(
+                        lambda x: cls._instance.model(x, training=False),
+                        input_signature=[tf.TensorSpec(shape=[None, JANELA, 8], dtype=tf.float32)],
+                    )
+                    cls._instance._inferir_grafo(tf.zeros((N_JANELAS_CONFIRMACAO, JANELA, 8), dtype=tf.float32))
 
                     print(">>> [Agente] Hot-Reloading concluído! Novo modelo em operação.")
                     return True
@@ -142,8 +155,9 @@ class AirQualifyService:
         n_janelas = len(escalada) - JANELA + 1
         lote = np.stack([escalada[i:i + JANELA] for i in range(n_janelas)])
 
-        # 3. Inferência Multi-Task em lote
-        rec_out, delta_out, class_out = (np.asarray(t) for t in self.model(lote, training=False))
+        # 3. Inferência Multi-Task em lote via Grafo C++ compilado (@tf.function)
+        rec_t, delta_t, class_t = self._inferir_grafo(tf.constant(lote, dtype=tf.float32))
+        rec_out, delta_out, class_out = rec_t.numpy(), delta_t.numpy(), class_t.numpy()
 
         # 4. Anomalia: cálculo idêntico ao treino (máximo por passo temporal) + sensor travado
         # lote tem shape: (n_janelas, JANELA, 8)

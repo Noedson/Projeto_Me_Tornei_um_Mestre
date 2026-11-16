@@ -32,6 +32,7 @@ MONITORAMENTO_DIR = BASE_DIR / "monitoramento"
 CSV_PATH = MONITORAMENTO_DIR / "recursos_docker.csv"
 
 DB_PATH = MONITORAMENTO_DIR / "metricas_experimento.db"
+BACKUP_DB_PATH = MONITORAMENTO_DIR / "backup_metricas_experimento.db"
 ESTADO_AGENTE_PATH = MONITORAMENTO_DIR / "estado_agente.json"
 CSV_LEITURAS_PATH = MONITORAMENTO_DIR / "metricas_processamento_leituras.csv"
 
@@ -150,19 +151,200 @@ def salvar_amostras_sqlite(amostras: list[dict]):
         ])
 
 
+def fazer_backup_e_zerar_sqlite() -> dict:
+    """
+    Faz backup completo quando não existir backup prévio, ou atualização incremental
+    quando `backup_metricas_experimento.db` já existir, e em seguida zera o banco ativo.
+    """
+    MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
+    with DB_LOCK:
+        with sqlite3.connect(BACKUP_DB_PATH, timeout=30.0) as bconn:
+            bconn.execute("PRAGMA journal_mode=DELETE")
+            bconn.execute("PRAGMA synchronous=NORMAL")
+            bconn.execute("""
+                CREATE TABLE IF NOT EXISTS recursos_docker(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    timestamp TEXT,
+                    arquitetura TEXT,
+                    usar_agente INTEGER,
+                    container TEXT,
+                    cpu_percent REAL,
+                    mem_usage_mb REAL,
+                    mem_limit_mb REAL,
+                    net_rx_kbps REAL,
+                    net_tx_kbps REAL,
+                    block_read_mb REAL,
+                    block_write_mb REAL,
+                    pids INTEGER,
+                    UNIQUE(arquitetura, timestamp, container)
+                )
+            """)
+            bconn.execute("""
+                CREATE TABLE IF NOT EXISTS leituras_processamento(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    timestamp_recebimento TEXT,
+                    timestamp_sensor TEXT,
+                    arquitetura TEXT,
+                    usar_agente INTEGER,
+                    dev_eui TEXT,
+                    co_atual REAL,
+                    iqar_reativo_presente TEXT,
+                    alerta_reativo_presente INTEGER,
+                    iqar_previsto_15m TEXT,
+                    co_previsto_15m REAL,
+                    anomalia_detectada INTEGER,
+                    erro_reconstrucao REAL,
+                    tipo_alerta_agente TEXT,
+                    latencia_total_ms REAL,
+                    latencia_agente_ms REAL,
+                    UNIQUE(arquitetura, timestamp_recebimento)
+                )
+            """)
+            rec_antes = bconn.execute("SELECT COUNT(*) FROM recursos_docker").fetchone()[0]
+            lei_antes = bconn.execute("SELECT COUNT(*) FROM leituras_processamento").fetchone()[0]
+            modo = "backup_completo" if (rec_antes == 0 and lei_antes == 0) else "atualizacao_incremental"
+
+            with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+                rec_rows = conn.execute("""
+                    SELECT timestamp, arquitetura, usar_agente, container,
+                           cpu_percent, mem_usage_mb, mem_limit_mb,
+                           net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                    FROM recursos_docker
+                """).fetchall()
+                lei_rows = conn.execute("""
+                    SELECT timestamp_recebimento, timestamp_sensor, arquitetura, usar_agente,
+                           dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                           iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                           erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                    FROM leituras_processamento
+                """).fetchall()
+
+            if rec_rows:
+                bconn.executemany("""
+                    INSERT OR IGNORE INTO recursos_docker(
+                        timestamp, arquitetura, usar_agente, container,
+                        cpu_percent, mem_usage_mb, mem_limit_mb,
+                        net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, rec_rows)
+            if lei_rows:
+                bconn.executemany("""
+                    INSERT OR IGNORE INTO leituras_processamento(
+                        timestamp_recebimento, timestamp_sensor, arquitetura, usar_agente,
+                        dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                        iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                        erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, lei_rows)
+
+            rec_depois = bconn.execute("SELECT COUNT(*) FROM recursos_docker").fetchone()[0]
+            lei_depois = bconn.execute("SELECT COUNT(*) FROM leituras_processamento").fetchone()[0]
+
+        with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+            conn.execute("DELETE FROM recursos_docker")
+            conn.execute("DELETE FROM leituras_processamento")
+            conn.execute("DELETE FROM sqlite_sequence WHERE name IN ('recursos_docker', 'leituras_processamento')")
+
+    return {
+        "ok": True,
+        "modo": modo,
+        "recursos_processados": len(rec_rows),
+        "leituras_processadas": len(lei_rows),
+        "novos_recursos_backup": rec_depois - rec_antes,
+        "novas_leituras_backup": lei_depois - lei_antes,
+        "total_recursos_backup": rec_depois,
+        "total_leituras_backup": lei_depois,
+        "arquivo_backup": BACKUP_DB_PATH.name,
+    }
+
+
+def resgatar_backup_sqlite() -> dict:
+    """
+    Restaura (mescla sem perda) todos os dados de `backup_metricas_experimento.db`
+    de volta para o banco ativo `metricas_experimento.db`, preservando também
+    qualquer dado novo que já esteja no banco ativo.
+    """
+    if not BACKUP_DB_PATH.exists():
+        return {"ok": False, "erro": "Arquivo de backup ainda nao existe."}
+
+    with DB_LOCK:
+        with sqlite3.connect(BACKUP_DB_PATH, timeout=30.0) as bconn:
+            rec_rows = bconn.execute("""
+                SELECT timestamp, arquitetura, usar_agente, container,
+                       cpu_percent, mem_usage_mb, mem_limit_mb,
+                       net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                FROM recursos_docker
+                ORDER BY timestamp ASC, id ASC
+            """).fetchall()
+            lei_rows = bconn.execute("""
+                SELECT timestamp_recebimento, timestamp_sensor, arquitetura, usar_agente,
+                       dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                       iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                       erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                FROM leituras_processamento
+                ORDER BY timestamp_recebimento ASC, id ASC
+            """).fetchall()
+
+        with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
+            conn.execute("PRAGMA journal_mode=DELETE")
+            conn.execute("PRAGMA synchronous=NORMAL")
+            conn.execute("""
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_ativo_rec_uniq
+                ON recursos_docker (arquitetura, timestamp, container)
+            """)
+            conn.execute("""
+                CREATE UNIQUE INDEX IF NOT EXISTS idx_ativo_lei_uniq
+                ON leituras_processamento (arquitetura, timestamp_recebimento)
+            """)
+            rec_antes = conn.execute("SELECT COUNT(*) FROM recursos_docker").fetchone()[0]
+            lei_antes = conn.execute("SELECT COUNT(*) FROM leituras_processamento").fetchone()[0]
+
+            if rec_rows:
+                conn.executemany("""
+                    INSERT OR IGNORE INTO recursos_docker(
+                        timestamp, arquitetura, usar_agente, container,
+                        cpu_percent, mem_usage_mb, mem_limit_mb,
+                        net_rx_kbps, net_tx_kbps, block_read_mb, block_write_mb, pids
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, rec_rows)
+            if lei_rows:
+                conn.executemany("""
+                    INSERT OR IGNORE INTO leituras_processamento(
+                        timestamp_recebimento, timestamp_sensor, arquitetura, usar_agente,
+                        dev_eui, co_atual, iqar_reativo_presente, alerta_reativo_presente,
+                        iqar_previsto_15m, co_previsto_15m, anomalia_detectada,
+                        erro_reconstrucao, tipo_alerta_agente, latencia_total_ms, latencia_agente_ms
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, lei_rows)
+
+            rec_depois = conn.execute("SELECT COUNT(*) FROM recursos_docker").fetchone()[0]
+            lei_depois = conn.execute("SELECT COUNT(*) FROM leituras_processamento").fetchone()[0]
+
+    return {
+        "ok": True,
+        "recursos_restaurados": rec_depois - rec_antes,
+        "leituras_restauradas": lei_depois - lei_antes,
+        "total_recursos_ativo": rec_depois,
+        "total_leituras_ativo": lei_depois,
+    }
+
+
 class SyncAPIHandler(BaseHTTPRequestHandler):
     def log_message(self, format, *args):
         return
 
     def _enviar_json(self, status: int, payload: dict):
         corpo = json.dumps(payload).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json")
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
-        self.end_headers()
-        self.wfile.write(corpo)
+        try:
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+            self.wfile.write(corpo)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
     def do_OPTIONS(self):
         self._enviar_json(200, {"ok": True})
     def do_GET(self):
@@ -171,14 +353,21 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
             return self._enviar_json(404, {"erro": "Rota nao encontrada"})
         qs = parse_qs(parsed.query)
         after_id = int(qs.get("after_id", ["0"])[0])
+        after_ts = qs.get("after_ts", [""])[0].strip()
         limite = int(qs.get("limit", ["500"])[0])
         with DB_LOCK:
             with sqlite3.connect(DB_PATH, timeout=30.0) as conn:
                 conn.row_factory = sqlite3.Row
-                linhas = conn.execute(
-                    "SELECT * FROM recursos_docker WHERE id > ? ORDER BY id ASC LIMIT ?",
-                    (after_id, limite),
-                ).fetchall()
+                if after_ts:
+                    linhas = conn.execute(
+                        "SELECT * FROM recursos_docker WHERE timestamp > ? ORDER BY id ASC LIMIT ?",
+                        (after_ts, limite),
+                    ).fetchall()
+                else:
+                    linhas = conn.execute(
+                        "SELECT * FROM recursos_docker WHERE id > ? ORDER BY id ASC LIMIT ?",
+                        (after_id, limite),
+                    ).fetchall()
                 leituras_rows = conn.execute(
                     "SELECT * FROM leituras_processamento ORDER BY id DESC LIMIT 100"
                 ).fetchall()
@@ -195,6 +384,14 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
         if self.path == "/api/leitura":
             salvar_leitura_sqlite(body)
             return self._enviar_json(200, {"ok": True})
+        if self.path == "/api/backup-reset":
+            res = fazer_backup_e_zerar_sqlite()
+            print(f">>> [Backup + Reset SQLite] Modo={res['modo']} | Total Backup={res['total_recursos_backup']} rec, {res['total_leituras_backup']} leituras")
+            return self._enviar_json(200, res)
+        if self.path == "/api/backup-restore":
+            res = resgatar_backup_sqlite()
+            print(f">>> [Resgate de Backup SQLite] Ok={res.get('ok')} | Total Ativo={res.get('total_recursos_ativo')} rec, {res.get('total_leituras_ativo')} leituras")
+            return self._enviar_json(200 if res.get("ok") else 404, res)
         if self.path != "/api/agente":
             return self._enviar_json(404, {"erro": "Rota nao encontrada"})
         novo_estado = "1" if str(body.get("usar_agente", "1")) in ("1", "true", "True") else "0"
