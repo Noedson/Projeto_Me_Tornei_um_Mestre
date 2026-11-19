@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import json
+import math
 import os
 import threading
 import time
@@ -9,7 +10,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from .models import SensorNode, AgentAlert, AirReading, AgentPrediction
-from agente.preprocessamento import CO_MODERADA, CO_RUIM
+from agente.preprocessamento import CO_MODERADA, CO_RUIM, GASES
 
 MONITORAMENTO_DIR = Path(__file__).resolve().parent.parent / "monitoramento"
 ESTADO_AGENTE_PATH = MONITORAMENTO_DIR / "estado_agente.json"
@@ -77,29 +78,43 @@ def chirpstack_webhook(request):
         if not dev_eui or not obj:
             return JsonResponse({"error": "Payload sem devEui ou dados dos sensores"}, status=400)
 
+        # Valida presença e finitude dos 7 gases (impede substituição silenciosa por 0.0)
+        valores_gases = {}
+        for nome_gas in GASES:
+            bruto = obj.get(nome_gas)
+            if bruto is None:
+                return JsonResponse({"error": f"Payload incompleto: gas '{nome_gas}' ausente"}, status=400)
+            try:
+                val = float(bruto)
+            except (ValueError, TypeError):
+                return JsonResponse({"error": f"Valor invalido para '{nome_gas}': {bruto}"}, status=400)
+            if not math.isfinite(val) or val < 0.0:
+                return JsonResponse({"error": f"Valor fora de faixa para '{nome_gas}': {val}"}, status=400)
+            valores_gases[nome_gas] = val
+
         # Passo numero 2: Registra o Local do nó sensor
         sensor, _ = SensorNode.objects.get_or_create(
             dev_eui=dev_eui,
             defaults={"nome": device_name}
         )
 
-        # Passo numero 3: Salva a nova Leitura (ignora se faltarem dados)
-        co = obj.get("CO_MQ135")
-        if co is None:
-            return JsonResponse({"error": "Payload sem dados essenciais"}, status=400)
-
-        co_float = float(co)
-        AirReading.objects.create(
+        # Passo numero 3: Salva a nova Leitura com idempotência por (sensor, timestamp)
+        co_float = valores_gases["CO_MQ135"]
+        _, criada = AirReading.objects.get_or_create(
             sensor=sensor,
             timestamp=time_str,
-            co_mq135=co_float,
-            co2_mq135=float(obj.get("CO2_MQ135", 0.0)),
-            mh4_mq135=float(obj.get("MH4_MQ135", 0.0)),
-            aceton_mq135=float(obj.get("Aceton_MQ135", 0.0)),
-            alcool_mq135=float(obj.get("Alcool_MQ135", 0.0)),
-            toluen_mq135=float(obj.get("Toluen_MQ135", 0.0)),
-            o3_mq131=float(obj.get("O3_MQ131", 0.0))
+            defaults={
+                "co_mq135": co_float,
+                "co2_mq135": valores_gases["CO2_MQ135"],
+                "mh4_mq135": valores_gases["MH4_MQ135"],
+                "aceton_mq135": valores_gases["Aceton_MQ135"],
+                "alcool_mq135": valores_gases["Alcool_MQ135"],
+                "toluen_mq135": valores_gases["Toluen_MQ135"],
+                "o3_mq131": valores_gases["O3_MQ131"],
+            },
         )
+        if not criada:
+            return JsonResponse({"status": "duplicata_ignorada", "sensor": dev_eui, "timestamp": str(time_str)}, status=200)
 
         # Avaliação Reativa (Poluição Presente - Sem Agente)
         iqar_reativo = classificar_co_reativo(co_float)
@@ -194,5 +209,8 @@ def chirpstack_webhook(request):
             "latencia_total_ms": round(latencia_total_ms, 3),
             "latencia_agente_ms": round(latencia_agente_ms, 3),
         }, status=200)
+    except (json.JSONDecodeError, ValueError, TypeError) as e:
+        return JsonResponse({"error": f"Payload JSON invalido: {e}"}, status=400)
     except Exception as e:
-        return JsonResponse({"error": str(e)}, status=400)
+        print(f">>> [ERRO INTERNO WEBHOOK] {e}")
+        return JsonResponse({"error": f"Erro interno no servidor: {e}"}, status=500)

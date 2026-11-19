@@ -16,6 +16,7 @@ import time
 
 import joblib
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 
 # Permite importar o pacote 'agente' montado em /app/agente
@@ -23,7 +24,7 @@ APP_DIR = Path("/app")
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from agente.preprocessamento import JANELA, preprocessar, media_movel_co, DinamicaTemporal  # noqa: E402
+from agente.preprocessamento import GASES, JANELA, preprocessar, media_movel_co, DinamicaTemporal  # noqa: E402
 
 AGENTE_DIR = APP_DIR / "agente"
 N_JANELAS_CONFIRMACAO = 3
@@ -98,35 +99,67 @@ class AgenteVelhaEngine:
             todas = list(hist)
             usadas = todas[-minimo:]
 
-        tempos = [r["timestamp"] for r in usadas]
-        dts = [(tempos[i] - tempos[i - 1]).total_seconds() for i in range(1, len(tempos))]
-        if any(dt > self.gap_max_s for dt in dts):
-            lat_ms = (time.perf_counter() - t0) * 1000.0
-            return {
-                "pronto": False,
-                "motivo": "gap_temporal_excedido",
-                "latencia_agente_ms": round(lat_ms, 3),
-            }
-
-        ultimo_ts = tempos[-1]
-        dt_mediano = float(np.median(dts)) if dts else 30.0
-        modo_teste = os.environ.get("APP_TESTE") == "1" or dt_mediano <= 20.0
+        # Modo Teste é controlado EXCLUSIVAMENTE pela flag explícita APP_TESTE=1
+        modo_teste = os.environ.get("APP_TESTE", "0") == "1"
 
         if modo_teste:
+            tempos = [r["timestamp"] for r in usadas]
+            dts = [(tempos[i] - tempos[i - 1]).total_seconds() for i in range(1, len(tempos))]
+            if any(dt > self.gap_max_s for dt in dts):
+                lat_ms = (time.perf_counter() - t0) * 1000.0
+                return {
+                    "pronto": False,
+                    "motivo": "gap_temporal_excedido",
+                    "latencia_agente_ms": round(lat_ms, 3),
+                }
+            ultimo_ts = tempos[-1]
             co_janela = [r["co_mq135"] for r in usadas]
             media_co_usadas = media_movel_co(tempos, co_janela, self.clip_max[0])
+            matriz_gases = np.array([[
+                r["co_mq135"], r["co2_mq135"], r["mh4_mq135"], r["aceton_mq135"],
+                r["alcool_mq135"], r["toluen_mq135"], r["o3_mq131"]
+            ] for r in usadas], dtype=float)
         else:
+            ultimo_ts = todas[-1]["timestamp"]
             oito_horas_atras = ultimo_ts - timedelta(hours=8)
             leituras_8h = [r for r in todas if oito_horas_atras <= r["timestamp"] <= ultimo_ts]
-            tempos_8h = [r["timestamp"] for r in leituras_8h]
-            co_8h = [r["co_mq135"] for r in leituras_8h]
-            media_co_total = media_movel_co(tempos_8h, co_8h, self.clip_max[0])
-            media_co_usadas = media_co_total[-len(usadas):]
-
-        matriz_gases = np.array([[
-            r["co_mq135"], r["co2_mq135"], r["mh4_mq135"], r["aceton_mq135"],
-            r["alcool_mq135"], r["toluen_mq135"], r["o3_mq131"]
-        ] for r in usadas], dtype=float)
+            df_8h = pd.DataFrame([
+                {
+                    "timestamp": r["timestamp"],
+                    "CO_MQ135": r["co_mq135"],
+                    "CO2_MQ135": r["co2_mq135"],
+                    "MH4_MQ135": r["mh4_mq135"],
+                    "Aceton_MQ135": r["aceton_mq135"],
+                    "Alcool_MQ135": r["alcool_mq135"],
+                    "Toluen_MQ135": r["toluen_mq135"],
+                    "O3_MQ131": r["o3_mq131"],
+                }
+                for r in leituras_8h
+            ])
+            df_8h["timestamp"] = pd.to_datetime(df_8h["timestamp"], utc=True)
+            df_8h = df_8h.set_index("timestamp")
+            df_1m = df_8h[GASES].resample("1min").mean().dropna()
+            if len(df_1m) < minimo:
+                lat_ms = (time.perf_counter() - t0) * 1000.0
+                return {
+                    "pronto": False,
+                    "amostras_atuais": len(df_1m),
+                    "amostras_necessarias": minimo,
+                    "latencia_agente_ms": round(lat_ms, 3),
+                }
+            df_usadas = df_1m.iloc[-minimo:]
+            tempos_1m = df_usadas.index.to_pydatetime().tolist()
+            dts = [(tempos_1m[i] - tempos_1m[i - 1]).total_seconds() for i in range(1, len(tempos_1m))]
+            if any(dt > self.gap_max_s for dt in dts):
+                lat_ms = (time.perf_counter() - t0) * 1000.0
+                return {
+                    "pronto": False,
+                    "motivo": "gap_temporal_excedido",
+                    "latencia_agente_ms": round(lat_ms, 3),
+                }
+            media_co_total = media_movel_co(df_1m.index, df_1m["CO_MQ135"].to_numpy(), self.clip_max[0])
+            media_co_usadas = media_co_total[-minimo:]
+            matriz_gases = df_usadas[GASES].to_numpy(dtype=float)
 
         matriz = np.column_stack([matriz_gases, media_co_usadas])
         escalada = self._normalizar(matriz)

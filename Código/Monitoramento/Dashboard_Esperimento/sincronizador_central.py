@@ -183,13 +183,16 @@ def sincronizar_arquitetura(nome_arq: str):
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                    SELECT COALESCE(MAX(origem_id), 0), COALESCE(MAX(timestamp), '')
+                    SELECT origem_id, timestamp
                     FROM recursos_central
-                    WHERE arquitetura = %s;
+                    WHERE arquitetura = %s
+                    ORDER BY timestamp DESC, origem_id DESC
+                    LIMIT 1;
                     """,
                     (nome_arq,),
                 )
-                ultimo_id, ultimo_ts = cur.fetchone()
+                row = cur.fetchone()
+                ultimo_id, ultimo_ts = (row[0], row[1]) if row else (0, "")
 
         req_url = f"{base_url}/api/sync?after_id={ultimo_id}&after_ts={quote(str(ultimo_ts))}&limit=500"
         req = urllib.request.Request(req_url, method="GET")

@@ -48,7 +48,9 @@ def ler_estado(padrao: str = "0") -> str:
 def salvar_estado_agente(usar_agente: str):
     MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
     valor = 1 if str(usar_agente) in ("1", "true", "True") else 0
-    ESTADO_AGENTE_PATH.write_text(json.dumps({"usar_agente": valor}), encoding="utf-8")
+    tmp_path = ESTADO_AGENTE_PATH.with_suffix(".json.tmp")
+    tmp_path.write_text(json.dumps({"usar_agente": valor}), encoding="utf-8")
+    os.replace(tmp_path, ESTADO_AGENTE_PATH)
 
 
 DB_LOCK = threading.Lock()
@@ -365,8 +367,8 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
                 conn.row_factory = sqlite3.Row
                 if after_ts:
                     linhas = conn.execute(
-                        "SELECT * FROM recursos_docker WHERE timestamp > ? ORDER BY id ASC LIMIT ?",
-                        (after_ts, limite),
+                        "SELECT * FROM recursos_docker WHERE timestamp > ? OR (timestamp = ? AND id > ?) ORDER BY id ASC LIMIT ?",
+                        (after_ts, after_ts, after_id, limite),
                     ).fetchall()
                 else:
                     linhas = conn.execute(

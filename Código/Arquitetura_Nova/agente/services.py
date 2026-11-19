@@ -2,12 +2,13 @@ import json
 import os
 import joblib
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from pathlib import Path
 import threading
 from datetime import timedelta
 
-from .preprocessamento import JANELA, preprocessar, media_movel_co, DinamicaTemporal
+from .preprocessamento import GASES, JANELA, preprocessar, media_movel_co, DinamicaTemporal
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -45,8 +46,9 @@ class AirQualifyService:
                 cls._instance.classes = cfg.get("classes", ["Boa", "Moderada", "Ruim"])
                 cls._instance.clip_max = np.asarray(cfg["clip_max"], dtype=float)
                 cls._instance.delta_std = np.asarray(cfg["delta_std"], dtype=np.float32)
-                cls._instance.gap_max_s = cfg.get("gap_max_s", 60.0)
+                cls._instance.gap_max_s = cfg.get("gap_max_s", 900.0)
                 cls._instance.cooldown_minutos = 15
+                cls._instance._modelo_mtime = (BASE_DIR / 'modelo_iqar.keras').stat().st_mtime
 
                 # Compila o grafo estático C++ do TensorFlow (evita loop Python Eager nos 30 passos da Bi-LSTM: ~5650ms -> ~31ms)
                 cls._instance._inferir_grafo = tf.function(
@@ -83,6 +85,8 @@ class AirQualifyService:
                     cls._instance.eps_travado = nova_config.get("eps_travado", 0.0015)
                     cls._instance.clip_max = np.asarray(nova_config["clip_max"], dtype=float)
                     cls._instance.delta_std = np.asarray(nova_config["delta_std"], dtype=np.float32)
+                    cls._instance.gap_max_s = nova_config.get("gap_max_s", 900.0)
+                    cls._instance._modelo_mtime = (BASE_DIR / 'modelo_iqar.keras').stat().st_mtime
                     cls._instance._inferir_grafo = tf.function(
                         lambda x: cls._instance.model(x, training=False),
                         input_signature=[tf.TensorSpec(shape=[None, JANELA, 8], dtype=tf.float32)],
@@ -100,55 +104,90 @@ class AirQualifyService:
         """Mesmo pipeline do treino: clip -> log1p -> MinMaxScaler."""
         return self.scaler.transform(preprocessar(matriz, self.clip_max)).astype(np.float32)
 
+    def _verificar_hot_reload_disco(self):
+        """
+        Verifica se o comando `retreinar_agente` (em outro processo) promoveu um
+        novo `modelo_iqar.keras` no disco e dispara o Hot-Reload automaticamente.
+        """
+        try:
+            mtime_atual = (BASE_DIR / 'modelo_iqar.keras').stat().st_mtime
+            if mtime_atual > getattr(self, '_modelo_mtime', 0):
+                self.recarregar_modelo()
+        except OSError:
+            pass
+
     def avaliar_janela(self, sensor, leituras_queryset):
         from telemetria.models import AirReading, AgentAlert
-        
+
+        self._verificar_hot_reload_disco()
+
         leituras = list(leituras_queryset)
-        # 1. Garante histórico mínimo (janelas de confirmação + 11 leituras anteriores)
         minimo = JANELA + N_JANELAS_CONFIRMACAO - 1
-        if len(leituras) < minimo:
-            return None
-        usadas = leituras[:minimo]
-        usadas.reverse()  # ordem cronológica
-
-        # Verifica lacunas temporais
-        tempos = [r.timestamp for r in usadas]
-        dts = [(tempos[i] - tempos[i-1]).total_seconds() for i in range(1, len(tempos))]
-        if any(dt > self.gap_max_s for dt in dts):
+        if not leituras:
             return None
 
-        # Calcula a média móvel de 8h do CO. Precisamos buscar o histórico de 8h.
-        ultimo_ts = tempos[-1]
-        dt_mediano = float(np.median(dts)) if dts else 30.0
-        modo_teste = os.environ.get("APP_TESTE") == "1" or dt_mediano <= 20.0
+        # Modo Teste é controlado EXCLUSIVAMENTE pela flag explícita APP_TESTE=1
+        modo_teste = os.environ.get("APP_TESTE", "0") == "1"
 
         if modo_teste:
-            # Em modo de simulação acelerada (ex: LWN-Simulator a cada 10s), calcula a média
-            # móvel na escala da janela atual para permitir transições rápidas Boa <-> Moderada <-> Ruim.
+            # Em modo simulador de bancada (APP_TESTE=1), avalia por amostra direta
+            if len(leituras) < minimo:
+                return None
+            usadas = leituras[:minimo]
+            usadas.reverse()  # ordem cronológica
+
+            tempos = [r.timestamp for r in usadas]
+            dts = [(tempos[i] - tempos[i - 1]).total_seconds() for i in range(1, len(tempos))]
+            if any(dt > self.gap_max_s for dt in dts):
+                return None
+
+            ultimo_ts = tempos[-1]
             co_janela = [r.co_mq135 for r in usadas]
             media_co_usadas = media_movel_co(tempos, co_janela, self.clip_max[0])
+            matriz_gases = np.array([[
+                r.co_mq135, r.co2_mq135, r.mh4_mq135, r.aceton_mq135,
+                r.alcool_mq135, r.toluen_mq135, r.o3_mq131
+            ] for r in usadas], dtype=float)
         else:
+            # Em modo Produção (APP_TESTE=0), aplica resample("1min").mean() idêntico ao treinar_agente_v4.py
+            # para garantir que JANELA=30 seja 30 minutos reais e HORIZONTE=15 seja +15 minutos reais!
+            ultimo_ts = max(r.timestamp for r in leituras)
             oito_horas_atras = ultimo_ts - timedelta(hours=8)
-            
-            # Otimização: buscar apenas tempos e CO das últimas 8 horas
-            leituras_8h = AirReading.objects.filter(
-                sensor=sensor, 
-                timestamp__gte=oito_horas_atras,
-                timestamp__lte=ultimo_ts
-            ).order_by('timestamp').values_list('timestamp', 'co_mq135')
-            
-            tempos_8h = [r[0] for r in leituras_8h]
-            co_8h = [r[1] for r in leituras_8h]
-            
-            media_co_total = media_movel_co(tempos_8h, co_8h, self.clip_max[0])
-            # Precisamos apenas das médias correspondentes às leituras 'usadas'
-            media_co_usadas = media_co_total[-len(usadas):]
+            rows_8h = list(
+                AirReading.objects.filter(
+                    sensor=sensor,
+                    timestamp__gte=oito_horas_atras,
+                    timestamp__lte=ultimo_ts,
+                )
+                .order_by("timestamp")
+                .values_list(
+                    "timestamp",
+                    "co_mq135", "co2_mq135", "mh4_mq135", "aceton_mq135",
+                    "alcool_mq135", "toluen_mq135", "o3_mq131",
+                )
+            )
+            if len(rows_8h) < minimo:
+                return None
 
-        # 2. Converte em matriz, normaliza e monta as janelas deslizantes
-        matriz_gases = np.array([[
-            r.co_mq135, r.co2_mq135, r.mh4_mq135, r.aceton_mq135,
-            r.alcool_mq135, r.toluen_mq135, r.o3_mq131
-        ] for r in usadas], dtype=float)
+            df_8h = pd.DataFrame(
+                rows_8h,
+                columns=["timestamp"] + GASES,
+            )
+            df_8h["timestamp"] = pd.to_datetime(df_8h["timestamp"], utc=True)
+            df_8h = df_8h.set_index("timestamp")
+            df_1m = df_8h[GASES].resample("1min").mean().dropna()
+            if len(df_1m) < minimo:
+                return None
+
+            df_usadas = df_1m.iloc[-minimo:]
+            tempos_1m = df_usadas.index.to_pydatetime().tolist()
+            dts = [(tempos_1m[i] - tempos_1m[i - 1]).total_seconds() for i in range(1, len(tempos_1m))]
+            if any(dt > self.gap_max_s for dt in dts):
+                return None
+
+            media_co_total = media_movel_co(df_1m.index, df_1m["CO_MQ135"].to_numpy(), self.clip_max[0])
+            media_co_usadas = media_co_total[-minimo:]
+            matriz_gases = df_usadas[GASES].to_numpy(dtype=float)
         
         matriz = np.column_stack([matriz_gases, media_co_usadas])
         escalada = self._normalizar(matriz)
