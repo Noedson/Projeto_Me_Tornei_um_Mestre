@@ -141,17 +141,35 @@ class Command(BaseCommand):
                 )
 
         # -------------------------------------------------------------
-        # 4. Backup Preventivo do Modelo Atual (Rollback em caso de falha)
+        # 4. Backup Preventivo dos 3 Artefatos Acoplados (Modelo + Scaler + Config)
         # -------------------------------------------------------------
         caminho_oficial = BASE_DIR / "modelo_iqar.keras"
         caminho_backup = BASE_DIR / "modelo_iqar_backup.keras"
+        caminho_scaler = BASE_DIR / "scaler.pkl"
+        caminho_scaler_backup = BASE_DIR / "scaler_backup.pkl"
         caminho_cfg = BASE_DIR / "config_agente.json"
         caminho_cfg_backup = BASE_DIR / "config_agente_backup.json"
+        metricas_path = BASE_DIR / "metricas_finais.json"
 
         if caminho_oficial.exists():
             shutil.copy2(caminho_oficial, caminho_backup)
+        if caminho_scaler.exists():
+            shutil.copy2(caminho_scaler, caminho_scaler_backup)
         if caminho_cfg.exists():
             shutil.copy2(caminho_cfg, caminho_cfg_backup)
+        if metricas_path.exists():
+            try:
+                metricas_path.unlink()
+            except OSError:
+                pass
+
+        def restaurar_backups_atomico():
+            if caminho_backup.exists():
+                shutil.copy2(caminho_backup, caminho_oficial)
+            if caminho_scaler_backup.exists():
+                shutil.copy2(caminho_scaler_backup, caminho_scaler)
+            if caminho_cfg_backup.exists():
+                shutil.copy2(caminho_cfg_backup, caminho_cfg)
 
         # -------------------------------------------------------------
         # 5. Execução do Retreino via Pipeline Oficial V4 (subprocess isolado)
@@ -195,15 +213,13 @@ class Command(BaseCommand):
 
         if not sucesso_processo:
             self.stdout.write(self.style.ERROR(">>> [ERRO CRÍTICO] O script 'treinar_agente_v4' retornou código de erro."))
-            if caminho_backup.exists():
-                shutil.copy2(caminho_backup, caminho_oficial)
-                self.stdout.write(">>> Backup do modelo anterior restaurado com sucesso.")
+            restaurar_backups_atomico()
+            self.stdout.write(">>> Backup completo (modelo + scaler + config) restaurado com sucesso.")
             return
 
         # -------------------------------------------------------------
         # 6. GATEKEEPER DE QUALIDADE: Validação antes de Promover
         # -------------------------------------------------------------
-        metricas_path = BASE_DIR / "metricas_finais.json"
         acc_nova = 0.0
 
         if metricas_path.exists():
@@ -222,22 +238,18 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.ERROR(
                     f">>> [GATEKEEPER REPROVOU] Acurácia ({acc_nova:.2%}) ficou abaixo do limite exigido ({corte_minimo:.2%}). "
-                    "Restaurando modelo anterior. Nenhum modelo com desempenho inferior foi para produção."
+                    "Restaurando modelo, scaler e config anteriores. Nenhum modelo com desempenho inferior foi para produção."
                 )
             )
-            if caminho_backup.exists():
-                shutil.copy2(caminho_backup, caminho_oficial)
-            if caminho_cfg_backup.exists():
-                shutil.copy2(caminho_cfg_backup, caminho_cfg)
+            restaurar_backups_atomico()
             return
 
         self.stdout.write(self.style.SUCCESS(">>> [GATEKEEPER APROVOU] Novo modelo V4 atingiu os critérios de excelência!"))
 
         # Remove backups preventivos pois o novo modelo foi promovido com sucesso
-        if caminho_backup.exists():
-            caminho_backup.unlink()
-        if caminho_cfg_backup.exists():
-            caminho_cfg_backup.unlink()
+        for arq_bkp in (caminho_backup, caminho_scaler_backup, caminho_cfg_backup):
+            if arq_bkp.exists():
+                arq_bkp.unlink()
 
         # -------------------------------------------------------------
         # 7. Disparo do Hot-Reloading no Django e Registro de Sucesso

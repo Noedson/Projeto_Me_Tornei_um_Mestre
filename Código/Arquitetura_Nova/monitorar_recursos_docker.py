@@ -48,7 +48,9 @@ def ler_estado(padrao: str = "1") -> str:
 def salvar_estado_agente(usar_agente: str):
     MONITORAMENTO_DIR.mkdir(parents=True, exist_ok=True)
     valor = 1 if str(usar_agente) in ("1", "true", "True") else 0
-    ESTADO_AGENTE_PATH.write_text(json.dumps({"usar_agente": valor}), encoding="utf-8")
+    tmp_path = ESTADO_AGENTE_PATH.with_suffix(".json.tmp")
+    tmp_path.write_text(json.dumps({"usar_agente": valor}), encoding="utf-8")
+    os.replace(tmp_path, ESTADO_AGENTE_PATH)
 
 DB_LOCK = threading.Lock()
 
@@ -360,8 +362,8 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
                 conn.row_factory = sqlite3.Row
                 if after_ts:
                     linhas = conn.execute(
-                        "SELECT * FROM recursos_docker WHERE timestamp > ? ORDER BY id ASC LIMIT ?",
-                        (after_ts, limite),
+                        "SELECT * FROM recursos_docker WHERE timestamp > ? OR (timestamp = ? AND id > ?) ORDER BY id ASC LIMIT ?",
+                        (after_ts, after_ts, after_id, limite),
                     ).fetchall()
                 else:
                     linhas = conn.execute(
@@ -407,6 +409,8 @@ class SyncAPIHandler(BaseHTTPRequestHandler):
         self._enviar_json(200, {"ok": True, "usar_agente": int(novo_estado)})
 
 PREFIXOS_CONTAINERS = ("smart_campus_",)
+# Exclui o simulador LoRaWAN de bancada para não contaminar o custo computacional da Arquitetura Nova
+CONTAINERS_EXCLUIDOS = ("smart_campus_lwn_simulator",)
 
 UNIDADES_BYTES = {
     "B": 1.0,
@@ -516,7 +520,7 @@ def coletar_amostra(arquitetura: str, usar_agente: str):
             continue
 
         nome = item.get("Name", "")
-        if not nome.startswith(PREFIXOS_CONTAINERS):
+        if not nome.startswith(PREFIXOS_CONTAINERS) or nome in CONTAINERS_EXCLUIDOS:
             continue
 
         cpu_pct = extrair_float(item.get("CPUPerc", "0%"))
