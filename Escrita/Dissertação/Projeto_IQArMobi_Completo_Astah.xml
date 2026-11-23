@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<XMI xmi.version="1.1" xmlns:UML="org.omg.xmi.namespace.UML">
+  <XMI.header>
+    <XMI.documentation>
+      <XMI.exporter>Antigravity UML Generator for Astah</XMI.exporter>
+      <XMI.exporterVersion>2.0</XMI.exporterVersion>
+    </XMI.documentation>
+    <XMI.metamodel xmi.name="UML" xmi.version="1.4"/>
+  </XMI.header>
+  <XMI.content>
+    <UML:Model xmi.id="model_iqarmobi" name="Sistema IQArMobi" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+      <UML:Namespace.ownedElement>
+
+        <!-- ================================================================== -->
+        <!-- TIPOS DE DADOS PRIMITIVOS (UML DataTypes)                          -->
+        <!-- ================================================================== -->
+        <UML:DataType xmi.id="dt_string" name="String" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:DataType xmi.id="dt_integer" name="Integer" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:DataType xmi.id="dt_float" name="Float" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:DataType xmi.id="dt_boolean" name="Boolean" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:DataType xmi.id="dt_datetime" name="DateTime" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+
+        <!-- ================================================================== -->
+        <!-- ETAPA 1: ATORES E CASOS DE USO                                     -->
+        <!-- ================================================================== -->
+        <UML:Actor xmi.id="actor_chirpstack" name="Servidor Chirpstack" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:Actor xmi.id="actor_gestor" name="Gestor Ambiental/Usuário" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:Actor xmi.id="actor_admin" name="Administrador do Sistema" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+
+        <UML:UseCase xmi.id="uc_01" name="Receber Telemetria Ambiental via WebHook" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_02" name="Executar Inferência Multi-Task de Qualidade do Ar" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:UseCase.extensionPoint>
+            <UML:ExtensionPoint xmi.id="ep_anomalia" name="Anomalia ou Violação CONAMA/EPA Detectada" visibility="public" isSpecification="false" location="Pós-Inferência"/>
+          </UML:UseCase.extensionPoint>
+        </UML:UseCase>
+        <UML:UseCase xmi.id="uc_03" name="Emitir Alerta de Anomalia ou Violação" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_04" name="Consultar Séries Históricas e Previsões" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_05" name="Gerenciar Alertas Ativos" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_06" name="Atualizar Modelo Neural (Hot - Reloading)" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+        <UML:UseCase xmi.id="uc_07" name="Gerenciar Nós Sensores (Sensor Node)" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false"/>
+
+        <UML:Include xmi.id="inc_01_02" visibility="public" isSpecification="false" base="uc_01" addition="uc_02"/>
+        <UML:Extend xmi.id="ext_03_02" visibility="public" isSpecification="false" base="uc_02" extension="uc_03">
+          <UML:Extend.extensionPoint>
+            <UML:ExtensionPoint xmi.idref="ep_anomalia"/>
+          </UML:Extend.extensionPoint>
+        </UML:Extend>
+
+        <UML:Association xmi.id="assoc_cs_uc01" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_cs_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_chirpstack"/>
+            <UML:AssociationEnd xmi.id="end_cs_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_01"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <UML:Association xmi.id="assoc_gestor_uc04" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_g4_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_gestor"/>
+            <UML:AssociationEnd xmi.id="end_g4_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_04"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <UML:Association xmi.id="assoc_gestor_uc05" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_g5_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_gestor"/>
+            <UML:AssociationEnd xmi.id="end_g5_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_05"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <UML:Association xmi.id="assoc_admin_uc06" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_a6_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_admin"/>
+            <UML:AssociationEnd xmi.id="end_a6_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_06"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <UML:Association xmi.id="assoc_admin_uc07" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_a7_1" visibility="public" isSpecification="false" isNavigable="false" participant="actor_admin"/>
+            <UML:AssociationEnd xmi.id="end_a7_2" visibility="public" isSpecification="false" isNavigable="true" participant="uc_07"/>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <!-- ================================================================== -->
+        <!-- ETAPA 2: CLASSES PERSISTENTES (SEM MÉTODOS)                        -->
+        <!-- ================================================================== -->
+
+        <!-- 1. Classe Abstrata Usuario (Superclasse) -->
+        <UML:Class xmi.id="cls_usuario" name="Usuario" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="true">
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id="attr_usr_id" name="id" visibility="private" isSpecification="false" ownerScope="instance" type="dt_integer"/>
+            <UML:Attribute xmi.id="attr_usr_nome" name="nome" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_usr_email" name="email" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_usr_matricula" name="matricula" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_usr_ativo" name="ativo" visibility="private" isSpecification="false" ownerScope="instance" type="dt_boolean"/>
+          </UML:Classifier.feature>
+        </UML:Class>
+
+        <!-- 2. Subclasse GestorAmbiental -->
+        <UML:Class xmi.id="cls_gestor" name="GestorAmbiental" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id="attr_ges_setor" name="setorMonitorado" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_ges_notif" name="receberNotificacaoCritica" visibility="private" isSpecification="false" ownerScope="instance" type="dt_boolean"/>
+          </UML:Classifier.feature>
+        </UML:Class>
+
+        <!-- 3. Subclasse AdministradorSistema -->
+        <UML:Class xmi.id="cls_admin" name="AdministradorSistema" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id="attr_adm_nivel" name="nivelAcesso" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_adm_chave" name="chaveAutorizacaoMLOps" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+          </UML:Classifier.feature>
+        </UML:Class>
+
+        <!-- Generalizações (Herança) -->
+        <UML:Generalization xmi.id="gen_gestor_usuario" isSpecification="false" child="cls_gestor" parent="cls_usuario"/>
+        <UML:Generalization xmi.id="gen_admin_usuario" isSpecification="false" child="cls_admin" parent="cls_usuario"/>
+
+        <!-- 4. Classe NoSensor -->
+        <UML:Class xmi.id="cls_nosensor" name="NoSensor" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id="attr_no_deveui" name="devEui" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_no_nome" name="nome" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_no_loc" name="localizacao" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_no_ativo" name="ativo" visibility="private" isSpecification="false" ownerScope="instance" type="dt_boolean"/>
+            <UML:Attribute xmi.id="attr_no_criado" name="criadoEm" visibility="private" isSpecification="false" ownerScope="instance" type="dt_datetime"/>
+          </UML:Classifier.feature>
+        </UML:Class>
+
+        <!-- 5. Classe LeituraAmbiental -->
+        <UML:Class xmi.id="cls_leitura" name="LeituraAmbiental" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id="attr_lei_id" name="id" visibility="private" isSpecification="false" ownerScope="instance" type="dt_integer"/>
+            <UML:Attribute xmi.id="attr_lei_ts" name="timestamp" visibility="private" isSpecification="false" ownerScope="instance" type="dt_datetime"/>
+            <UML:Attribute xmi.id="attr_lei_co" name="coMq135" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_lei_co2" name="co2Mq135" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_lei_nh4" name="nh4Mq135" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_lei_ace" name="acetonaMq135" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_lei_alc" name="alcoolMq135" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_lei_tol" name="toluenoMq135" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_lei_o3" name="o3Mq131" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_lei_mm8h" name="mediaMovelCo8h" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+          </UML:Classifier.feature>
+        </UML:Class>
+
+        <!-- 6. Classe ModeloNeural -->
+        <UML:Class xmi.id="cls_modelo" name="ModeloNeural" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id="attr_mod_ver" name="versao" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_mod_ker" name="caminhoArquivoKeras" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_mod_pkl" name="caminhoScalerPkl" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_mod_acu" name="acuraciaValidacao" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_mod_dt" name="dataCarregamento" visibility="private" isSpecification="false" ownerScope="instance" type="dt_datetime"/>
+            <UML:Attribute xmi.id="attr_mod_exec" name="emExecucao" visibility="private" isSpecification="false" ownerScope="instance" type="dt_boolean"/>
+          </UML:Classifier.feature>
+        </UML:Class>
+
+        <!-- 7. Classe AlertaAgente -->
+        <UML:Class xmi.id="cls_alerta" name="AlertaAgente" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id="attr_ale_id" name="id" visibility="private" isSpecification="false" ownerScope="instance" type="dt_integer"/>
+            <UML:Attribute xmi.id="attr_ale_ts" name="timestamp" visibility="private" isSpecification="false" ownerScope="instance" type="dt_datetime"/>
+            <UML:Attribute xmi.id="attr_ale_tipo" name="tipo" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_ale_sev" name="severidade" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_ale_msg" name="mensagem" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_ale_res" name="resolvido" visibility="private" isSpecification="false" ownerScope="instance" type="dt_boolean"/>
+            <UML:Attribute xmi.id="attr_ale_dtres" name="dataResolucao" visibility="private" isSpecification="false" ownerScope="instance" type="dt_datetime"/>
+          </UML:Classifier.feature>
+        </UML:Class>
+
+        <!-- 8. Classe Associativa PrevisaoQualidadeAr (entre LeituraAmbiental e ModeloNeural) -->
+        <UML:AssociationClass xmi.id="assoc_cls_previsao" name="PrevisaoQualidadeAr" visibility="public" isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id="attr_prev_ts" name="timestampInferencia" visibility="private" isSpecification="false" ownerScope="instance" type="dt_datetime"/>
+            <UML:Attribute xmi.id="attr_prev_co15" name="previsaoCo15m" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_prev_iqar" name="classeIqar" visibility="private" isSpecification="false" ownerScope="instance" type="dt_string"/>
+            <UML:Attribute xmi.id="attr_prev_erro" name="erroReconstrucao" visibility="private" isSpecification="false" ownerScope="instance" type="dt_float"/>
+            <UML:Attribute xmi.id="attr_prev_anom" name="anomaliaDetectada" visibility="private" isSpecification="false" ownerScope="instance" type="dt_boolean"/>
+          </UML:Classifier.feature>
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_prev_leitura" name="leituraAvaliada" visibility="public" isSpecification="false" isNavigable="true" participant="cls_leitura">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_prev_1">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_prev_1" lower="1" upper="-1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id="end_prev_modelo" name="modeloExecutor" visibility="public" isSpecification="false" isNavigable="true" participant="cls_modelo">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_prev_2">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_prev_2" lower="1" upper="-1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:AssociationClass>
+
+        <!-- Associações entre Classes Persistentes com Rótulos, Papéis e Multiplicidades -->
+
+        <!-- Assoc 1: AdministradorSistema (1) -- gerencia cadastro --> (0..*) NoSensor -->
+        <UML:Association xmi.id="assoc_adm_nosensor" name="gerencia cadastro" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_adm_no_1" name="administradorResponsavel" visibility="public" isSpecification="false" isNavigable="true" participant="cls_admin">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_adm_no_1">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_adm_no_1" lower="1" upper="1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id="end_adm_no_2" name="nosCadastrados" visibility="public" isSpecification="false" isNavigable="true" participant="cls_nosensor">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_adm_no_2">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_adm_no_2" lower="0" upper="-1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <!-- Assoc 2: AdministradorSistema (1) -- atualiza e publica --> (1..*) ModeloNeural -->
+        <UML:Association xmi.id="assoc_adm_modelo" name="atualiza e publica" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_adm_mod_1" name="responsavelDeploy" visibility="public" isSpecification="false" isNavigable="true" participant="cls_admin">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_adm_mod_1">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_adm_mod_1" lower="1" upper="1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id="end_adm_mod_2" name="versoesPublicadas" visibility="public" isSpecification="false" isNavigable="true" participant="cls_modelo">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_adm_mod_2">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_adm_mod_2" lower="1" upper="-1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <!-- Assoc 3: NoSensor (1) -- registra --> (0..*) LeituraAmbiental -->
+        <UML:Association xmi.id="assoc_no_leitura" name="registra" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_no_lei_1" name="estacaoEmissora" visibility="public" isSpecification="false" isNavigable="true" participant="cls_nosensor">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_no_lei_1">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_no_lei_1" lower="1" upper="1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id="end_no_lei_2" name="leiturasColetadas" visibility="public" isSpecification="false" isNavigable="true" participant="cls_leitura">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_no_lei_2">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_no_lei_2" lower="0" upper="-1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <!-- Assoc 4: NoSensor (1) -- origina --> (0..*) AlertaAgente -->
+        <UML:Association xmi.id="assoc_no_alerta" name="origina" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_no_ale_1" name="estacaoAfetada" visibility="public" isSpecification="false" isNavigable="true" participant="cls_nosensor">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_no_ale_1">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_no_ale_1" lower="1" upper="1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id="end_no_ale_2" name="alertasEmitidos" visibility="public" isSpecification="false" isNavigable="true" participant="cls_alerta">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_no_ale_2">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_no_ale_2" lower="0" upper="-1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <!-- Assoc 5: GestorAmbiental (0..1) -- trata e resolve --> (0..*) AlertaAgente -->
+        <UML:Association xmi.id="assoc_gestor_alerta" name="trata e resolve" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_ges_ale_1" name="gestorResponsavel" visibility="public" isSpecification="false" isNavigable="true" participant="cls_gestor">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_ges_ale_1">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_ges_ale_1" lower="0" upper="1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id="end_ges_ale_2" name="alertasAtendidos" visibility="public" isSpecification="false" isNavigable="true" participant="cls_alerta">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_ges_ale_2">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_ges_ale_2" lower="0" upper="-1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+
+        <!-- Assoc 6: PrevisaoQualidadeAr (1) -- dispara --> (0..1) AlertaAgente -->
+        <UML:Association xmi.id="assoc_prev_alerta" name="dispara" visibility="public" isSpecification="false">
+          <UML:Association.connection>
+            <UML:AssociationEnd xmi.id="end_prv_ale_1" name="inferenciaOrigem" visibility="public" isSpecification="false" isNavigable="true" participant="assoc_cls_previsao">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_prv_ale_1">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_prv_ale_1" lower="1" upper="1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+            <UML:AssociationEnd xmi.id="end_prv_ale_2" name="alertaGerado" visibility="public" isSpecification="false" isNavigable="true" participant="cls_alerta">
+              <UML:AssociationEnd.multiplicity>
+                <UML:Multiplicity xmi.id="mult_prv_ale_2">
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id="mr_prv_ale_2" lower="0" upper="1"/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:AssociationEnd.multiplicity>
+            </UML:AssociationEnd>
+          </UML:Association.connection>
+        </UML:Association>
+
+      </UML:Namespace.ownedElement>
+    </UML:Model>
+  </XMI.content>
+</XMI>
+

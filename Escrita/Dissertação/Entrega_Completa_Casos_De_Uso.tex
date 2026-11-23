@@ -456,5 +456,50 @@ Requisitos Não Funcionais Associados &
 \end{itemize} \\ \hline
 \end{longtable}
 
+% ============================================================================
+% PARTE 4: DIAGRAMA DE CLASSES PERSISTENTES (FERRAMENTA CASE ASTAH)
+% ============================================================================
+\newpage
+\begingroup
+\sloppy
+\setlength{\parskip}{0.12cm}
+
+\begin{center}
+    {\Large\bfseries DIAGRAMA DE CLASSES PERSISTENTES (UML)}\\[0.08cm]
+    {\normalsize Modelado na ferramenta CASE \textbf{Astah}}
+    \vspace{0.08cm}
+    \hrule
+\end{center}
+
+\vspace{0.1cm}
+
+A Figura 2 apresenta o \textbf{Diagrama de Classes Persistentes} do \textbf{Sistema IQArMobi}, elaborado na ferramenta CASE \textbf{Astah} no mesmo projeto da etapa de Casos de Uso. Em conformidade com as diretrizes de modelagem de dados persistentes, todas as classes possuem seus atributos e tipos de dados explicitamente definidos e o compartimento de métodos (operações) omitido.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1.0\textwidth, height=0.40\textheight, keepaspectratio]{diagrama_classes_persistentes.png}
+    \vspace{-0.2cm}
+    \caption{Diagrama de Classes Persistentes do Sistema IQArMobi modelado no Astah.}
+    \label{fig:class_diagram}
+\end{figure}
+
+\vspace{-0.25cm}
+\subsection*{Síntese dos Elementos do Diagrama de Classes Persistentes}
+\begin{small}
+\begin{itemize}[nosep, leftmargin=0.6cm]
+    \item \textbf{Relação de Generalização/Especialização (Herança):} A superclasse abstrata \emph{Usuario} (\texttt{id}, \texttt{nome}, \texttt{email}, \texttt{matricula}, \texttt{ativo}) centraliza os atributos cadastrais comuns e é especializada nas subclasses persistentes \emph{GestorAmbiental} (atributos \texttt{setorMonitorado} e \texttt{receberNotificacaoCritica}) e \emph{AdministradorSistema} (atributos \texttt{nivelAcesso} e \texttt{chaveAutorizacaoMLOps}).
+    \item \textbf{Entidades de Telemetria, Rede Neural e Alertas:}
+    \begin{itemize}[nosep, leftmargin=0.5cm]
+        \item \emph{NoSensor:} armazena o inventário das estações sensoras LoRaWAN instaladas no campus (\texttt{devEui}, \texttt{nome}, \texttt{localizacao}, \texttt{ativo}, \texttt{criadoEm});
+        \item \emph{LeituraAmbiental:} persiste as séries temporais dos sete gases coletados pelos sensores MQ-135 e MQ-131 (\texttt{coMq135}, \texttt{co2Mq135}, \texttt{nh4Mq135}, \texttt{acetonaMq135}, \texttt{alcoolMq135}, \texttt{toluenoMq135}, \texttt{o3Mq131}) e a média móvel normativa de 8 horas (\texttt{mediaMovelCo8h});
+        \item \emph{ModeloNeural:} registra as versões dos artefatos de Inteligência Artificial carregados via \emph{Hot-Reloading} (\texttt{versao}, \texttt{caminhoArquivoKeras}, \texttt{caminhoScalerPkl}, \texttt{acuraciaValidacao}, \texttt{dataCarregamento}, \texttt{emExecucao});
+        \item \emph{AlertaAgente:} registra os incidentes críticos gerados tanto por falha física no sensor quanto por previsão de violação ambiental CONAMA/EPA (\texttt{id}, \texttt{timestamp}, \texttt{tipo}, \texttt{severidade}, \texttt{mensagem}, \texttt{resolvido}, \texttt{dataResolucao}).
+    \end{itemize}
+    \item \textbf{Classe Associativa (\emph{PrevisaoQualidadeAr}):} Modela o resultado persistente da inferência neural que associa as leituras avaliadas (\emph{LeituraAmbiental}, papel \texttt{leituraAvaliada}, multiplicidade \texttt{1..*}) à versão do modelo que as processou (\emph{ModeloNeural}, papel \texttt{modeloExecutor}, multiplicidade \texttt{1..*}), armazenando os atributos resultantes dessa interação: \texttt{timestampInferencia}, \texttt{classeIqar}, \texttt{previsaoCo15m}, \texttt{erroReconstrucao} e \texttt{anomaliaDetectada}.
+    \item \textbf{Associações com Rótulos, Papéis e Multiplicidades:} Todas as associações possuem rótulos de direção de leitura e papéis explícitos em ambas as extremidades: \emph{AdministradorSistema} gerencia cadastro de \emph{NoSensor} (\texttt{1} para \texttt{0..*}) e atualiza e publica \emph{ModeloNeural} (\texttt{1} para \texttt{1..*}); \emph{NoSensor} registra \emph{LeituraAmbiental} (\texttt{1} para \texttt{0..*}) e origina \emph{AlertaAgente} (\texttt{1} para \texttt{0..*}); \emph{PrevisaoQualidadeAr} dispara \emph{AlertaAgente} (\texttt{1} para \texttt{0..1}); e \emph{GestorAmbiental} trata e resolve \emph{AlertaAgente} (\texttt{0..1} para \texttt{0..*}).
+\end{itemize}
+\end{small}
+\endgroup
+
 \end{document}
 
