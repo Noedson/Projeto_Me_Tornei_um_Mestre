@@ -501,5 +501,102 @@ A Figura 2 apresenta o \textbf{Diagrama de Classes Persistentes} do \textbf{Sist
 \end{small}
 \endgroup
 
+% ============================================================================
+% PARTE 5: DIAGRAMAS DE ESTADOS (FERRAMENTA CASE ASTAH)
+% ============================================================================
+\newpage
+\begingroup
+\sloppy
+\setlength{\parskip}{0.10cm}
+
+\begin{center}
+    {\Large\bfseries DIAGRAMAS DE ESTADOS (UML)}\\[0.08cm]
+    {\normalsize Modelados na ferramenta CASE \textbf{Astah} para 3 Classes Relevantes do Sistema}
+    \vspace{0.08cm}
+    \hrule
+\end{center}
+
+\vspace{0.08cm}
+
+Em continuidade à modelagem estrutural e funcional do \textbf{Sistema IQArMobi}, foram elaborados no mesmo arquivo de projeto da ferramenta CASE \textbf{Astah} os \textbf{Diagramas de Estados UML} para as três classes persistentes de maior comportamento dinâmico do domínio: \textbf{1.~\emph{NoSensor}} (ciclo operacional da estação LoRaWAN em campo), \textbf{2.~\emph{ModeloNeural}} (ciclo de vida de validação e implantação contínua via \emph{Hot-Reloading}) e \textbf{3.~\emph{AlertaAgente}} (ciclo de controle de tempestade de alertas por \emph{cooldown}, atendimento e resolução). Cada diagrama explicita os estados com suas atividades internas (\texttt{entry}, \texttt{do} e \texttt{exit}) e transições completas no formato \texttt{evento [condição de guarda] / ação}.
+
+% --- DIAGRAMA DE ESTADOS 1: NoSensor ---
+\subsection*{1. Diagrama de Estados da Classe \emph{NoSensor} (4 Estados e 7 Transições)}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1.0\textwidth, height=0.35\textheight, keepaspectratio]{diagrama_estados_nosensor.png}
+    \vspace{-0.2cm}
+    \caption{Diagrama de Estados da classe \emph{NoSensor} modelado no Astah.}
+    \label{fig:stm_nosensor}
+\end{figure}
+
+\vspace{-0.2cm}
+\begin{small}
+\begin{itemize}[nosep, leftmargin=0.6cm]
+    \item \textbf{Estados Modelados (4 estados + Pseudoestado Inicial):}
+    \begin{enumerate}[nosep, leftmargin=0.5cm]
+        \item \emph{Ativo em Aquecimento (Cold Start):} estação recém-cadastrada ou religada (\texttt{ativo = true}) que ainda acumula as primeiras 30 leituras de 1 minuto antes de liberar a inferência temporal completa;
+        \item \emph{Ativo em Monitoramento Normal:} regime operacional pleno em que a estação transmite pacotes LoRaWAN (\texttt{AU915\_0}), atualiza a média móvel de 8 horas de CO e aciona a inferência \emph{Multi-Task} a cada leitura;
+        \item \emph{Ativo com Anomalia Física (Degradado):} estado atingido quando o \emph{Autoencoder} detecta erro de reconstrução acima do limiar ou o monitor estatístico identifica congelamento do sinal ($\sigma < \epsilon$);
+        \item \emph{Inativo em Manutenção:} estação recolhida ou desativada (\texttt{ativo = false}) para manutenção preventiva ou corretiva, preservando integralmente suas séries históricas para auditoria científica.
+    \end{enumerate}
+    \item \textbf{Transições Modeladas (7 transições):} (1)~\texttt{cadastrarNoSensor(devEui)} a partir do estado inicial; (2)~auto-transição \texttt{receberTelemetriaUp()} enquanto \texttt{[leiturasAcumuladas < 30 min]}; (3)~\texttt{completarJanela30m()} ao atingir \texttt{[leiturasAcumuladas >= 30 min]}; (4)~\texttt{detectarFalhaSensor()} sob anomalia elétrica ou congelamento; (5)~\texttt{receberTelemetriaEstavel()} quando o sinal retorna à faixa normal; (6)~\texttt{desativarNoSensor()} por manutenção preventiva ou (7)~corretiva; e retorno \texttt{reativarNoSensor()} após reparo ou calibração.
+\end{itemize}
+\end{small}
+
+% --- DIAGRAMA DE ESTADOS 2: ModeloNeural ---
+\newpage
+\subsection*{2. Diagrama de Estados da Classe \emph{ModeloNeural} (5 Estados e 9 Transições)}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1.0\textwidth, height=0.36\textheight, keepaspectratio]{diagrama_estados_modeloneural.png}
+    \vspace{-0.2cm}
+    \caption{Diagrama de Estados da classe \emph{ModeloNeural} modelado no Astah.}
+    \label{fig:stm_modeloneural}
+\end{figure}
+
+\vspace{-0.2cm}
+\begin{small}
+\begin{itemize}[nosep, leftmargin=0.6cm]
+    \item \textbf{Estados Modelados (5 estados + Pseudoestado Inicial e Estado Final):}
+    \begin{enumerate}[nosep, leftmargin=0.5cm]
+        \item \emph{Carregando em Memória Isolada:} leitura preliminar dos novos artefatos \texttt{.keras} e \texttt{.pkl} em área isolada de RAM (\texttt{emExecucao = false}), sem interromper o serviço;
+        \item \emph{Em Validação Estrutural Multi-Task:} inspeção das três cabeças de saída da rede neural (reconstrução do \emph{Autoencoder}, regressão futura de 15 minutos e classificador \emph{Softmax} do IQAr);
+        \item \emph{Rejeitado por Incompatibilidade:} estado de proteção (\emph{graceful fallback}) caso o arquivo esteja corrompido ou incompatível, preservando o modelo anterior ativo;
+        \item \emph{Em Execução (Produção Ativa):} versão validada e ativada sob bloqueio de exclusão mútua (\emph{Thread-Safe Lock}, \texttt{emExecucao = true}), atendendo às requisições de inferência em tempo real;
+        \item \emph{Substituído (Histórico Arquivado):} versão desativada após a entrada em vigor de um modelo mais recente, mantendo seus metadados para rastreabilidade das previsões passadas.
+    \end{enumerate}
+    \item \textbf{Transições Modeladas (9 transições):} (1)~\texttt{solicitarHotReloading(versao)}; (2)~\texttt{concluirLeituraArtefatos()} quando \texttt{[arquivosIntegros]}; (3)~\texttt{falharLeituraArquivo()} se corrompido; (4)~\texttt{reprovarValidacao()} se as saídas forem incompatíveis; (5)~\texttt{aprovarValidacao()} ativando o modelo sob \emph{lock}; (6)~auto-transição contínua \texttt{receberJanela30m()}; (7)~\texttt{publicarNovaVersaoModelo()} movendo a versão anterior para histórico; e transições de encerramento (8)~\texttt{encerrarTentativaDeploy()} e (9)~\texttt{arquivarVersaoHistorica()}.
+\end{itemize}
+\end{small}
+
+% --- DIAGRAMA DE ESTADOS 3: AlertaAgente ---
+\subsection*{3. Diagrama de Estados da Classe \emph{AlertaAgente} (4 Estados e 7 Transições)}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1.0\textwidth, height=0.35\textheight, keepaspectratio]{diagrama_estados_alertaagente.png}
+    \vspace{-0.2cm}
+    \caption{Diagrama de Estados da classe \emph{AlertaAgente} modelado no Astah.}
+    \label{fig:stm_alertaagente}
+\end{figure}
+
+\vspace{-0.2cm}
+\begin{small}
+\begin{itemize}[nosep, leftmargin=0.6cm]
+    \item \textbf{Estados Modelados (4 estados + Pseudoestado Inicial e Estado Final):}
+    \begin{enumerate}[nosep, leftmargin=0.5cm]
+        \item \emph{Ativo em Cooldown (15 min):} estado inicial após o disparo do alerta (\texttt{resolvido = false}), no qual o Agente suprime notificações duplicadas idênticas da mesma estação durante 15 minutos;
+        \item \emph{Ativo Aguardando Atendimento:} janela de \emph{cooldown} expirada com o incidente ainda não resolvido, mantendo o alerta destacado na fila de pendências do Gestor Ambiental;
+        \item \emph{Em Tratamento Local:} alerta selecionado pelo Gestor Ambiental para inspeção das curvas históricas e execução de intervenção em campo (ventilação da sala ou encaminhamento do sensor);
+        \item \emph{Resolvido:} incidente solucionado (\texttt{resolvido = true}) com carimbo de \texttt{dataResolucao} registrado para relatórios de segurança e auditoria do campus.
+    \end{enumerate}
+    \item \textbf{Transições Modeladas (7 transições):} (1)~\texttt{dispararAlerta()} quando \texttt{[anomaliaDetectada || classeIqar == 'Ruim']}; (2)~auto-transição \texttt{novaViolacaoMesmaEstacao()} com guarda \texttt{[tempoDecorrido < 15 min]}; (3)~\texttt{expirarJanelaCooldown()} após 15 minutos sem resolução; (4)~\texttt{selecionarAlertaNoPainel()} durante o \emph{cooldown} ou (5)~após a expiração do \emph{cooldown}; (6)~\texttt{confirmarResolucao()} após ação corretiva; e (7)~\texttt{arquivarIncidente()} para o estado final.
+\end{itemize}
+\end{small}
+\endgroup
+
 \end{document}
 

@@ -345,6 +345,95 @@
           </UML:Association.connection>
         </UML:Association>
 
+        <!-- ================================================================== -->
+        <!-- ETAPA 3: DIAGRAMAS DE ESTADOS (3 CLASSES RELEVANTES DO SISTEMA)    -->
+        <!-- ================================================================== -->
+
+        <!-- ------------------------------------------------------------------ -->
+        <!-- 1. Máquina de Estados da Classe: NoSensor (cls_nosensor)           -->
+        <!-- ------------------------------------------------------------------ -->
+        <UML:StateMachine xmi.id="stm_nosensor" name="Diagrama de Estados - Classe NoSensor" visibility="public" isSpecification="false" context="cls_nosensor">
+          <UML:StateMachine.top>
+            <UML:CompositeState xmi.id="top_nosensor" name="Top_NoSensor" isSpecification="false" isConcurrent="false">
+              <UML:CompositeState.subvertex>
+                <UML:Pseudostate xmi.id="st_no_init" name="Inicial" kind="initial"/>
+                <UML:SimpleState xmi.id="st_no_aquecimento" name="Ativo em Aquecimento (Cold Start)"/>
+                <UML:SimpleState xmi.id="st_no_normal" name="Ativo em Monitoramento Normal"/>
+                <UML:SimpleState xmi.id="st_no_degradado" name="Ativo com Anomalia Fisica (Degradado)"/>
+                <UML:SimpleState xmi.id="st_no_manutencao" name="Inativo em Manutencao"/>
+                <UML:FinalState xmi.id="st_no_final" name="Final"/>
+              </UML:CompositeState.subvertex>
+            </UML:CompositeState>
+          </UML:StateMachine.top>
+          <UML:StateMachine.transitions>
+            <UML:Transition xmi.id="tr_no_1" name="cadastrarNoSensor(devEui) [devEuiUnicoValido] / ativarEstacao()" source="st_no_init" target="st_no_aquecimento"/>
+            <UML:Transition xmi.id="tr_no_2" name="receberTelemetriaUp() [janelaHistorica &lt; 30 min] / preencherJanelaParcial()" source="st_no_aquecimento" target="st_no_aquecimento"/>
+            <UML:Transition xmi.id="tr_no_3" name="completarJanela30m() [janelaHistorica &gt;= 30 min] / habilitarInferenciaPlena()" source="st_no_aquecimento" target="st_no_normal"/>
+            <UML:Transition xmi.id="tr_no_4" name="detectarFalhaSensor() [erroReconstrucao &gt; limiar || variancia &lt; epsilon] / dispararAlertaHardware()" source="st_no_normal" target="st_no_degradado"/>
+            <UML:Transition xmi.id="tr_no_5" name="receberTelemetriaEstavel() [erroReconstrucao &lt;= limiar &amp;&amp; variancia &gt;= epsilon] / restaurarStatusSaudavel()" source="st_no_degradado" target="st_no_normal"/>
+            <UML:Transition xmi.id="tr_no_6" name="desativarNoSensor() [falhaCriticaConfirmada] / preservarSeriesHistoricas()" source="st_no_degradado" target="st_no_manutencao"/>
+            <UML:Transition xmi.id="tr_no_7" name="desativarNoSensor() [manutencaoPreventiva] / preservarSeriesHistoricas()" source="st_no_normal" target="st_no_manutencao"/>
+            <UML:Transition xmi.id="tr_no_8" name="reativarNoSensor() [reparoCalibracaoConcluida] / reiniciarBuffer30m()" source="st_no_manutencao" target="st_no_aquecimento"/>
+          </UML:StateMachine.transitions>
+        </UML:StateMachine>
+
+        <!-- ------------------------------------------------------------------ -->
+        <!-- 2. Máquina de Estados da Classe: ModeloNeural (cls_modelo)         -->
+        <!-- ------------------------------------------------------------------ -->
+        <UML:StateMachine xmi.id="stm_modeloneural" name="Diagrama de Estados - Classe ModeloNeural" visibility="public" isSpecification="false" context="cls_modelo">
+          <UML:StateMachine.top>
+            <UML:CompositeState xmi.id="top_modeloneural" name="Top_ModeloNeural" isSpecification="false" isConcurrent="false">
+              <UML:CompositeState.subvertex>
+                <UML:Pseudostate xmi.id="st_mod_init" name="Inicial" kind="initial"/>
+                <UML:SimpleState xmi.id="st_mod_carregando" name="Carregando em Memoria Isolada"/>
+                <UML:SimpleState xmi.id="st_mod_validacao" name="Em Validacao Estrutural Multi-Task"/>
+                <UML:SimpleState xmi.id="st_mod_rejeitado" name="Rejeitado por Incompatibilidade"/>
+                <UML:SimpleState xmi.id="st_mod_execucao" name="Em Execucao (Producao Ativa)"/>
+                <UML:SimpleState xmi.id="st_mod_substituido" name="Substituido (Historico Arquivado)"/>
+                <UML:FinalState xmi.id="st_mod_final" name="Final"/>
+              </UML:CompositeState.subvertex>
+            </UML:CompositeState>
+          </UML:StateMachine.top>
+          <UML:StateMachine.transitions>
+            <UML:Transition xmi.id="tr_mod_1" name="solicitarHotReloading(versao) [artefatosDisponiveis] / alocarBufferIsolado()" source="st_mod_init" target="st_mod_carregando"/>
+            <UML:Transition xmi.id="tr_mod_2" name="concluirLeituraArtefatos() [arquivosIntegros] / iniciarInspecaoSaidas()" source="st_mod_carregando" target="st_mod_validacao"/>
+            <UML:Transition xmi.id="tr_mod_3" name="falharLeituraArquivo() [arquivoCorrompido] / preservarModeloAnterior()" source="st_mod_carregando" target="st_mod_rejeitado"/>
+            <UML:Transition xmi.id="tr_mod_4" name="reprovarValidacao() [saidasIncompativeis] / abortarTrocaGracefulFallback()" source="st_mod_validacao" target="st_mod_rejeitado"/>
+            <UML:Transition xmi.id="tr_mod_5" name="aprovarValidacao() [tresSaidasValidas] / aplicarLockAtivarModelo()" source="st_mod_validacao" target="st_mod_execucao"/>
+            <UML:Transition xmi.id="tr_mod_6" name="processarJanela30m() [novaLeituraRecebida] / executarInferenciaMultiTask()" source="st_mod_execucao" target="st_mod_execucao"/>
+            <UML:Transition xmi.id="tr_mod_7" name="substituirPorNovaVersao() [novoModeloValidadoEmLock] / desativarFlagEmExecucao()" source="st_mod_execucao" target="st_mod_substituido"/>
+            <UML:Transition xmi.id="tr_mod_8" name="encerrarCicloVersao() / registrarAuditoriaMLOps()" source="st_mod_substituido" target="st_mod_final"/>
+            <UML:Transition xmi.id="tr_mod_9" name="descartarArtefatoInvalido() / notificarAdministrador()" source="st_mod_rejeitado" target="st_mod_final"/>
+          </UML:StateMachine.transitions>
+        </UML:StateMachine>
+
+        <!-- ------------------------------------------------------------------ -->
+        <!-- 3. Máquina de Estados da Classe: AlertaAgente (cls_alerta)         -->
+        <!-- ------------------------------------------------------------------ -->
+        <UML:StateMachine xmi.id="stm_alertaagente" name="Diagrama de Estados - Classe AlertaAgente" visibility="public" isSpecification="false" context="cls_alerta">
+          <UML:StateMachine.top>
+            <UML:CompositeState xmi.id="top_alertaagente" name="Top_AlertaAgente" isSpecification="false" isConcurrent="false">
+              <UML:CompositeState.subvertex>
+                <UML:Pseudostate xmi.id="st_ale_init" name="Inicial" kind="initial"/>
+                <UML:SimpleState xmi.id="st_ale_cooldown" name="Ativo em Cooldown (15 min)"/>
+                <UML:SimpleState xmi.id="st_ale_pendente" name="Ativo Aguardando Atendimento"/>
+                <UML:SimpleState xmi.id="st_ale_tratamento" name="Em Tratamento Local"/>
+                <UML:SimpleState xmi.id="st_ale_resolvido" name="Resolvido"/>
+                <UML:FinalState xmi.id="st_ale_final" name="Final"/>
+              </UML:CompositeState.subvertex>
+            </UML:CompositeState>
+          </UML:StateMachine.top>
+          <UML:StateMachine.transitions>
+            <UML:Transition xmi.id="tr_ale_1" name="dispararAlerta() [anomaliaDetectada || classeIqar == Ruim] / criarRegistroAlerta()" source="st_ale_init" target="st_ale_cooldown"/>
+            <UML:Transition xmi.id="tr_ale_2" name="novaViolacaoDetectada() [tempoDecorrido &lt; 15 min] / suprimirDuplicataCooldown()" source="st_ale_cooldown" target="st_ale_cooldown"/>
+            <UML:Transition xmi.id="tr_ale_3" name="expirarCooldown15m() [tempoDecorrido &gt;= 15 min &amp;&amp; !resolvido] / liberarNovaNotificacao()" source="st_ale_cooldown" target="st_ale_pendente"/>
+            <UML:Transition xmi.id="tr_ale_4" name="selecionarAlertaPainel() [gestorAutenticado] / exibirDiagnosticoDetalhado()" source="st_ale_cooldown" target="st_ale_tratamento"/>
+            <UML:Transition xmi.id="tr_ale_5" name="selecionarAlertaPainel() [gestorAutenticado] / exibirDiagnosticoDetalhado()" source="st_ale_pendente" target="st_ale_tratamento"/>
+            <UML:Transition xmi.id="tr_ale_6" name="confirmarResolucao() [intervencaoConcluida] / gravarDataResolucao()" source="st_ale_tratamento" target="st_ale_resolvido"/>
+            <UML:Transition xmi.id="tr_ale_7" name="arquivarAlertaResolvido() / atualizarPainelHistorico()" source="st_ale_resolvido" target="st_ale_final"/>
+          </UML:StateMachine.transitions>
+        </UML:StateMachine>
+
       </UML:Namespace.ownedElement>
     </UML:Model>
   </XMI.content>
